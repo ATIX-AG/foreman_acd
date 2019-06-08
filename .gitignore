@@ -1,0 +1,17 @@
+*~
+.bundle
+tmp/
+Gemfile.lock
+bundler.d/*.local.rb
+*.sw?
+.idea
+*.pyc
+.DS_Store
+.rbenv*
+.rvmrc*
+.ruby-version*
+.ruby-gemset*
+locale/*/*.edit.po
+locale/*/*.po.time_stamp
+locale/*/*.pox
+locale/*/LC_MESSAGES
