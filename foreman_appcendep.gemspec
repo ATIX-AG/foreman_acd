@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-require File.expand_path('lib/foreman_appcendep/version', __FILE__)
-require 'date'
+require File.expand_path('../lib/foreman_appcendep/version', __FILE__)
+require 'active_support/time'
 
 Gem::Specification.new do |s|
   s.name        = 'foreman_appcendep'
-  s.version     = ForemanAppCenDep::VERSION
-  s.date        = Time.zone.today.to_s
+  s.version     = ForemanAppcendep::VERSION
+  s.date        = Time.current.to_date.to_s
   s.license     = 'GPL-3.0'
   s.authors     = ['ATIX AG']
   s.email       = ['info@atix.de']
@@ -18,8 +18,7 @@ Gem::Specification.new do |s|
   s.files = Dir['{app,config,db,lib,locale}/**/*'] + ['LICENSE', 'Rakefile', 'README.md']
   s.test_files = Dir['test/**/*']
 
-  s.add_development_dependency 'rdoc', '~> 0.49'
-  s.add_development_dependency 'rubocop',  '~> 4'
+  s.add_development_dependency 'rubocop', '~> 0.52'
 
   s.add_dependency 'foreman-tasks', '~> 0.10'
   s.add_dependency 'rails', '~> 5.1'

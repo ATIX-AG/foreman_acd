@@ -1,4 +1,4 @@
-# Foreman AppCenDep - Application Centric Deployment
+# Foreman Appcendep - Application Centric Deployment
 
 *Introdction here*
 
