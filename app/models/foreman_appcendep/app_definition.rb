@@ -7,6 +7,10 @@ module ForemanAppcendep
     extend FriendlyId
     friendly_id :name
 
+    belongs_to :hostgroup, :class_name => '::Hostgroup'
+
+    scoped_search :on => :name
+
     def self.humanize_class_name(_name = nil)
       _('App Definition')
     end

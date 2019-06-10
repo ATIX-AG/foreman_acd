@@ -4,20 +4,43 @@ module ForemanAppcendep
   # Application Definition Controller
   class AppDefinitionsController < ::ForemanAppcendep::ApplicationController
     include Foreman::Controller::AutoCompleteSearch
-    # include ::ForemanSalt::Concerns::AppDefinitionParameters
+    include ::ForemanAppcendep::Concerns::AppDefinitionParameters
 
     before_action :find_resource, :only => [:edit, :update, :destroy]
 
-    def index; end
+    def index
+      @app_definitions = resource_base.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
+    end
 
-    def new; end
+    def new
+      @app_definition = AppDefinition.new
+    end
 
-    def create; end
+    def create
+      @app_definition = AppDefinition.new(app_definition_params)
+      if @app_definition.save
+        process_success
+      else
+        process_error
+      end
+    end
 
     def edit; end
 
-    def update; end
+    def update
+      if @app_definition.update(app_definition_params)
+        process_success
+      else
+        process_error
+      end
+    end
 
-    def destroy; end
+    def destroy
+      if @app_definition.destroy
+        process_success
+      else
+        process_error
+      end
+    end
   end
 end

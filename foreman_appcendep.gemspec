@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require File.expand_path('../lib/foreman_appcendep/version', __FILE__)
+require File.expand_path('lib/foreman_appcendep/version', __dir__)
 require 'active_support/time'
 
 Gem::Specification.new do |s|
