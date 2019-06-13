@@ -7,7 +7,8 @@ module ForemanAppcendep
 
     config.autoload_paths += Dir["#{config.root}/app/controllers/foreman_appcendep/concerns"]
     config.autoload_paths += Dir["#{config.root}/app/helpers"]
-    config.autoload_paths += Dir["#{config.root}/app/models/concerns"]
+    config.autoload_paths += Dir["#{config.root}/app/models/foreman_appcendep/concerns"]
+    config.autoload_paths += Dir["#{config.root}/app/models/parameters"]
     config.autoload_paths += Dir["#{config.root}/app/overrides"]
     config.autoload_paths += Dir["#{config.root}/app/services"]
     config.autoload_paths += Dir["#{config.root}/app/lib"]
@@ -20,14 +21,15 @@ module ForemanAppcendep
     end
 
     # Include concerns in this config.to_prepare block
-    # config.to_prepare do
+    config.to_prepare do
+      Parameter.send(:include, ForemanAppcendep::Concerns::ParameterExtensions)
     #   begin
     #     Host::Managed.send(:include, ForemanAppcendep::HostExtensions)
     #     HostsHelper.send(:include, ForemanAppcendep::HostsHelperExtensions)
     #   rescue StandardError => e
     #     Rails.logger.warn "ForemanAppcendep: skipping engine hook (#{e})"
     #   end
-    # end
+    end
 
     rake_tasks do
       Rake::Task['db:seed'].enhance do

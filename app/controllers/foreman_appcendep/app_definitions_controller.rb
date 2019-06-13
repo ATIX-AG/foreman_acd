@@ -28,7 +28,19 @@ module ForemanAppcendep
     def edit; end
 
     def update
-      if @app_definition.update(app_definition_params)
+      local_params = app_definition_params.clone
+      app_param = local_params.delete :application_parameters
+      if app_param
+        ap = ::ApplicationParameter.find_or_initialize_by(:id => app_param[:id])
+        if app_param.delete(:_destroy) == 'true'
+          ap.destroy
+        else
+          ap.update(app_param)
+          ap.application = @app_definition
+          ap.save
+        end
+      end
+      if @app_definition.update(local_params)
         process_success
       else
         process_error

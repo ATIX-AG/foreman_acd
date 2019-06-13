@@ -10,7 +10,14 @@
       <%= text_f f, :description %>
       <%= select_f f, :hostgroup_id, accessible_resource(@app_definition, :hostgroup, :title), :id, :to_label,
         { :include_blank => false},
-        { :help_inline => :indicator } %>
+        {:label => _("Host Group"), :help_inline => :indicator } %>
+
+      <div class="tab-pane"  id="params">
+        <fieldset>
+          <h2><%= _('Application Parameters') %></h2>
+          <%= render "common_parameters/parameters", { :f => f, :type => :application_parameters } %>
+        </fieldset>
+      </div>
     </div>
   </div>
 
