@@ -6,6 +6,8 @@ module ForemanAppcendep
     include Authorizable
     extend FriendlyId
     friendly_id :name
+    belongs_to :app_definition, inverse_of: :app_instances
+    scoped_search :on => :name
 
     def self.humanize_class_name(_name = nil)
       _('App Instance')

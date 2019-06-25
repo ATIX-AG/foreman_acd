@@ -1,0 +1,19 @@
+<%= form_for @app_instance, :url => (@app_instance.new_record? ? app_instances_path : app_instance_path(:id => @app_instance.id)) do |f| %>
+  <%= base_errors_for @app_instance %>
+  <ul class="nav nav-tabs" data-tabs="tabs">
+    <li class="active"><a href="#primary" data-toggle="tab"><%= _('Application Instances') %></a></li>
+  </ul>
+
+  <div class="tab-content">
+    <div class="tab-pane active" id="primary">
+      <%= text_f f, :name %>
+      <%= select_f f, :app_definition_id, accessible_resource(@app_instance, :'foreman_appcendep/app_definition'), :id, :to_label,
+        { :include_blank => false},
+        {:label => _("App Definition"), :help_inline => :indicator } %>
+      <%= text_f f, :description %>
+    </div>
+  </div>
+
+  <%= submit_or_cancel f %>
+<% end %>
+

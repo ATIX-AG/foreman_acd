@@ -8,6 +8,7 @@ module ForemanAppcendep
     friendly_id :name
 
     belongs_to :hostgroup, :class_name => '::Hostgroup'
+    has_many :app_instances, inverse_of: :app_definition
     has_many :application_parameters, :dependent => :destroy, :foreign_key => :reference_id, :inverse_of => :application
     has_many :parameters, :dependent => :destroy, :foreign_key => :reference_id, :inverse_of => :application, :class_name => '::ApplicationParameter'
 

@@ -1,0 +1,27 @@
+<% title _('Application Instance') %>
+
+<% title_actions button_group(new_link(_('New Application Instance'))) %>
+
+<table class="table table-bordered table-striped">
+  <tr>
+    <th><%= sort :name, :as => s_('AppInstance|Name') %></th>
+    <th><%= sort :application, :as => _('Application'), :default => 'DESC' %></th>
+    <th><%= _('Description') %></th>
+    <th></th>
+  </tr>
+  <% for app_instance in @app_instances %>
+    <tr>
+      <td><%=link_to_if_authorized h(app_instance.name), hash_for_edit_app_instance_path(:id => app_instance).merge(:auth_object => app_instance, :authorizer => authorizer) %></td>
+      <td><%= app_instance.app_definition %></td>
+      <td><%= app_instance.description %></td>
+      <td>
+          <%= action_buttons(display_delete_if_authorized(hash_for_app_instance_path(:id => app_instance).merge(:auth_object => app_instance, :authorizer => authorizer),
+                            :confirm => _('Delete %s?') % app_instance.name)) %>
+      </td>
+    </tr>
+  <% end %>
+</table>
+
+<%= page_entries_info @app_instances %>
+<%= will_paginate @app_instances %>
+
