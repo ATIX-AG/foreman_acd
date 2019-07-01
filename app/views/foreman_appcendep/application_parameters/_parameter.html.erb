@@ -1,0 +1,34 @@
+<tr class="fields <%= 'has-error' if f.object.errors.any? %>" id="<%= dom_id(f.object) + '_row' %>">
+  <% authorized = f.object.new_record? ? can_create_parameter?(params_authorizer) : params_authorizer.can?(:edit_params, f.object) %>
+  <td>
+    <%
+      appcendep_allowed_overrides = []
+      appcendep_allowed_overrides << OpenStruct.new({ :id => "hostname", :value => "Hostname" })
+      appcendep_allowed_overrides << OpenStruct.new({ :id => "lifecycle_env", :value => "Lifecycle environment" })
+      appcendep_allowed_overrides << OpenStruct.new({ :id => "location", :value => "Location" })
+      appcendep_allowed_overrides << OpenStruct.new({ :id => "compute_profile", :value => "Compute profile" })
+      appcendep_allowed_overrides << OpenStruct.new({ :id => "puppet_env", :value => "Puppet environment" })
+      appcendep_allowed_overrides << OpenStruct.new({ :id => "ipv4_address", :value => "IPv4 address" })
+      appcendep_allowed_overrides << OpenStruct.new({ :id => "cpu", :value => "CPU" })
+      appcendep_allowed_overrides << OpenStruct.new({ :id => "memory", :value => "Memory" })
+      appcendep_allowed_overrides << OpenStruct.new({ :id => "memory", :value => "Memory" })
+    %>
+    <%= select_f f, :name, appcendep_allowed_overrides, :id, :value, { }, { :no_label => true, :size => 'col-md-12', :class => "form-control no-stretch", :disabled => !authorized } %>
+  </td>
+  <td>
+    <%= hidden_value_field(f, :value, !authorized) %>
+  </td>
+  <td>
+    <%= f.check_box(:hidden_value, :class => 'set_hidden_value hide', :checked => f.object.hidden_value?) if authorized %>
+    <%= link_to_remove_fields(_('Remove'), f) if f.object.new_record? || params_authorizer.can?(:destroy_params, f.object) %>
+  </td>
+</tr>
+<% if f.object.errors.any? %>
+  <tr class="error-msg-block has-error">
+    <td colspan="3">
+      <span class="help-block">
+        <%= f.object.errors.full_messages.to_sentence %>
+      </span>
+    </td>
+  </tr>
+<% end %>
