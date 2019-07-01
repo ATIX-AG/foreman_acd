@@ -12,6 +12,10 @@ Rails.application.routes.draw do
       collection do
         get 'auto_complete_search'
       end
+
+      member do
+        post 'deploy'
+      end
     end
 
     scope :api, :path => '/api', :defaults => { :format => 'json' } do

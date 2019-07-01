@@ -6,7 +6,7 @@ Foreman::Plugin.register :foreman_appcendep do
   apipie_documented_controllers ["#{ForemanAppcendep::Engine.root}/app/controllers/foreman_appcendep/api/v2/*.rb"]
 
   # Menus
-  divider :top_menu, :parent => :configure_menu, :caption => 'Application Centric Deployment'
+  divider :top_menu, :parent => :configure_menu, :caption => 'Applications'
   menu :top_menu, :app_definitions,
        :url_hash => { :controller => :'foreman_appcendep/app_definitions', :action => :index },
        :caption  => 'App Definitions',
@@ -58,6 +58,11 @@ Foreman::Plugin.register :foreman_appcendep do
                { :'foreman_appcendep/app_instances' => [:destroy],
                  :'foreman_appcendep/api/v2/app_instances' => [:destroy] },
                :resource_type => 'ForemanAppcendep::AppInstance'
+
+    permission :deploy_app_instances,
+               { :'foreman_appcendep/app_instances' => [:deploy],
+                 :'foreman_appcendep/api/v2/app_instances' => [:deploy] },
+               :resource_type => 'ForemanAppcendep::AppInstance'
   end
 
   # Manager Role
@@ -70,5 +75,6 @@ Foreman::Plugin.register :foreman_appcendep do
   role 'Application Centric Deployment User', [:create_app_instances,
                                                :view_app_instances,
                                                :edit_app_instances,
-                                               :destroy_app_instances]
+                                               :destroy_app_instances,
+                                               :deploy_app_instances]
 end

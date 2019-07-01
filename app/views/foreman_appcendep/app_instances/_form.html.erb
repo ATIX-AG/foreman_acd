@@ -10,7 +10,11 @@
       <%= select_f f, :app_definition_id, accessible_resource(@app_instance, :'foreman_appcendep/app_definition'), :id, :to_label,
         { :include_blank => false},
         {:label => _("App Definition"), :help_inline => :indicator } %>
-      <%= text_f f, :description %>
+    <%= text_f f, :description %>
+
+
+
+
     </div>
   </div>
 

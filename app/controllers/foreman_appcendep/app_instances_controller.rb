@@ -6,7 +6,7 @@ module ForemanAppcendep
     include Foreman::Controller::AutoCompleteSearch
     include ::ForemanAppcendep::Concerns::AppInstanceParameters
 
-    before_action :find_resource, :only => [:edit, :update, :destroy]
+    before_action :find_resource, :only => [:edit, :update, :destroy, :deploy]
 
     def index
       @app_instances = resource_base.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
@@ -41,6 +41,19 @@ module ForemanAppcendep
       else
         process_error
       end
+    end
+
+    def action_permission
+      case params[:action]
+      when 'deploy'
+        :deploy
+      else
+        super
+      end
+    end
+
+    def deploy
+      redirect_to app_instances_path
     end
   end
 end
