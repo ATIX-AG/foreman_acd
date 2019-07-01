@@ -6,12 +6,16 @@
       appcendep_allowed_overrides << OpenStruct.new({ :id => "hostname", :value => "Hostname" })
       appcendep_allowed_overrides << OpenStruct.new({ :id => "lifecycle_env", :value => "Lifecycle environment" })
       appcendep_allowed_overrides << OpenStruct.new({ :id => "location", :value => "Location" })
+      appcendep_allowed_overrides << OpenStruct.new({ :id => "root_password", :value => "Root password" })
       appcendep_allowed_overrides << OpenStruct.new({ :id => "compute_profile", :value => "Compute profile" })
       appcendep_allowed_overrides << OpenStruct.new({ :id => "puppet_env", :value => "Puppet environment" })
       appcendep_allowed_overrides << OpenStruct.new({ :id => "ipv4_address", :value => "IPv4 address" })
       appcendep_allowed_overrides << OpenStruct.new({ :id => "cpu", :value => "CPU" })
       appcendep_allowed_overrides << OpenStruct.new({ :id => "memory", :value => "Memory" })
-      appcendep_allowed_overrides << OpenStruct.new({ :id => "memory", :value => "Memory" })
+
+      # TODO:
+      # - Allow to have user-defined parameters
+      # - The type of the input field of the value should match the original input field (like, location => selection of available locations; CPU => Integer; ipv4 address => IPv4 address format
     %>
     <%= select_f f, :name, appcendep_allowed_overrides, :id, :value, { }, { :no_label => true, :size => 'col-md-12', :class => "form-control no-stretch", :disabled => !authorized } %>
   </td>
