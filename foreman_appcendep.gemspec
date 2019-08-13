@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
   # also update locale/gemspec.rb
   s.description = 'Application Centric Deployment.'
 
-  s.files = Dir['{app,config,db,lib,locale}/**/*'] + ['LICENSE', 'Rakefile', 'README.md']
+  s.files = Dir['{app,config,db,lib,locale,webpack}/**/*'] + ['LICENSE', 'Rakefile', 'README.md', 'package.json']
   s.test_files = Dir['test/**/*']
 
   s.add_development_dependency 'rubocop', '~> 0.52'

@@ -1,4 +1,18 @@
+<%= webpacked_plugins_js_for :foreman_appcendep %>
+
 <% title _('New Application Definition') %>
 
 <%= render :partial => 'form' %>
 
+<%
+   json = { "data": {
+    "Firstname": "Sepp",
+    "Name": "Huber",
+    "Nummer": "1234-5678-9012-3456"
+   }
+}
+
+%>
+
+<div id='param-selection-2324234123'></div>
+<%=  mount_react_component('ParameterSelection', "#param-selection-2324234123", json.to_json) %>
