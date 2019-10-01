@@ -6,12 +6,24 @@ import * as ParameterSelectionActions from './ParameterSelectionActions';
 
 import {
   selectLoading,
-  selectSimple,
+  selectDefinition,
+  selectPuppetEnv,
+  selectLifecycleEnv,
+  selectRows,
+  selectSortingColumns,
+  selectColumns,
+  selectSortingDisabled,
 } from './ParameterSelectionSelectors';
 
 const mapStateToProps = state => ({
   loading: selectLoading(state),
-  simple: selectSimple(state),
+  definition: selectDefinition(state),
+  puppetEnv: selectPuppetEnv(state),
+  lifecycleEnv: selectLifecycleEnv(state),
+  rows: selectRows(state),
+  sortingColumns: selectSortingColumns(state),
+  columns: selectColumns(state),
+  sortingDisabled: selectSortingDisabled(state),
 });
 
 const mapDispatchToProps = dispatch =>
