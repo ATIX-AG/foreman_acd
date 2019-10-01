@@ -41,46 +41,6 @@ class ParameterSelection extends React.Component {
 
     const inlineEditController = {
       isEditing: ({ rowData }) => rowData.backup !== undefined,
-      onConfirm: ({ rowData }) => {
-        const rows = cloneDeep(this.props.rows);
-        const index = findIndex(rows, { id: rowData.id });
-
-        delete rows[index].backup;
-        delete rows[index].newEntry;
-
-        this.setState({ rows, editing: false,  sortingDisabled: false });
-      },
-      onCancel: ({ rowData }) => {
-        const rows = cloneDeep(this.props.rows);
-        const index = findIndex(rows, { id: rowData.id });
-
-        rows[index] = cloneDeep(rows[index].backup);
-        delete rows[index].backup;
-
-        if (rows[index].newEntry === true) {
-          rows.splice(index, 1);
-        }
-
-        this.setState({ rows, editing: false,  sortingDisabled: false });
-      },
-      onChange: (value, { rowData, property }) => {
-        const rows = cloneDeep(this.props.rows);
-        const index = findIndex(rows, { id: rowData.id });
-
-        rows[index][property] = value;
-
-        this.setState({ rows });
-      },
-      onAddEntry: () => {
-        const rows = cloneDeep(this.props.rows);
-        const index = findLastIndex(rows, 'id') + 1;
-
-        const newRow = {id: index+1, name: "", description: '', type: '', value: '', newEntry: true };
-        rows.push(newRow);
-        rows[index].backup = cloneDeep(rows[index]);
-
-        this.setState({ rows, editing: true, sortingDisabled: true });
-      }
     };
     this.inlineEditController = inlineEditController;
 
