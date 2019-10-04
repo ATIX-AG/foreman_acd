@@ -105,7 +105,7 @@ class ParameterSelection extends React.Component {
 
     const sortableTransform = sort.sort({
       getSortingColumns,
-      onSort: (selectedColumn, defaultSortingOrder) => (sortParameter),
+      onSort: (selectedColumn, defaultSortingOrder) => sortParameter(selectedColumn, defaultSortingOrder),
       strategy: sort.strategies.byProperty,
     });
     this.sortableTransform = sortableTransform;

@@ -269,8 +269,8 @@ export const changeEditParameter = (value, additionalData) => ({
 export const sortParameter = (selectedColumn, defaultSortingOrder) => ({
   type: PARAMETER_SORT,
   payload: {
-    ...selectedColumn,
-    ...defaultSortingOrder,
+    selectedColumn,
+    defaultSortingOrder,
   },
 });
 
