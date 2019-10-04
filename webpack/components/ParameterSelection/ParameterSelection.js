@@ -31,12 +31,16 @@ const theme = {
 
 class ParameterSelection extends React.Component {
 
+  constructor(props) {
+    super(props);
+  }
+
   renderAddButton(definition, addParameter) {
     if (definition === false)
       return ("");
 
     return (
-      <Button bsStyle="default" onClick={() => addParaemter()}>
+      <Button bsStyle="default" onClick={() => addParameter()}>
         <Icon type="fa" name="plus" />
       </Button>
     );
@@ -59,11 +63,10 @@ class ParameterSelection extends React.Component {
     );
   }
 
-  constructor(props) {
-    super(props);
-
+  componentDidMount() {
     const {
-      data: { definition },
+      data: { definition, puppetEnvUrl, lifecycleEnvUrl, lifecycleEnvOrganization, parameters },
+      initParameterSelection,
       sortParameter,
       deleteParameter,
       activateEditParameter,
@@ -186,13 +189,6 @@ class ParameterSelection extends React.Component {
       }
     });
     this.inlineEditFormatter = inlineEditFormatter;
-  }
-
-  componentDidMount() {
-    const {
-      data: { definition, puppetEnvUrl, lifecycleEnvUrl, lifecycleEnvOrganization, parameters },
-      initParameterSelection,
-    } = this.props;
 
     this.props.getPuppetEnvironments(
       puppetEnvUrl,
@@ -218,12 +214,11 @@ class ParameterSelection extends React.Component {
   }
 
   render() {
-
     const {
       data: { definition },
       rows,
-      sortingColumns,
       columns,
+      sortingColumns,
       sortingDisabled,
       loading,
       addParameter,
@@ -295,12 +290,11 @@ ParameterSelection.defaultProps = {
   error: {},
   editMode: false,
   loading: false,
-  definition: true,
   puppetEnv: {},
   lifecycleEnv: {},
   rows: [],
-  sortingColumns: {},
   columns: [],
+  sortingColumns: {},
   sortingDisabled: false,
 };
 
@@ -317,7 +311,6 @@ ParameterSelection.propTypes = {
   initParameterSelection: PropTypes.func,
   editMode: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
-  definition: PropTypes.bool.isRequired,
   puppetEnv: PropTypes.object.isRequired,
   lifecycleEnv: PropTypes.object.isRequired,
   rows: PropTypes.array,
@@ -325,6 +318,7 @@ ParameterSelection.propTypes = {
   columns: PropTypes.array,
   sortingDisabled: PropTypes.bool,
   sortParameter: PropTypes.func,
+  addParameter: PropTypes.func,
   deleteParameter: PropTypes.func,
   activateEditParameter: PropTypes.func,
   confirmEditParameter: PropTypes.func,
