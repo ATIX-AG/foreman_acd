@@ -52,9 +52,6 @@ export const initParameterSelection = (
   };
   initialState.sortingDisabled = false;
 
-  console.log("sortTra: %s", sortableTransform.toString());
-  console.log("sortFor: %s", sortingFormatter.toString());
-
   initialState.columns = [
     {
       property: 'name',
