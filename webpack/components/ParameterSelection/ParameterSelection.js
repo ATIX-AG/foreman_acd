@@ -30,25 +30,56 @@ const theme = {
 };
 
 class ParameterSelection extends React.Component {
+
+  renderAddButton(definition, addParameter) {
+    if (definition === false)
+      return ("");
+
+    return (
+      <Button bsStyle="default" onClick={() => addParaemter()}>
+        <Icon type="fa" name="plus" />
+      </Button>
+    );
+  }
+
+  renderDeleteButton(definition, deleteParameter, additionalData) {
+    if (definition === false)
+      return ("");
+
+    return (
+      <span>
+      &nbsp;
+      <Button
+        bsStyle="default"
+        onClick={() => window.confirm("Are you sure you wish to delete this item?") && deleteParameter(additionalData) }
+      >
+        <Icon type="pf" name="delete" />
+      </Button>
+      </span>
+    );
+  }
+
   constructor(props) {
     super(props);
 
     const {
+      data: { definition },
+      sortParameter,
       deleteParameter,
       activateEditParameter,
       changeEditParameter,
     } = this.props;
 
-    const inlineEditController = {
-      isEditing: ({ rowData }) => rowData.backup !== undefined,
-    };
-    this.inlineEditController = inlineEditController;
-
     // enables our custom header formatters extensions to reactabular
     this.customHeaderFormatters = customHeaderFormattersDefinition;
 
+    const isEditing = ({rowData }) => {
+      return (rowData.backup !== undefined);
+    };
+    this.isEditing = isEditing;
+
     const inlineEditButtonsFormatter = inlineEditFormatterFactory({
-      isEditing: additionalData => this.props.editing,
+      isEditing: additionalData => this.props.editMode,
       renderValue: (value, additionalData) => (
         <td style={{ padding: '2px' }}>
           <Button
@@ -57,14 +88,7 @@ class ParameterSelection extends React.Component {
           >
             <Icon type="pf" name="edit" />
           </Button>
-          &nbsp;
-
-          <Button
-            bsStyle="default"
-            onClick={() => window.confirm("Are you sure you wish to delete this item?") && deleteParameter(additionalData)}
-          >
-            <Icon type="pf" name="delete" />
-          </Button>
+          {this.renderDeleteButton(definition, deleteParameter, additionalData)}
         </td>
       ),
       renderEdit: (value, additionalData) => (
@@ -77,30 +101,19 @@ class ParameterSelection extends React.Component {
     });
     this.inlineEditButtonsFormatter = inlineEditButtonsFormatter;
 
-    // Point the transform to your sortingColumns. React state can work for this purpose
-    // but you can use a state manager as well.
     const getSortingColumns = () => this.props.sortingColumns || {};
 
     const sortableTransform = sort.sort({
       getSortingColumns,
-      onSort: selectedColumn => {
-        this.setState({
-          sortingColumns: sort.byColumn({
-            sortingColumns: this.props.sortingColumns,
-            sortingOrder: defaultSortingOrder,
-            selectedColumn
-          })
-        });
-      },
-      // Use property or index dependening on the sortingColumns structure specified
-      strategy: sort.strategies.byProperty
+      onSort: (selectedColumn, defaultSortingOrder) => (sortParameter),
+      strategy: sort.strategies.byProperty,
     });
     this.sortableTransform = sortableTransform;
 
     const sortingFormatter = sort.header({
       sortableTransform,
       getSortingColumns,
-      strategy: sort.strategies.byProperty
+      strategy: sort.strategies.byProperty,
     });
     this.sortingFormatter = sortingFormatter;
 
@@ -133,8 +146,7 @@ class ParameterSelection extends React.Component {
     };
 
     const inlineEditFormatter = inlineEditFormatterFactory({
-      isEditing: additionalData =>
-        inlineEditController.isEditing(additionalData),
+      isEditing: additionalData => isEditing(additionalData),
       renderValue: (value, additionalData) => (
         inlineEditFormatterImpl.renderValue(value, additionalData)
       ),
@@ -178,7 +190,7 @@ class ParameterSelection extends React.Component {
 
   componentDidMount() {
     const {
-      data: { puppetEnvUrl, lifecycleEnvUrl, lifecycleEnvOrganization, parameters },
+      data: { definition, puppetEnvUrl, lifecycleEnvUrl, lifecycleEnvOrganization, parameters },
       initParameterSelection,
     } = this.props;
 
@@ -196,8 +208,8 @@ class ParameterSelection extends React.Component {
     );
 
     initParameterSelection(
+      definition,
       parameters,
-      this.inlineEditController,
       this.sortingFormatter,
       this.sortableTransform,
       this.inlineEditFormatter,
@@ -206,11 +218,14 @@ class ParameterSelection extends React.Component {
   }
 
   render() {
-    const { rows, sortingColumns, columns, sortingDisabled } = this.props;
 
     const {
+      data: { definition },
+      rows,
+      sortingColumns,
+      columns,
+      sortingDisabled,
       loading,
-      definition,
       puppetEnv,
       lifecycleEnv,
       addParameter,
@@ -235,9 +250,7 @@ class ParameterSelection extends React.Component {
     return(
       <div>
         <div>
-          <Button bsStyle="default" onClick={() => addParaemter()}>
-            <Icon type="fa" name="plus" />
-          </Button>
+          {this.renderAddButton(definition, addParameter)}
           <Table.PfProvider
             striped
             bordered
@@ -266,16 +279,14 @@ class ParameterSelection extends React.Component {
               rowKey="id"
               onRow={(rowData, { rowIndex }) => ({
                 role: 'row',
-                isEditing: () => this.inlineEditController.isEditing({ rowData }),
+                isEditing: () => this.isEditing({ rowData }),
                 onCancel: () => cancelEditParameter({ rowData, rowIndex }),
                 onConfirm: () => confirmEditParameter({ rowData, rowIndex }),
                 last: rowIndex === sortedRows.length - 1
               })}
             />
           </Table.PfProvider>
-          <Button bsStyle="default" onClick={() => addParameter()}>
-            <Icon type="fa" name="plus" />
-          </Button>
+          {this.renderAddButton(definition, addParameter)}
         </div>
       </div>
     );
@@ -284,6 +295,7 @@ class ParameterSelection extends React.Component {
 
 ParameterSelection.defaultProps = {
   error: {},
+  editMode: false,
   loading: false,
   definition: true,
   puppetEnv: [],
@@ -305,6 +317,7 @@ ParameterSelection.propTypes = {
   getPuppetEnvironments: PropTypes.func,
   getLifecycleEnvironments: PropTypes.func,
   initParameterSelection: PropTypes.func,
+  editMode: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
   definition: PropTypes.bool.isRequired,
   puppetEnv: PropTypes.array.isRequired,
@@ -313,6 +326,7 @@ ParameterSelection.propTypes = {
   sortingColumns: PropTypes.object,
   columns: PropTypes.array,
   sortingDisabled: PropTypes.bool,
+  sortParameter: PropTypes.func,
   deleteParameter: PropTypes.func,
   activateEditParameter: PropTypes.func,
   confirmEditParameter: PropTypes.func,

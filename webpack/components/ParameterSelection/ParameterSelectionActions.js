@@ -19,6 +19,7 @@ import {
   PARAMETER_EDIT_CONFIRM,
   PARAMETER_EDIT_CHANGE,
   PARAMETER_EDIT_CANCEL,
+  PARAMETER_SORT,
 } from './ParameterSelectionConstants';
 
 import * as sort from 'sortabular';
@@ -29,12 +30,13 @@ import {
   FormControl,
   actionHeaderCellFormatter,
   sortableHeaderCellFormatter,
+  tableCellFormatter,
   TABLE_SORT_DIRECTION
 } from 'patternfly-react';
 
 export const initParameterSelection = (
+  definition,
   parameters,
-  inlineEditController,
   sortingFormatter,
   sortableTransform,
   inlineEditFormatter,
@@ -49,6 +51,9 @@ export const initParameterSelection = (
     }
   };
   initialState.sortingDisabled = false;
+
+  console.log("sortTra: %s", sortableTransform.toString());
+  console.log("sortFor: %s", sortingFormatter.toString());
 
   initialState.columns = [
     {
@@ -67,7 +72,7 @@ export const initParameterSelection = (
         customFormatters: [sortableHeaderCellFormatter]
       },
       cell: {
-        formatters: [inlineEditFormatter]
+        formatters: [definition ? inlineEditFormatter : tableCellFormatter]
       }
     },
     {
@@ -75,10 +80,32 @@ export const initParameterSelection = (
       header: {
         label: 'Type',
         props: {
-          index: 2,
+          index: 1,
           sort: true,
           style: {
             width: '20%'
+          }
+        },
+        transforms: [sortableTransform],
+        formatters: [sortingFormatter],
+        customFormatters: [sortableHeaderCellFormatter]
+      },
+      cell: {
+        props: {
+          index: 1
+        },
+        formatters: [definition ? inlineEditFormatter : tableCellFormatter]
+      }
+    },
+    {
+      property: 'value',
+      header: {
+        label: 'Value',
+        props: {
+          index: 2,
+          sort: true,
+          style: {
+            width: '25%'
           }
         },
         transforms: [sortableTransform],
@@ -93,9 +120,9 @@ export const initParameterSelection = (
       }
     },
     {
-      property: 'value',
+      property: 'description',
       header: {
-        label: 'Value',
+        label: 'Description',
         props: {
           index: 3,
           sort: true,
@@ -111,29 +138,7 @@ export const initParameterSelection = (
         props: {
           index: 3
         },
-        formatters: [inlineEditFormatter]
-      }
-    },
-    {
-      property: 'description',
-      header: {
-        label: 'Description',
-        props: {
-          index: 1,
-          sort: true,
-          style: {
-            width: '25%'
-          }
-        },
-        transforms: [sortableTransform],
-        formatters: [sortingFormatter],
-        customFormatters: [sortableHeaderCellFormatter]
-      },
-      cell: {
-        props: {
-          index: 1
-        },
-        formatters: [inlineEditFormatter]
+        formatters: [definition ? inlineEditFormatter : tableCellFormatter]
       }
     },
     {
@@ -258,6 +263,14 @@ export const changeEditParameter = (value, additionalData) => ({
   payload: {
     value,
     ...additionalData,
+  },
+});
+
+export const sortParameter = (selectedColumn, defaultSortingOrder) => ({
+  type: PARAMETER_SORT,
+  payload: {
+    ...selectedColumn,
+    ...defaultSortingOrder,
   },
 });
 

@@ -5,6 +5,7 @@ import { createSelector } from 'reselect';
 const parameterState = state => state.foremanAppcendep.parameterSelectionParameters;
 
 export const selectLoading = state => parameterState(state).loading;
+export const selectEditMode = state => parameterState(state).editMode;
 export const selectDefinition = state => parameterState(state).definition;
 export const selectPuppetEnv = state => parameterState(state).puppetEnv;
 export const selectLifecycleEnv = state => parameterState(state).lifecycleEnv;

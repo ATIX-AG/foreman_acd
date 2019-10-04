@@ -6,6 +6,7 @@ import * as ParameterSelectionActions from './ParameterSelectionActions';
 
 import {
   selectLoading,
+  selectEditMode,
   selectDefinition,
   selectPuppetEnv,
   selectLifecycleEnv,
@@ -17,6 +18,7 @@ import {
 
 const mapStateToProps = state => ({
   loading: selectLoading(state),
+  editMode: selectEditMode(state),
   definition: selectDefinition(state),
   puppetEnv: selectPuppetEnv(state),
   lifecycleEnv: selectLifecycleEnv(state),

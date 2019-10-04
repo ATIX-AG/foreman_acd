@@ -7,6 +7,8 @@ import {
   orderBy
 } from 'lodash';
 
+import * as sort from 'sortabular';
+
 import {
   PUPPET_ENV_REQUEST,
   PUPPET_ENV_SUCCESS,
@@ -21,14 +23,11 @@ import {
   PARAMETER_EDIT_CONFIRM,
   PARAMETER_EDIT_CHANGE,
   PARAMETER_EDIT_CANCEL,
+  PARAMETER_SORT,
 } from './ParameterSelectionConstants';
 
 export const initialState = Immutable({
-  loading: false,
-  definition: true,
-  puppetEnv: [],
-  lifecycleEnv: [],
-  parameters: [],
+  editMode: false,
   error: { errorMsg: '', status: '', statusText: '' },
 });
 
@@ -72,7 +71,7 @@ const parameterSelectionParameters = (state = initialState, action) => {
       rows[index].backup = cloneDeep(rows[index]);
 
       return state.merge({
-        'editing': true,
+        'editMode': true,
         'sortingDisabled': true,
         'rows': rows
       });
@@ -90,7 +89,7 @@ const parameterSelectionParameters = (state = initialState, action) => {
       rows[index].backup = cloneDeep(rows[index]);
 
       return state.merge({
-        'editing': true,
+        'editMode': true,
         'rows': rows
       });
     }
@@ -102,7 +101,7 @@ const parameterSelectionParameters = (state = initialState, action) => {
       delete rows[index].newEntry;
 
       return state.merge({
-        'editing': false,
+        'editMode': false,
         'sortingDisabled': false,
         'rows': rows
       });
@@ -127,10 +126,21 @@ const parameterSelectionParameters = (state = initialState, action) => {
       }
 
       return state.merge({
-        'editing': false,
+        'editMode': false,
         'sortingDisabled': false,
         'rows': rows
       });
+    }
+    case PARAMETER_SORT: {
+      const selectedColumn = payload.selectedColumn;
+      return state.set(
+        'sortingColumns',
+        sort.byColumn({
+          sortingColumns: state.sortingColumns,
+          sortingOrder: payload.defaultSortingOrder,
+          selectedColumn
+        })
+      );
     }
     default:
       return state;
