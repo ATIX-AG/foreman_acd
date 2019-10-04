@@ -1,3 +1,44 @@
+<%= webpacked_plugins_js_for :foreman_appcendep %>
+
+<%
+    json = {
+      "parameters": [
+        {
+          "id": 0,
+          "name": 'hostname',
+          "description": 'The name of the host',
+          "type": 'hostname',
+          "value": 'newhost',
+        },
+        {
+          "id": 1,
+          "name": 'puppet environment',
+          "description": 'Puppet environment',
+          "type": 'puppetenv',
+          "value": 'production',
+        },
+        {
+          "id": 2,
+          "name": 'lifecycle environment',
+          "description": 'Lifecycle Environment',
+          "type": 'lifecycleenv',
+          "value": 'production',
+        },
+        {
+          "id": 3,
+          "name": 'Root Password',
+          "description": 'The Root password of the host',
+          "type": 'password',
+          "value": 'changeme',
+        },
+      ],
+      "definition": false,
+      "puppetEnvUrl": api_environments_path,
+      "lifecycleEnvUrl": api_environments_path,
+      "lifecycleEnvOrganization": 'ATIX',
+    }
+%>
+
 <%= form_for @app_definition, :url => (@app_definition.new_record? ? app_definitions_path : app_definition_path(:id => @app_definition.id)) do |f| %>
   <%= base_errors_for @app_definition %>
   <ul class="nav nav-tabs" data-tabs="tabs">
@@ -12,12 +53,8 @@
         { :include_blank => false},
         {:label => _("Host Group"), :help_inline => :indicator } %>
 
-      <div class="tab-pane"  id="params">
-        <fieldset>
-          <h2><%= _('Parameters') %></h2>
-          <%= render "foreman_appcendep/application_parameters/parameters", { :f => f, :type => :application_parameters } %>
-        </fieldset>
-      </div>
+      <div id='param-selection'></div>
+      <%=  mount_react_component('ParameterSelection', "#param-selection", json.to_json) %>
     </div>
   </div>
 

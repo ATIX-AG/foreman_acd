@@ -213,6 +213,10 @@ class ParameterSelection extends React.Component {
     );
   }
 
+  renderParameterSelectionAsJson() {
+    return (JSON.stringify(this.props.rows));
+  };
+
   render() {
     const {
       data: { definition },
@@ -281,6 +285,12 @@ class ParameterSelection extends React.Component {
           </Table.PfProvider>
           {this.renderAddButton(definition, addParameter)}
         </div>
+        <input
+          value={this.renderParameterSelectionAsJson()}
+          id="param_selection_json"
+          name="param_selection_json"
+          type="hidden"
+        />
       </div>
     );
   }
