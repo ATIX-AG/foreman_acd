@@ -1,17 +1,10 @@
 import React from 'react';
-import JSONTree from 'react-json-tree';
 import PropTypes from 'prop-types';
 import * as sort from 'sortabular';
 import { compose } from 'recompose';
+import { orderBy } from 'lodash';
 import * as resolve from 'table-resolver';
 import Select from 'foremanReact/components/common/forms/Select';
-
-import {
-  cloneDeep,
-  findIndex,
-  findLastIndex,
-  orderBy
-} from 'lodash';
 
 import {
   Icon,

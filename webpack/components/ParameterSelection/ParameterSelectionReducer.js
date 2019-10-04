@@ -4,7 +4,6 @@ import {
   cloneDeep,
   findIndex,
   findLastIndex,
-  orderBy
 } from 'lodash';
 
 import * as sort from 'sortabular';

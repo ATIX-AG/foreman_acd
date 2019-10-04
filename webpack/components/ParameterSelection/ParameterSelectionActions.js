@@ -1,5 +1,15 @@
 import React from 'react';
+import * as sort from 'sortabular';
+
+import {
+  actionHeaderCellFormatter,
+  sortableHeaderCellFormatter,
+  tableCellFormatter,
+  TABLE_SORT_DIRECTION
+} from 'patternfly-react';
+
 import api from 'foremanReact/API';
+
 import {
   propsToSnakeCase,
   propsToCamelCase,
@@ -21,18 +31,6 @@ import {
   PARAMETER_EDIT_CANCEL,
   PARAMETER_SORT,
 } from './ParameterSelectionConstants';
-
-import * as sort from 'sortabular';
-
-import {
-  Icon,
-  Button,
-  FormControl,
-  actionHeaderCellFormatter,
-  sortableHeaderCellFormatter,
-  tableCellFormatter,
-  TABLE_SORT_DIRECTION
-} from 'patternfly-react';
 
 export const initParameterSelection = (
   definition,
