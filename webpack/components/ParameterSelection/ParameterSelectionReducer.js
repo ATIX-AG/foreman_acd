@@ -23,6 +23,9 @@ import {
   PARAMETER_EDIT_CHANGE,
   PARAMETER_EDIT_CANCEL,
   PARAMETER_SORT,
+  LOAD_PARAMETER_SELECTION_REQUEST,
+  LOAD_PARAMETER_SELECTION_SUCCESS,
+  LOAD_PARAMETER_SELECTION_FAILURE,
 } from './ParameterSelectionConstants';
 
 export const initialState = Immutable({
@@ -140,6 +143,18 @@ const parameterSelectionParameters = (state = initialState, action) => {
           selectedColumn
         })
       );
+    }
+    case LOAD_PARAMETER_SELECTION_REQUEST: {
+      return state.set('loading', true);
+    }
+    case LOAD_PARAMETER_SELECTION_SUCCESS: {
+      return state.merge({
+        loading: false,
+        rows: payload,
+      });
+    }
+    case LOAD_PARAMETER_SELECTION_FAILURE: {
+      return state.merge({ error: payload.error, loading: false });
     }
     default:
       return state;

@@ -56,6 +56,21 @@ class ParameterSelection extends React.Component {
     );
   }
 
+  renderSelectApplication(definition, applications, url, loadParameterSelection) {
+    if (definition === true)
+      return ("");
+
+    return (
+      <Select
+       value=""
+       onChange={e => loadParameterSelection(url, e.target.value) }
+       options={applications}
+       allowClear
+       key="key"
+      />
+    );
+  }
+
   componentDidMount() {
     const {
       data: { definition, puppetEnvUrl, lifecycleEnvUrl, lifecycleEnvOrganization, parameters },
@@ -143,9 +158,21 @@ class ParameterSelection extends React.Component {
 
     const inlineEditFormatter = inlineEditFormatterFactory({
       isEditing: additionalData => isEditing(additionalData),
-      renderValue: (value, additionalData) => (
-        inlineEditFormatterImpl.renderValue(value, additionalData)
-      ),
+      renderValue: (value, additionalData) => {
+        var prettyValue = value;
+        if (additionalData.property == 'value') {
+          switch (additionalData.rowData.type) {
+            case 'puppetenv':
+              console.log("v: %o", this.props.puppetEnv);
+              prettyValue = this.props.puppetEnv[value];
+              break;
+            case 'lifecycleenv':
+              prettyValue = this.props.lifecycleEnv[value];
+              break;
+          }
+        }
+        return inlineEditFormatterImpl.renderValue(prettyValue, additionalData)
+      },
       renderEdit: (value, additionalData) => {
         switch (additionalData.property) {
           case 'type':
@@ -212,7 +239,7 @@ class ParameterSelection extends React.Component {
 
   render() {
     const {
-      data: { definition },
+      data: { definition, applications, loadParameterSelectionUrl },
       rows,
       columns,
       sortingColumns,
@@ -221,6 +248,7 @@ class ParameterSelection extends React.Component {
       addParameter,
       confirmEditParameter,
       cancelEditParameter,
+      loadParameterSelection,
     } = this.props;
 
     var sortedRows;
@@ -239,6 +267,9 @@ class ParameterSelection extends React.Component {
 
     return(
       <div>
+        <div>
+          {this.renderSelectApplication(definition, applications, loadParameterSelectionUrl, loadParameterSelection)}
+        </div>
         <div>
           {this.renderAddButton(definition, addParameter)}
           <Table.PfProvider
@@ -304,10 +335,12 @@ ParameterSelection.defaultProps = {
 ParameterSelection.propTypes = {
   data: PropTypes.shape({
     definition: PropTypes.bool.isRequired,
-    puppetEnvUrl: PropTypes.string.isRequired,
-    lifecycleEnvUrl: PropTypes.string.isRequired,
-    lifecycleEnvOrganization: PropTypes.string.isRequired,
-    parameters: PropTypes.array.isRequired,
+    parameters: PropTypes.array,
+    puppetEnvUrl: PropTypes.string,
+    lifecycleEnvUrl: PropTypes.string,
+    lifecycleEnvOrganization: PropTypes.string,
+    applications: PropTypes.array,
+    loadParameterSelectionUrl: PropTypes.string,
   }).isRequired,
   getPuppetEnvironments: PropTypes.func,
   getLifecycleEnvironments: PropTypes.func,
@@ -327,6 +360,7 @@ ParameterSelection.propTypes = {
   confirmEditParameter: PropTypes.func,
   cancelEditParameter: PropTypes.func,
   changeEditParameter: PropTypes.func,
+  loadParameterSelection: PropTypes.func,
 };
 
 export default ParameterSelection;

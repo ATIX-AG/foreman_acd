@@ -30,6 +30,9 @@ import {
   PARAMETER_EDIT_CHANGE,
   PARAMETER_EDIT_CANCEL,
   PARAMETER_SORT,
+  LOAD_PARAMETER_SELECTION_REQUEST,
+  LOAD_PARAMETER_SELECTION_SUCCESS,
+  LOAD_PARAMETER_SELECTION_FAILURE,
 } from './ParameterSelectionConstants';
 
 export const initParameterSelection = (
@@ -268,4 +271,25 @@ export const sortParameter = (selectedColumn, defaultSortingOrder) => ({
     defaultSortingOrder,
   },
 });
+
+export const loadParameterSelection = (
+  url,
+  applicationDefinitionId
+) => dispatch => {
+  dispatch({ type: LOAD_PARAMETER_SELECTION_REQUEST });
+
+  const params = {
+    applicationDefinition: applicationDefinitionId
+  };
+
+  return api
+    .get(url, {}, params)
+    .then(({ data }) =>
+      dispatch({
+        type: LOAD_PARAMETER_SELECTION_SUCCESS,
+        payload: data.results,
+      })
+    )
+    .catch(error => dispatch(errorHandler(LOAD_PARAMETER_SELECTION_FAILURE, error)));
+};
 
