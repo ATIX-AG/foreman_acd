@@ -20,17 +20,6 @@ module ForemanAppcendep
       end
     end
 
-    # Include concerns in this config.to_prepare block
-    config.to_prepare do
-      Parameter.send(:include, ForemanAppcendep::Concerns::ParameterExtensions)
-    #   begin
-    #     Host::Managed.send(:include, ForemanAppcendep::HostExtensions)
-    #     HostsHelper.send(:include, ForemanAppcendep::HostsHelperExtensions)
-    #   rescue StandardError => e
-    #     Rails.logger.warn "ForemanAppcendep: skipping engine hook (#{e})"
-    #   end
-    end
-
     rake_tasks do
       Rake::Task['db:seed'].enhance do
         ForemanAppcendep::Engine.load_seed

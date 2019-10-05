@@ -233,9 +233,24 @@ class ParameterSelection extends React.Component {
     );
   }
 
-  renderParameterSelectionAsJson() {
-    return (JSON.stringify(this.props.rows));
-  };
+  renderRailsInputHidden(definition) {
+    var id = 'foreman_appcendep_app_definition_parameters'
+    var name = 'foreman_appcendep_app_definition[parameters]'
+
+    if (definition === false) {
+      id = 'foreman_appcendep_app_instance_parameters'
+      name = 'foreman_appcendep_app_instance[parameters]'
+    }
+
+    return (
+      <input
+        value={JSON.stringify(this.props.rows)}
+        id={id}
+        name={name}
+        type="hidden"
+      />
+    );
+  }
 
   render() {
     const {
@@ -309,12 +324,7 @@ class ParameterSelection extends React.Component {
           </Table.PfProvider>
           {this.renderAddButton(definition, addParameter)}
         </div>
-        <input
-          value={this.renderParameterSelectionAsJson()}
-          id="param_selection_json"
-          name="param_selection_json"
-          type="hidden"
-        />
+        {this.renderRailsInputHidden(definition)}
       </div>
     );
   }

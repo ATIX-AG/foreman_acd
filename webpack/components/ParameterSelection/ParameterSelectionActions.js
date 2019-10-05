@@ -53,6 +53,11 @@ export const initParameterSelection = (
   };
   initialState.sortingDisabled = false;
 
+  var valueLabel = 'Value';
+  if (definition === true) {
+    valueLabel = 'Default value';
+  }
+
   initialState.columns = [
     {
       property: 'name',
@@ -98,7 +103,7 @@ export const initParameterSelection = (
     {
       property: 'value',
       header: {
-        label: 'Value',
+        label: valueLabel,
         props: {
           index: 2,
           sort: true,

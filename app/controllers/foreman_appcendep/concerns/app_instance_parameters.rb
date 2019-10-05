@@ -9,7 +9,7 @@ module ForemanAppcendep
       class_methods do
         def app_instance_params_filter
           Foreman::ParameterFilter.new(::ForemanAppcendep::AppInstance).tap do |filter|
-            filter.permit(:name, :app_definition_id, :description)
+            filter.permit(:name, :app_definition_id, :description, :parameters)
           end
         end
       end
