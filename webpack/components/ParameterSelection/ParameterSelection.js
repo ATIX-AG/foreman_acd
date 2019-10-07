@@ -305,51 +305,67 @@ class ParameterSelection extends React.Component {
 
     return(
       <div>
-        <div>
-          {isNewInstance(mode) && this.renderSelectApplication(applications, loadParameterSelectionUrl, loadParameterSelection, selectedApp) }
-          {isNewInstance(mode) && this.renderRailsAppDefinitionId(selectedApp) }
-          {isEditInstance(mode) && (this.renderRailsAppDefinitionId(appDefinition.id), this.renderRailsAppDefinitionName(appDefinition.name)) }
+        {isInstance(mode) ? (
+          <div class="clearfix">
+            <div class="form-group">
+              <label class="col-md-2 control-label">Application Definition</label>
+              <div class="col-md-4">
+                {isNewInstance(mode) && this.renderSelectApplication(applications, loadParameterSelectionUrl, loadParameterSelection, selectedApp) }
+                {isNewInstance(mode) && this.renderRailsAppDefinitionId(selectedApp) }
+                {isEditInstance(mode) && (this.renderRailsAppDefinitionId(appDefinition.id), this.renderRailsAppDefinitionName(appDefinition.name)) }
+              </div>
+            </div>
+          </div>
+        ) : (<div></div>) }
+        <div class="clearfix">
+          <div class="form-group">
+            <label class="col-md-1 control-label">Application parameters</label>
+            <div class="col-md-5">&nbsp;</div>
+          </div>
         </div>
-        <div>
-          {this.renderAddButton(mode, addParameter)}
-          <Table.PfProvider
-            striped
-            bordered
-            hover
-            dataTable
-            inlineEdit
-            columns={columns}
-            components={{
-              header: {
-                cell: cellProps =>
-                  this.customHeaderFormatters({
-                    cellProps,
-                    columns,
-                    sortingColumns
-                  })
-              },
-              body: {
-                row: Table.InlineEditRow,
-                cell: cellProps => cellProps.children
-              }
-            }}
-          >
-            <Table.Header headerRows={resolve.headerRows({ columns })} />
-            <Table.Body
-              rows={sortedRows}
-              rowKey="id"
-              onRow={(rowData, { rowIndex }) => ({
-                role: 'row',
-                isEditing: () => this.isEditing({ rowData }),
-                onCancel: () => cancelEditParameter({ rowData, rowIndex }),
-                onConfirm: () => confirmEditParameter({ rowData, rowIndex }),
-                last: rowIndex === sortedRows.length - 1
-              })}
-            />
-          </Table.PfProvider>
-          {this.renderAddButton(mode, addParameter)}
+
+        <div class="clearfix">
+          <div class="form-group">
+            {this.renderAddButton(mode, addParameter)}
+            <Table.PfProvider
+              striped
+              bordered
+              hover
+              dataTable
+              inlineEdit
+              columns={columns}
+              components={{
+                header: {
+                  cell: cellProps =>
+                    this.customHeaderFormatters({
+                      cellProps,
+                      columns,
+                      sortingColumns
+                    })
+                },
+                body: {
+                  row: Table.InlineEditRow,
+                  cell: cellProps => cellProps.children
+                }
+              }}
+            >
+              <Table.Header headerRows={resolve.headerRows({ columns })} />
+              <Table.Body
+                rows={sortedRows}
+                rowKey="id"
+                onRow={(rowData, { rowIndex }) => ({
+                  role: 'row',
+                  isEditing: () => this.isEditing({ rowData }),
+                  onCancel: () => cancelEditParameter({ rowData, rowIndex }),
+                  onConfirm: () => confirmEditParameter({ rowData, rowIndex }),
+                  last: rowIndex === sortedRows.length - 1
+                })}
+              />
+            </Table.PfProvider>
+            {this.renderAddButton(mode, addParameter)}
+          </div>
+          {this.renderRailsParameters(mode)}
         </div>
-        {this.renderRailsParameters(mode)}
       </div>
     );
   }
