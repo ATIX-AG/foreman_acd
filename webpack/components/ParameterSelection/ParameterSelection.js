@@ -5,6 +5,14 @@ import { compose } from 'recompose';
 import { orderBy } from 'lodash';
 import * as resolve from 'table-resolver';
 import Select from 'foremanReact/components/common/forms/Select';
+import {
+  isNewDefinition,
+  isEditDefinition,
+  isDefinition,
+  isNewInstance,
+  isEditInstance,
+  isInstance,
+} from './ParameterSelectionHelper';
 
 import {
   Icon,
@@ -28,8 +36,8 @@ class ParameterSelection extends React.Component {
     super(props);
   }
 
-  renderAddButton(definition, addParameter) {
-    if (definition === false)
+  renderAddButton(mode, addParameter) {
+    if (isInstance(mode))
       return ("");
 
     return (
@@ -39,8 +47,8 @@ class ParameterSelection extends React.Component {
     );
   }
 
-  renderDeleteButton(definition, deleteParameter, additionalData) {
-    if (definition === false)
+  renderDeleteButton(mode, deleteParameter, additionalData) {
+    if (isInstance(mode))
       return ("");
 
     return (
@@ -56,32 +64,38 @@ class ParameterSelection extends React.Component {
     );
   }
 
-  renderSelectApplication(definition, applications, url, loadParameterSelection, selectedApp) {
-    if (definition === true)
-      return ("");
-
+  renderSelectApplication(applications, url, loadParameterSelection, selectedApp) {
     return (
-      <span>
-        <Select
+      <Select
          value={selectedApp}
          onChange={e => loadParameterSelection(url, e.target.value) }
          options={applications}
          allowClear
          key="key"
-        />
-        <input
-          value={selectedApp}
-          id="foreman_appcendep_app_instance_app_definition_id"
-          name="foreman_appcendep_app_instance[app_definition_id]"
-          type="hidden"
-        />
-      </span>
+      />
+    );
+  }
+
+  renderRailsAppDefinitionId(app_id) {
+    return (
+      <input
+        value={app_id}
+        id="foreman_appcendep_app_instance_app_definition_id"
+        name="foreman_appcendep_app_instance[app_definition_id]"
+        type="hidden"
+      />
+    );
+  }
+
+  renderRailsAppDefinitionName(app_name) {
+    return (
+      <div>Application Definition: {app_name}</div>
     );
   }
 
   componentDidMount() {
     const {
-      data: { definition, puppetEnvUrl, lifecycleEnvUrl, lifecycleEnvOrganization, parameters },
+      data: { mode, puppetEnvUrl, lifecycleEnvUrl, lifecycleEnvOrganization, parameters },
       initParameterSelection,
       sortParameter,
       deleteParameter,
@@ -107,7 +121,7 @@ class ParameterSelection extends React.Component {
           >
             <Icon type="pf" name="edit" />
           </Button>
-          {this.renderDeleteButton(definition, deleteParameter, additionalData)}
+          {this.renderDeleteButton(mode, deleteParameter, additionalData)}
         </td>
       ),
       renderEdit: (value, additionalData) => (
@@ -232,7 +246,7 @@ class ParameterSelection extends React.Component {
     );
 
     initParameterSelection(
-      definition,
+      mode,
       parameters,
       this.sortingFormatter,
       this.sortableTransform,
@@ -241,11 +255,11 @@ class ParameterSelection extends React.Component {
     );
   }
 
-  renderRailsInputHidden(definition) {
+  renderRailsParameters(mode) {
     var id = 'foreman_appcendep_app_definition_parameters'
     var name = 'foreman_appcendep_app_definition[parameters]'
 
-    if (definition === false) {
+    if (isInstance(mode)) {
       id = 'foreman_appcendep_app_instance_parameters'
       name = 'foreman_appcendep_app_instance[parameters]'
     }
@@ -262,7 +276,7 @@ class ParameterSelection extends React.Component {
 
   render() {
     const {
-      data: { definition, applications, loadParameterSelectionUrl },
+      data: { mode, applications, appDefinition, loadParameterSelectionUrl },
       rows,
       columns,
       sortingColumns,
@@ -292,10 +306,12 @@ class ParameterSelection extends React.Component {
     return(
       <div>
         <div>
-          {this.renderSelectApplication(definition, applications, loadParameterSelectionUrl, loadParameterSelection, selectedApp)}
+          {isNewInstance(mode) && this.renderSelectApplication(applications, loadParameterSelectionUrl, loadParameterSelection, selectedApp) }
+          {isNewInstance(mode) && this.renderRailsAppDefinitionId(selectedApp) }
+          {isEditInstance(mode) && (this.renderRailsAppDefinitionId(appDefinition.id), this.renderRailsAppDefinitionName(appDefinition.name)) }
         </div>
         <div>
-          {this.renderAddButton(definition, addParameter)}
+          {this.renderAddButton(mode, addParameter)}
           <Table.PfProvider
             striped
             bordered
@@ -331,9 +347,9 @@ class ParameterSelection extends React.Component {
               })}
             />
           </Table.PfProvider>
-          {this.renderAddButton(definition, addParameter)}
+          {this.renderAddButton(mode, addParameter)}
         </div>
-        {this.renderRailsInputHidden(definition)}
+        {this.renderRailsParameters(mode)}
       </div>
     );
   }
@@ -354,7 +370,7 @@ ParameterSelection.defaultProps = {
 
 ParameterSelection.propTypes = {
   data: PropTypes.shape({
-    definition: PropTypes.bool.isRequired,
+    mode: PropTypes.string.isRequired,
     parameters: PropTypes.array,
     puppetEnvUrl: PropTypes.string,
     lifecycleEnvUrl: PropTypes.string,

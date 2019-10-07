@@ -2,12 +2,18 @@
 
 <%
     json = {
-      "parameters": JSON.parse(@app_definition.parameters),
-      "definition": true,
       "puppetEnvUrl": api_environments_path,
       "lifecycleEnvUrl": api_environments_path,
       "lifecycleEnvOrganization": 'ATIX',
     }
+    
+    if @app_definition.name.empty?
+      json["mode"] = "newDefinition"
+    else
+      json["mode"] = "editDefinition"
+      json["parameters"] = JSON.parse(@app_definition.parameters)
+    end
+
 %>
 
 <%= form_for @app_definition, :url => (@app_definition.new_record? ? app_definitions_path : app_definition_path(:id => @app_definition.id)) do |f| %>

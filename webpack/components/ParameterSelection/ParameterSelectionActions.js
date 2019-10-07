@@ -16,6 +16,15 @@ import {
 } from 'foremanReact/common/helpers';
 
 import {
+  isNewDefinition,
+  isEditDefinition,
+  isDefinition,
+  isNewInstance,
+  isEditInstance,
+  isInstance,
+} from './ParameterSelectionHelper';
+
+import {
   PUPPET_ENV_REQUEST,
   PUPPET_ENV_SUCCESS,
   PUPPET_ENV_FAILURE,
@@ -36,7 +45,7 @@ import {
 } from './ParameterSelectionConstants';
 
 export const initParameterSelection = (
-  definition,
+  mode,
   parameters,
   sortingFormatter,
   sortableTransform,
@@ -54,7 +63,7 @@ export const initParameterSelection = (
   initialState.sortingDisabled = false;
 
   var valueLabel = 'Value';
-  if (definition === true) {
+  if (isDefinition(mode)) {
     valueLabel = 'Default value';
   }
 
@@ -75,7 +84,7 @@ export const initParameterSelection = (
         customFormatters: [sortableHeaderCellFormatter]
       },
       cell: {
-        formatters: [definition ? inlineEditFormatter : tableCellFormatter]
+        formatters: [isDefinition(mode) ? inlineEditFormatter : tableCellFormatter]
       }
     },
     {
@@ -97,7 +106,7 @@ export const initParameterSelection = (
         props: {
           index: 1
         },
-        formatters: [definition ? inlineEditFormatter : tableCellFormatter]
+        formatters: [isDefinition(mode) ? inlineEditFormatter : tableCellFormatter]
       }
     },
     {
@@ -141,7 +150,7 @@ export const initParameterSelection = (
         props: {
           index: 3
         },
-        formatters: [definition ? inlineEditFormatter : tableCellFormatter]
+        formatters: [isDefinition(mode) ? inlineEditFormatter : tableCellFormatter]
       }
     },
     {

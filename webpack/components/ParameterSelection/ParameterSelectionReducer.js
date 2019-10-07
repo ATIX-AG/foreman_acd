@@ -65,8 +65,13 @@ const parameterSelectionParameters = (state = initialState, action) => {
       return state.merge({ error: payload.error, loading: false });
     }
     case PARAMETER_ADD: {
-      const rows = cloneDeep(state.rows);
-      const index = findLastIndex(rows, 'id') + 1;
+      var rows = [];
+      var index = 0;
+
+      if ('rows' in state && state.rows !== undefined) {
+        rows = cloneDeep(state.rows);
+        index = findLastIndex(rows, 'id') + 1;
+      }
 
       const newRow = {id: index+1, name: "", description: '', type: '', value: '', newEntry: true };
       rows.push(newRow);

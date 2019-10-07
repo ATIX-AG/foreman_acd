@@ -1,15 +1,28 @@
 <%= webpacked_plugins_js_for :foreman_appcendep %>
 
 <%
-    json = {
-      "definition": false,
-      "applications": @applications,
-      "parameters": JSON.parse(@app_instance.parameters),
-      "puppetEnvUrl": api_environments_path,
-      "lifecycleEnvUrl": api_environments_path,
-      "lifecycleEnvOrganization": 'ATIX',
-      "loadParameterSelectionUrl": ui_app_definition_path("__id__")
-    }
+    if @app_instance.app_definition_id.blank?
+      json = {
+        "mode": "newInstance",
+        "applications": @applications,
+        "puppetEnvUrl": api_environments_path,
+        "lifecycleEnvUrl": api_environments_path,
+        "lifecycleEnvOrganization": 'ATIX',
+        "loadParameterSelectionUrl": ui_app_definition_path("__id__")
+      }
+    else
+      json = {
+        "mode": "editInstance",
+        "appDefinition": {
+          "id": @app_instance.app_definition_id,
+          "name": @applications[@app_instance.app_definition_id],
+        },
+        "parameters": JSON.parse(@app_instance.parameters),
+        "puppetEnvUrl": api_environments_path,
+        "lifecycleEnvUrl": api_environments_path,
+        "lifecycleEnvOrganization": 'ATIX',
+      }
+    end
 %>
 
 <%= form_for @app_instance, :url => (@app_instance.new_record? ? app_instances_path : app_instance_path(:id => @app_instance.id)) do |f| %>
