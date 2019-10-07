@@ -18,6 +18,10 @@ Rails.application.routes.draw do
       end
     end
 
+    constraints(:id => /[\w\.-]+/) do
+      resources :ui_app_definitions, :only => [:show]
+    end
+
     scope :api, :path => '/api', :defaults => { :format => 'json' } do
       scope '(:apiv)', :defaults => { :apiv => 'v2' }, :apiv => /v1|v2/, :constraints => ApiConstraints.new(:version => 2) do
         constraints(:id => /[\w\.-]+/) do

@@ -7,6 +7,7 @@ class CreateAppInstances < ActiveRecord::Migration[5.2]
       t.string :name, :default => '', :null => false, :limit => 255, :unique => true
       t.column :app_definition_id, :integer, :null => false
       t.text :description
+      t.text :parameters
       t.timestamps :null => true
     end
     add_foreign_key :app_instances, :app_definitions

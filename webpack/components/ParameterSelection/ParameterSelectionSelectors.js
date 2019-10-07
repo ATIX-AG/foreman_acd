@@ -12,3 +12,4 @@ export const selectRows = state => parameterState(state).rows;
 export const selectSortingColumns = state => parameterState(state).sortingColumns;
 export const selectColumns = state => parameterState(state).columns;
 export const selectSortingDisabled = state => parameterState(state).sortingDisabled;
+export const selectSelectedApp = state => parameterState(state).selectedApp;

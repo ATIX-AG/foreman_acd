@@ -149,8 +149,9 @@ const parameterSelectionParameters = (state = initialState, action) => {
     }
     case LOAD_PARAMETER_SELECTION_SUCCESS: {
       return state.merge({
+        selectedApp: payload.id,
         loading: false,
-        rows: payload,
+        rows: JSON.parse(payload.parameters),
       });
     }
     case LOAD_PARAMETER_SELECTION_FAILURE: {

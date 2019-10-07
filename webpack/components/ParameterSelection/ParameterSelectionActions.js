@@ -283,16 +283,14 @@ export const loadParameterSelection = (
 ) => dispatch => {
   dispatch({ type: LOAD_PARAMETER_SELECTION_REQUEST });
 
-  const params = {
-    applicationDefinition: applicationDefinitionId
-  };
+  var realUrl = url.replace("__id__", applicationDefinitionId);
 
   return api
-    .get(url, {}, params)
+    .get(realUrl, {}, {})
     .then(({ data }) =>
       dispatch({
         type: LOAD_PARAMETER_SELECTION_SUCCESS,
-        payload: data.results,
+        payload: data,
       })
     )
     .catch(error => dispatch(errorHandler(LOAD_PARAMETER_SELECTION_FAILURE, error)));

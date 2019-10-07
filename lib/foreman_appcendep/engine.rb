@@ -20,6 +20,10 @@ module ForemanAppcendep
       end
     end
 
+    initializer 'foreman_appcendep.apipie' do
+      Apipie.configuration.checksum_path += ['/appcendep/api/']
+    end
+
     rake_tasks do
       Rake::Task['db:seed'].enhance do
         ForemanAppcendep::Engine.load_seed

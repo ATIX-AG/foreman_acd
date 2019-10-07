@@ -28,8 +28,6 @@ module ForemanAppcendep
     def edit; end
 
     def update
-      logger.info "XXXXXXXXXXXXXXXXXXXXXXX #{@app_definition.parameters.class}"
-      logger.info "YYYYYYYYYYYYYYYYYYYYYYY #{@app_definition.parameters}"
       if @app_definition.update(app_definition_params)
         process_success
       else

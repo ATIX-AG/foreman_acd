@@ -12,8 +12,13 @@ module ForemanAppcendep
       @app_instances = resource_base.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
     end
 
+    def read_applications
+      @applications = ForemanAppcendep::AppDefinition.all.map { |elem| { elem.id => elem.name } }.reduce({}) { |h, v| h.merge v }
+    end
+
     def new
       @app_instance = AppInstance.new
+      read_applications
     end
 
     def create
@@ -25,7 +30,9 @@ module ForemanAppcendep
       end
     end
 
-    def edit; end
+    def edit
+      read_applications
+    end
 
     def update
       if @app_instance.update(app_instance_params)

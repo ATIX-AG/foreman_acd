@@ -56,18 +56,26 @@ class ParameterSelection extends React.Component {
     );
   }
 
-  renderSelectApplication(definition, applications, url, loadParameterSelection) {
+  renderSelectApplication(definition, applications, url, loadParameterSelection, selectedApp) {
     if (definition === true)
       return ("");
 
     return (
-      <Select
-       value=""
-       onChange={e => loadParameterSelection(url, e.target.value) }
-       options={applications}
-       allowClear
-       key="key"
-      />
+      <span>
+        <Select
+         value={selectedApp}
+         onChange={e => loadParameterSelection(url, e.target.value) }
+         options={applications}
+         allowClear
+         key="key"
+        />
+        <input
+          value={selectedApp}
+          id="foreman_appcendep_app_instance_app_definition_id"
+          name="foreman_appcendep_app_instance[app_definition_id]"
+          type="hidden"
+        />
+      </span>
     );
   }
 
@@ -264,6 +272,7 @@ class ParameterSelection extends React.Component {
       confirmEditParameter,
       cancelEditParameter,
       loadParameterSelection,
+      selectedApp,
     } = this.props;
 
     var sortedRows;
@@ -283,7 +292,7 @@ class ParameterSelection extends React.Component {
     return(
       <div>
         <div>
-          {this.renderSelectApplication(definition, applications, loadParameterSelectionUrl, loadParameterSelection)}
+          {this.renderSelectApplication(definition, applications, loadParameterSelectionUrl, loadParameterSelection, selectedApp)}
         </div>
         <div>
           {this.renderAddButton(definition, addParameter)}
@@ -340,6 +349,7 @@ ParameterSelection.defaultProps = {
   columns: [],
   sortingColumns: {},
   sortingDisabled: false,
+  selectedApp: '',
 };
 
 ParameterSelection.propTypes = {
@@ -371,6 +381,7 @@ ParameterSelection.propTypes = {
   cancelEditParameter: PropTypes.func,
   changeEditParameter: PropTypes.func,
   loadParameterSelection: PropTypes.func,
+  selectedApp: PropTypes.string,
 };
 
 export default ParameterSelection;

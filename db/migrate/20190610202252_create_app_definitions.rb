@@ -7,6 +7,7 @@ class CreateAppDefinitions < ActiveRecord::Migration[5.2]
       t.string :name, :default => '', :null => false, :limit => 255, :unique => true
       t.text :description
       t.column :hostgroup_id, :integer
+      t.text :parameters
       t.timestamps :null => true
     end
     add_foreign_key :app_definitions, :hostgroups

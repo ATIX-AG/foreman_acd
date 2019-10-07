@@ -13,6 +13,7 @@ import {
   selectSortingColumns,
   selectColumns,
   selectSortingDisabled,
+  selectSelectedApp,
 } from './ParameterSelectionSelectors';
 
 const mapStateToProps = state => ({
@@ -24,6 +25,7 @@ const mapStateToProps = state => ({
   sortingColumns: selectSortingColumns(state),
   columns: selectColumns(state),
   sortingDisabled: selectSortingDisabled(state),
+  selectedApp: selectSelectedApp(state),
 });
 
 const mapDispatchToProps = dispatch =>

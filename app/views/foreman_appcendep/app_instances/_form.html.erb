@@ -3,11 +3,14 @@
 <%
     json = {
       "definition": false,
-      "applications": [ "MySQL", "Kubernets", "LAMP" ],
-      "loadParameterSelectionUrl": "http://nichtda.de/weg/von/mir",
+      "applications": @applications,
+      "parameters": JSON.parse(@app_instance.parameters),
+      "puppetEnvUrl": api_environments_path,
+      "lifecycleEnvUrl": api_environments_path,
+      "lifecycleEnvOrganization": 'ATIX',
+      "loadParameterSelectionUrl": ui_app_definition_path("__id__")
     }
 %>
-
 
 <%= form_for @app_instance, :url => (@app_instance.new_record? ? app_instances_path : app_instance_path(:id => @app_instance.id)) do |f| %>
   <%= base_errors_for @app_instance %>
