@@ -89,7 +89,7 @@ class ParameterSelection extends React.Component {
 
   renderRailsAppDefinitionName(app_name) {
     return (
-      <div>Application Definition: {app_name}</div>
+      <div>{app_name}</div>
     );
   }
 
