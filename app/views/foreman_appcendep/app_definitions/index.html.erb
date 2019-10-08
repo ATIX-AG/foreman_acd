@@ -16,7 +16,7 @@
       <td><%= app_definition.hostgroup %></td>
       <td>
           <%= action_buttons(display_delete_if_authorized(hash_for_app_definition_path(:id => app_definition).merge(:auth_object => app_definition, :authorizer => authorizer),
-                            :confirm => _('Delete %s?') % app_definition.name)) %>
+                                                          :data => { 'confirm': _('Delete %s?') % app_definition.name })) %>
       </td>
     </tr>
   <% end %>
