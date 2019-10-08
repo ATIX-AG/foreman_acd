@@ -60,7 +60,48 @@ module ForemanAppcendep
     end
 
     def deploy
+      @host = Host.new(set_host_params)
+      @host.save
+      success _('Successfully initiated host creation')
+    rescue => e
+      error _('Failed to initiate host creation: %s') % e.to_s
+      logger.error("Failed to initiate host creation: #{e.backtrace.join($/)}")
+    ensure
       redirect_to app_instances_path
+    end
+
+    private
+
+    def hardcoded_params
+      result = {}
+      # result['managed'] = true -> doesn't work right now as neccessary parameters are missing:
+      # 2019-10-08T12:01:25 [W|app|c0cf3627] Not queueing Nic::Managed: ["MAC address can't be blank"]
+      # 2019-10-08T12:01:25 [W|app|c0cf3627] Not queueing Host::Managed: ["Mac can't be blank"]
+      result['host_parameters_attributes'] = Array.new
+      return result
+    end
+
+    def set_host_params
+      result = hardcoded_params
+      result['hostgroup_id'] = @app_instance.app_definition.hostgroup_id
+      JSON.parse(@app_instance.parameters).each do |param|
+        case param['type']
+        when 'lifecycleenv'
+          # TODO: need to run on a host with katello
+          #result['lifecycle_environment_id'] = param['value']
+        when 'puppetenv'
+          result['environment_id'] = param['value']
+        when 'hostname'
+          result['name'] = param['value']
+        when 'hostparam'
+          result['host_parameters_attributes'].push({:name => param['name'], :value => param['value']})
+        when 'password'
+          result['root_pass'] = param['value']
+        when 'ip'
+          result['ip'] = param['value']
+        end
+      end
+      return result
     end
   end
 end
