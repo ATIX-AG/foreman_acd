@@ -9,12 +9,6 @@ import {
 import * as sort from 'sortabular';
 
 import {
-  PUPPET_ENV_REQUEST,
-  PUPPET_ENV_SUCCESS,
-  PUPPET_ENV_FAILURE,
-  LIFECYCLE_ENV_REQUEST,
-  LIFECYCLE_ENV_SUCCESS,
-  LIFECYCLE_ENV_FAILURE,
   INIT_PARAMETER_SELECTION,
   PARAMETER_DELETE,
   PARAMETER_ADD,
@@ -26,6 +20,9 @@ import {
   LOAD_PARAMETER_SELECTION_REQUEST,
   LOAD_PARAMETER_SELECTION_SUCCESS,
   LOAD_PARAMETER_SELECTION_FAILURE,
+  LOAD_FOREMAN_DATA_REQUEST,
+  LOAD_FOREMAN_DATA_SUCCESS,
+  LOAD_FOREMAN_DATA_FAILURE,
 } from './ParameterSelectionConstants';
 
 export const initialState = Immutable({
@@ -39,30 +36,6 @@ const parameterSelectionParameters = (state = initialState, action) => {
   switch (action.type) {
     case INIT_PARAMETER_SELECTION: {
       return state.merge(payload);
-    }
-    case PUPPET_ENV_REQUEST: {
-      return state.set('loading', true);
-    }
-    case PUPPET_ENV_SUCCESS: {
-      return state.merge({
-        loading: false,
-        puppetEnv: payload,
-      })
-    }
-    case PUPPET_ENV_FAILURE: {
-      return state.merge({ error: payload.error, loading: false });
-    }
-    case LIFECYCLE_ENV_REQUEST: {
-      return state.set('loading', true);
-    }
-    case LIFECYCLE_ENV_SUCCESS: {
-      return state.merge({
-        loading: false,
-        lifecycleEnv: payload,
-      })
-    }
-    case LIFECYCLE_ENV_FAILURE: {
-      return state.merge({ error: payload.error, loading: false });
     }
     case PARAMETER_ADD: {
       var rows = [];
@@ -154,9 +127,24 @@ const parameterSelectionParameters = (state = initialState, action) => {
     }
     case LOAD_PARAMETER_SELECTION_SUCCESS: {
       return state.merge({
-        selectedApp: payload.id,
+        appDefinition: payload.app_definition,
         loading: false,
-        rows: JSON.parse(payload.parameters),
+        rows: JSON.parse(payload.app_definition.parameters),
+        hostgroupId: payload.app_definition.hostgroup_id,
+        foremanData: payload.fdata,
+      });
+    }
+    case LOAD_FOREMAN_DATA_FAILURE: {
+      return state.merge({ error: payload.error, loading: false });
+    }
+    case LOAD_FOREMAN_DATA_REQUEST: {
+      return state.set('loading', true);
+    }
+    case LOAD_FOREMAN_DATA_SUCCESS: {
+      return state.merge({
+        loading: false,
+        foremanData: payload,
+        hostgroupId: payload.hostgroup_id,
       });
     }
     case LOAD_PARAMETER_SELECTION_FAILURE: {

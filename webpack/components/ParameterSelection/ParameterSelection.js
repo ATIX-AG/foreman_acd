@@ -5,6 +5,7 @@ import { compose } from 'recompose';
 import { orderBy } from 'lodash';
 import * as resolve from 'table-resolver';
 import Select from 'foremanReact/components/common/forms/Select';
+import store from 'foremanReact/redux';
 import {
   isNewDefinition,
   isEditDefinition,
@@ -12,6 +13,7 @@ import {
   isNewInstance,
   isEditInstance,
   isInstance,
+  transformForemanData,
 } from './ParameterSelectionHelper';
 
 import {
@@ -64,10 +66,10 @@ class ParameterSelection extends React.Component {
     );
   }
 
-  renderSelectApplication(applications, url, loadParameterSelection, selectedApp) {
+  renderSelectApplication(applications, url, loadParameterSelection, appDefinition) {
     return (
       <Select
-         value={selectedApp}
+         value={appDefinition.id.toString()}
          onChange={e => loadParameterSelection(url, e.target.value) }
          options={applications}
          allowClear
@@ -76,12 +78,27 @@ class ParameterSelection extends React.Component {
     );
   }
 
-  renderRailsAppDefinitionId(app_id) {
+  renderSelectHostgroup(hostgroups, url, loadForemanData, hostgroupId) {
+    return (
+      <Select
+         value={hostgroupId.toString()}
+         onChange={e => loadForemanData(url, e.target.value) }
+         options={hostgroups}
+         allowClear
+         key="key"
+      />
+    );
+  }
+
+  renderRailsInputHidden(view, parameter, value) {
+    var id = "foreman_appcendep_"+ view +"_"+ parameter;
+    var name = "foreman_appcendep_"+ view +"["+ parameter +"]";
+
     return (
       <input
-        value={app_id}
-        id="foreman_appcendep_app_instance_app_definition_id"
-        name="foreman_appcendep_app_instance[app_definition_id]"
+        id={id}
+        name={name}
+        value={value}
         type="hidden"
       />
     );
@@ -93,15 +110,21 @@ class ParameterSelection extends React.Component {
     );
   }
 
+
   componentDidMount() {
     const {
-      data: { mode, puppetEnvUrl, lifecycleEnvUrl, lifecycleEnvOrganization, parameters },
+      data: { mode, appDefinition, location, organization, loadForemanDataUrl, parameters },
       initParameterSelection,
       sortParameter,
       deleteParameter,
       activateEditParameter,
       changeEditParameter,
+      loadForemanData,
     } = this.props;
+
+    if (isEditDefinition(mode) || isEditInstance(mode)) {
+       loadForemanData(loadForemanDataUrl, appDefinition.hostgroup_id);
+    }
 
     // enables our custom header formatters extensions to reactabular
     this.customHeaderFormatters = customHeaderFormattersDefinition;
@@ -168,7 +191,7 @@ class ParameterSelection extends React.Component {
       renderEditSelect: (value, additionalData, options) => (
         <td className="editing">
           <Select
-            value={value}
+            value={value.toString()}
             onChange={e => changeEditParameter(e.target.value, additionalData) }
             options={options}
             allowClear
@@ -184,12 +207,20 @@ class ParameterSelection extends React.Component {
         var prettyValue = value;
         if (additionalData.property == 'value') {
           switch (additionalData.rowData.type) {
-            case 'puppetenv':
-              console.log("v: %o", this.props.puppetEnv);
-              prettyValue = this.props.puppetEnv[value];
+            case 'computeprofile':
+              prettyValue = transformForemanData(this.props.foremanData['computeprofiles'])[value]
+              break;
+            case 'domain':
+              prettyValue = transformForemanData(this.props.foremanData['domains'])[value]
               break;
             case 'lifecycleenv':
-              prettyValue = this.props.lifecycleEnv[value];
+              prettyValue = transformForemanData(this.props.foremanData['environments'])[value]
+              break;
+            case 'ptable':
+              prettyValue = transformForemanData(this.props.foremanData['ptables'])[value]
+              break;
+            case 'puppetenv':
+              prettyValue = transformForemanData(this.props.foremanData['environments'])[value]
               break;
           }
         }
@@ -200,27 +231,31 @@ class ParameterSelection extends React.Component {
           case 'type':
             if (additionalData.rowData.newEntry === true) {
               return inlineEditFormatterImpl.renderEditSelect(value, additionalData, {
-                ip: 'IP',
+                computeprofile: 'Compute profile',
+                domain: 'Domain',
                 hostname: 'Hostname',
-                password: 'Root password',
-                lifecycleenv: 'Lifecycle environment',
-                puppetenv: 'Puppet environment',
                 hostparam: 'Host parameter',
+                ip: 'IP',
+                lifecycleenv: 'Lifecycle environment',
+                password: 'Root password',
+                ptable: 'Partition table',
+                puppetenv: 'Puppet environment',
               })
             }
             return inlineEditFormatterImpl.renderValue(value, additionalData)
           case 'value':
             switch (additionalData.rowData.type) {
-              case 'ip':
-                return inlineEditFormatterImpl.renderEditText(value, additionalData)
-              case 'hostname':
-                return inlineEditFormatterImpl.renderEditText(value, additionalData)
-              case 'password':
-                return inlineEditFormatterImpl.renderEditText(value, additionalData, 'password')
-              case 'puppetenv':
-                return inlineEditFormatterImpl.renderEditSelect(value, additionalData, this.props.puppetEnv)
+              case 'computeprofile':
+                return inlineEditFormatterImpl.renderEditSelect(value, additionalData, transformForemanData(this.props.foremanData['computeprofiles']))
+              case 'domain':
+                return inlineEditFormatterImpl.renderEditSelect(value, additionalData, transformForemanData(this.props.foremanData['domains']))
               case 'lifecycleenv':
-                return inlineEditFormatterImpl.renderEditSelect(value, additionalData, this.props.lifecycleEnv)
+                // FIXME
+                return inlineEditFormatterImpl.renderEditSelect(value, additionalData, transformForemanData(this.props.foremanData['environments']))
+              case 'puppetenv':
+                return inlineEditFormatterImpl.renderEditSelect(value, additionalData, transformForemanData(this.props.foremanData['environments']))
+              case 'ptable':
+                return inlineEditFormatterImpl.renderEditSelect(value, additionalData, transformForemanData(this.props.foremanData['ptables']))
               case 'text':
               default:
                 return inlineEditFormatterImpl.renderEditText(value, additionalData);
@@ -232,21 +267,9 @@ class ParameterSelection extends React.Component {
     });
     this.inlineEditFormatter = inlineEditFormatter;
 
-    this.props.getPuppetEnvironments(
-      puppetEnvUrl,
-      { page: 1, perPage: 1000 },
-      {}
-    );
-
-    this.props.getLifecycleEnvironments(
-      lifecycleEnvUrl,
-      lifecycleEnvOrganization,
-      { page: 1, perPage: 1000 },
-      {}
-    );
-
     initParameterSelection(
       mode,
+      appDefinition,
       parameters,
       this.sortingFormatter,
       this.sortableTransform,
@@ -276,7 +299,7 @@ class ParameterSelection extends React.Component {
 
   render() {
     const {
-      data: { mode, applications, appDefinition, loadParameterSelectionUrl },
+      data: { mode, applications, hostgroups, loadParameterSelectionUrl, loadForemanDataUrl },
       rows,
       columns,
       sortingColumns,
@@ -286,7 +309,9 @@ class ParameterSelection extends React.Component {
       confirmEditParameter,
       cancelEditParameter,
       loadParameterSelection,
-      selectedApp,
+      loadForemanData,
+      appDefinition,
+      hostgroupId,
     } = this.props;
 
     var sortedRows;
@@ -306,26 +331,36 @@ class ParameterSelection extends React.Component {
     return(
       <div>
         {isInstance(mode) ? (
-          <div class="clearfix">
-            <div class="form-group">
-              <label class="col-md-2 control-label">Application Definition</label>
-              <div class="col-md-4">
-                {isNewInstance(mode) && this.renderSelectApplication(applications, loadParameterSelectionUrl, loadParameterSelection, selectedApp) }
-                {isNewInstance(mode) && this.renderRailsAppDefinitionId(selectedApp) }
-                {isEditInstance(mode) && (this.renderRailsAppDefinitionId(appDefinition.id), this.renderRailsAppDefinitionName(appDefinition.name)) }
+          <div className="clearfix">
+            <div className="form-group">
+              <label className="col-md-2 control-label">Application Definition</label>
+              <div className="col-md-4">
+                {isNewInstance(mode) && this.renderSelectApplication(applications, loadParameterSelectionUrl, loadParameterSelection, appDefinition) }
+                {isInstance(mode) && this.renderRailsInputHidden('app_instance', 'app_definition_id', appDefinition.id) }
+                {isEditInstance(mode) && this.renderRailsAppDefinitionName(appDefinition.name) }
               </div>
             </div>
           </div>
-        ) : (<div></div>) }
-        <div class="clearfix">
-          <div class="form-group">
-            <label class="col-md-1 control-label">Application parameters</label>
-            <div class="col-md-5">&nbsp;</div>
+        ) : (
+          <div className="clearfix">
+            <div className="form-group">
+              <label className="col-md-2 control-label">Host Group</label>
+              <div className="col-md-4">
+                {this.renderSelectHostgroup(hostgroups, loadForemanDataUrl, loadForemanData, hostgroupId) }
+                {this.renderRailsInputHidden('app_definition', 'hostgroup_id', hostgroupId) }
+              </div>
+            </div>
+          </div>
+        )}
+        <div className="clearfix">
+          <div className="form-group">
+            <label className="col-md-1 control-label">Application parameters</label>
+            <div className="col-md-5">&nbsp;</div>
           </div>
         </div>
 
-        <div class="clearfix">
-          <div class="form-group">
+        <div className="clearfix">
+          <div className="form-group">
             {this.renderAddButton(mode, addParameter)}
             <Table.PfProvider
               striped
@@ -375,32 +410,31 @@ ParameterSelection.defaultProps = {
   error: {},
   editMode: false,
   loading: false,
-  puppetEnv: {},
-  lifecycleEnv: {},
+  foremanData: {},
   rows: [],
   columns: [],
   sortingColumns: {},
   sortingDisabled: false,
-  selectedApp: '',
+  appDefinition: { "id": '', "name": '', "hostgroup_id": '', "parameters": [] },
+  hostgroupId: -1,
 };
 
 ParameterSelection.propTypes = {
   data: PropTypes.shape({
     mode: PropTypes.string.isRequired,
+    location: PropTypes.string.isRequired,
+    organization: PropTypes.string.isRequired,
     parameters: PropTypes.array,
-    puppetEnvUrl: PropTypes.string,
-    lifecycleEnvUrl: PropTypes.string,
-    lifecycleEnvOrganization: PropTypes.string,
-    applications: PropTypes.array,
+    appDefinition: PropTypes.object,
+    applications: PropTypes.object,
+    hostgroups: PropTypes.object,
     loadParameterSelectionUrl: PropTypes.string,
+    loadForemanDataUrl: PropTypes.string,
   }).isRequired,
-  getPuppetEnvironments: PropTypes.func,
-  getLifecycleEnvironments: PropTypes.func,
   initParameterSelection: PropTypes.func,
   editMode: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
-  puppetEnv: PropTypes.object.isRequired,
-  lifecycleEnv: PropTypes.object.isRequired,
+  foremanData: PropTypes.object.isRequired,
   rows: PropTypes.array,
   sortingColumns: PropTypes.object,
   columns: PropTypes.array,
@@ -413,7 +447,9 @@ ParameterSelection.propTypes = {
   cancelEditParameter: PropTypes.func,
   changeEditParameter: PropTypes.func,
   loadParameterSelection: PropTypes.func,
-  selectedApp: PropTypes.string,
+  loadForemanData: PropTypes.func,
+  appDefinition: PropTypes.object,
+  hostgroupId: PropTypes.number,
 };
 
 export default ParameterSelection;

@@ -30,3 +30,11 @@ export const isInstance = (mode) => {
   return (isNewInstance(mode) || isEditInstance(mode))
 }
 
+export const transformForemanData = (fdata) => {
+  if (fdata === undefined) {
+    return "";
+  }
+  var result = {};
+  fdata.map(item => result[item.id] = item.name)
+  return (result);
+}

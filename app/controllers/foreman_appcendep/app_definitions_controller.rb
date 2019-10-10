@@ -12,7 +12,12 @@ module ForemanAppcendep
       @app_definitions = resource_base.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
     end
 
+    def read_hostgroups
+      @hostgroups = Hostgroup.all.map { |elem| { elem.id => elem.name } }.reduce({}) { |h, v| h.merge v }
+    end
+
     def new
+      read_hostgroups
       @app_definition = AppDefinition.new
     end
 
@@ -25,7 +30,9 @@ module ForemanAppcendep
       end
     end
 
-    def edit; end
+    def edit
+      read_hostgroups
+    end
 
     def update
       if @app_definition.update(app_definition_params)

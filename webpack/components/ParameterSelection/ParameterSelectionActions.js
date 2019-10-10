@@ -25,12 +25,6 @@ import {
 } from './ParameterSelectionHelper';
 
 import {
-  PUPPET_ENV_REQUEST,
-  PUPPET_ENV_SUCCESS,
-  PUPPET_ENV_FAILURE,
-  LIFECYCLE_ENV_REQUEST,
-  LIFECYCLE_ENV_SUCCESS,
-  LIFECYCLE_ENV_FAILURE,
   INIT_PARAMETER_SELECTION,
   PARAMETER_DELETE,
   PARAMETER_ADD,
@@ -42,10 +36,14 @@ import {
   LOAD_PARAMETER_SELECTION_REQUEST,
   LOAD_PARAMETER_SELECTION_SUCCESS,
   LOAD_PARAMETER_SELECTION_FAILURE,
+  LOAD_FOREMAN_DATA_REQUEST,
+  LOAD_FOREMAN_DATA_SUCCESS,
+  LOAD_FOREMAN_DATA_FAILURE,
 } from './ParameterSelectionConstants';
 
 export const initParameterSelection = (
   mode,
+  appDefinition,
   parameters,
   sortingFormatter,
   sortableTransform,
@@ -61,6 +59,8 @@ export const initParameterSelection = (
     }
   };
   initialState.sortingDisabled = false;
+
+  initialState.appDefinition = appDefinition;
 
   var valueLabel = 'Value';
   if (isDefinition(mode)) {
@@ -170,62 +170,21 @@ export const initParameterSelection = (
       }
     }
   ];
-  initialState.rows = parameters;
+
+  if ((isNewDefinition(mode)) || (isNewInstance(mode))) {
+    initialState.rows = [];
+  } else if ((isEditDefinition(mode)) || (isEditInstance(mode))) {
+    initialState.rows = parameters;
+    initialState.hostgroupId = appDefinition.hostgroup_id;
+  } else {
+    // FIXME: should never ever happen
+  }
 
   dispatch({
     type: INIT_PARAMETER_SELECTION,
     payload: initialState,
   });
 }
-
-export const getPuppetEnvironments = (
-  url,
-  pagination,
-  search
-) => dispatch => {
-  dispatch({ type: PUPPET_ENV_REQUEST });
-
-  const params = {
-    ...propsToSnakeCase(pagination || {}),
-    ...(search || {})
-  };
-
-  return api
-    .get(url, {}, params)
-    .then(({ data }) =>
-      dispatch({
-        type: PUPPET_ENV_SUCCESS,
-        payload: Object.assign(...data.results.map(item => ({[item["id"]]: item["name"]})))
-      })
-    )
-    .catch(error => dispatch(errorHandler(PUPPET_ENV_FAILURE, error)));
-};
-
-export const getLifecycleEnvironments = (
-  url,
-  organization,
-  pagination,
-  search
-) => dispatch => {
-  dispatch({ type: LIFECYCLE_ENV_REQUEST });
-
-  // TODO: handle organization
-
-  const params = {
-    ...propsToSnakeCase(pagination || {}),
-    ...(search || {})
-  };
-
-  return api
-    .get(url, {}, params)
-    .then(({ data }) =>
-      dispatch({
-        type: LIFECYCLE_ENV_SUCCESS,
-        payload: Object.assign(...data.results.map(item => ({[item["id"]]: item["name"]})))
-      })
-    )
-    .catch(error => dispatch(errorHandler(LIFECYCLE_ENV_FAILURE, error)));
-};
 
 const errorHandler = (msg, err) => {
   const error = {
@@ -303,5 +262,24 @@ export const loadParameterSelection = (
       })
     )
     .catch(error => dispatch(errorHandler(LOAD_PARAMETER_SELECTION_FAILURE, error)));
+};
+
+export const loadForemanData = (
+  url,
+  hostgroupId
+) => dispatch => {
+  dispatch({ type: LOAD_FOREMAN_DATA_REQUEST });
+
+  var realUrl = url.replace("__id__", hostgroupId);
+
+  return api
+    .get(realUrl, {}, {})
+    .then(({ data }) =>
+      dispatch({
+        type: LOAD_FOREMAN_DATA_SUCCESS,
+        payload: data,
+      })
+    )
+    .catch(error => dispatch(errorHandler(LOAD_FOREMAN_DATA_FAILURE, error)));
 };
 

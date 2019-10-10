@@ -6,10 +6,10 @@ const parameterState = state => state.foremanAppcendep.parameterSelectionParamet
 
 export const selectLoading = state => parameterState(state).loading;
 export const selectEditMode = state => parameterState(state).editMode;
-export const selectPuppetEnv = state => parameterState(state).puppetEnv;
-export const selectLifecycleEnv = state => parameterState(state).lifecycleEnv;
+export const selectForemanData = state => parameterState(state).foremanData;
 export const selectRows = state => parameterState(state).rows;
 export const selectSortingColumns = state => parameterState(state).sortingColumns;
 export const selectColumns = state => parameterState(state).columns;
 export const selectSortingDisabled = state => parameterState(state).sortingDisabled;
-export const selectSelectedApp = state => parameterState(state).selectedApp;
+export const selectAppDefinition = state => parameterState(state).appDefinition;
+export const selectHostgroupId = state => parameterState(state).hostgroupId;

@@ -2,15 +2,21 @@
 
 <%
     json = {
-      "puppetEnvUrl": api_environments_path,
-      "lifecycleEnvUrl": api_environments_path,
-      "lifecycleEnvOrganization": 'ATIX',
+      "organization": current_organization,
+      "location": current_location,
+      "hostgroups": @hostgroups,
+      "loadForemanDataUrl": ui_appcendep_fdata_path("__id__")
     }
-    
+
     if @app_definition.name.empty?
       json["mode"] = "newDefinition"
     else
       json["mode"] = "editDefinition"
+      json["appDefinition"] = {
+        "id": @app_definition.id,
+        "name": @app_definition.name,
+        "hostgroup_id": @app_definition.hostgroup_id,
+      }
       json["parameters"] = JSON.parse(@app_definition.parameters)
     end
 
@@ -26,9 +32,6 @@
     <div class="tab-pane active" id="primary">
       <%= text_f f, :name %>
       <%= text_f f, :description %>
-      <%= select_f f, :hostgroup_id, accessible_resource(@app_definition, :hostgroup, :title), :id, :to_label,
-        { :include_blank => false},
-        {:label => _("Host Group"), :help_inline => :indicator } %>
 
       <div id='param-selection'></div>
       <%=  mount_react_component('ParameterSelection', "#param-selection", json.to_json) %>

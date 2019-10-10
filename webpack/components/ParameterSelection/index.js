@@ -7,25 +7,25 @@ import * as ParameterSelectionActions from './ParameterSelectionActions';
 import {
   selectLoading,
   selectEditMode,
-  selectPuppetEnv,
-  selectLifecycleEnv,
+  selectForemanData,
   selectRows,
   selectSortingColumns,
   selectColumns,
   selectSortingDisabled,
-  selectSelectedApp,
+  selectAppDefinition,
+  selectHostgroupId,
 } from './ParameterSelectionSelectors';
 
 const mapStateToProps = state => ({
   loading: selectLoading(state),
   editMode: selectEditMode(state),
-  puppetEnv: selectPuppetEnv(state),
-  lifecycleEnv: selectLifecycleEnv(state),
+  foremanData: selectForemanData(state),
   rows: selectRows(state),
   sortingColumns: selectSortingColumns(state),
   columns: selectColumns(state),
   sortingDisabled: selectSortingDisabled(state),
-  selectedApp: selectSelectedApp(state),
+  appDefinition: selectAppDefinition(state),
+  hostgroupId: selectHostgroupId(state),
 });
 
 const mapDispatchToProps = dispatch =>

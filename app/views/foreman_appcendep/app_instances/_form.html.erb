@@ -4,23 +4,23 @@
     if @app_instance.app_definition_id.blank?
       json = {
         "mode": "newInstance",
+        "organization": current_organization,
+        "location": current_location,
         "applications": @applications,
-        "puppetEnvUrl": api_environments_path,
-        "lifecycleEnvUrl": api_environments_path,
-        "lifecycleEnvOrganization": 'ATIX',
-        "loadParameterSelectionUrl": ui_app_definition_path("__id__")
+        "loadParameterSelectionUrl": ui_appcendep_app_path("__id__"),
+        "loadForemanDataUrl": ui_appcendep_fdata_path("__id__"),
       }
     else
       json = {
         "mode": "editInstance",
+        "organization": current_organization,
+        "location": current_location,
         "appDefinition": {
-          "id": @app_instance.app_definition_id,
-          "name": @applications[@app_instance.app_definition_id],
+          "id": @app_instance.app_definition.id,
+          "name": @app_instance.app_definition.name,
+          "hostgroup_id": @app_instance.app_definition.hostgroup_id,
         },
         "parameters": JSON.parse(@app_instance.parameters),
-        "puppetEnvUrl": api_environments_path,
-        "lifecycleEnvUrl": api_environments_path,
-        "lifecycleEnvOrganization": 'ATIX',
       }
     end
 %>

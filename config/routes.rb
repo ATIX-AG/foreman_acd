@@ -18,17 +18,8 @@ Rails.application.routes.draw do
       end
     end
 
-    constraints(:id => /[\w\.-]+/) do
-      resources :ui_app_definitions, :only => [:show]
-    end
+    get 'ui_appcendep_app/:id', to: 'ui_appcendep#app', constraints: { id: /[\w\.-]+/ }, as: :ui_appcendep_app
+    get 'ui_appcendep_fdata/:id', to: 'ui_appcendep#fdata', constraints: { id: /[\w\.-]+/ }, as: :ui_appcendep_fdata
 
-    scope :api, :path => '/api', :defaults => { :format => 'json' } do
-      scope '(:apiv)', :defaults => { :apiv => 'v2' }, :apiv => /v1|v2/, :constraints => ApiConstraints.new(:version => 2) do
-        constraints(:id => /[\w\.-]+/) do
-          resources :app_definitions, :only => [:show, :index, :create, :update, :destroy], :controller => 'foreman_appcendep/api/v2/app_definitions'
-          resources :app_instances, :only => [:show, :index, :create, :update, :destroy], :controller => 'foreman_appcendep/api/v2/app_instances'
-        end
-      end
-    end
   end
 end
