@@ -1,6 +1,7 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
+import './ParameterSelection.scss';
 import ParameterSelection from './ParameterSelection';
 import * as ParameterSelectionActions from './ParameterSelectionActions';
 

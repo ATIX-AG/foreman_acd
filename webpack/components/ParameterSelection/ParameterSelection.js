@@ -6,6 +6,7 @@ import { orderBy } from 'lodash';
 import * as resolve from 'table-resolver';
 import Select from 'foremanReact/components/common/forms/Select';
 import store from 'foremanReact/redux';
+
 import {
   isNewDefinition,
   isEditDefinition,
