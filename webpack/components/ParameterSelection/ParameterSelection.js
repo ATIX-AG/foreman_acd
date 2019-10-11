@@ -14,6 +14,7 @@ import {
   isEditInstance,
   isInstance,
   transformForemanData,
+  transformParameterTypes,
 } from './ParameterSelectionHelper';
 
 import {
@@ -236,22 +237,24 @@ class ParameterSelection extends React.Component {
         switch (additionalData.property) {
           case 'type':
             if (additionalData.rowData.newEntry === true) {
+              //FIXME: this would delete the currently selected option
+              //return inlineEditFormatterImpl.renderEditSelect(value, additionalData, transformParameterTypes(PARAMETER_TYPES, this.props.rows.map(item => item["type"]).filter(item => item != 'hostparam')));
               return inlineEditFormatterImpl.renderEditSelect(value, additionalData, PARAMETER_TYPES);
             }
             return inlineEditFormatterImpl.renderValue(value, additionalData)
           case 'value':
             switch (additionalData.rowData.type) {
               case 'computeprofile':
-                return inlineEditFormatterImpl.renderEditSelect(value, additionalData, transformForemanData(this.props.foremanData['computeprofiles']))
+                return inlineEditFormatterImpl.renderEditSelect(value, additionalData, transformForemanData(this.props.foremanData['computeprofiles']));
               case 'domain':
-                return inlineEditFormatterImpl.renderEditSelect(value, additionalData, transformForemanData(this.props.foremanData['domains']))
+                return inlineEditFormatterImpl.renderEditSelect(value, additionalData, transformForemanData(this.props.foremanData['domains']));
               case 'lifecycleenv':
                 // FIXME
-                return inlineEditFormatterImpl.renderEditSelect(value, additionalData, transformForemanData(this.props.foremanData['environments']))
+                return inlineEditFormatterImpl.renderEditSelect(value, additionalData, transformForemanData(this.props.foremanData['environments']));
               case 'puppetenv':
-                return inlineEditFormatterImpl.renderEditSelect(value, additionalData, transformForemanData(this.props.foremanData['environments']))
+                return inlineEditFormatterImpl.renderEditSelect(value, additionalData, transformForemanData(this.props.foremanData['environments']));
               case 'ptable':
-                return inlineEditFormatterImpl.renderEditSelect(value, additionalData, transformForemanData(this.props.foremanData['ptables']))
+                return inlineEditFormatterImpl.renderEditSelect(value, additionalData, transformForemanData(this.props.foremanData['ptables']));
               case 'text':
               default:
                 return inlineEditFormatterImpl.renderEditText(value, additionalData);

@@ -88,14 +88,14 @@ export const initParameterSelection = (
       }
     },
     {
-      property: 'type',
+      property: 'description',
       header: {
-        label: 'Type',
+        label: 'Description',
         props: {
           index: 1,
           sort: true,
           style: {
-            width: '20%'
+            width: '25%'
           }
         },
         transforms: [sortableTransform],
@@ -110,14 +110,14 @@ export const initParameterSelection = (
       }
     },
     {
-      property: 'value',
+      property: 'type',
       header: {
-        label: valueLabel,
+        label: 'Type',
         props: {
           index: 2,
           sort: true,
           style: {
-            width: '25%'
+            width: '20%'
           }
         },
         transforms: [sortableTransform],
@@ -128,13 +128,13 @@ export const initParameterSelection = (
         props: {
           index: 2
         },
-        formatters: [inlineEditFormatter]
+        formatters: [isDefinition(mode) ? inlineEditFormatter : tableCellFormatter]
       }
     },
     {
-      property: 'description',
+      property: 'value',
       header: {
-        label: 'Description',
+        label: valueLabel,
         props: {
           index: 3,
           sort: true,
@@ -150,7 +150,7 @@ export const initParameterSelection = (
         props: {
           index: 3
         },
-        formatters: [isDefinition(mode) ? inlineEditFormatter : tableCellFormatter]
+        formatters: [inlineEditFormatter]
       }
     },
     {

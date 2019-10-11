@@ -1,3 +1,7 @@
+import {
+  cloneDeep,
+} from 'lodash';
+
 export const isNewDefinition = (mode) => {
   if (mode == "newDefinition")
     return true;
@@ -37,4 +41,10 @@ export const transformForemanData = (fdata) => {
   var result = {};
   fdata.map(item => result[item.id] = item.name)
   return (result);
+}
+
+export const transformParameterTypes = (options, alreadyUsed) => {
+  var newOptions = cloneDeep(options);
+  alreadyUsed.forEach(item => delete newOptions[item])
+  return newOptions;
 }
