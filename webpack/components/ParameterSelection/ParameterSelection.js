@@ -115,25 +115,6 @@ class ParameterSelection extends React.Component {
     );
   }
 
-  renderRailsParameters(mode) {
-    var id = 'foreman_appcendep_app_definition_parameters'
-    var name = 'foreman_appcendep_app_definition[parameters]'
-
-    if (isInstance(mode)) {
-      id = 'foreman_appcendep_app_instance_parameters'
-      name = 'foreman_appcendep_app_instance[parameters]'
-    }
-
-    return (
-      <input
-        value={JSON.stringify(this.props.rows)}
-        id={id}
-        name={name}
-        type="hidden"
-      />
-    );
-  }
-
   componentDidMount() {
     const {
       data: { mode, appDefinition, location, organization, loadForemanDataUrl, parameters },
@@ -342,9 +323,9 @@ class ParameterSelection extends React.Component {
           <div className="form-group">
             <label className="col-md-2 control-label">Application Definition</label>
             <div className="col-md-4">
-              {isNewInstance(mode) && this.renderSelectApplication(applications, loadParameterSelectionUrl, loadParameterSelection, appDefinition) }
-              {isEditInstance(mode) && this.renderShowDivText(appDefinition.name) }
-              {isInstance(mode) && this.renderRailsInputHidden('app_instance', 'app_definition_id', appDefinition.id) }
+              {isNewInstance(mode) && this.renderSelectApplication(applications, loadParameterSelectionUrl, loadParameterSelection, appDefinition)}
+              {isEditInstance(mode) && this.renderShowDivText(appDefinition.name)}
+              {isInstance(mode) && this.renderRailsInputHidden('app_instance', 'app_definition_id', appDefinition.id)}
             </div>
           </div>
         </div>
@@ -396,7 +377,7 @@ class ParameterSelection extends React.Component {
             </Table.PfProvider>
             {this.renderAddButton(mode, addParameter)}
           </div>
-          {this.renderRailsParameters(mode)}
+          {this.renderRailsInputHidden(isDefinition(mode) ? 'app_definition' : 'app_instance', 'parameters', JSON.stringify(this.props.rows))}
         </div>
       </div>
     );
