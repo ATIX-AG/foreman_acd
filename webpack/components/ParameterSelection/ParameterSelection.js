@@ -40,10 +40,10 @@ class ParameterSelection extends React.Component {
 
   renderAddButton(mode, addParameter) {
     if (isInstance(mode))
-      return ("");
+      return null;
 
     return (
-      <Button bsStyle="default" onClick={() => addParameter()}>
+      <Button bsStyle="default" disabled={ this.props.editMode } onClick={() => addParameter()}>
         <Icon type="fa" name="plus" />
       </Button>
     );
@@ -51,7 +51,7 @@ class ParameterSelection extends React.Component {
 
   renderDeleteButton(mode, deleteParameter, additionalData) {
     if (isInstance(mode))
-      return ("");
+      return null;
 
     return (
       <span>
