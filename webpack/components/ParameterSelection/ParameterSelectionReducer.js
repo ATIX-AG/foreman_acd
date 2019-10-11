@@ -138,7 +138,14 @@ const parameterSelectionParameters = (state = initialState, action) => {
       return state.merge({ error: payload.error, loading: false });
     }
     case LOAD_FOREMAN_DATA_REQUEST: {
-      return state.set('loading', true);
+      if (payload.clearRows === true) {
+        return state.merge({
+          loading: true,
+          rows: [],
+        });
+      } else {
+        return state.set('loading', true);
+      }
     }
     case LOAD_FOREMAN_DATA_SUCCESS: {
       return state.merge({

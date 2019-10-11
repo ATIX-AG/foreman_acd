@@ -82,7 +82,7 @@ class ParameterSelection extends React.Component {
     return (
       <Select
          value={hostgroupId.toString()}
-         onChange={e => loadForemanData(url, e.target.value) }
+         onChange={e => loadForemanData(url, e.target.value, true) }
          options={hostgroups}
          allowClear
          key="key"
@@ -104,9 +104,9 @@ class ParameterSelection extends React.Component {
     );
   }
 
-  renderRailsAppDefinitionName(app_name) {
+  renderShowDivText(text) {
     return (
-      <div>{app_name}</div>
+      <div>{text}</div>
     );
   }
 
@@ -334,7 +334,8 @@ class ParameterSelection extends React.Component {
           <div className="form-group">
             <label className="col-md-2 control-label">Host Group</label>
             <div className="col-md-4">
-              {this.renderSelectHostgroup(hostgroups, loadForemanDataUrl, loadForemanData, hostgroupId) }
+              {isNewDefinition(mode) && this.renderSelectHostgroup(hostgroups, loadForemanDataUrl, loadForemanData, hostgroupId) }
+              {isEditDefinition(mode) && this.renderShowDivText(hostgroups[hostgroupId]) }
               {this.renderRailsInputHidden('app_definition', 'hostgroup_id', hostgroupId) }
             </div>
           </div>
@@ -345,8 +346,8 @@ class ParameterSelection extends React.Component {
             <label className="col-md-2 control-label">Application Definition</label>
             <div className="col-md-4">
               {isNewInstance(mode) && this.renderSelectApplication(applications, loadParameterSelectionUrl, loadParameterSelection, appDefinition) }
+              {isEditInstance(mode) && this.renderShowDivText(appDefinition.name) }
               {isInstance(mode) && this.renderRailsInputHidden('app_instance', 'app_definition_id', appDefinition.id) }
-              {isEditInstance(mode) && this.renderRailsAppDefinitionName(appDefinition.name) }
             </div>
           </div>
         </div>

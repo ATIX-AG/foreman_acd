@@ -266,9 +266,10 @@ export const loadParameterSelection = (
 
 export const loadForemanData = (
   url,
-  hostgroupId
+  hostgroupId,
+  clearRows = false,
 ) => dispatch => {
-  dispatch({ type: LOAD_FOREMAN_DATA_REQUEST });
+  dispatch({ type: LOAD_FOREMAN_DATA_REQUEST, payload: { clearRows: clearRows } });
 
   var realUrl = url.replace("__id__", hostgroupId);
 
