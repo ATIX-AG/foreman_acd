@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import * as sort from 'sortabular';
-import { compose } from 'recompose';
 import { orderBy } from 'lodash';
 import * as resolve from 'table-resolver';
 import Select from 'foremanReact/components/common/forms/Select';
@@ -277,6 +276,8 @@ class ParameterSelection extends React.Component {
     );
   }
 
+  compose = (...funcs) => funcs.reduce((a, b) => (...args) => a(b(...args)), arg => arg)
+
   render() {
     const {
       data: { mode, applications, hostgroups, loadParameterSelectionUrl, loadForemanDataUrl },
@@ -296,7 +297,7 @@ class ParameterSelection extends React.Component {
 
     var sortedRows;
     if (sortingDisabled === false) {
-      sortedRows = compose(
+      sortedRows = this.compose(
         sort.sorter({
           columns,
           sortingColumns,

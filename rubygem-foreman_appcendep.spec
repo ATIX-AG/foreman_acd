@@ -49,6 +49,12 @@ BuildRequires: npm(redux) >= 3.7.2
 BuildRequires: npm(redux) < 4.0.0
 BuildRequires: npm(redux-thunk) >= 2.3.0
 BuildRequires: npm(redux-thunk) < 3.0.0
+BuildRequires: npm(reactabular-table) >= 8.14.0
+BuildRequires: npm(reactabular-table) < 9.0.0
+BuildRequires: npm(sortabular) >= 1.5.1
+BuildRequires: npm(sortabular) < 2.0.0
+BuildRequires: npm(table-resolver) >= 3.2.0
+BuildRequires: npm(table-resolver) < 4.0.0
 # end package.json devDependencies BuildRequires
 
 # start package.json dependencies BuildRequires
@@ -135,8 +141,8 @@ cp -pa .%{gem_dir}/* \
 %exclude %{gem_cache}
 %{gem_spec}
 %{foreman_bundlerd_plugin}
-%{foreman_apipie_cache_foreman}
-%{foreman_apipie_cache_plugin}
+#%{foreman_apipie_cache_foreman}
+#%{foreman_apipie_cache_plugin}
 %{foreman_assets_plugin}
 %{foreman_webpack_plugin}
 %{foreman_webpack_foreman}
