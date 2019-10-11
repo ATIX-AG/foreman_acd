@@ -1,12 +1,10 @@
 # frozen_string_literal: true
 
 require File.expand_path('lib/foreman_appcendep/version', __dir__)
-require 'active_support/time'
 
 Gem::Specification.new do |s|
   s.name        = 'foreman_appcendep'
   s.version     = ForemanAppcendep::VERSION
-  s.date        = Time.current.to_date.to_s
   s.license     = 'GPL-3.0'
   s.authors     = ['ATIX AG']
   s.email       = ['info@atix.de']
