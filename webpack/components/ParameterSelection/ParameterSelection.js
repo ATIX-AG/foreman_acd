@@ -54,7 +54,7 @@ class ParameterSelection extends React.Component {
     );
   }
 
-  renderDeleteButton(mode, deleteParameter, additionalData) {
+  renderDeleteButton(mode, deleteParameter, additionalData, disabled=false) {
     if (isInstance(mode))
       return null;
 
@@ -63,6 +63,7 @@ class ParameterSelection extends React.Component {
       &nbsp;
       <Button
         bsStyle="default"
+        disabled={disabled}
         onClick={() => window.confirm("Are you sure you wish to delete this item?") && deleteParameter(additionalData) }
       >
         <Icon type="pf" name="delete" />
@@ -156,6 +157,7 @@ class ParameterSelection extends React.Component {
           <Button bsStyle="default" disabled>
             <Icon type="pf" name="edit" />
           </Button>
+          {this.renderDeleteButton(mode, deleteParameter, additionalData, true)}
         </td>
       )
     });
