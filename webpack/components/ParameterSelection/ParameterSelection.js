@@ -110,6 +110,24 @@ class ParameterSelection extends React.Component {
     );
   }
 
+  renderRailsParameters(mode) {
+    var id = 'foreman_appcendep_app_definition_parameters'
+    var name = 'foreman_appcendep_app_definition[parameters]'
+
+    if (isInstance(mode)) {
+      id = 'foreman_appcendep_app_instance_parameters'
+      name = 'foreman_appcendep_app_instance[parameters]'
+    }
+
+    return (
+      <input
+        value={JSON.stringify(this.props.rows)}
+        id={id}
+        name={name}
+        type="hidden"
+      />
+    );
+  }
 
   componentDidMount() {
     const {
@@ -278,25 +296,6 @@ class ParameterSelection extends React.Component {
     );
   }
 
-  renderRailsParameters(mode) {
-    var id = 'foreman_appcendep_app_definition_parameters'
-    var name = 'foreman_appcendep_app_definition[parameters]'
-
-    if (isInstance(mode)) {
-      id = 'foreman_appcendep_app_instance_parameters'
-      name = 'foreman_appcendep_app_instance[parameters]'
-    }
-
-    return (
-      <input
-        value={JSON.stringify(this.props.rows)}
-        id={id}
-        name={name}
-        type="hidden"
-      />
-    );
-  }
-
   render() {
     const {
       data: { mode, applications, hostgroups, loadParameterSelectionUrl, loadForemanDataUrl },
@@ -330,27 +329,27 @@ class ParameterSelection extends React.Component {
 
     return(
       <div>
-        {isInstance(mode) ? (
-          <div className="clearfix">
-            <div className="form-group">
-              <label className="col-md-2 control-label">Application Definition</label>
-              <div className="col-md-4">
-                {isNewInstance(mode) && this.renderSelectApplication(applications, loadParameterSelectionUrl, loadParameterSelection, appDefinition) }
-                {isInstance(mode) && this.renderRailsInputHidden('app_instance', 'app_definition_id', appDefinition.id) }
-                {isEditInstance(mode) && this.renderRailsAppDefinitionName(appDefinition.name) }
-              </div>
+        {isDefinition(mode) ? (
+        <div className="clearfix">
+          <div className="form-group">
+            <label className="col-md-2 control-label">Host Group</label>
+            <div className="col-md-4">
+              {this.renderSelectHostgroup(hostgroups, loadForemanDataUrl, loadForemanData, hostgroupId) }
+              {this.renderRailsInputHidden('app_definition', 'hostgroup_id', hostgroupId) }
             </div>
           </div>
+        </div>
         ) : (
-          <div className="clearfix">
-            <div className="form-group">
-              <label className="col-md-2 control-label">Host Group</label>
-              <div className="col-md-4">
-                {this.renderSelectHostgroup(hostgroups, loadForemanDataUrl, loadForemanData, hostgroupId) }
-                {this.renderRailsInputHidden('app_definition', 'hostgroup_id', hostgroupId) }
-              </div>
+        <div className="clearfix">
+          <div className="form-group">
+            <label className="col-md-2 control-label">Application Definition</label>
+            <div className="col-md-4">
+              {isNewInstance(mode) && this.renderSelectApplication(applications, loadParameterSelectionUrl, loadParameterSelection, appDefinition) }
+              {isInstance(mode) && this.renderRailsInputHidden('app_instance', 'app_definition_id', appDefinition.id) }
+              {isEditInstance(mode) && this.renderRailsAppDefinitionName(appDefinition.name) }
             </div>
           </div>
+        </div>
         )}
         <div className="clearfix">
           <div className="form-group">
