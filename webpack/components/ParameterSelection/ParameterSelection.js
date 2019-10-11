@@ -14,7 +14,6 @@ import {
   isEditInstance,
   isInstance,
   transformForemanData,
-  transformParameterTypes,
 } from './ParameterSelectionHelper';
 
 import {
@@ -237,9 +236,7 @@ class ParameterSelection extends React.Component {
         switch (additionalData.property) {
           case 'type':
             if (additionalData.rowData.newEntry === true) {
-              //FIXME: this would delete the currently selected option
-              //return inlineEditFormatterImpl.renderEditSelect(value, additionalData, transformParameterTypes(PARAMETER_TYPES, this.props.rows.map(item => item["type"]).filter(item => item != 'hostparam')));
-              return inlineEditFormatterImpl.renderEditSelect(value, additionalData, PARAMETER_TYPES);
+              return inlineEditFormatterImpl.renderEditSelect(value, additionalData, this.props.parameterTypes);
             }
             return inlineEditFormatterImpl.renderValue(value, additionalData)
           case 'value':
@@ -416,6 +413,7 @@ ParameterSelection.propTypes = {
   editMode: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
   foremanData: PropTypes.object.isRequired,
+  parameterTypes: PropTypes.object,
   rows: PropTypes.array,
   sortingColumns: PropTypes.object,
   columns: PropTypes.array,

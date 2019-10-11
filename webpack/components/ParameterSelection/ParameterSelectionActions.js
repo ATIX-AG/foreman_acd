@@ -22,10 +22,12 @@ import {
   isNewInstance,
   isEditInstance,
   isInstance,
+  filterUsedParameterTypes,
 } from './ParameterSelectionHelper';
 
 import {
   INIT_PARAMETER_SELECTION,
+  PARAMETER_TYPES,
   PARAMETER_DELETE,
   PARAMETER_ADD,
   PARAMETER_EDIT_ACTIVATE,
@@ -178,6 +180,12 @@ export const initParameterSelection = (
     initialState.hostgroupId = appDefinition.hostgroup_id;
   } else {
     // FIXME: should never ever happen
+  }
+
+  if (isNewDefinition(mode)) {
+    initialState.parameterTypes = PARAMETER_TYPES;
+  } else {
+    initialState.parameterTypes = filterUsedParameterTypes(PARAMETER_TYPES, parameters);
   }
 
   dispatch({

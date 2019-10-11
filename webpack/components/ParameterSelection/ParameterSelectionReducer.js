@@ -6,10 +6,15 @@ import {
   findLastIndex,
 } from 'lodash';
 
+import {
+  filterUsedParameterTypes,
+} from './ParameterSelectionHelper';
+
 import * as sort from 'sortabular';
 
 import {
   INIT_PARAMETER_SELECTION,
+  PARAMETER_TYPES,
   PARAMETER_DELETE,
   PARAMETER_ADD,
   PARAMETER_EDIT_ACTIVATE,
@@ -51,16 +56,16 @@ const parameterSelectionParameters = (state = initialState, action) => {
       rows[index].backup = cloneDeep(rows[index]);
 
       return state.merge({
-        'editMode': true,
-        'sortingDisabled': true,
-        'rows': rows
+        editMode: true,
+        sortingDisabled: true,
+        rows: rows
       });
     }
     case PARAMETER_DELETE: {
-      return state.set(
-        'rows',
-        state.rows.filter(v => v.id !== payload.rowData.id)
-      )
+      return state.merge({
+        rows: state.rows.filter(v => v.id !== payload.rowData.id),
+        parameterTypes: filterUsedParameterTypes(PARAMETER_TYPES, rows),
+      })
     }
     case PARAMETER_EDIT_ACTIVATE: {
       const rows = cloneDeep(state.rows);
@@ -69,8 +74,8 @@ const parameterSelectionParameters = (state = initialState, action) => {
       rows[index].backup = cloneDeep(rows[index]);
 
       return state.merge({
-        'editMode': true,
-        'rows': rows
+        editMode: true,
+        rows: rows
       });
     }
     case PARAMETER_EDIT_CONFIRM: {
@@ -81,9 +86,10 @@ const parameterSelectionParameters = (state = initialState, action) => {
       delete rows[index].newEntry;
 
       return state.merge({
-        'editMode': false,
-        'sortingDisabled': false,
-        'rows': rows
+        editMode: false,
+        sortingDisabled: false,
+        parameterTypes: filterUsedParameterTypes(PARAMETER_TYPES, rows),
+        rows: rows
       });
     }
     case PARAMETER_EDIT_CHANGE: {
@@ -106,9 +112,9 @@ const parameterSelectionParameters = (state = initialState, action) => {
       }
 
       return state.merge({
-        'editMode': false,
-        'sortingDisabled': false,
-        'rows': rows
+        editMode: false,
+        sortingDisabled: false,
+        rows: rows
       });
     }
     case PARAMETER_SORT: {
