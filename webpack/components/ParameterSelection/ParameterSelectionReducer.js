@@ -122,6 +122,9 @@ const parameterSelectionParameters = (state = initialState, action) => {
         })
       );
     }
+    case LOAD_PARAMETER_SELECTION_FAILURE: {
+      return state.merge({ error: payload.error, loading: false });
+    }
     case LOAD_PARAMETER_SELECTION_REQUEST: {
       return state.set('loading', true);
     }
@@ -135,17 +138,23 @@ const parameterSelectionParameters = (state = initialState, action) => {
       });
     }
     case LOAD_FOREMAN_DATA_FAILURE: {
-      return state.merge({ error: payload.error, loading: false });
+      return state.merge({
+        error: payload.error,
+        loading: false
+      });
     }
     case LOAD_FOREMAN_DATA_REQUEST: {
+      var newState = {
+        foremanData: {},
+        hostgroupId: -1,
+        loading: true
+      };
+
       if (payload.clearRows === true) {
-        return state.merge({
-          loading: true,
-          rows: [],
-        });
-      } else {
-        return state.set('loading', true);
+        Object.assign(newState, { rows: [] });
       }
+
+      return state.merge(newState);
     }
     case LOAD_FOREMAN_DATA_SUCCESS: {
       return state.merge({
@@ -153,9 +162,6 @@ const parameterSelectionParameters = (state = initialState, action) => {
         foremanData: payload,
         hostgroupId: payload.hostgroup_id,
       });
-    }
-    case LOAD_PARAMETER_SELECTION_FAILURE: {
-      return state.merge({ error: payload.error, loading: false });
     }
     default:
       return state;

@@ -16,3 +16,14 @@ export const LOAD_FOREMAN_DATA_REQUEST = 'LOAD_FOREMAN_DATA_REQUEST';
 export const LOAD_FOREMAN_DATA_SUCCESS = 'LOAD_FOREMAN_DATA_SUCCESS';
 export const LOAD_FOREMAN_DATA_FAILURE = 'LOAD_FOREMAN_DATA_FAILURE';
 
+export const PARAMETER_TYPES = {
+  computeprofile: 'Compute profile',
+  domain: 'Domain',
+  hostname: 'Hostname',
+  hostparam: 'Host parameter',
+  ip: 'IP',
+  lifecycleenv: 'Lifecycle environment',
+  password: 'Root password',
+  ptable: 'Partition table',
+  puppetenv: 'Puppet environment',
+};

@@ -17,6 +17,10 @@ import {
 } from './ParameterSelectionHelper';
 
 import {
+  PARAMETER_TYPES,
+} from './ParameterSelectionConstants';
+
+import {
   Icon,
   Button,
   Table,
@@ -32,6 +36,7 @@ const theme = {
   base00: 'rgba(0, 0, 0, 0)',
 };
 
+
 class ParameterSelection extends React.Component {
 
   constructor(props) {
@@ -43,7 +48,7 @@ class ParameterSelection extends React.Component {
       return null;
 
     return (
-      <Button bsStyle="default" disabled={ this.props.editMode } onClick={() => addParameter()}>
+      <Button bsStyle="default" disabled={ this.props.editMode || this.props.hostgroupId <= 0 } onClick={() => addParameter()}>
         <Icon type="fa" name="plus" />
       </Button>
     );
@@ -241,6 +246,8 @@ class ParameterSelection extends React.Component {
               prettyValue = transformForemanData(this.props.foremanData['environments'])[value]
               break;
           }
+        } else if (additionalData.property == 'type') {
+          prettyValue = PARAMETER_TYPES[value];
         }
         return inlineEditFormatterImpl.renderValue(prettyValue, additionalData)
       },
@@ -248,17 +255,7 @@ class ParameterSelection extends React.Component {
         switch (additionalData.property) {
           case 'type':
             if (additionalData.rowData.newEntry === true) {
-              return inlineEditFormatterImpl.renderEditSelect(value, additionalData, {
-                computeprofile: 'Compute profile',
-                domain: 'Domain',
-                hostname: 'Hostname',
-                hostparam: 'Host parameter',
-                ip: 'IP',
-                lifecycleenv: 'Lifecycle environment',
-                password: 'Root password',
-                ptable: 'Partition table',
-                puppetenv: 'Puppet environment',
-              })
+              return inlineEditFormatterImpl.renderEditSelect(value, additionalData, PARAMETER_TYPES);
             }
             return inlineEditFormatterImpl.renderValue(value, additionalData)
           case 'value':
