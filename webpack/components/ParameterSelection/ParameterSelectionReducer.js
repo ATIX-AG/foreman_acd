@@ -76,6 +76,7 @@ const parameterSelectionParameters = (state = initialState, action) => {
 
       return state.merge({
         editMode: true,
+        sortingDisabled: true,
         rows: rows
       });
     }
