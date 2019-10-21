@@ -62,8 +62,9 @@ const parameterSelectionParameters = (state = initialState, action) => {
       });
     }
     case PARAMETER_DELETE: {
+      var rows = state.rows.filter(v => v.id !== payload.rowData.id);
       return state.merge({
-        rows: state.rows.filter(v => v.id !== payload.rowData.id),
+        rows: rows,
         parameterTypes: filterUsedParameterTypes(PARAMETER_TYPES, rows),
       })
     }
