@@ -87,21 +87,40 @@ module ForemanAppcendep
       result['hostgroup_id'] = @app_instance.app_definition.hostgroup_id
       JSON.parse(@app_instance.parameters).each do |param|
         case param['type']
-        when 'lifecycleenv'
-          # TODO: need to run on a host with katello
-          #result['lifecycle_environment_id'] = param['value']
-        when 'puppetenv'
-          result['environment_id'] = param['value']
+
+        when 'computeprofile'
+          result['compute_profile_id'] = param['value']
+
+        when 'domain'
+          result['domain_id'] = param['value']
+
         when 'hostname'
           result['name'] = param['value']
+
         when 'hostparam'
           result['host_parameters_attributes'].push({:name => param['name'], :value => param['value']})
-        when 'password'
-          result['root_pass'] = param['value']
+
         when 'ip'
           result['ip'] = param['value']
+
+        when 'lifecycleenv'
+          result['content_facet_attributes'] = { 'lifecycle_environment_id' => param['value'] }
+
+        when 'ptable'
+          result['ptable_id'] = param['value']
+
+        when 'puppetenv'
+          result['environment_id'] = param['value']
+
+        when 'password'
+          result['root_pass'] = param['value']
+
         end
       end
+
+      # Print to log for debugging purposes
+      logger.info("Host creation parameters:\n#{result}\n")
+
       return result
     end
   end
