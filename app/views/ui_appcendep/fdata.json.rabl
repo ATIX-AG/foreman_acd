@@ -7,9 +7,9 @@ child :environments => :environments do
   extends "ui_appcendep/environment"
 end
 
-#child :lifecycle_environments => :lifecycle_environments do
-#  extends "ui_appcendep/lifecycle_environment"
-#end
+child :lifecycle_environments => :lifecycle_environments do
+  extends "ui_appcendep/lifecycle_environment"
+end
 
 child :domains => :domains do
   extends "ui_appcendep/domain"

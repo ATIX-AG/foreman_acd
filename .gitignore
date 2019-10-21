@@ -12,6 +12,7 @@ bundler.d/*.local.rb
 .ruby-version*
 .ruby-gemset*
 node_modules
+package-lock.json
 locale/*/*.edit.po
 locale/*/*.po.time_stamp
 locale/*/*.pox

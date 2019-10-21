@@ -182,7 +182,7 @@ export const initParameterSelection = (
     // FIXME: should never ever happen
   }
 
-  if (isNewDefinition(mode)) {
+  if (isNewDefinition(mode) || isNewInstance(mode)) {
     initialState.parameterTypes = PARAMETER_TYPES;
   } else {
     initialState.parameterTypes = filterUsedParameterTypes(PARAMETER_TYPES, parameters);

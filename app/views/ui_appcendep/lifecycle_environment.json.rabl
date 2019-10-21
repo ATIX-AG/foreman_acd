@@ -1,2 +1,2 @@
-collection @Katello::KTEnvironments
+collection @lifecycle_environments
 attributes :id, :name

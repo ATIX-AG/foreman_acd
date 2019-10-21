@@ -220,7 +220,7 @@ class ParameterSelection extends React.Component {
               prettyValue = transformForemanData(this.props.foremanData['domains'])[value]
               break;
             case 'lifecycleenv':
-              prettyValue = transformForemanData(this.props.foremanData['environments'])[value]
+              prettyValue = transformForemanData(this.props.foremanData['lifecycle_environments'])[value]
               break;
             case 'ptable':
               prettyValue = transformForemanData(this.props.foremanData['ptables'])[value]
@@ -248,8 +248,7 @@ class ParameterSelection extends React.Component {
               case 'domain':
                 return inlineEditFormatterImpl.renderEditSelect(value, additionalData, transformForemanData(this.props.foremanData['domains']));
               case 'lifecycleenv':
-                // FIXME
-                return inlineEditFormatterImpl.renderEditSelect(value, additionalData, transformForemanData(this.props.foremanData['environments']));
+                return inlineEditFormatterImpl.renderEditSelect(value, additionalData, transformForemanData(this.props.foremanData['lifecycle_environments']));
               case 'puppetenv':
                 return inlineEditFormatterImpl.renderEditSelect(value, additionalData, transformForemanData(this.props.foremanData['environments']));
               case 'ptable':
@@ -276,6 +275,7 @@ class ParameterSelection extends React.Component {
     );
   }
 
+  // workaround because Recompose JS doesn't work -> webpack issues
   compose = (...funcs) => funcs.reduce((a, b) => (...args) => a(b(...args)), arg => arg)
 
   render() {

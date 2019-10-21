@@ -74,7 +74,8 @@ module ForemanAppcendep
 
     def hardcoded_params
       result = {}
-      # result['managed'] = true -> doesn't work right now as neccessary parameters are missing:
+      result['managed'] = true
+      #-> doesn't work right now as neccessary parameters are missing:
       # 2019-10-08T12:01:25 [W|app|c0cf3627] Not queueing Nic::Managed: ["MAC address can't be blank"]
       # 2019-10-08T12:01:25 [W|app|c0cf3627] Not queueing Host::Managed: ["Mac can't be blank"]
       result['host_parameters_attributes'] = Array.new

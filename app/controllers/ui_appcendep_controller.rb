@@ -16,14 +16,12 @@ class UiAppcendepController < ::Api::V2::BaseController
     hg = Hostgroup.find(hostgroup_id)
     fdata = OpenStruct.new({
       :environments => Environment.all,
+      :lifecycle_environments => Katello::KTEnvironment.all,
       :domains => Domain.all,
       :computeprofiles => ComputeProfile.all,
       :hostgroup_id => hg.id,
       :ptables => hg.operatingsystem.ptables,
     })
-
-    #:lifecycle_environments => Katello::KTEnvironment.all
-
     fdata
   end
 end
