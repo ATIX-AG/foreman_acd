@@ -48,12 +48,12 @@ const parameterSelectionParameters = (state = initialState, action) => {
 
       if ('rows' in state && state.rows !== undefined) {
         rows = cloneDeep(state.rows);
-        index = findLastIndex(rows, 'id') + 1;
+        index = Math.max(...rows.map(e => e.id)) + 1;
       }
 
-      const newRow = {id: index+1, name: "", description: '', type: '', value: '', newEntry: true };
+      const newRow = {id: index, name: "", description: '', type: '', value: '', newEntry: true };
+      newRow.backup = cloneDeep(newRow)
       rows.push(newRow);
-      rows[index].backup = cloneDeep(rows[index]);
 
       return state.merge({
         editMode: true,
