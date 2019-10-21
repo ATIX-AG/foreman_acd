@@ -16,6 +16,8 @@ export const LOAD_FOREMAN_DATA_REQUEST = 'LOAD_FOREMAN_DATA_REQUEST';
 export const LOAD_FOREMAN_DATA_SUCCESS = 'LOAD_FOREMAN_DATA_SUCCESS';
 export const LOAD_FOREMAN_DATA_FAILURE = 'LOAD_FOREMAN_DATA_FAILURE';
 
+// Make sure the object is sorted by value
+//   (Compute Profile -> Partition table -> Root password)
 export const PARAMETER_TYPES = {
   computeprofile: 'Compute profile',
   domain: 'Domain',
@@ -23,7 +25,7 @@ export const PARAMETER_TYPES = {
   hostparam: 'Host parameter',
   ip: 'IP',
   lifecycleenv: 'Lifecycle environment',
-  password: 'Root password',
   ptable: 'Partition table',
   puppetenv: 'Puppet environment',
+  password: 'Root password',
 };
