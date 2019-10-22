@@ -46,7 +46,7 @@ const parameterSelectionParameters = (state = initialState, action) => {
       var rows = [];
       var index = 0;
 
-      if ('rows' in state && state.rows !== undefined) {
+      if ('rows' in state && state.rows !== undefined && state.rows.length > 0) {
         rows = cloneDeep(state.rows);
         index = Math.max(...rows.map(e => e.id)) + 1;
       }
