@@ -60,7 +60,14 @@ module ForemanAppcendep
     end
 
     def deploy
-      @host = Host.new(set_host_params)
+      params = host_attributes(set_host_params)
+
+      # Print to log for debugging purposes
+      logger.info("Host creation parameters:\n#{params}\n")
+
+      @host = Host.new(params)
+      apply_compute_profile(@host)
+      @host.suggest_default_pxe_loader
       @host.save
       success _('Successfully initiated host creation')
     rescue => e
@@ -72,14 +79,45 @@ module ForemanAppcendep
 
     private
 
+    # Copied from foreman/app/controllers/api/v2/hosts_controller.rb
+    def apply_compute_profile(host)
+      host.apply_compute_profile(InterfaceMerge.new(:merge_compute_attributes => true))
+      host.apply_compute_profile(ComputeAttributeMerge.new)
+    end
+
+    # Copied from foreman/app/controllers/api/v2/hosts_controller.rb
+    def host_attributes(params, host = nil)
+      return {} if params.nil?
+
+      params = params.deep_clone
+      if params[:interfaces_attributes]
+        # handle both hash and array styles of nested attributes
+        if params[:interfaces_attributes].is_a?(Hash) || params[:interfaces_attributes].is_a?(ActionController::Parameters)
+          params[:interfaces_attributes] = params[:interfaces_attributes].values
+        end
+        # map interface types
+        params[:interfaces_attributes] = params[:interfaces_attributes].map do |nic_attr|
+          interface_attributes(nic_attr, allow_nil_type: host.nil?)
+        end
+      end
+      params = host.apply_inherited_attributes(params) if host
+      params
+    end
+
+    # Copied from foreman/app/controllers/api/v2/hosts_controller.rb
+    def interface_attributes(params, allow_nil_type: false)
+      params[:type] = InterfaceTypeMapper.map(params[:type]) if params.has_key?(:type) || allow_nil_type
+      params
+    end
+
     def hardcoded_params
       result = {}
       result['managed'] = true
-      #-> doesn't work right now as neccessary parameters are missing:
-      # 2019-10-08T12:01:25 [W|app|c0cf3627] Not queueing Nic::Managed: ["MAC address can't be blank"]
-      # 2019-10-08T12:01:25 [W|app|c0cf3627] Not queueing Host::Managed: ["Mac can't be blank"]
+      result['enabled'] = true
+      result['build'] = true
+      result['compute_attributes'] = { 'start' => '1' }
       result['host_parameters_attributes'] = Array.new
-      return result
+      result
     end
 
     def set_host_params
@@ -117,11 +155,7 @@ module ForemanAppcendep
 
         end
       end
-
-      # Print to log for debugging purposes
-      logger.info("Host creation parameters:\n#{result}\n")
-
-      return result
+      result
     end
   end
 end
