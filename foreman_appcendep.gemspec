@@ -16,7 +16,10 @@ Gem::Specification.new do |s|
   s.files = Dir['{app,config,db,lib,locale,webpack}/**/*'] + ['LICENSE', 'Rakefile', 'README.md', 'package.json']
   s.test_files = Dir['test/**/*']
 
-  s.add_development_dependency 'rubocop', '~> 0.52'
+  s.add_development_dependency 'rubocop', '~> 0.71.0'
+  s.add_development_dependency 'rubocop-checkstyle_formatter', '~> 0.2'
+  s.add_development_dependency 'rubocop-performance', '~> 1.4.0'
+  s.add_development_dependency 'rubocop-rails', '~> 2.0.1'
 
   s.add_dependency 'foreman-tasks', '~> 0.10'
   s.add_dependency 'rails', '~> 5.1'

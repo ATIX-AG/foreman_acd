@@ -18,8 +18,7 @@ Rails.application.routes.draw do
       end
     end
 
-    get 'ui_appcendep_app/:id', to: 'ui_appcendep#app', constraints: { id: /[\w\.-]+/ }, as: :ui_appcendep_app
-    get 'ui_appcendep_fdata/:id', to: 'ui_appcendep#fdata', constraints: { id: /[\w\.-]+/ }, as: :ui_appcendep_fdata
-
+    get 'ui_appcendep_app/:id', :to => 'ui_appcendep#app', :constraints => { :id => /[\w\.-]+/ }, :as => :ui_appcendep_app
+    get 'ui_appcendep_fdata/:id', :to => 'ui_appcendep#fdata', :constraints => { :id => /[\w\.-]+/ }, :as => :ui_appcendep_fdata
   end
 end

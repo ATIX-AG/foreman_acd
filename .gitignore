@@ -1,5 +1,6 @@
 *~
 .bundle
+.local
 tmp/
 Gemfile.lock
 bundler.d/*.local.rb

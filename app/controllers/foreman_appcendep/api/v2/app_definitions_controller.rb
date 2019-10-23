@@ -36,7 +36,6 @@ module ForemanAppcendep
           process_response @app_definition.save
         end
 
-
         api :DELETE, '/app_definitions/:id', N_('Deletes application definition')
         param :id, :identifier, :required => true
         def destroy

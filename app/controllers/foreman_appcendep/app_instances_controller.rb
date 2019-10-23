@@ -70,9 +70,8 @@ module ForemanAppcendep
       @host.suggest_default_pxe_loader
       @host.save
       success _('Successfully initiated host creation')
-    rescue => e
-      error _('Failed to initiate host creation: %s') % e.to_s
-      logger.error("Failed to initiate host creation: #{e.backtrace.join($/)}")
+    rescue StandardError => e
+      logger.error("Failed to initiate host creation: #{e.backtrace.join($INPUT_RECORD_SEPARATOR)}")
     ensure
       redirect_to app_instances_path
     end
@@ -92,12 +91,10 @@ module ForemanAppcendep
       params = params.deep_clone
       if params[:interfaces_attributes]
         # handle both hash and array styles of nested attributes
-        if params[:interfaces_attributes].is_a?(Hash) || params[:interfaces_attributes].is_a?(ActionController::Parameters)
-          params[:interfaces_attributes] = params[:interfaces_attributes].values
-        end
+        params[:interfaces_attributes] = params[:interfaces_attributes].values if params[:interfaces_attributes].is_a?(Hash) || params[:interfaces_attributes].is_a?(ActionController::Parameters)
         # map interface types
         params[:interfaces_attributes] = params[:interfaces_attributes].map do |nic_attr|
-          interface_attributes(nic_attr, allow_nil_type: host.nil?)
+          interface_attributes(nic_attr, :allow_nil_type => host.nil?)
         end
       end
       params = host.apply_inherited_attributes(params) if host
@@ -106,7 +103,7 @@ module ForemanAppcendep
 
     # Copied from foreman/app/controllers/api/v2/hosts_controller.rb
     def interface_attributes(params, allow_nil_type: false)
-      params[:type] = InterfaceTypeMapper.map(params[:type]) if params.has_key?(:type) || allow_nil_type
+      params[:type] = InterfaceTypeMapper.map(params[:type]) if params.key?(:type) || allow_nil_type
       params
     end
 
@@ -116,7 +113,7 @@ module ForemanAppcendep
       result['enabled'] = true
       result['build'] = true
       result['compute_attributes'] = { 'start' => '1' }
-      result['host_parameters_attributes'] = Array.new
+      result['host_parameters_attributes'] = []
       result
     end
 
@@ -136,7 +133,7 @@ module ForemanAppcendep
           result['name'] = param['value']
 
         when 'hostparam'
-          result['host_parameters_attributes'].push({:name => param['name'], :value => param['value']})
+          result['host_parameters_attributes'].push(:name => param['name'], :value => param['value'])
 
         when 'ip'
           result['ip'] = param['value']

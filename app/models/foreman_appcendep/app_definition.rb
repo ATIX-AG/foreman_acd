@@ -8,7 +8,7 @@ module ForemanAppcendep
     friendly_id :name
 
     belongs_to :hostgroup, :class_name => '::Hostgroup'
-    has_many :app_instances, inverse_of: :app_definition
+    has_many :app_instances, :inverse_of => :app_definition, :dependent => :destroy
     scoped_search :on => :name
 
     def self.humanize_class_name(_name = nil)

@@ -1,10 +1,11 @@
-Rails:
-  Enabled: true
+require:
+  - rubocop-rails
 
 AllCops:
   TargetRubyVersion: 2.3
   TargetRailsVersion: 5.1
   Exclude:
+    - '*.spec'
     - 'extras/**/*'
     - 'locale/**/*'
     - 'node_modules/**/*'

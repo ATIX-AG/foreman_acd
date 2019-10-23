@@ -9,13 +9,13 @@ Foreman::Plugin.register :foreman_appcendep do
   divider :top_menu, :parent => :configure_menu, :caption => 'Applications'
   menu :top_menu, :app_definitions,
        :url_hash => { :controller => :'foreman_appcendep/app_definitions', :action => :index },
-       :caption  => 'App Definitions',
-       :parent   => :configure_menu
+       :caption => 'App Definitions',
+       :parent => :configure_menu
 
   menu :top_menu, :app_instances,
        :url_hash => { :controller => :'foreman_appcendep/app_instances', :action => :index },
-       :caption  => 'App Instances',
-       :parent   => :configure_menu
+       :caption => 'App Instances',
+       :parent => :configure_menu
 
   # Add permissions
   security_block :foreman_appcendep do
