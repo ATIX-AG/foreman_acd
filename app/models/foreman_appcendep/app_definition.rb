@@ -7,6 +7,7 @@ module ForemanAppcendep
     extend FriendlyId
     friendly_id :name
 
+    validates :name, :presence => true, :uniqueness => true
     belongs_to :hostgroup, :class_name => '::Hostgroup'
     has_many :app_instances, :inverse_of => :app_definition, :dependent => :destroy
     scoped_search :on => :name

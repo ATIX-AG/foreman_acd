@@ -6,6 +6,7 @@ module ForemanAppcendep
     include Authorizable
     extend FriendlyId
     friendly_id :name
+    validates :name, :presence => true, :uniqueness => true
     belongs_to :app_definition, :inverse_of => :app_instances
     scoped_search :on => :name
 
