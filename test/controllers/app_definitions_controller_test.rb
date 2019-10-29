@@ -4,11 +4,13 @@ require 'nokogiri'
 module ForemanAppcendep
   class AppDefinitionsControllerTest < ActionController::TestCase
     setup do
-      @model = FactoryBot.create(:app_definition)
+      as_admin { FactoryBot.create(:app_definition) }
+      @model = ForemanAppcendep::AppDefinition.first
     end
 
     basic_index_test('app_definitions')
     basic_new_test
+    basic_edit_test('app_definition')
 
     test 'should destroy app definition' do
       assert_difference('AppDefinition.count', -1) do

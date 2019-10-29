@@ -4,11 +4,13 @@ require 'nokogiri'
 module ForemanAppcendep
   class AppInstancesControllerTest < ActionController::TestCase
     setup do
-      @model = FactoryBot.create(:app_instance)
+      as_admin { FactoryBot.create(:app_instance) }
+      @model = ForemanAppcendep::AppInstance.first
     end
 
     basic_index_test('app_instances')
     basic_new_test
+    basic_edit_test('app_instance')
 
     test 'should destroy app instance' do
       assert_difference('AppInstance.count', -1) do
