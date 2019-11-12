@@ -97,8 +97,8 @@ class ParameterSelection extends React.Component {
   }
 
   renderRailsInputHidden(view, parameter, value) {
-    var id = "foreman_appcendep_"+ view +"_"+ parameter;
-    var name = "foreman_appcendep_"+ view +"["+ parameter +"]";
+    var id = "foreman_acd_"+ view +"_"+ parameter;
+    var name = "foreman_acd_"+ view +"["+ parameter +"]";
 
     return (
       <input

@@ -2,7 +2,7 @@ import { differenceBy, slice, includes, uniq } from 'lodash';
 import Immutable from 'seamless-immutable';
 import { createSelector } from 'reselect';
 
-const parameterState = state => state.foremanAppcendep.parameterSelectionParameters;
+const parameterState = state => state.foremanAcd.parameterSelectionParameters;
 
 export const selectLoading = state => parameterState(state).loading;
 export const selectEditMode = state => parameterState(state).editMode;

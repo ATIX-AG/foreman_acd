@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  scope :appcendep, :path => '/appcendep' do
-    resources :app_definitions, :controller => 'foreman_appcendep/app_definitions' do
+  scope :acd, :path => '/acd' do
+    resources :app_definitions, :controller => 'foreman_acd/app_definitions' do
       collection do
         get 'auto_complete_search'
       end
     end
 
-    resources :app_instances, :controller => 'foreman_appcendep/app_instances' do
+    resources :app_instances, :controller => 'foreman_acd/app_instances' do
       collection do
         get 'auto_complete_search'
       end
@@ -18,7 +18,7 @@ Rails.application.routes.draw do
       end
     end
 
-    get 'ui_appcendep_app/:id', :to => 'ui_appcendep#app', :constraints => { :id => /[\w\.-]+/ }, :as => :ui_appcendep_app
-    get 'ui_appcendep_fdata/:id', :to => 'ui_appcendep#fdata', :constraints => { :id => /[\w\.-]+/ }, :as => :ui_appcendep_fdata
+    get 'ui_acd_app/:id', :to => 'ui_acd#app', :constraints => { :id => /[\w\.-]+/ }, :as => :ui_acd_app
+    get 'ui_acd_fdata/:id', :to => 'ui_acd#fdata', :constraints => { :id => /[\w\.-]+/ }, :as => :ui_acd_fdata
   end
 end

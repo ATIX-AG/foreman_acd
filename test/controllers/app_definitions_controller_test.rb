@@ -1,11 +1,11 @@
 require 'test_plugin_helper'
 require 'nokogiri'
 
-module ForemanAppcendep
+module ForemanAcd
   class AppDefinitionsControllerTest < ActionController::TestCase
     setup do
       as_admin { FactoryBot.create(:app_definition) }
-      @model = ForemanAppcendep::AppDefinition.first
+      @model = ForemanAcd::AppDefinition.first
     end
 
     basic_index_test('app_definitions')

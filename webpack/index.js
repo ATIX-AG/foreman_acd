@@ -3,6 +3,6 @@ import injectReducer from 'foremanReact/redux/reducers/registerReducer';
 import ParameterSelection from './components/ParameterSelection';
 import reducer from './reducer';
 
-injectReducer('foremanAppcendep', reducer);
+injectReducer('foremanAcd', reducer);
 
 componentRegistry.register({ name: 'ParameterSelection', type: ParameterSelection, });

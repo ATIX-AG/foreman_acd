@@ -1,11 +1,11 @@
 require 'test_plugin_helper'
 require 'nokogiri'
 
-module ForemanAppcendep
+module ForemanAcd
   class AppInstancesControllerTest < ActionController::TestCase
     setup do
       as_admin { FactoryBot.create(:app_instance) }
-      @model = ForemanAppcendep::AppInstance.first
+      @model = ForemanAcd::AppInstance.first
     end
 
     basic_index_test('app_instances')

@@ -1,2 +1,2 @@
-# Matches foreman_appcendep.gemspec
-_('TODO: Description of ForemanAppcendep.')
+# Matches foreman_acd.gemspec
+_('TODO: Description of ForemanAcd.')

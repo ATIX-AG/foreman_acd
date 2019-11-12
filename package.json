@@ -1,5 +1,5 @@
 {
-  "name": "foreman_appcendep",
+  "name": "foreman_acd",
   "version": "0.5.0",
   "description": "foreman application centric deployment",
   "main": "index.js",
@@ -55,7 +55,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ATIX-AG/foreman_appcendep.git"
+    "url": "git+https://github.com/ATIX-AG/foreman_acd.git"
   },
   "author": "",
   "license": "ISC",
