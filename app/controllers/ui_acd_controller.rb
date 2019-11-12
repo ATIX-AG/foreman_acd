@@ -23,7 +23,7 @@ class UiAcdController < ::Api::V2::BaseController
       :domains => Domain.all,
       :computeprofiles => ComputeProfile.all,
       :hostgroup_id => hg.id,
-      :ptables => hg.operatingsystem.ptables
+      :ptables => hg&.operatingsystem.ptables
     )
     fdata
   end
