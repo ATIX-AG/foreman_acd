@@ -128,7 +128,9 @@ export const initParameterSelection = (
         props: {
           index: 2
         },
-        formatters: [isDefinition(mode) ? inlineEditFormatter : tableCellFormatter]
+        // we are always using the inlineEditFormatter so that
+        // the well formatted type name is shown
+        formatters: [inlineEditFormatter]
       }
     },
     {

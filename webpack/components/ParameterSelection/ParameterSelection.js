@@ -217,7 +217,9 @@ class ParameterSelection extends React.Component {
       isEditing: additionalData => this.isEditing(additionalData),
       renderValue: (value, additionalData) => {
         var prettyValue = value;
-        if (additionalData.property == 'value') {
+        if (additionalData.property == 'type') {
+          prettyValue = PARAMETER_TYPES[value];
+        } else if (additionalData.property == 'value') {
           switch (additionalData.rowData.type) {
             case 'computeprofile':
               prettyValue = transformForemanData(this.props.foremanData['computeprofiles'])[value]
@@ -235,8 +237,6 @@ class ParameterSelection extends React.Component {
               prettyValue = transformForemanData(this.props.foremanData['environments'])[value]
               break;
           }
-        } else if (additionalData.property == 'type') {
-          prettyValue = PARAMETER_TYPES[value];
         }
         return inlineEditFormatterImpl.renderValue(prettyValue, additionalData)
       },
@@ -246,7 +246,7 @@ class ParameterSelection extends React.Component {
             if (additionalData.rowData.newEntry === true) {
               return inlineEditFormatterImpl.renderEditSelect(value, additionalData, this.props.parameterTypes);
             }
-            return inlineEditFormatterImpl.renderValue(value, additionalData)
+            return inlineEditFormatterImpl.renderValue(PARAMETER_TYPES[value], additionalData)
           case 'value':
             switch (additionalData.rowData.type) {
               case 'computeprofile':
