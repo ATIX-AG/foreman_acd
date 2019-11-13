@@ -17,6 +17,13 @@ import {
 } from './ParameterSelectionHelper';
 
 import {
+  dropRight,
+  findIndex,
+  cloneDeep,
+} from 'lodash';
+
+
+import {
   PARAMETER_TYPES,
 } from './ParameterSelectionConstants';
 
@@ -283,7 +290,6 @@ class ParameterSelection extends React.Component {
       rows,
       columns,
       sortingColumns,
-      sortingDisabled,
       loading,
       addParameter,
       confirmEditParameter,
@@ -295,7 +301,24 @@ class ParameterSelection extends React.Component {
     } = this.props;
 
     var sortedRows;
-    if (sortingDisabled === false) {
+    var newEntryIndex = findIndex(rows, 'newEntry');
+
+    if (newEntryIndex >= 0) {
+      let newEntry = rows[newEntryIndex];
+      // sort all elements, besides the newEntry which will be
+      // added to the end of the Array
+      var tmpRows = cloneDeep(rows);
+      tmpRows.splice(newEntryIndex, 1);
+      sortedRows = this.compose(
+        sort.sorter({
+          columns,
+          sortingColumns,
+          sort: orderBy,
+          strategy: sort.strategies.byProperty
+        })
+      )(tmpRows);
+      sortedRows.push(newEntry);
+    } else {
       sortedRows = this.compose(
         sort.sorter({
           columns,
@@ -304,8 +327,6 @@ class ParameterSelection extends React.Component {
           strategy: sort.strategies.byProperty
         })
       )(rows);
-    } else {
-     sortedRows = rows;
     }
 
     return(
@@ -395,7 +416,6 @@ ParameterSelection.defaultProps = {
   rows: [],
   columns: [],
   sortingColumns: {},
-  sortingDisabled: false,
   appDefinition: { "id": '', "name": '', "hostgroup_id": '', "parameters": [] },
   hostgroupId: -1,
 };
@@ -420,7 +440,6 @@ ParameterSelection.propTypes = {
   rows: PropTypes.array,
   sortingColumns: PropTypes.object,
   columns: PropTypes.array,
-  sortingDisabled: PropTypes.bool,
   sortParameter: PropTypes.func,
   addParameter: PropTypes.func,
   deleteParameter: PropTypes.func,

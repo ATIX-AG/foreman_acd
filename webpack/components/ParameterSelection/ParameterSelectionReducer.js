@@ -57,7 +57,6 @@ const parameterSelectionParameters = (state = initialState, action) => {
 
       return state.merge({
         editMode: true,
-        sortingDisabled: true,
         rows: rows
       });
     }
@@ -76,7 +75,6 @@ const parameterSelectionParameters = (state = initialState, action) => {
 
       return state.merge({
         editMode: true,
-        sortingDisabled: true,
         rows: rows
       });
     }
@@ -89,7 +87,6 @@ const parameterSelectionParameters = (state = initialState, action) => {
 
       return state.merge({
         editMode: false,
-        sortingDisabled: false,
         parameterTypes: filterUsedParameterTypes(PARAMETER_TYPES, rows),
         rows: rows
       });
@@ -115,7 +112,6 @@ const parameterSelectionParameters = (state = initialState, action) => {
 
       return state.merge({
         editMode: false,
-        sortingDisabled: false,
         rows: rows
       });
     }

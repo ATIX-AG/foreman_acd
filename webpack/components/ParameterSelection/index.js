@@ -26,7 +26,6 @@ const mapStateToProps = state => ({
   rows: selectRows(state),
   sortingColumns: selectSortingColumns(state),
   columns: selectColumns(state),
-  sortingDisabled: selectSortingDisabled(state),
   appDefinition: selectAppDefinition(state),
   hostgroupId: selectHostgroupId(state),
 });

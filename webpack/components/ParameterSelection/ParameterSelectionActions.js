@@ -60,8 +60,6 @@ export const initParameterSelection = (
         position: 0
     }
   };
-  initialState.sortingDisabled = false;
-
   initialState.appDefinition = appDefinition;
 
   var valueLabel = 'Value';
