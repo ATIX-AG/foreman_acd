@@ -116,6 +116,13 @@ class ParameterSelection extends React.Component {
     );
   }
 
+  isEditing({rowData}) {
+    return (rowData.backup !== undefined);
+  }
+
+  // enables our custom header formatters extensions to reactabular
+  customHeaderFormatters = customHeaderFormattersDefinition;
+
   componentDidMount() {
     const {
       data: { mode, appDefinition, location, organization, loadForemanDataUrl, parameters },
@@ -130,14 +137,6 @@ class ParameterSelection extends React.Component {
     if (isEditDefinition(mode) || isEditInstance(mode)) {
        loadForemanData(loadForemanDataUrl, appDefinition.hostgroup_id);
     }
-
-    // enables our custom header formatters extensions to reactabular
-    this.customHeaderFormatters = customHeaderFormattersDefinition;
-
-    const isEditing = ({rowData }) => {
-      return (rowData.backup !== undefined);
-    };
-    this.isEditing = isEditing;
 
     const inlineEditButtonsFormatter = inlineEditFormatterFactory({
       isEditing: additionalData => this.props.editMode,
@@ -208,7 +207,7 @@ class ParameterSelection extends React.Component {
     };
 
     const inlineEditFormatter = inlineEditFormatterFactory({
-      isEditing: additionalData => isEditing(additionalData),
+      isEditing: additionalData => this.isEditing(additionalData),
       renderValue: (value, additionalData) => {
         var prettyValue = value;
         if (additionalData.property == 'value') {

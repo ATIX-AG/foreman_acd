@@ -1,6 +1,17 @@
 <%= webpacked_plugins_js_for :foreman_acd %>
 <%= webpacked_plugins_css_for :foreman_acd %>
 
+<script type="text/javascript">
+  function defer() {
+    if (tfm.initParameterSelection) {
+       tfm.initParameterSelection();
+    } else {
+       setTimeout(function() { defer() }, 10);
+    }
+  }
+  defer();
+</script>
+
 <%
     json = {
       "organization": current_organization,
@@ -34,8 +45,10 @@
       <%= text_f f, :name %>
       <%= text_f f, :description %>
 
-      <div id='param-selection'></div>
-      <%=  mount_react_component('ParameterSelection', "#param-selection", json.to_json) %>
+      <%= content_tag(:div, '',
+                      :id => 'param_selection',
+                      'data-json' => json.to_json,
+                     ) %>
     </div>
   </div>
 
