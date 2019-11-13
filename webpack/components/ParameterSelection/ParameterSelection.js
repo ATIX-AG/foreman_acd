@@ -1,3 +1,4 @@
+import $ from 'jquery';
 import React from 'react';
 import PropTypes from 'prop-types';
 import * as sort from 'sortabular';
@@ -130,6 +131,14 @@ class ParameterSelection extends React.Component {
   // enables our custom header formatters extensions to reactabular
   customHeaderFormatters = customHeaderFormattersDefinition;
 
+  validateRows(rows) {
+    var result = (rows.map(e => e.value).filter(i => i == "").length == 0);
+    if (result === false) {
+      window.alert("All parameters needs to have a value!");
+    }
+    return result;
+  }
+
   componentDidMount() {
     const {
       data: { mode, appDefinition, location, organization, loadForemanDataUrl, parameters },
@@ -139,10 +148,15 @@ class ParameterSelection extends React.Component {
       activateEditParameter,
       changeEditParameter,
       loadForemanData,
+      rows,
     } = this.props;
 
     if (isEditDefinition(mode) || isEditInstance(mode)) {
        loadForemanData(loadForemanDataUrl, appDefinition.hostgroup_id);
+    }
+
+    if (isInstance(mode)) {
+      $('form').on('click', 'input[type="submit"]', () => this.validateRows(this.props.rows));
     }
 
     const inlineEditButtonsFormatter = inlineEditFormatterFactory({
