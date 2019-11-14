@@ -1,3 +1,4 @@
+import $ from 'jquery';
 import React from 'react';
 import PropTypes from 'prop-types';
 import * as sort from 'sortabular';
@@ -130,8 +131,8 @@ class ParameterSelection extends React.Component {
   // enables our custom header formatters extensions to reactabular
   customHeaderFormatters = customHeaderFormattersDefinition;
 
-  validateRows(rows) {
-    var result = (rows.map(e => e.value).filter(i => i == "").length == 0);
+  validateRows() {
+    var result = (this.props.rows.map(e => e.value).filter(i => i == "").length == 0);
     if (result === false) {
       window.alert("All parameters needs to have a value!");
     }
@@ -154,7 +155,7 @@ class ParameterSelection extends React.Component {
     }
 
     if (isInstance(mode)) {
-      $('form').on('click', 'input[type="submit"]', () => this.validateRows(this.props.rows));
+      $('input[type="submit"][name="commit"]').on('click', () => this.validateRows());
     }
 
     const inlineEditButtonsFormatter = inlineEditFormatterFactory({
