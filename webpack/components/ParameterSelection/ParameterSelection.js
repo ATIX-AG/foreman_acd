@@ -134,7 +134,7 @@ class ParameterSelection extends React.Component {
   validateRows() {
     var result = (this.props.rows.map(e => e.value).filter(i => i == "").length == 0);
     if (result === false) {
-      window.alert("All parameters needs to have a value!");
+      window.alert("All parameters need to have a value!");
     }
     return result;
   }
