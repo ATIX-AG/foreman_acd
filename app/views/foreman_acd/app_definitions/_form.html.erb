@@ -1,14 +1,3 @@
-<script type="text/javascript">
-  function defer() {
-    if (tfm.initParameterSelection) {
-       tfm.initParameterSelection();
-    } else {
-       setTimeout(function() { defer() }, 10);
-    }
-  }
-  defer();
-</script>
-
 <%
     json = {
       "organization": current_organization,
@@ -42,10 +31,8 @@
       <%= text_f f, :name %>
       <%= text_f f, :description %>
 
-      <%= content_tag(:div, '',
-                      :id => 'param_selection',
-                      'data-json' => json.to_json,
-                     ) %>
+      <div id='param-selection'></div>
+      <%=  mount_react_component('ParameterSelection', "#param-selection", json.to_json) %>
     </div>
   </div>
 

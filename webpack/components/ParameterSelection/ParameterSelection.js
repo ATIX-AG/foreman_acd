@@ -1,4 +1,3 @@
-import $ from 'jquery';
 import React from 'react';
 import PropTypes from 'prop-types';
 import * as sort from 'sortabular';
@@ -148,7 +147,6 @@ class ParameterSelection extends React.Component {
       activateEditParameter,
       changeEditParameter,
       loadForemanData,
-      rows,
     } = this.props;
 
     if (isEditDefinition(mode) || isEditInstance(mode)) {
