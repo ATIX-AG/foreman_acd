@@ -1,0 +1,2265 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ParameterSelectionReducer should activate edit parameter 1`] = `
+Object {
+  "appDefinition": Object {
+    "hostgroup_id": 1,
+    "id": 1,
+    "name": "Test123",
+  },
+  "columns": Array [
+    Object {
+      "header": Object {
+        "label": "Name",
+        "props": Object {
+          "index": 0,
+          "sort": true,
+          "style": Object {
+            "width": "20%",
+          },
+        },
+      },
+      "property": "name",
+    },
+    Object {
+      "cell": Object {
+        "props": Object {
+          "index": 1,
+        },
+      },
+      "header": Object {
+        "label": "Description",
+        "props": Object {
+          "index": 1,
+          "sort": true,
+          "style": Object {
+            "width": "25%",
+          },
+        },
+      },
+      "property": "description",
+    },
+    Object {
+      "cell": Object {
+        "props": Object {
+          "index": 2,
+        },
+      },
+      "header": Object {
+        "label": "Type",
+        "props": Object {
+          "index": 2,
+          "sort": true,
+          "style": Object {
+            "width": "20%",
+          },
+        },
+      },
+      "property": "type",
+    },
+    Object {
+      "cell": Object {
+        "props": Object {
+          "index": 3,
+        },
+      },
+      "header": Object {
+        "label": "Default value",
+        "props": Object {
+          "index": 3,
+          "sort": true,
+          "style": Object {
+            "width": "25%",
+          },
+        },
+      },
+      "property": "value",
+    },
+    Object {
+      "cell": Object {
+        "props": Object {
+          "index": 4,
+        },
+      },
+      "header": Object {
+        "label": "Actions",
+        "props": Object {
+          "index": 4,
+        },
+      },
+      "property": "actions",
+    },
+  ],
+  "editMode": true,
+  "error": Object {
+    "errorMsg": "",
+    "status": "",
+    "statusText": "",
+  },
+  "foremanData": Object {
+    "computeprofiles": Array [],
+    "domains": Array [],
+    "environments": Array [
+      Object {
+        "id": 1,
+        "name": "production",
+      },
+      Object {
+        "id": 2,
+        "name": "test",
+      },
+    ],
+    "hostgroup_id": 1,
+    "lifecycle_environments": Array [],
+    "ptables": Array [
+      Object {
+        "id": 105,
+        "name": "Kickstart default",
+      },
+      Object {
+        "id": 104,
+        "name": "Kickstart default thin",
+      },
+    ],
+  },
+  "hostgroupId": 1,
+  "loading": false,
+  "parameterTypes": Object {
+    "computeprofile": "Compute profile",
+    "domain": "Domain",
+    "hostparam": "Host parameter",
+    "lifecycleenv": "Lifecycle environment",
+  },
+  "rows": Array [
+    Object {
+      "description": "",
+      "id": 1,
+      "name": "PuppetEnv",
+      "type": "puppetenv",
+      "value": "2",
+    },
+    Object {
+      "description": "",
+      "id": 2,
+      "name": "PW",
+      "type": "password",
+      "value": "rooot",
+    },
+    Object {
+      "description": "",
+      "id": 3,
+      "name": "Blub",
+      "type": "hostparam",
+      "value": "awesome",
+    },
+    Object {
+      "description": "",
+      "id": 4,
+      "name": "111allo",
+      "type": "ip",
+      "value": "1.1.1.1",
+    },
+    Object {
+      "backup": Object {
+        "description": "",
+        "id": 5,
+        "name": "1111aasdfasf",
+        "type": "hostname",
+        "value": "dername",
+      },
+      "description": "",
+      "id": 5,
+      "name": "1111aasdfasf",
+      "type": "hostname",
+      "value": "dername",
+    },
+    Object {
+      "description": "",
+      "id": 6,
+      "name": "222nocheiner",
+      "type": "hostparam",
+      "value": "",
+    },
+    Object {
+      "description": "aa",
+      "id": 7,
+      "name": "aaaaa",
+      "type": "ptable",
+      "value": "",
+    },
+    Object {
+      "description": "",
+      "id": 8,
+      "name": "aaa",
+      "type": "hostparam",
+      "value": "2134234",
+    },
+  ],
+  "sortingColumns": Object {
+    "name": Object {
+      "direction": "asc",
+      "position": 0,
+    },
+  },
+}
+`;
+
+exports[`ParameterSelectionReducer should add a parameter 1`] = `
+Object {
+  "appDefinition": Object {
+    "hostgroup_id": 1,
+    "id": 1,
+    "name": "Test123",
+  },
+  "columns": Array [
+    Object {
+      "header": Object {
+        "label": "Name",
+        "props": Object {
+          "index": 0,
+          "sort": true,
+          "style": Object {
+            "width": "20%",
+          },
+        },
+      },
+      "property": "name",
+    },
+    Object {
+      "cell": Object {
+        "props": Object {
+          "index": 1,
+        },
+      },
+      "header": Object {
+        "label": "Description",
+        "props": Object {
+          "index": 1,
+          "sort": true,
+          "style": Object {
+            "width": "25%",
+          },
+        },
+      },
+      "property": "description",
+    },
+    Object {
+      "cell": Object {
+        "props": Object {
+          "index": 2,
+        },
+      },
+      "header": Object {
+        "label": "Type",
+        "props": Object {
+          "index": 2,
+          "sort": true,
+          "style": Object {
+            "width": "20%",
+          },
+        },
+      },
+      "property": "type",
+    },
+    Object {
+      "cell": Object {
+        "props": Object {
+          "index": 3,
+        },
+      },
+      "header": Object {
+        "label": "Default value",
+        "props": Object {
+          "index": 3,
+          "sort": true,
+          "style": Object {
+            "width": "25%",
+          },
+        },
+      },
+      "property": "value",
+    },
+    Object {
+      "cell": Object {
+        "props": Object {
+          "index": 4,
+        },
+      },
+      "header": Object {
+        "label": "Actions",
+        "props": Object {
+          "index": 4,
+        },
+      },
+      "property": "actions",
+    },
+  ],
+  "editMode": true,
+  "error": Object {
+    "errorMsg": "",
+    "status": "",
+    "statusText": "",
+  },
+  "foremanData": Object {
+    "computeprofiles": Array [],
+    "domains": Array [],
+    "environments": Array [
+      Object {
+        "id": 1,
+        "name": "production",
+      },
+      Object {
+        "id": 2,
+        "name": "test",
+      },
+    ],
+    "hostgroup_id": 1,
+    "lifecycle_environments": Array [],
+    "ptables": Array [
+      Object {
+        "id": 105,
+        "name": "Kickstart default",
+      },
+      Object {
+        "id": 104,
+        "name": "Kickstart default thin",
+      },
+    ],
+  },
+  "hostgroupId": 1,
+  "loading": false,
+  "parameterTypes": Object {
+    "computeprofile": "Compute profile",
+    "domain": "Domain",
+    "hostparam": "Host parameter",
+    "lifecycleenv": "Lifecycle environment",
+  },
+  "rows": Array [
+    Object {
+      "description": "",
+      "id": 1,
+      "name": "PuppetEnv",
+      "type": "puppetenv",
+      "value": "2",
+    },
+    Object {
+      "description": "",
+      "id": 2,
+      "name": "PW",
+      "type": "password",
+      "value": "rooot",
+    },
+    Object {
+      "description": "",
+      "id": 3,
+      "name": "Blub",
+      "type": "hostparam",
+      "value": "awesome",
+    },
+    Object {
+      "description": "",
+      "id": 4,
+      "name": "111allo",
+      "type": "ip",
+      "value": "1.1.1.1",
+    },
+    Object {
+      "description": "",
+      "id": 5,
+      "name": "1111aasdfasf",
+      "type": "hostname",
+      "value": "dername",
+    },
+    Object {
+      "description": "",
+      "id": 6,
+      "name": "222nocheiner",
+      "type": "hostparam",
+      "value": "",
+    },
+    Object {
+      "description": "aa",
+      "id": 7,
+      "name": "aaaaa",
+      "type": "ptable",
+      "value": "",
+    },
+    Object {
+      "description": "",
+      "id": 8,
+      "name": "aaa",
+      "type": "hostparam",
+      "value": "2134234",
+    },
+    Object {
+      "backup": Object {
+        "description": "",
+        "id": 9,
+        "name": "",
+        "newEntry": true,
+        "type": "",
+        "value": "",
+      },
+      "description": "",
+      "id": 9,
+      "name": "",
+      "newEntry": true,
+      "type": "",
+      "value": "",
+    },
+  ],
+  "sortingColumns": Object {
+    "name": Object {
+      "direction": "asc",
+      "position": 0,
+    },
+  },
+}
+`;
+
+exports[`ParameterSelectionReducer should cancel edit parameter 1`] = `
+Object {
+  "appDefinition": Object {
+    "hostgroup_id": 1,
+    "id": 1,
+    "name": "Test123",
+  },
+  "columns": Array [
+    Object {
+      "header": Object {
+        "label": "Name",
+        "props": Object {
+          "index": 0,
+          "sort": true,
+          "style": Object {
+            "width": "20%",
+          },
+        },
+      },
+      "property": "name",
+    },
+    Object {
+      "cell": Object {
+        "props": Object {
+          "index": 1,
+        },
+      },
+      "header": Object {
+        "label": "Description",
+        "props": Object {
+          "index": 1,
+          "sort": true,
+          "style": Object {
+            "width": "25%",
+          },
+        },
+      },
+      "property": "description",
+    },
+    Object {
+      "cell": Object {
+        "props": Object {
+          "index": 2,
+        },
+      },
+      "header": Object {
+        "label": "Type",
+        "props": Object {
+          "index": 2,
+          "sort": true,
+          "style": Object {
+            "width": "20%",
+          },
+        },
+      },
+      "property": "type",
+    },
+    Object {
+      "cell": Object {
+        "props": Object {
+          "index": 3,
+        },
+      },
+      "header": Object {
+        "label": "Default value",
+        "props": Object {
+          "index": 3,
+          "sort": true,
+          "style": Object {
+            "width": "25%",
+          },
+        },
+      },
+      "property": "value",
+    },
+    Object {
+      "cell": Object {
+        "props": Object {
+          "index": 4,
+        },
+      },
+      "header": Object {
+        "label": "Actions",
+        "props": Object {
+          "index": 4,
+        },
+      },
+      "property": "actions",
+    },
+  ],
+  "editMode": false,
+  "error": Object {
+    "errorMsg": "",
+    "status": "",
+    "statusText": "",
+  },
+  "foremanData": Object {
+    "computeprofiles": Array [],
+    "domains": Array [],
+    "environments": Array [
+      Object {
+        "id": 1,
+        "name": "production",
+      },
+      Object {
+        "id": 2,
+        "name": "test",
+      },
+    ],
+    "hostgroup_id": 1,
+    "lifecycle_environments": Array [],
+    "ptables": Array [
+      Object {
+        "id": 105,
+        "name": "Kickstart default",
+      },
+      Object {
+        "id": 104,
+        "name": "Kickstart default thin",
+      },
+    ],
+  },
+  "hostgroupId": 1,
+  "loading": false,
+  "parameterTypes": Object {
+    "computeprofile": "Compute profile",
+    "domain": "Domain",
+    "hostparam": "Host parameter",
+    "lifecycleenv": "Lifecycle environment",
+  },
+  "rows": Array [
+    Object {
+      "description": "",
+      "id": 1,
+      "name": "PuppetEnv",
+      "type": "puppetenv",
+      "value": "2",
+    },
+    Object {
+      "description": "",
+      "id": 2,
+      "name": "PW",
+      "type": "password",
+      "value": "rooot",
+    },
+    Object {
+      "description": "",
+      "id": 3,
+      "name": "Blub",
+      "type": "hostparam",
+      "value": "awesome",
+    },
+    Object {
+      "description": "",
+      "id": 4,
+      "name": "111allo",
+      "type": "ip",
+      "value": "1.1.1.1",
+    },
+    Object {
+      "description": "",
+      "id": 5,
+      "name": "1111aasdfasf",
+      "type": "hostname",
+      "value": "dername",
+    },
+    Object {
+      "description": "",
+      "id": 6,
+      "name": "222nocheiner",
+      "type": "hostparam",
+      "value": "",
+    },
+    Object {
+      "description": "aa",
+      "id": 7,
+      "name": "aaaaa",
+      "type": "ptable",
+      "value": "",
+    },
+    Object {
+      "description": "",
+      "id": 8,
+      "name": "aaa",
+      "type": "hostparam",
+      "value": "2134234",
+    },
+  ],
+  "sortingColumns": Object {
+    "name": Object {
+      "direction": "asc",
+      "position": 0,
+    },
+  },
+}
+`;
+
+exports[`ParameterSelectionReducer should change edit parameter 1`] = `
+Object {
+  "appDefinition": Object {
+    "hostgroup_id": 1,
+    "id": 1,
+    "name": "Test123",
+  },
+  "columns": Array [
+    Object {
+      "header": Object {
+        "label": "Name",
+        "props": Object {
+          "index": 0,
+          "sort": true,
+          "style": Object {
+            "width": "20%",
+          },
+        },
+      },
+      "property": "name",
+    },
+    Object {
+      "cell": Object {
+        "props": Object {
+          "index": 1,
+        },
+      },
+      "header": Object {
+        "label": "Description",
+        "props": Object {
+          "index": 1,
+          "sort": true,
+          "style": Object {
+            "width": "25%",
+          },
+        },
+      },
+      "property": "description",
+    },
+    Object {
+      "cell": Object {
+        "props": Object {
+          "index": 2,
+        },
+      },
+      "header": Object {
+        "label": "Type",
+        "props": Object {
+          "index": 2,
+          "sort": true,
+          "style": Object {
+            "width": "20%",
+          },
+        },
+      },
+      "property": "type",
+    },
+    Object {
+      "cell": Object {
+        "props": Object {
+          "index": 3,
+        },
+      },
+      "header": Object {
+        "label": "Default value",
+        "props": Object {
+          "index": 3,
+          "sort": true,
+          "style": Object {
+            "width": "25%",
+          },
+        },
+      },
+      "property": "value",
+    },
+    Object {
+      "cell": Object {
+        "props": Object {
+          "index": 4,
+        },
+      },
+      "header": Object {
+        "label": "Actions",
+        "props": Object {
+          "index": 4,
+        },
+      },
+      "property": "actions",
+    },
+  ],
+  "editMode": false,
+  "error": Object {
+    "errorMsg": "",
+    "status": "",
+    "statusText": "",
+  },
+  "foremanData": Object {
+    "computeprofiles": Array [],
+    "domains": Array [],
+    "environments": Array [
+      Object {
+        "id": 1,
+        "name": "production",
+      },
+      Object {
+        "id": 2,
+        "name": "test",
+      },
+    ],
+    "hostgroup_id": 1,
+    "lifecycle_environments": Array [],
+    "ptables": Array [
+      Object {
+        "id": 105,
+        "name": "Kickstart default",
+      },
+      Object {
+        "id": 104,
+        "name": "Kickstart default thin",
+      },
+    ],
+  },
+  "hostgroupId": 1,
+  "loading": false,
+  "parameterTypes": Object {
+    "computeprofile": "Compute profile",
+    "domain": "Domain",
+    "hostparam": "Host parameter",
+    "lifecycleenv": "Lifecycle environment",
+  },
+  "rows": Array [
+    Object {
+      "description": "",
+      "id": 1,
+      "name": "PuppetEnv",
+      "type": "puppetenv",
+      "value": "2",
+    },
+    Object {
+      "description": "",
+      "id": 2,
+      "name": "PW",
+      "type": "password",
+      "value": "rooot",
+    },
+    Object {
+      "description": "",
+      "id": 3,
+      "name": "Blub",
+      "type": "hostparam",
+      "value": "awesome",
+    },
+    Object {
+      "description": "",
+      "id": 4,
+      "name": "111allo",
+      "type": "ip",
+      "value": "1.1.1.1",
+    },
+    Object {
+      "backup": Object {
+        "description": "",
+        "id": 5,
+        "name": "1111aasdfasf",
+        "type": "hostname",
+        "value": "dername",
+      },
+      "description": "",
+      "id": 5,
+      "name": "1111aasdfasf",
+      "type": "hostname",
+      "value": "helloworld",
+    },
+    Object {
+      "description": "",
+      "id": 6,
+      "name": "222nocheiner",
+      "type": "hostparam",
+      "value": "",
+    },
+    Object {
+      "description": "aa",
+      "id": 7,
+      "name": "aaaaa",
+      "type": "ptable",
+      "value": "",
+    },
+    Object {
+      "description": "",
+      "id": 8,
+      "name": "aaa",
+      "type": "hostparam",
+      "value": "2134234",
+    },
+  ],
+  "sortingColumns": Object {
+    "name": Object {
+      "direction": "asc",
+      "position": 0,
+    },
+  },
+}
+`;
+
+exports[`ParameterSelectionReducer should confirm edit parameter 1`] = `
+Object {
+  "appDefinition": Object {
+    "hostgroup_id": 1,
+    "id": 1,
+    "name": "Test123",
+  },
+  "columns": Array [
+    Object {
+      "header": Object {
+        "label": "Name",
+        "props": Object {
+          "index": 0,
+          "sort": true,
+          "style": Object {
+            "width": "20%",
+          },
+        },
+      },
+      "property": "name",
+    },
+    Object {
+      "cell": Object {
+        "props": Object {
+          "index": 1,
+        },
+      },
+      "header": Object {
+        "label": "Description",
+        "props": Object {
+          "index": 1,
+          "sort": true,
+          "style": Object {
+            "width": "25%",
+          },
+        },
+      },
+      "property": "description",
+    },
+    Object {
+      "cell": Object {
+        "props": Object {
+          "index": 2,
+        },
+      },
+      "header": Object {
+        "label": "Type",
+        "props": Object {
+          "index": 2,
+          "sort": true,
+          "style": Object {
+            "width": "20%",
+          },
+        },
+      },
+      "property": "type",
+    },
+    Object {
+      "cell": Object {
+        "props": Object {
+          "index": 3,
+        },
+      },
+      "header": Object {
+        "label": "Default value",
+        "props": Object {
+          "index": 3,
+          "sort": true,
+          "style": Object {
+            "width": "25%",
+          },
+        },
+      },
+      "property": "value",
+    },
+    Object {
+      "cell": Object {
+        "props": Object {
+          "index": 4,
+        },
+      },
+      "header": Object {
+        "label": "Actions",
+        "props": Object {
+          "index": 4,
+        },
+      },
+      "property": "actions",
+    },
+  ],
+  "editMode": false,
+  "error": Object {
+    "errorMsg": "",
+    "status": "",
+    "statusText": "",
+  },
+  "foremanData": Object {
+    "computeprofiles": Array [],
+    "domains": Array [],
+    "environments": Array [
+      Object {
+        "id": 1,
+        "name": "production",
+      },
+      Object {
+        "id": 2,
+        "name": "test",
+      },
+    ],
+    "hostgroup_id": 1,
+    "lifecycle_environments": Array [],
+    "ptables": Array [
+      Object {
+        "id": 105,
+        "name": "Kickstart default",
+      },
+      Object {
+        "id": 104,
+        "name": "Kickstart default thin",
+      },
+    ],
+  },
+  "hostgroupId": 1,
+  "loading": false,
+  "parameterTypes": Object {
+    "computeprofile": "Compute profile",
+    "domain": "Domain",
+    "hostparam": "Host parameter",
+    "lifecycleenv": "Lifecycle environment",
+  },
+  "rows": Array [
+    Object {
+      "description": "",
+      "id": 1,
+      "name": "PuppetEnv",
+      "type": "puppetenv",
+      "value": "2",
+    },
+    Object {
+      "description": "",
+      "id": 2,
+      "name": "PW",
+      "type": "password",
+      "value": "rooot",
+    },
+    Object {
+      "description": "",
+      "id": 3,
+      "name": "Blub",
+      "type": "hostparam",
+      "value": "awesome",
+    },
+    Object {
+      "description": "",
+      "id": 4,
+      "name": "111allo",
+      "type": "ip",
+      "value": "1.1.1.1",
+    },
+    Object {
+      "description": "",
+      "id": 5,
+      "name": "1111aasdfasf",
+      "type": "hostname",
+      "value": "dername",
+    },
+    Object {
+      "description": "",
+      "id": 6,
+      "name": "222nocheiner",
+      "type": "hostparam",
+      "value": "",
+    },
+    Object {
+      "description": "aa",
+      "id": 7,
+      "name": "aaaaa",
+      "type": "ptable",
+      "value": "",
+    },
+    Object {
+      "description": "",
+      "id": 8,
+      "name": "aaa",
+      "type": "hostparam",
+      "value": "2134234",
+    },
+  ],
+  "sortingColumns": Object {
+    "name": Object {
+      "direction": "asc",
+      "position": 0,
+    },
+  },
+}
+`;
+
+exports[`ParameterSelectionReducer should delete a parameter 1`] = `
+Object {
+  "appDefinition": Object {
+    "hostgroup_id": 1,
+    "id": 1,
+    "name": "Test123",
+  },
+  "columns": Array [
+    Object {
+      "header": Object {
+        "label": "Name",
+        "props": Object {
+          "index": 0,
+          "sort": true,
+          "style": Object {
+            "width": "20%",
+          },
+        },
+      },
+      "property": "name",
+    },
+    Object {
+      "cell": Object {
+        "props": Object {
+          "index": 1,
+        },
+      },
+      "header": Object {
+        "label": "Description",
+        "props": Object {
+          "index": 1,
+          "sort": true,
+          "style": Object {
+            "width": "25%",
+          },
+        },
+      },
+      "property": "description",
+    },
+    Object {
+      "cell": Object {
+        "props": Object {
+          "index": 2,
+        },
+      },
+      "header": Object {
+        "label": "Type",
+        "props": Object {
+          "index": 2,
+          "sort": true,
+          "style": Object {
+            "width": "20%",
+          },
+        },
+      },
+      "property": "type",
+    },
+    Object {
+      "cell": Object {
+        "props": Object {
+          "index": 3,
+        },
+      },
+      "header": Object {
+        "label": "Default value",
+        "props": Object {
+          "index": 3,
+          "sort": true,
+          "style": Object {
+            "width": "25%",
+          },
+        },
+      },
+      "property": "value",
+    },
+    Object {
+      "cell": Object {
+        "props": Object {
+          "index": 4,
+        },
+      },
+      "header": Object {
+        "label": "Actions",
+        "props": Object {
+          "index": 4,
+        },
+      },
+      "property": "actions",
+    },
+  ],
+  "editMode": false,
+  "error": Object {
+    "errorMsg": "",
+    "status": "",
+    "statusText": "",
+  },
+  "foremanData": Object {
+    "computeprofiles": Array [],
+    "domains": Array [],
+    "environments": Array [
+      Object {
+        "id": 1,
+        "name": "production",
+      },
+      Object {
+        "id": 2,
+        "name": "test",
+      },
+    ],
+    "hostgroup_id": 1,
+    "lifecycle_environments": Array [],
+    "ptables": Array [
+      Object {
+        "id": 105,
+        "name": "Kickstart default",
+      },
+      Object {
+        "id": 104,
+        "name": "Kickstart default thin",
+      },
+    ],
+  },
+  "hostgroupId": 1,
+  "loading": false,
+  "parameterTypes": Object {
+    "computeprofile": "Compute profile",
+    "domain": "Domain",
+    "hostname": "Hostname",
+    "hostparam": "Host parameter",
+    "lifecycleenv": "Lifecycle environment",
+  },
+  "rows": Array [
+    Object {
+      "description": "",
+      "id": 1,
+      "name": "PuppetEnv",
+      "type": "puppetenv",
+      "value": "2",
+    },
+    Object {
+      "description": "",
+      "id": 2,
+      "name": "PW",
+      "type": "password",
+      "value": "rooot",
+    },
+    Object {
+      "description": "",
+      "id": 3,
+      "name": "Blub",
+      "type": "hostparam",
+      "value": "awesome",
+    },
+    Object {
+      "description": "",
+      "id": 4,
+      "name": "111allo",
+      "type": "ip",
+      "value": "1.1.1.1",
+    },
+    Object {
+      "description": "",
+      "id": 6,
+      "name": "222nocheiner",
+      "type": "hostparam",
+      "value": "",
+    },
+    Object {
+      "description": "aa",
+      "id": 7,
+      "name": "aaaaa",
+      "type": "ptable",
+      "value": "",
+    },
+    Object {
+      "description": "",
+      "id": 8,
+      "name": "aaa",
+      "type": "hostparam",
+      "value": "2134234",
+    },
+  ],
+  "sortingColumns": Object {
+    "name": Object {
+      "direction": "asc",
+      "position": 0,
+    },
+  },
+}
+`;
+
+exports[`ParameterSelectionReducer should initialize component 1`] = `
+Object {
+  "appDefinition": Object {
+    "hostgroup_id": 1,
+    "id": 1,
+    "name": "Test123",
+  },
+  "columns": Array [
+    Object {
+      "header": Object {
+        "label": "Name",
+        "props": Object {
+          "index": 0,
+          "sort": true,
+          "style": Object {
+            "width": "20%",
+          },
+        },
+      },
+      "property": "name",
+    },
+    Object {
+      "cell": Object {
+        "props": Object {
+          "index": 1,
+        },
+      },
+      "header": Object {
+        "label": "Description",
+        "props": Object {
+          "index": 1,
+          "sort": true,
+          "style": Object {
+            "width": "25%",
+          },
+        },
+      },
+      "property": "description",
+    },
+    Object {
+      "cell": Object {
+        "props": Object {
+          "index": 2,
+        },
+      },
+      "header": Object {
+        "label": "Type",
+        "props": Object {
+          "index": 2,
+          "sort": true,
+          "style": Object {
+            "width": "20%",
+          },
+        },
+      },
+      "property": "type",
+    },
+    Object {
+      "cell": Object {
+        "props": Object {
+          "index": 3,
+        },
+      },
+      "header": Object {
+        "label": "Default value",
+        "props": Object {
+          "index": 3,
+          "sort": true,
+          "style": Object {
+            "width": "25%",
+          },
+        },
+      },
+      "property": "value",
+    },
+    Object {
+      "cell": Object {
+        "props": Object {
+          "index": 4,
+        },
+      },
+      "header": Object {
+        "label": "Actions",
+        "props": Object {
+          "index": 4,
+        },
+      },
+      "property": "actions",
+    },
+  ],
+  "editMode": false,
+  "error": Object {
+    "errorMsg": "",
+    "status": "",
+    "statusText": "",
+  },
+  "foremanData": Object {
+    "computeprofiles": Array [],
+    "domains": Array [],
+    "environments": Array [
+      Object {
+        "id": 1,
+        "name": "production",
+      },
+      Object {
+        "id": 2,
+        "name": "test",
+      },
+    ],
+    "hostgroup_id": 1,
+    "lifecycle_environments": Array [],
+    "ptables": Array [
+      Object {
+        "id": 105,
+        "name": "Kickstart default",
+      },
+      Object {
+        "id": 104,
+        "name": "Kickstart default thin",
+      },
+    ],
+  },
+  "hostgroupId": 1,
+  "loading": false,
+  "parameterTypes": Object {
+    "computeprofile": "Compute profile",
+    "domain": "Domain",
+    "hostparam": "Host parameter",
+    "lifecycleenv": "Lifecycle environment",
+  },
+  "rows": Array [
+    Object {
+      "description": "",
+      "id": 1,
+      "name": "PuppetEnv",
+      "type": "puppetenv",
+      "value": "2",
+    },
+    Object {
+      "description": "",
+      "id": 2,
+      "name": "PW",
+      "type": "password",
+      "value": "rooot",
+    },
+    Object {
+      "description": "",
+      "id": 3,
+      "name": "Blub",
+      "type": "hostparam",
+      "value": "awesome",
+    },
+    Object {
+      "description": "",
+      "id": 4,
+      "name": "111allo",
+      "type": "ip",
+      "value": "1.1.1.1",
+    },
+    Object {
+      "backup": Object {
+        "description": "",
+        "id": 5,
+        "name": "1111aasdfasf",
+        "type": "hostname",
+        "value": "dername",
+      },
+      "description": "",
+      "id": 5,
+      "name": "1111aasdfasf",
+      "type": "hostname",
+      "value": "dername",
+    },
+    Object {
+      "description": "",
+      "id": 6,
+      "name": "222nocheiner",
+      "type": "hostparam",
+      "value": "",
+    },
+    Object {
+      "description": "aa",
+      "id": 7,
+      "name": "aaaaa",
+      "type": "ptable",
+      "value": "",
+    },
+    Object {
+      "description": "",
+      "id": 8,
+      "name": "aaa",
+      "type": "hostparam",
+      "value": "2134234",
+    },
+  ],
+  "sortingColumns": Object {
+    "name": Object {
+      "direction": "asc",
+      "position": 0,
+    },
+  },
+}
+`;
+
+exports[`ParameterSelectionReducer should load foreman data be erroneous 1`] = `
+Object {
+  "appDefinition": Object {
+    "hostgroup_id": 1,
+    "id": 1,
+    "name": "Test123",
+  },
+  "columns": Array [
+    Object {
+      "header": Object {
+        "label": "Name",
+        "props": Object {
+          "index": 0,
+          "sort": true,
+          "style": Object {
+            "width": "20%",
+          },
+        },
+      },
+      "property": "name",
+    },
+    Object {
+      "cell": Object {
+        "props": Object {
+          "index": 1,
+        },
+      },
+      "header": Object {
+        "label": "Description",
+        "props": Object {
+          "index": 1,
+          "sort": true,
+          "style": Object {
+            "width": "25%",
+          },
+        },
+      },
+      "property": "description",
+    },
+    Object {
+      "cell": Object {
+        "props": Object {
+          "index": 2,
+        },
+      },
+      "header": Object {
+        "label": "Type",
+        "props": Object {
+          "index": 2,
+          "sort": true,
+          "style": Object {
+            "width": "20%",
+          },
+        },
+      },
+      "property": "type",
+    },
+    Object {
+      "cell": Object {
+        "props": Object {
+          "index": 3,
+        },
+      },
+      "header": Object {
+        "label": "Default value",
+        "props": Object {
+          "index": 3,
+          "sort": true,
+          "style": Object {
+            "width": "25%",
+          },
+        },
+      },
+      "property": "value",
+    },
+    Object {
+      "cell": Object {
+        "props": Object {
+          "index": 4,
+        },
+      },
+      "header": Object {
+        "label": "Actions",
+        "props": Object {
+          "index": 4,
+        },
+      },
+      "property": "actions",
+    },
+  ],
+  "editMode": false,
+  "error": "Something really bad happend",
+  "foremanData": Object {
+    "computeprofiles": Array [],
+    "domains": Array [],
+    "environments": Array [
+      Object {
+        "id": 1,
+        "name": "production",
+      },
+      Object {
+        "id": 2,
+        "name": "test",
+      },
+    ],
+    "hostgroup_id": 1,
+    "lifecycle_environments": Array [],
+    "ptables": Array [
+      Object {
+        "id": 105,
+        "name": "Kickstart default",
+      },
+      Object {
+        "id": 104,
+        "name": "Kickstart default thin",
+      },
+    ],
+  },
+  "hostgroupId": 1,
+  "loading": false,
+  "parameterTypes": Object {
+    "computeprofile": "Compute profile",
+    "domain": "Domain",
+    "hostparam": "Host parameter",
+    "lifecycleenv": "Lifecycle environment",
+  },
+  "rows": Array [
+    Object {
+      "description": "",
+      "id": 1,
+      "name": "PuppetEnv",
+      "type": "puppetenv",
+      "value": "2",
+    },
+    Object {
+      "description": "",
+      "id": 2,
+      "name": "PW",
+      "type": "password",
+      "value": "rooot",
+    },
+    Object {
+      "description": "",
+      "id": 3,
+      "name": "Blub",
+      "type": "hostparam",
+      "value": "awesome",
+    },
+    Object {
+      "description": "",
+      "id": 4,
+      "name": "111allo",
+      "type": "ip",
+      "value": "1.1.1.1",
+    },
+    Object {
+      "description": "",
+      "id": 5,
+      "name": "1111aasdfasf",
+      "type": "hostname",
+      "value": "dername",
+    },
+    Object {
+      "description": "",
+      "id": 6,
+      "name": "222nocheiner",
+      "type": "hostparam",
+      "value": "",
+    },
+    Object {
+      "description": "aa",
+      "id": 7,
+      "name": "aaaaa",
+      "type": "ptable",
+      "value": "",
+    },
+    Object {
+      "description": "",
+      "id": 8,
+      "name": "aaa",
+      "type": "hostparam",
+      "value": "2134234",
+    },
+  ],
+  "sortingColumns": Object {
+    "name": Object {
+      "direction": "asc",
+      "position": 0,
+    },
+  },
+}
+`;
+
+exports[`ParameterSelectionReducer should load foreman data be successful 1`] = `
+Object {
+  "appDefinition": Object {
+    "hostgroup_id": 1,
+    "id": 1,
+    "name": "Test123",
+  },
+  "columns": Array [
+    Object {
+      "header": Object {
+        "label": "Name",
+        "props": Object {
+          "index": 0,
+          "sort": true,
+          "style": Object {
+            "width": "20%",
+          },
+        },
+      },
+      "property": "name",
+    },
+    Object {
+      "cell": Object {
+        "props": Object {
+          "index": 1,
+        },
+      },
+      "header": Object {
+        "label": "Description",
+        "props": Object {
+          "index": 1,
+          "sort": true,
+          "style": Object {
+            "width": "25%",
+          },
+        },
+      },
+      "property": "description",
+    },
+    Object {
+      "cell": Object {
+        "props": Object {
+          "index": 2,
+        },
+      },
+      "header": Object {
+        "label": "Type",
+        "props": Object {
+          "index": 2,
+          "sort": true,
+          "style": Object {
+            "width": "20%",
+          },
+        },
+      },
+      "property": "type",
+    },
+    Object {
+      "cell": Object {
+        "props": Object {
+          "index": 3,
+        },
+      },
+      "header": Object {
+        "label": "Default value",
+        "props": Object {
+          "index": 3,
+          "sort": true,
+          "style": Object {
+            "width": "25%",
+          },
+        },
+      },
+      "property": "value",
+    },
+    Object {
+      "cell": Object {
+        "props": Object {
+          "index": 4,
+        },
+      },
+      "header": Object {
+        "label": "Actions",
+        "props": Object {
+          "index": 4,
+        },
+      },
+      "property": "actions",
+    },
+  ],
+  "editMode": false,
+  "error": Object {
+    "errorMsg": "",
+    "status": "",
+    "statusText": "",
+  },
+  "foremanData": Object {
+    "computeprofiles": Array [],
+    "domains": Array [],
+    "environments": Array [
+      Object {
+        "id": 1,
+        "name": "production",
+      },
+      Object {
+        "id": 2,
+        "name": "test",
+      },
+    ],
+    "hostgroup_id": 1,
+    "lifecycle_environments": Array [],
+    "ptables": Array [
+      Object {
+        "id": 105,
+        "name": "Kickstart default",
+      },
+      Object {
+        "id": 104,
+        "name": "Kickstart default thin",
+      },
+    ],
+  },
+  "hostgroupId": 1,
+  "loading": false,
+  "parameterTypes": Object {
+    "computeprofile": "Compute profile",
+    "domain": "Domain",
+    "hostparam": "Host parameter",
+    "lifecycleenv": "Lifecycle environment",
+  },
+  "rows": Array [
+    Object {
+      "description": "",
+      "id": 1,
+      "name": "PuppetEnv",
+      "type": "puppetenv",
+      "value": "2",
+    },
+    Object {
+      "description": "",
+      "id": 2,
+      "name": "PW",
+      "type": "password",
+      "value": "rooot",
+    },
+    Object {
+      "description": "",
+      "id": 3,
+      "name": "Blub",
+      "type": "hostparam",
+      "value": "awesome",
+    },
+    Object {
+      "description": "",
+      "id": 4,
+      "name": "111allo",
+      "type": "ip",
+      "value": "1.1.1.1",
+    },
+    Object {
+      "description": "",
+      "id": 5,
+      "name": "1111aasdfasf",
+      "type": "hostname",
+      "value": "dername",
+    },
+    Object {
+      "description": "",
+      "id": 6,
+      "name": "222nocheiner",
+      "type": "hostparam",
+      "value": "",
+    },
+    Object {
+      "description": "aa",
+      "id": 7,
+      "name": "aaaaa",
+      "type": "ptable",
+      "value": "",
+    },
+    Object {
+      "description": "",
+      "id": 8,
+      "name": "aaa",
+      "type": "hostparam",
+      "value": "2134234",
+    },
+  ],
+  "sortingColumns": Object {
+    "name": Object {
+      "direction": "asc",
+      "position": 0,
+    },
+  },
+}
+`;
+
+exports[`ParameterSelectionReducer should load parameter selection be erroneous 1`] = `
+Object {
+  "editMode": false,
+  "error": "Something really bad happend",
+  "loading": false,
+}
+`;
+
+exports[`ParameterSelectionReducer should load parameter selection be successful 1`] = `
+Object {
+  "appDefinition": Object {
+    "created_at": "2019-11-13 17:47:27 +0100",
+    "description": "",
+    "hostgroup_id": 1,
+    "id": 2,
+    "name": "sowasvonneu",
+    "parameters": "[{\\"id\\":0,\\"name\\":\\"richtigneu\\",\\"description\\":\\"\\",\\"type\\":\\"puppetenv\\",\\"value\\":\\"1\\"},{\\"id\\":1,\\"name\\":\\"ganzgut\\",\\"description\\":\\"\\",\\"type\\":\\"ip\\",\\"value\\":\\"1.1.1.2\\"}]",
+    "updated_at": "2019-11-13 17:47:27 +0100",
+  },
+  "editMode": false,
+  "error": Object {
+    "errorMsg": "",
+    "status": "",
+    "statusText": "",
+  },
+  "foremanData": Object {
+    "computeprofiles": Array [],
+    "domains": Array [],
+    "environments": Array [
+      Object {
+        "id": 1,
+        "name": "production",
+      },
+      Object {
+        "id": 2,
+        "name": "test",
+      },
+    ],
+    "hostgroup_id": 1,
+    "lifecycle_environments": Array [],
+    "ptables": Array [
+      Object {
+        "id": 105,
+        "name": "Kickstart default",
+      },
+      Object {
+        "id": 104,
+        "name": "Kickstart default thin",
+      },
+    ],
+  },
+  "hostgroupId": 1,
+  "loading": false,
+  "rows": Array [
+    Object {
+      "description": "",
+      "id": 0,
+      "name": "richtigneu",
+      "type": "puppetenv",
+      "value": "1",
+    },
+    Object {
+      "description": "",
+      "id": 1,
+      "name": "ganzgut",
+      "type": "ip",
+      "value": "1.1.1.2",
+    },
+  ],
+}
+`;
+
+exports[`ParameterSelectionReducer should request load foreman data 1`] = `
+Object {
+  "appDefinition": Object {
+    "hostgroup_id": 1,
+    "id": 1,
+    "name": "Test123",
+  },
+  "columns": Array [
+    Object {
+      "header": Object {
+        "label": "Name",
+        "props": Object {
+          "index": 0,
+          "sort": true,
+          "style": Object {
+            "width": "20%",
+          },
+        },
+      },
+      "property": "name",
+    },
+    Object {
+      "cell": Object {
+        "props": Object {
+          "index": 1,
+        },
+      },
+      "header": Object {
+        "label": "Description",
+        "props": Object {
+          "index": 1,
+          "sort": true,
+          "style": Object {
+            "width": "25%",
+          },
+        },
+      },
+      "property": "description",
+    },
+    Object {
+      "cell": Object {
+        "props": Object {
+          "index": 2,
+        },
+      },
+      "header": Object {
+        "label": "Type",
+        "props": Object {
+          "index": 2,
+          "sort": true,
+          "style": Object {
+            "width": "20%",
+          },
+        },
+      },
+      "property": "type",
+    },
+    Object {
+      "cell": Object {
+        "props": Object {
+          "index": 3,
+        },
+      },
+      "header": Object {
+        "label": "Default value",
+        "props": Object {
+          "index": 3,
+          "sort": true,
+          "style": Object {
+            "width": "25%",
+          },
+        },
+      },
+      "property": "value",
+    },
+    Object {
+      "cell": Object {
+        "props": Object {
+          "index": 4,
+        },
+      },
+      "header": Object {
+        "label": "Actions",
+        "props": Object {
+          "index": 4,
+        },
+      },
+      "property": "actions",
+    },
+  ],
+  "editMode": false,
+  "error": Object {
+    "errorMsg": "",
+    "status": "",
+    "statusText": "",
+  },
+  "foremanData": Object {},
+  "hostgroupId": -1,
+  "loading": true,
+  "parameterTypes": Object {
+    "computeprofile": "Compute profile",
+    "domain": "Domain",
+    "hostparam": "Host parameter",
+    "lifecycleenv": "Lifecycle environment",
+  },
+  "rows": Array [
+    Object {
+      "description": "",
+      "id": 1,
+      "name": "PuppetEnv",
+      "type": "puppetenv",
+      "value": "2",
+    },
+    Object {
+      "description": "",
+      "id": 2,
+      "name": "PW",
+      "type": "password",
+      "value": "rooot",
+    },
+    Object {
+      "description": "",
+      "id": 3,
+      "name": "Blub",
+      "type": "hostparam",
+      "value": "awesome",
+    },
+    Object {
+      "description": "",
+      "id": 4,
+      "name": "111allo",
+      "type": "ip",
+      "value": "1.1.1.1",
+    },
+    Object {
+      "description": "",
+      "id": 5,
+      "name": "1111aasdfasf",
+      "type": "hostname",
+      "value": "dername",
+    },
+    Object {
+      "description": "",
+      "id": 6,
+      "name": "222nocheiner",
+      "type": "hostparam",
+      "value": "",
+    },
+    Object {
+      "description": "aa",
+      "id": 7,
+      "name": "aaaaa",
+      "type": "ptable",
+      "value": "",
+    },
+    Object {
+      "description": "",
+      "id": 8,
+      "name": "aaa",
+      "type": "hostparam",
+      "value": "2134234",
+    },
+  ],
+  "sortingColumns": Object {
+    "name": Object {
+      "direction": "asc",
+      "position": 0,
+    },
+  },
+}
+`;
+
+exports[`ParameterSelectionReducer should request parameter selection 1`] = `
+Object {
+  "editMode": false,
+  "error": Object {
+    "errorMsg": "",
+    "status": "",
+    "statusText": "",
+  },
+  "loading": true,
+}
+`;
+
+exports[`ParameterSelectionReducer should return initial state 1`] = `
+Object {
+  "editMode": false,
+  "error": Object {
+    "errorMsg": "",
+    "status": "",
+    "statusText": "",
+  },
+}
+`;
+
+exports[`ParameterSelectionReducer should sort parameter 1`] = `
+Object {
+  "appDefinition": Object {
+    "hostgroup_id": 1,
+    "id": 1,
+    "name": "Test123",
+  },
+  "columns": Array [
+    Object {
+      "header": Object {
+        "label": "Name",
+        "props": Object {
+          "index": 0,
+          "sort": true,
+          "style": Object {
+            "width": "20%",
+          },
+        },
+      },
+      "property": "name",
+    },
+    Object {
+      "cell": Object {
+        "props": Object {
+          "index": 1,
+        },
+      },
+      "header": Object {
+        "label": "Description",
+        "props": Object {
+          "index": 1,
+          "sort": true,
+          "style": Object {
+            "width": "25%",
+          },
+        },
+      },
+      "property": "description",
+    },
+    Object {
+      "cell": Object {
+        "props": Object {
+          "index": 2,
+        },
+      },
+      "header": Object {
+        "label": "Type",
+        "props": Object {
+          "index": 2,
+          "sort": true,
+          "style": Object {
+            "width": "20%",
+          },
+        },
+      },
+      "property": "type",
+    },
+    Object {
+      "cell": Object {
+        "props": Object {
+          "index": 3,
+        },
+      },
+      "header": Object {
+        "label": "Default value",
+        "props": Object {
+          "index": 3,
+          "sort": true,
+          "style": Object {
+            "width": "25%",
+          },
+        },
+      },
+      "property": "value",
+    },
+    Object {
+      "cell": Object {
+        "props": Object {
+          "index": 4,
+        },
+      },
+      "header": Object {
+        "label": "Actions",
+        "props": Object {
+          "index": 4,
+        },
+      },
+      "property": "actions",
+    },
+  ],
+  "editMode": false,
+  "error": Object {
+    "errorMsg": "",
+    "status": "",
+    "statusText": "",
+  },
+  "foremanData": Object {
+    "computeprofiles": Array [],
+    "domains": Array [],
+    "environments": Array [
+      Object {
+        "id": 1,
+        "name": "production",
+      },
+      Object {
+        "id": 2,
+        "name": "test",
+      },
+    ],
+    "hostgroup_id": 1,
+    "lifecycle_environments": Array [],
+    "ptables": Array [
+      Object {
+        "id": 105,
+        "name": "Kickstart default",
+      },
+      Object {
+        "id": 104,
+        "name": "Kickstart default thin",
+      },
+    ],
+  },
+  "hostgroupId": 1,
+  "loading": false,
+  "parameterTypes": Object {
+    "computeprofile": "Compute profile",
+    "domain": "Domain",
+    "hostparam": "Host parameter",
+    "lifecycleenv": "Lifecycle environment",
+  },
+  "rows": Array [
+    Object {
+      "description": "",
+      "id": 1,
+      "name": "PuppetEnv",
+      "type": "puppetenv",
+      "value": "2",
+    },
+    Object {
+      "description": "",
+      "id": 2,
+      "name": "PW",
+      "type": "password",
+      "value": "rooot",
+    },
+    Object {
+      "description": "",
+      "id": 3,
+      "name": "Blub",
+      "type": "hostparam",
+      "value": "awesome",
+    },
+    Object {
+      "description": "",
+      "id": 4,
+      "name": "111allo",
+      "type": "ip",
+      "value": "1.1.1.1",
+    },
+    Object {
+      "description": "",
+      "id": 5,
+      "name": "1111aasdfasf",
+      "type": "hostname",
+      "value": "dername",
+    },
+    Object {
+      "description": "",
+      "id": 6,
+      "name": "222nocheiner",
+      "type": "hostparam",
+      "value": "",
+    },
+    Object {
+      "description": "aa",
+      "id": 7,
+      "name": "aaaaa",
+      "type": "ptable",
+      "value": "",
+    },
+    Object {
+      "description": "",
+      "id": 8,
+      "name": "aaa",
+      "type": "hostparam",
+      "value": "2134234",
+    },
+  ],
+  "sortingColumns": Object {
+    "type": Object {
+      "direction": "asc",
+      "position": 0,
+    },
+  },
+}
+`;

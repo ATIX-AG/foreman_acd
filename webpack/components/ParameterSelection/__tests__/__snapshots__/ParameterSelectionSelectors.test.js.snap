@@ -1,0 +1,209 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ParameterSelectionSelectors should return appDefinition from parameterSelectionData_1 fixtures 1`] = `
+Object {
+  "hostgroup_id": 1,
+  "id": 1,
+  "name": "Test123",
+}
+`;
+
+exports[`ParameterSelectionSelectors should return columns from parameterSelectionData_1 fixtures 1`] = `
+Array [
+  Object {
+    "header": Object {
+      "label": "Name",
+      "props": Object {
+        "index": 0,
+        "sort": true,
+        "style": Object {
+          "width": "20%",
+        },
+      },
+    },
+    "property": "name",
+  },
+  Object {
+    "cell": Object {
+      "props": Object {
+        "index": 1,
+      },
+    },
+    "header": Object {
+      "label": "Description",
+      "props": Object {
+        "index": 1,
+        "sort": true,
+        "style": Object {
+          "width": "25%",
+        },
+      },
+    },
+    "property": "description",
+  },
+  Object {
+    "cell": Object {
+      "props": Object {
+        "index": 2,
+      },
+    },
+    "header": Object {
+      "label": "Type",
+      "props": Object {
+        "index": 2,
+        "sort": true,
+        "style": Object {
+          "width": "20%",
+        },
+      },
+    },
+    "property": "type",
+  },
+  Object {
+    "cell": Object {
+      "props": Object {
+        "index": 3,
+      },
+    },
+    "header": Object {
+      "label": "Default value",
+      "props": Object {
+        "index": 3,
+        "sort": true,
+        "style": Object {
+          "width": "25%",
+        },
+      },
+    },
+    "property": "value",
+  },
+  Object {
+    "cell": Object {
+      "props": Object {
+        "index": 4,
+      },
+    },
+    "header": Object {
+      "label": "Actions",
+      "props": Object {
+        "index": 4,
+      },
+    },
+    "property": "actions",
+  },
+]
+`;
+
+exports[`ParameterSelectionSelectors should return editMode from parameterSelectionData_1 fixtures 1`] = `false`;
+
+exports[`ParameterSelectionSelectors should return foremanData from parameterSelectionData_1 fixtures 1`] = `
+Object {
+  "computeprofiles": Array [],
+  "domains": Array [],
+  "environments": Array [
+    Object {
+      "id": 1,
+      "name": "production",
+    },
+    Object {
+      "id": 2,
+      "name": "test",
+    },
+  ],
+  "hostgroup_id": 1,
+  "lifecycle_environments": Array [],
+  "ptables": Array [
+    Object {
+      "id": 105,
+      "name": "Kickstart default",
+    },
+    Object {
+      "id": 104,
+      "name": "Kickstart default thin",
+    },
+  ],
+}
+`;
+
+exports[`ParameterSelectionSelectors should return hostgroupId from parameterSelectionData_1 fixtures 1`] = `1`;
+
+exports[`ParameterSelectionSelectors should return loading from parameterSelectionData_1 fixtures 1`] = `false`;
+
+exports[`ParameterSelectionSelectors should return parameterTypes from parameterSelectionData_1 fixtures 1`] = `
+Object {
+  "computeprofile": "Compute profile",
+  "domain": "Domain",
+  "hostparam": "Host parameter",
+  "lifecycleenv": "Lifecycle environment",
+}
+`;
+
+exports[`ParameterSelectionSelectors should return rows from parameterSelectionData_1 fixtures 1`] = `
+Array [
+  Object {
+    "description": "",
+    "id": 1,
+    "name": "PuppetEnv",
+    "type": "puppetenv",
+    "value": "2",
+  },
+  Object {
+    "description": "",
+    "id": 2,
+    "name": "PW",
+    "type": "password",
+    "value": "rooot",
+  },
+  Object {
+    "description": "",
+    "id": 3,
+    "name": "Blub",
+    "type": "hostparam",
+    "value": "awesome",
+  },
+  Object {
+    "description": "",
+    "id": 4,
+    "name": "111allo",
+    "type": "ip",
+    "value": "1.1.1.1",
+  },
+  Object {
+    "description": "",
+    "id": 5,
+    "name": "1111aasdfasf",
+    "type": "hostname",
+    "value": "dername",
+  },
+  Object {
+    "description": "",
+    "id": 6,
+    "name": "222nocheiner",
+    "type": "hostparam",
+    "value": "",
+  },
+  Object {
+    "description": "aa",
+    "id": 7,
+    "name": "aaaaa",
+    "type": "ptable",
+    "value": "",
+  },
+  Object {
+    "description": "",
+    "id": 8,
+    "name": "aaa",
+    "type": "hostparam",
+    "value": "2134234",
+  },
+]
+`;
+
+exports[`ParameterSelectionSelectors should return sortingColumns from parameterSelectionData_1 fixtures 1`] = `
+Object {
+  "name": Object {
+    "direction": "asc",
+    "position": 0,
+  },
+}
+`;

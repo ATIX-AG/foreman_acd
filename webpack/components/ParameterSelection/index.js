@@ -13,7 +13,6 @@ import {
   selectRows,
   selectSortingColumns,
   selectColumns,
-  selectSortingDisabled,
   selectAppDefinition,
   selectHostgroupId,
 } from './ParameterSelectionSelectors';

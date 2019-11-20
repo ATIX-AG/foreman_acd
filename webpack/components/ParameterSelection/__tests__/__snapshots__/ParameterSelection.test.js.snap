@@ -1,0 +1,454 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ParameterSelection should render editDefinition 1`] = `
+<div>
+  <div
+    className="clearfix"
+  >
+    <div
+      className="form-group"
+    >
+      <label
+        className="col-md-2 control-label"
+      >
+        Host Group
+      </label>
+      <div
+        className="col-md-4"
+      >
+        <div />
+        <input
+          id="foreman_acd_app_definition_hostgroup_id"
+          name="foreman_acd_app_definition[hostgroup_id]"
+          type="hidden"
+          value={-1}
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    className="clearfix"
+  >
+    <div
+      className="form-group"
+    >
+      <label
+        className="col-md-1 control-label"
+      >
+        Application parameters
+      </label>
+      <div
+        className="col-md-5"
+      >
+         
+      </div>
+    </div>
+  </div>
+  <div
+    className="clearfix"
+  >
+    <div
+      className="form-group"
+    >
+      <Button
+        active={false}
+        block={false}
+        bsClass="btn"
+        bsStyle="default"
+        disabled={true}
+        onClick={[Function]}
+      >
+        <Icon
+          name="plus"
+          type="fa"
+        />
+      </Button>
+      <TablePfProvider
+        bordered={true}
+        className=""
+        columns={Array []}
+        components={
+          Object {
+            "body": Object {
+              "cell": [Function],
+              "row": [Function],
+            },
+            "header": Object {
+              "cell": [Function],
+            },
+          }
+        }
+        condensed={false}
+        dataTable={true}
+        hover={true}
+        inlineEdit={true}
+        striped={true}
+      >
+        <Header
+          headerRows={
+            Array [
+              Array [],
+            ]
+          }
+        />
+        <Body
+          onRow={[Function]}
+          rowKey="id"
+          rows={Array []}
+        />
+      </TablePfProvider>
+      <Button
+        active={false}
+        block={false}
+        bsClass="btn"
+        bsStyle="default"
+        disabled={true}
+        onClick={[Function]}
+      >
+        <Icon
+          name="plus"
+          type="fa"
+        />
+      </Button>
+    </div>
+    <input
+      id="foreman_acd_app_definition_parameters"
+      name="foreman_acd_app_definition[parameters]"
+      type="hidden"
+      value="[]"
+    />
+  </div>
+</div>
+`;
+
+exports[`ParameterSelection should render editInstance 1`] = `
+<div>
+  <div
+    className="clearfix"
+  >
+    <div
+      className="form-group"
+    >
+      <label
+        className="col-md-2 control-label"
+      >
+        Application Definition
+      </label>
+      <div
+        className="col-md-4"
+      >
+        <div />
+        <input
+          id="foreman_acd_app_instance_app_definition_id"
+          name="foreman_acd_app_instance[app_definition_id]"
+          type="hidden"
+          value=""
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    className="clearfix"
+  >
+    <div
+      className="form-group"
+    >
+      <label
+        className="col-md-1 control-label"
+      >
+        Application parameters
+      </label>
+      <div
+        className="col-md-5"
+      >
+         
+      </div>
+    </div>
+  </div>
+  <div
+    className="clearfix"
+  >
+    <div
+      className="form-group"
+    >
+      <TablePfProvider
+        bordered={true}
+        className=""
+        columns={Array []}
+        components={
+          Object {
+            "body": Object {
+              "cell": [Function],
+              "row": [Function],
+            },
+            "header": Object {
+              "cell": [Function],
+            },
+          }
+        }
+        condensed={false}
+        dataTable={true}
+        hover={true}
+        inlineEdit={true}
+        striped={true}
+      >
+        <Header
+          headerRows={
+            Array [
+              Array [],
+            ]
+          }
+        />
+        <Body
+          onRow={[Function]}
+          rowKey="id"
+          rows={Array []}
+        />
+      </TablePfProvider>
+    </div>
+    <input
+      id="foreman_acd_app_instance_parameters"
+      name="foreman_acd_app_instance[parameters]"
+      type="hidden"
+      value="[]"
+    />
+  </div>
+</div>
+`;
+
+exports[`ParameterSelection should render newDefinition 1`] = `
+<div>
+  <div
+    className="clearfix"
+  >
+    <div
+      className="form-group"
+    >
+      <label
+        className="col-md-2 control-label"
+      >
+        Host Group
+      </label>
+      <div
+        className="col-md-4"
+      >
+        <Select
+          allowClear={true}
+          key="key"
+          onChange={[Function]}
+          options={
+            Object {
+              "1": "centos7",
+            }
+          }
+          value="-1"
+        />
+        <input
+          id="foreman_acd_app_definition_hostgroup_id"
+          name="foreman_acd_app_definition[hostgroup_id]"
+          type="hidden"
+          value={-1}
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    className="clearfix"
+  >
+    <div
+      className="form-group"
+    >
+      <label
+        className="col-md-1 control-label"
+      >
+        Application parameters
+      </label>
+      <div
+        className="col-md-5"
+      >
+         
+      </div>
+    </div>
+  </div>
+  <div
+    className="clearfix"
+  >
+    <div
+      className="form-group"
+    >
+      <Button
+        active={false}
+        block={false}
+        bsClass="btn"
+        bsStyle="default"
+        disabled={true}
+        onClick={[Function]}
+      >
+        <Icon
+          name="plus"
+          type="fa"
+        />
+      </Button>
+      <TablePfProvider
+        bordered={true}
+        className=""
+        columns={Array []}
+        components={
+          Object {
+            "body": Object {
+              "cell": [Function],
+              "row": [Function],
+            },
+            "header": Object {
+              "cell": [Function],
+            },
+          }
+        }
+        condensed={false}
+        dataTable={true}
+        hover={true}
+        inlineEdit={true}
+        striped={true}
+      >
+        <Header
+          headerRows={
+            Array [
+              Array [],
+            ]
+          }
+        />
+        <Body
+          onRow={[Function]}
+          rowKey="id"
+          rows={Array []}
+        />
+      </TablePfProvider>
+      <Button
+        active={false}
+        block={false}
+        bsClass="btn"
+        bsStyle="default"
+        disabled={true}
+        onClick={[Function]}
+      >
+        <Icon
+          name="plus"
+          type="fa"
+        />
+      </Button>
+    </div>
+    <input
+      id="foreman_acd_app_definition_parameters"
+      name="foreman_acd_app_definition[parameters]"
+      type="hidden"
+      value="[]"
+    />
+  </div>
+</div>
+`;
+
+exports[`ParameterSelection should render newInstance 1`] = `
+<div>
+  <div
+    className="clearfix"
+  >
+    <div
+      className="form-group"
+    >
+      <label
+        className="col-md-2 control-label"
+      >
+        Application Definition
+      </label>
+      <div
+        className="col-md-4"
+      >
+        <Select
+          allowClear={true}
+          key="key"
+          onChange={[Function]}
+          options={
+            Object {
+              "1": "Test123",
+              "2": "sowasvonneu",
+            }
+          }
+          value=""
+        />
+        <input
+          id="foreman_acd_app_instance_app_definition_id"
+          name="foreman_acd_app_instance[app_definition_id]"
+          type="hidden"
+          value=""
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    className="clearfix"
+  >
+    <div
+      className="form-group"
+    >
+      <label
+        className="col-md-1 control-label"
+      >
+        Application parameters
+      </label>
+      <div
+        className="col-md-5"
+      >
+         
+      </div>
+    </div>
+  </div>
+  <div
+    className="clearfix"
+  >
+    <div
+      className="form-group"
+    >
+      <TablePfProvider
+        bordered={true}
+        className=""
+        columns={Array []}
+        components={
+          Object {
+            "body": Object {
+              "cell": [Function],
+              "row": [Function],
+            },
+            "header": Object {
+              "cell": [Function],
+            },
+          }
+        }
+        condensed={false}
+        dataTable={true}
+        hover={true}
+        inlineEdit={true}
+        striped={true}
+      >
+        <Header
+          headerRows={
+            Array [
+              Array [],
+            ]
+          }
+        />
+        <Body
+          onRow={[Function]}
+          rowKey="id"
+          rows={Array []}
+        />
+      </TablePfProvider>
+    </div>
+    <input
+      id="foreman_acd_app_instance_parameters"
+      name="foreman_acd_app_instance[parameters]"
+      type="hidden"
+      value="[]"
+    />
+  </div>
+</div>
+`;

@@ -7,21 +7,33 @@
     "test": "test"
   },
   "dependencies": {
-    "jquery": "~2.2.4"
+    "jquery": "~2.2.4",
+    "c3": "^0.4.11",
+    "humanize-duration": "^3.20.1",
+    "react-intl": "^2.8.0"
   },
   "devDependencies": {
+    "@storybook/addon-actions": "^5.0.1",
+    "@storybook/addon-knobs": "^5.0.1",
+    "@storybook/react": "^5.0.1",
+    "@theforeman/vendor-dev": "^1.4.0",
     "classnames": "^2.2.5",
     "babel-eslint": "^8.2.1",
+    "babel-jest": "^23.6.0",
+    "babel-loader": "^7.1.1",
+    "babel-plugin-dynamic-import-node": "^2.0.0",
+    "babel-plugin-module-resolver": "^3.2.0",
     "babel-plugin-lodash": "^3.3.2",
+    "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-object-assign": "^6.22.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.0",
-    "babel-preset-react": "^6.24.1",
+    "babel-preset-react": "^6.5.0",
     "enzyme": "^3.7.0",
-    "enzyme-adapter-react-16": "^1.7.0",
-    "enzyme-to-json": "^3.3.5",
+    "enzyme-adapter-react-16": "^1.4.0",
+    "enzyme-to-json": "^3.2.1",
     "eslint": "^4.18.1",
     "eslint-config-airbnb": "^16.0.0",
     "eslint-plugin-import": "^2.8.0",
@@ -31,7 +43,8 @@
     "eslint-plugin-react": "^7.4.0",
     "identity-obj-proxy": "^3.0.0",
     "lodash": "^4.17.11",
-    "jest": "^23.6.0",
+    "jest-cli": "^23.6.0",
+    "jest-prop-type-error": "^1.1.0",
     "patternfly": "^3.58.0",
     "patternfly-react": "^2.31.0",
     "prettier": "^1.16.4",
@@ -50,8 +63,7 @@
     "table-resolver": "~3.3.0"
   },
   "scripts": {
-    "test": "node node_modules/.bin/jest webpack",
-    "lint": "./node_modules/.bin/eslint -c .eslintrc webpack/ || exit 0"
+    "test": "node node_modules/.bin/jest --no-cache"
   },
   "repository": {
     "type": "git",
@@ -65,20 +77,45 @@
   "homepage": "https://atix.de",
   "jest": {
     "verbose": true,
+    "testMatch": [
+      "**/*.test.js"
+    ],
+    "testPathIgnorePatterns": [
+      ".local",
+      ".bundle",
+      "/node_modules/",
+      "<rootDir>/foreman/"
+    ],
     "moduleDirectories": [
       "node_modules",
       "webpack"
     ],
-    "setupFiles": [
-      "raf/polyfill",
-      "./webpack/test_setup.js"
+    "testURL": "http://localhost/",
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "webpack/**/*.js",
+      "!webpack/index.js",
+      "!webpack/test_setup.js",
+      "!webpack/**/bundle*",
+      "!webpack/stories/**",
+      "!webpack/**/*stories.js"
     ],
-    "testPathIgnorePatterns": [
-      "/node_modules/",
-      "<rootDir>/foreman/"
+    "coverageReporters": [
+      "lcov"
     ],
     "moduleNameMapper": {
-      "^.+\\.(css|scss)$": "identity-obj-proxy"
-    }
+      "^.+\\.(png|gif|css|scss)$": "identity-obj-proxy"
+    },
+    "globals": {
+      "__testing__": true
+    },
+    "transform": {
+      "^.+\\.js$": "babel-jest"
+    },
+    "setupFiles": [
+      "raf/polyfill",
+      "jest-prop-type-error",
+      "./webpack/test_setup.js"
+    ]
   }
 }
