@@ -19,3 +19,4 @@ locale/*/*.po.time_stamp
 locale/*/*.pox
 locale/*/LC_MESSAGES
 *.gem
+coverage/
