@@ -11,6 +11,5 @@ export const selectParameterTypes = state => parameterState(state).parameterType
 export const selectRows = state => parameterState(state).rows;
 export const selectSortingColumns = state => parameterState(state).sortingColumns;
 export const selectColumns = state => parameterState(state).columns;
-export const selectSortingDisabled = state => parameterState(state).sortingDisabled;
 export const selectAppDefinition = state => parameterState(state).appDefinition;
 export const selectHostgroupId = state => parameterState(state).hostgroupId;
