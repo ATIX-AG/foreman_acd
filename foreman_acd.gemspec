@@ -9,9 +9,9 @@ Gem::Specification.new do |s|
   s.authors     = ['ATIX AG']
   s.email       = ['info@atix.de']
   s.homepage    = 'https://www.orcharhino.com'
-  s.summary     = 'Application Centric Deployment for Foreman'
+  s.summary     = 'Foreman plugin to provide application centric deployment and self service portal'
   # also update locale/gemspec.rb
-  s.description = 'Application Centric Deployment.'
+  s.description = 'Foreman plugin to provide application centric deployment and self service portal'
 
   s.files = Dir['{app,config,db,lib,locale,webpack}/**/*'] + ['LICENSE', 'Rakefile', 'README.md', 'package.json']
   s.test_files = Dir['test/**/*']
