@@ -3,6 +3,15 @@
 require 'test_plugin_helper'
 require 'nokogiri'
 
+module Katello
+  # Mock Katello::KTEnvironment so that tests run without Katello
+  class KTEnvironment
+    def self.all
+      [{ :id => 1, :name => 'Library' }, { :id => 2, :name => 'Test' }]
+    end
+  end
+end
+
 # UI Controller tests
 class UiAcdControllerTest < ActionController::TestCase
   test 'get app json' do
