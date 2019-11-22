@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 require 'test_plugin_helper'
 require 'nokogiri'
 
 class UiAcdControllerTest < ActionController::TestCase
   test 'get app json' do
     app_def = FactoryBot.create(:app_definition)
-    get :app, params: { :id => app_def.id }, session: set_session_user
+    get :app, :params => { :id => app_def.id }, :session => set_session_user
     assert_response :success
 
     assert_equal app_def.name, json_response['app_definition']['name']
@@ -16,7 +18,7 @@ class UiAcdControllerTest < ActionController::TestCase
 
   test 'get fdata json' do
     hostgroup = FactoryBot.create(:hostgroup, :with_domain, :with_os, :with_environment)
-    get :fdata, params: { :id => hostgroup.id }, session: set_session_user
+    get :fdata, :params => { :id => hostgroup.id }, :session => set_session_user
     assert_response :success
 
     assert_equal hostgroup.environment.name, json_response['environments'][0]['name']

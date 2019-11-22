@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'test_plugin_helper'
 require 'nokogiri'
 
@@ -14,9 +16,9 @@ module ForemanAcd
 
     test 'should destroy app instance' do
       assert_difference('AppInstance.count', -1) do
-      delete :destroy,
-             :params => { :id => @model.id },
-             :session => set_session_user
+        delete :destroy,
+               :params => { :id => @model.id },
+               :session => set_session_user
       end
       assert_redirected_to app_instances_url
     end
