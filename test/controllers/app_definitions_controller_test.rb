@@ -4,6 +4,7 @@ require 'test_plugin_helper'
 require 'nokogiri'
 
 module ForemanAcd
+  # Application Definitions Controller tests
   class AppDefinitionsControllerTest < ActionController::TestCase
     setup do
       as_admin { FactoryBot.create(:app_definition) }

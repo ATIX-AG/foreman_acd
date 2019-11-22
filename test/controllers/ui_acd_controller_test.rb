@@ -3,6 +3,7 @@
 require 'test_plugin_helper'
 require 'nokogiri'
 
+# UI Controller tests
 class UiAcdControllerTest < ActionController::TestCase
   test 'get app json' do
     app_def = FactoryBot.create(:app_definition)
