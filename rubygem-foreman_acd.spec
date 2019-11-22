@@ -5,7 +5,7 @@
 %global plugin_name acd
 
 Name: %{?scl_prefix}rubygem-%{gem_name}
-Version: 0.5
+Version: 0.0.1
 Release: 1%{?foremandist}%{?dist}
 Summary: Application Centric Deployment plugin for foreman / katello
 Group: Applications/Systems
@@ -161,5 +161,5 @@ cp -pa .%{gem_dir}/* \
 exit 0
 
 %changelog
-* Fri Oct 11 2019 Bernhard Suttner <suttner@atix.de> 0.5-1
+* Fri Nov 22 2019 Bernhard Suttner <suttner@atix.de> 0.0.1-1
 - First release
