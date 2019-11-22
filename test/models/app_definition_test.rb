@@ -3,6 +3,7 @@
 require 'test_plugin_helper'
 
 module ForemanAcd
+  # Application Definition Model tests
   class AppDefinitionTest < ActiveSupport::TestCase
     should validate_presence_of(:name)
     should validate_uniqueness_of(:name)
