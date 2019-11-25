@@ -1,6 +1,6 @@
 {
   "name": "foreman_acd",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "foreman application centric deployment",
   "main": "index.js",
   "directories": {
