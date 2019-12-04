@@ -13,8 +13,8 @@ export const successState = Immutable(parameterSelectionData_1);
 
 const EDIT_ROW_ID = 5;
 
-var editClone = parameterSelectionData_1;
-var editIndex = findIndex(editClone.rows, { id: EDIT_ROW_ID })
+const editClone = parameterSelectionData_1;
+const editIndex = findIndex(editClone.rows, { id: EDIT_ROW_ID })
 editClone["rows"][editIndex].backup = cloneDeep(editClone["rows"][editIndex]);
 export const editState = Immutable(editClone);
 

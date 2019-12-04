@@ -38,15 +38,15 @@ export const transformForemanData = (fdata) => {
   if (fdata === undefined) {
     return "";
   }
-  var result = {};
+  const result = {};
   fdata.map(item => result[item.id] = item.name)
   return (result);
 }
 
 export const filterUsedParameterTypes = (options, parameters) => {
-  var newOptions = cloneDeep(options);
+  const newOptions = cloneDeep(options);
   // hostparam can be used multiple times
-  var alreadyUsed = parameters.map(item => item["type"]).filter(item => item != 'hostparam');
+  const alreadyUsed = parameters.map(item => item["type"]).filter(item => item != 'hostparam');
   alreadyUsed.forEach(item => delete newOptions[item])
   return newOptions;
 }

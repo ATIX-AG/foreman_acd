@@ -62,7 +62,7 @@ export const initParameterSelection = (
   };
   initialState.appDefinition = appDefinition;
 
-  var valueLabel = 'Value';
+  let valueLabel = 'Value';
   if (isDefinition(mode)) {
     valueLabel = 'Default value';
   }
@@ -259,7 +259,7 @@ export const loadParameterSelection = (
 ) => dispatch => {
   dispatch({ type: LOAD_PARAMETER_SELECTION_REQUEST });
 
-  var realUrl = url.replace("__id__", applicationDefinitionId);
+  const realUrl = url.replace("__id__", applicationDefinitionId);
 
   return api
     .get(realUrl, {}, {})
@@ -279,7 +279,7 @@ export const loadForemanData = (
 ) => dispatch => {
   dispatch({ type: LOAD_FOREMAN_DATA_REQUEST, payload: { clearRows: clearRows } });
 
-  var realUrl = url.replace("__id__", hostgroupId);
+  const realUrl = url.replace("__id__", hostgroupId);
 
   return api
     .get(realUrl, {}, {})

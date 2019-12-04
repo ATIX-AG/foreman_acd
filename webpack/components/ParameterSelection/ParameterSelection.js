@@ -104,8 +104,8 @@ class ParameterSelection extends React.Component {
   }
 
   renderRailsInputHidden(view, parameter, value) {
-    var id = "foreman_acd_"+ view +"_"+ parameter;
-    var name = "foreman_acd_"+ view +"["+ parameter +"]";
+    const id = "foreman_acd_"+ view +"_"+ parameter;
+    const name = "foreman_acd_"+ view +"["+ parameter +"]";
 
     return (
       <input
@@ -131,7 +131,7 @@ class ParameterSelection extends React.Component {
   customHeaderFormatters = customHeaderFormattersDefinition;
 
   validateRows() {
-    var result = (this.props.rows.map(e => e.value).filter(i => i == "").length == 0);
+    const result = (this.props.rows.map(e => e.value).filter(i => i == "").length == 0);
     if (result === false) {
       window.alert("All parameters need to have a value!");
     }
@@ -228,7 +228,7 @@ class ParameterSelection extends React.Component {
     const inlineEditFormatter = inlineEditFormatterFactory({
       isEditing: additionalData => this.isEditing(additionalData),
       renderValue: (value, additionalData) => {
-        var prettyValue = value;
+        let prettyValue = value;
         if (additionalData.property == 'type') {
           prettyValue = PARAMETER_TYPES[value];
         } else if (additionalData.property == 'value') {
@@ -312,14 +312,14 @@ class ParameterSelection extends React.Component {
       hostgroupId,
     } = this.props;
 
-    var sortedRows;
-    var newEntryIndex = findIndex(rows, 'newEntry');
+    let sortedRows;
+    const newEntryIndex = findIndex(rows, 'newEntry');
 
     if (newEntryIndex >= 0) {
-      let newEntry = rows[newEntryIndex];
+      const newEntry = rows[newEntryIndex];
       // sort all elements, besides the newEntry which will be
       // added to the end of the Array
-      var tmpRows = cloneDeep(rows);
+      const tmpRows = cloneDeep(rows);
       tmpRows.splice(newEntryIndex, 1);
       sortedRows = this.compose(
         sort.sorter({
