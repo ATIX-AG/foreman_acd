@@ -43,8 +43,8 @@ const parameterSelectionParameters = (state = initialState, action) => {
       return state.merge(payload);
     }
     case PARAMETER_ADD: {
-      var rows = [];
-      var index = 0;
+      let rows = [];
+      let index = 0;
 
       if ('rows' in state && state.rows !== undefined && state.rows.length > 0) {
         rows = cloneDeep(state.rows);
@@ -61,7 +61,7 @@ const parameterSelectionParameters = (state = initialState, action) => {
       });
     }
     case PARAMETER_DELETE: {
-      var rows = state.rows.filter(v => v.id !== payload.rowData.id);
+      const rows = state.rows.filter(v => v.id !== payload.rowData.id);
       return state.merge({
         rows: rows,
         parameterTypes: filterUsedParameterTypes(PARAMETER_TYPES, rows),
@@ -148,7 +148,7 @@ const parameterSelectionParameters = (state = initialState, action) => {
       });
     }
     case LOAD_FOREMAN_DATA_REQUEST: {
-      var newState = {
+      const newState = {
         foremanData: {},
         hostgroupId: -1,
         loading: true
