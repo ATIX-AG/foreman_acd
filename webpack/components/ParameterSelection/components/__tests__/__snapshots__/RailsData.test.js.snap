@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RailsData should render rails data input field 1`] = `
+<input
+  id="foreman_acd_nice_view_nice_param"
+  name="foreman_acd_nice_view[nice_param]"
+  type="hidden"
+  value="nice_value"
+/>
+`;

@@ -20,6 +20,9 @@ const fixtures = {
     error: { statusText: '', errorMsg: '' },
     initParameterSelection: noop,
     loadForemanData: noop,
+    loadParameterSelection: noop,
+    addParameter: noop,
+    deleteParameter: noop,
   },
   'should render editDefinition': {
     loading: false,
@@ -27,6 +30,9 @@ const fixtures = {
     error: { statusText: '', errorMsg: '' },
     initParameterSelection: noop,
     loadForemanData: noop,
+    loadParameterSelection: noop,
+    addParameter: noop,
+    deleteParameter: noop,
   },
   'should render newInstance': {
     loading: false,
@@ -34,6 +40,9 @@ const fixtures = {
     error: { statusText: '', errorMsg: '' },
     initParameterSelection: noop,
     loadForemanData: noop,
+    loadParameterSelection: noop,
+    addParameter: noop,
+    deleteParameter: noop,
   },
   'should render editInstance': {
     loading: false,
@@ -41,6 +50,9 @@ const fixtures = {
     error: { statusText: '', errorMsg: '' },
     initParameterSelection: noop,
     loadForemanData: noop,
+    loadParameterSelection: noop,
+    addParameter: noop,
+    deleteParameter: noop,
   },
 };
 
