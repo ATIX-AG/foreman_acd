@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ExtSelect should render disabled button 1`] = `
+<Select
+  onChange={[Function]}
+  options={
+    Object {
+      "first": "first",
+      "second": "second",
+    }
+  }
+  value="0"
+/>
+`;
+
+exports[`ExtSelect should render hidden selection field 1`] = `""`;
+
+exports[`ExtSelect should render selection field 1`] = `<div />`;
