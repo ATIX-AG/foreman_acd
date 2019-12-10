@@ -254,12 +254,14 @@ export const sortParameter = (selectedColumn, defaultSortingOrder) => ({
 });
 
 export const loadParameterSelection = (
-  url,
-  applicationDefinitionId
+  applicationDefinitionId,
+  additionalData,
 ) => dispatch => {
   dispatch({ type: LOAD_PARAMETER_SELECTION_REQUEST });
 
-  const realUrl = url.replace("__id__", applicationDefinitionId);
+  console.log(additionalData);
+
+  const realUrl = additionalData.url.replace("__id__", applicationDefinitionId);
 
   return api
     .get(realUrl, {}, {})
@@ -273,13 +275,12 @@ export const loadParameterSelection = (
 };
 
 export const loadForemanData = (
-  url,
   hostgroupId,
-  clearRows = false,
+  additionalData,
 ) => dispatch => {
-  dispatch({ type: LOAD_FOREMAN_DATA_REQUEST, payload: { clearRows: clearRows } });
+  dispatch({ type: LOAD_FOREMAN_DATA_REQUEST, payload: { clearRows: additionalData.clearRows } });
 
-  const realUrl = url.replace("__id__", hostgroupId);
+  const realUrl = additionalData.url.replace("__id__", hostgroupId);
 
   return api
     .get(realUrl, {}, {})

@@ -5,6 +5,10 @@ import * as sort from 'sortabular';
 import { orderBy } from 'lodash';
 import * as resolve from 'table-resolver';
 import Select from 'foremanReact/components/common/forms/Select';
+import AddParameter from './components/AddParameter';
+import DeleteParameter from './components/DeleteParameter';
+import ExtSelect from './components/ExtSelect';
+import RailsData from './components/RailsData';
 
 import {
   isNewDefinition,
@@ -50,79 +54,6 @@ class ParameterSelection extends React.Component {
     super(props);
   }
 
-  renderAddButton(mode, addParameter) {
-    if (isInstance(mode))
-      return null;
-
-    return (
-      <Button bsStyle="default" disabled={ this.props.editMode || this.props.hostgroupId <= 0 } onClick={() => addParameter()}>
-        <Icon type="fa" name="plus" />
-      </Button>
-    );
-  }
-
-  renderDeleteButton(mode, deleteParameter, additionalData, disabled=false) {
-    if (isInstance(mode))
-      return null;
-
-    return (
-      <span>
-      &nbsp;
-      <Button
-        bsStyle="default"
-        disabled={disabled}
-        onClick={() => window.confirm("Are you sure you wish to delete this item?") && deleteParameter(additionalData) }
-      >
-        <Icon type="pf" name="delete" />
-      </Button>
-      </span>
-    );
-  }
-
-  renderSelectApplication(applications, url, loadParameterSelection, appDefinition) {
-    return (
-      <Select
-         value={appDefinition.id.toString()}
-         onChange={e => loadParameterSelection(url, e.target.value) }
-         options={applications}
-         allowClear
-         key="key"
-      />
-    );
-  }
-
-  renderSelectHostgroup(hostgroups, url, loadForemanData, hostgroupId) {
-    return (
-      <Select
-         value={hostgroupId.toString()}
-         onChange={e => loadForemanData(url, e.target.value, true) }
-         options={hostgroups}
-         allowClear
-         key="key"
-      />
-    );
-  }
-
-  renderRailsInputHidden(view, parameter, value) {
-    const id = "foreman_acd_"+ view +"_"+ parameter;
-    const name = "foreman_acd_"+ view +"["+ parameter +"]";
-
-    return (
-      <input
-        id={id}
-        name={name}
-        value={value}
-        type="hidden"
-      />
-    );
-  }
-
-  renderShowDivText(text) {
-    return (
-      <div>{text}</div>
-    );
-  }
-
   isEditing({rowData}) {
     return (rowData.backup !== undefined);
   }
@@ -150,7 +81,7 @@ class ParameterSelection extends React.Component {
     } = this.props;
 
     if (isEditDefinition(mode) || isEditInstance(mode)) {
-       loadForemanData(loadForemanDataUrl, appDefinition.hostgroup_id);
+       loadForemanData(appDefinition.hostgroup_id, { url: loadForemanDataUrl, clearRows: false });
     }
 
     if (isInstance(mode)) {
@@ -167,7 +98,12 @@ class ParameterSelection extends React.Component {
           >
             <Icon type="pf" name="edit" />
           </Button>
-          {this.renderDeleteButton(mode, deleteParameter, additionalData)}
+          <DeleteParameter
+            hidden={isInstance(mode)}
+            disabled={false}
+            onDeleteParameter={deleteParameter}
+            additionalData={additionalData}
+          />
         </td>
       ),
       renderEdit: (value, additionalData) => (
@@ -175,7 +111,12 @@ class ParameterSelection extends React.Component {
           <Button bsStyle="default" disabled>
             <Icon type="pf" name="edit" />
           </Button>
-          {this.renderDeleteButton(mode, deleteParameter, additionalData, true)}
+          <DeleteParameter
+            hidden={isInstance(mode)}
+            disabled={true}
+            onDeleteParameter={deleteParameter}
+            additionalData={additionalData}
+          />
         </td>
       )
     });
@@ -348,9 +289,21 @@ class ParameterSelection extends React.Component {
           <div className="form-group">
             <label className="col-md-2 control-label">Host Group</label>
             <div className="col-md-4">
-              {isNewDefinition(mode) && this.renderSelectHostgroup(hostgroups, loadForemanDataUrl, loadForemanData, hostgroupId) }
-              {isEditDefinition(mode) && this.renderShowDivText(hostgroups[hostgroupId]) }
-              {this.renderRailsInputHidden('app_definition', 'hostgroup_id', hostgroupId) }
+              <ExtSelect
+                hidden={isInstance(mode)}
+                editable={isNewDefinition(mode)}
+                viewText={hostgroups[hostgroupId]}
+                selectValue={hostgroupId.toString()}
+                onChange={loadForemanData}
+                options={hostgroups}
+                additionalData={{url: loadForemanDataUrl, clearRows: true }}
+              />
+              <RailsData
+                key='hostgroup_id'
+                view='app_definition'
+                parameter='hostgroup_id'
+                value={hostgroupId}
+              />
             </div>
           </div>
         </div>
@@ -359,9 +312,21 @@ class ParameterSelection extends React.Component {
           <div className="form-group">
             <label className="col-md-2 control-label">Application Definition</label>
             <div className="col-md-4">
-              {isNewInstance(mode) && this.renderSelectApplication(applications, loadParameterSelectionUrl, loadParameterSelection, appDefinition)}
-              {isEditInstance(mode) && this.renderShowDivText(appDefinition.name)}
-              {isInstance(mode) && this.renderRailsInputHidden('app_instance', 'app_definition_id', appDefinition.id)}
+              <ExtSelect
+                hidden={isDefinition(mode)}
+                editable={isNewInstance(mode)}
+                viewText={appDefinition.name}
+                selectValue={appDefinition.id.toString()}
+                onChange={loadParameterSelection}
+                options={applications}
+                additionalData={{url: loadParameterSelectionUrl}}
+              />
+              {isInstance(mode) && <RailsData
+                                     key='definition_id'
+                                     view='app_instance'
+                                     parameter='app_definition_id'
+                                     value={appDefinition.id}
+                                  />}
             </div>
           </div>
         </div>
@@ -375,7 +340,11 @@ class ParameterSelection extends React.Component {
 
         <div className="clearfix">
           <div className="form-group">
-            {this.renderAddButton(mode, addParameter)}
+            <AddParameter
+               hidden={isInstance(mode)}
+               disabled={ this.props.editMode || this.props.hostgroupId <= 0 }
+               onAddParameter={ addParameter }
+            />
             <Table.PfProvider
               striped
               bordered
@@ -411,9 +380,18 @@ class ParameterSelection extends React.Component {
                 })}
               />
             </Table.PfProvider>
-            {this.renderAddButton(mode, addParameter)}
+            <AddParameter
+               hidden={isInstance(mode)}
+               disabled={ this.props.editMode || this.props.hostgroupId <= 0 }
+               onAddParameter={ addParameter }
+            />
           </div>
-          {this.renderRailsInputHidden(isDefinition(mode) ? 'app_definition' : 'app_instance', 'parameters', JSON.stringify(this.props.rows))}
+          <RailsData
+            key='applications_parameters'
+            view={isDefinition(mode) ? 'app_definition' : 'app_instance'}
+            parameter='parameters'
+            value={JSON.stringify(this.props.rows)}
+          />
         </div>
       </div>
     );
