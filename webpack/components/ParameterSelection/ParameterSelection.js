@@ -5,10 +5,9 @@ import * as sort from 'sortabular';
 import { orderBy } from 'lodash';
 import * as resolve from 'table-resolver';
 import Select from 'foremanReact/components/common/forms/Select';
-import AddParameter from './components/AddParameter';
-import DeleteParameter from './components/DeleteParameter';
-import ExtSelect from './components/ExtSelect';
-import RailsData from './components/RailsData';
+import AddTableEntry from '../common/AddTableEntry';
+import DeleteTableEntry from '../common/DeleteTableEntry';
+import ExtSelect from '../common/ExtSelect';
 
 import {
   isNewDefinition,
@@ -26,9 +25,8 @@ import {
   cloneDeep,
 } from 'lodash';
 
-
 import {
-  PARAMETER_TYPES,
+  PARAMETER_SELECTION_TYPES,
 } from './ParameterSelectionConstants';
 
 import {
@@ -47,7 +45,6 @@ const theme = {
   base00: 'rgba(0, 0, 0, 0)',
 };
 
-
 class ParameterSelection extends React.Component {
 
   constructor(props) {
@@ -61,8 +58,8 @@ class ParameterSelection extends React.Component {
   // enables our custom header formatters extensions to reactabular
   customHeaderFormatters = customHeaderFormattersDefinition;
 
-  validateRows() {
-    const result = (this.props.rows.map(e => e.value).filter(i => i == "").length == 0);
+  validateParameters() {
+    const result = (this.props.parameters.map(e => e.value).filter(i => i == "").length == 0);
     if (result === false) {
       window.alert("All parameters need to have a value!");
     }
@@ -71,7 +68,10 @@ class ParameterSelection extends React.Component {
 
   componentDidMount() {
     const {
-      data: { mode, appDefinition, location, organization, loadForemanDataUrl, parameters },
+      data: { mode, parameters, serviceDefinition },
+      location,
+      organization,
+      loadForemanDataUrl,
       initParameterSelection,
       sortParameter,
       deleteParameter,
@@ -80,13 +80,12 @@ class ParameterSelection extends React.Component {
       loadForemanData,
     } = this.props;
 
-    if (isEditDefinition(mode) || isEditInstance(mode)) {
-       loadForemanData(appDefinition.hostgroup_id, { url: loadForemanDataUrl, clearRows: false });
-    }
+    loadForemanData(serviceDefinition.hostgroup_id, { url: loadForemanDataUrl, clearParameters: false });
 
-    if (isInstance(mode)) {
-      $('input[type="submit"][name="commit"]').on('click', () => this.validateRows());
+    /*if (isInstance(mode)) {
+      $('input[type="submit"][name="commit"]').on('click', () => this.validateParameters());
     }
+    */
 
     const inlineEditButtonsFormatter = inlineEditFormatterFactory({
       isEditing: additionalData => this.props.editMode,
@@ -98,10 +97,10 @@ class ParameterSelection extends React.Component {
           >
             <Icon type="pf" name="edit" />
           </Button>
-          <DeleteParameter
+          <DeleteTableEntry
             hidden={isInstance(mode)}
             disabled={false}
-            onDeleteParameter={deleteParameter}
+            onDeleteTableEntry={deleteParameter}
             additionalData={additionalData}
           />
         </td>
@@ -111,10 +110,10 @@ class ParameterSelection extends React.Component {
           <Button bsStyle="default" disabled>
             <Icon type="pf" name="edit" />
           </Button>
-          <DeleteParameter
+          <DeleteTableEntry
             hidden={isInstance(mode)}
             disabled={true}
-            onDeleteParameter={deleteParameter}
+            onDeleteTableEntry={deleteParameter}
             additionalData={additionalData}
           />
         </td>
@@ -171,7 +170,7 @@ class ParameterSelection extends React.Component {
       renderValue: (value, additionalData) => {
         let prettyValue = value;
         if (additionalData.property == 'type') {
-          prettyValue = PARAMETER_TYPES[value];
+          prettyValue = PARAMETER_SELECTION_TYPES[value];
         } else if (additionalData.property == 'value') {
           switch (additionalData.rowData.type) {
             case 'computeprofile':
@@ -199,7 +198,7 @@ class ParameterSelection extends React.Component {
             if (additionalData.rowData.newEntry === true) {
               return inlineEditFormatterImpl.renderEditSelect(value, additionalData, this.props.parameterTypes);
             }
-            return inlineEditFormatterImpl.renderValue(PARAMETER_TYPES[value], additionalData)
+            return inlineEditFormatterImpl.renderValue(PARAMETER_SELECTION_TYPES[value], additionalData)
           case 'value':
             switch (additionalData.rowData.type) {
               case 'computeprofile':
@@ -225,7 +224,7 @@ class ParameterSelection extends React.Component {
 
     initParameterSelection(
       mode,
-      appDefinition,
+      serviceDefinition,
       parameters,
       this.sortingFormatter,
       this.sortableTransform,
@@ -239,111 +238,58 @@ class ParameterSelection extends React.Component {
 
   render() {
     const {
-      data: { mode, applications, hostgroups, loadParameterSelectionUrl, loadForemanDataUrl },
-      rows,
+      data: { mode, applications },
+      location,
+      organization,
+      loadForemanDataUrl,
+      parameters,
       columns,
       sortingColumns,
       loading,
       addParameter,
       confirmEditParameter,
       cancelEditParameter,
-      loadParameterSelection,
       loadForemanData,
-      appDefinition,
-      hostgroupId,
+      serviceDefinition,
     } = this.props;
 
-    let sortedRows;
-    const newEntryIndex = findIndex(rows, 'newEntry');
+    let sortedParameters;
+    const newEntryIndex = findIndex(parameters, 'newEntry');
 
     if (newEntryIndex >= 0) {
-      const newEntry = rows[newEntryIndex];
+      const newEntry = parameters[newEntryIndex];
       // sort all elements, besides the newEntry which will be
       // added to the end of the Array
-      const tmpRows = cloneDeep(rows);
-      tmpRows.splice(newEntryIndex, 1);
-      sortedRows = this.compose(
+      const tmpParameters = cloneDeep(parameters);
+      tmpParameters.splice(newEntryIndex, 1);
+      sortedParameters = this.compose(
         sort.sorter({
           columns,
           sortingColumns,
           sort: orderBy,
           strategy: sort.strategies.byProperty
         })
-      )(tmpRows);
-      sortedRows.push(newEntry);
+      )(tmpParameters);
+      sortedParameters.push(newEntry);
     } else {
-      sortedRows = this.compose(
+      sortedParameters = this.compose(
         sort.sorter({
           columns,
           sortingColumns,
           sort: orderBy,
           strategy: sort.strategies.byProperty
         })
-      )(rows);
+      )(parameters);
     }
 
     return(
       <div>
-        {isDefinition(mode) ? (
         <div className="clearfix">
           <div className="form-group">
-            <label className="col-md-2 control-label">Host Group</label>
-            <div className="col-md-4">
-              <ExtSelect
-                hidden={isInstance(mode)}
-                editable={isNewDefinition(mode)}
-                viewText={hostgroups[hostgroupId]}
-                selectValue={hostgroupId.toString()}
-                onChange={loadForemanData}
-                options={hostgroups}
-                additionalData={{url: loadForemanDataUrl, clearRows: true }}
-              />
-              <RailsData
-                key='hostgroup_id'
-                view='app_definition'
-                parameter='hostgroup_id'
-                value={hostgroupId}
-              />
-            </div>
-          </div>
-        </div>
-        ) : (
-        <div className="clearfix">
-          <div className="form-group">
-            <label className="col-md-2 control-label">Application Definition</label>
-            <div className="col-md-4">
-              <ExtSelect
-                hidden={isDefinition(mode)}
-                editable={isNewInstance(mode)}
-                viewText={appDefinition.name}
-                selectValue={appDefinition.id.toString()}
-                onChange={loadParameterSelection}
-                options={applications}
-                additionalData={{url: loadParameterSelectionUrl}}
-              />
-              {isInstance(mode) && <RailsData
-                                     key='definition_id'
-                                     view='app_instance'
-                                     parameter='app_definition_id'
-                                     value={appDefinition.id}
-                                  />}
-            </div>
-          </div>
-        </div>
-        )}
-        <div className="clearfix">
-          <div className="form-group">
-            <label className="col-md-1 control-label">Application parameters</label>
-            <div className="col-md-5">&nbsp;</div>
-          </div>
-        </div>
-
-        <div className="clearfix">
-          <div className="form-group">
-            <AddParameter
+            <AddTableEntry
                hidden={isInstance(mode)}
-               disabled={ this.props.editMode || this.props.hostgroupId <= 0 }
-               onAddParameter={ addParameter }
+               disabled={ this.props.editMode }
+               onAddTableEntry={ addParameter }
             />
             <Table.PfProvider
               striped
@@ -369,29 +315,23 @@ class ParameterSelection extends React.Component {
             >
               <Table.Header headerRows={resolve.headerRows({ columns })} />
               <Table.Body
-                rows={sortedRows}
+                rows={sortedParameters}
                 rowKey="id"
                 onRow={(rowData, { rowIndex }) => ({
                   role: 'row',
                   isEditing: () => this.isEditing({ rowData }),
                   onCancel: () => cancelEditParameter({ rowData, rowIndex }),
                   onConfirm: () => confirmEditParameter({ rowData, rowIndex }),
-                  last: rowIndex === sortedRows.length - 1
+                  last: rowIndex === sortedParameters.length - 1
                 })}
               />
             </Table.PfProvider>
-            <AddParameter
+            <AddTableEntry
                hidden={isInstance(mode)}
-               disabled={ this.props.editMode || this.props.hostgroupId <= 0 }
-               onAddParameter={ addParameter }
+               disabled={ this.props.editMode }
+               onAddTableEntry={ addParameter }
             />
           </div>
-          <RailsData
-            key='applications_parameters'
-            view={isDefinition(mode) ? 'app_definition' : 'app_instance'}
-            parameter='parameters'
-            value={JSON.stringify(this.props.rows)}
-          />
         </div>
       </div>
     );
@@ -403,31 +343,27 @@ ParameterSelection.defaultProps = {
   editMode: false,
   loading: false,
   foremanData: {},
-  rows: [],
+  parameters: [],
   columns: [],
   sortingColumns: {},
-  appDefinition: { "id": '', "name": '', "hostgroup_id": '', "parameters": [] },
-  hostgroupId: -1,
 };
 
 ParameterSelection.propTypes = {
   data: PropTypes.shape({
     mode: PropTypes.string.isRequired,
-    location: PropTypes.string.isRequired,
-    organization: PropTypes.string.isRequired,
     parameters: PropTypes.array,
-    appDefinition: PropTypes.object,
+    serviceDefinition: PropTypes.object,
     applications: PropTypes.object,
-    hostgroups: PropTypes.object,
-    loadParameterSelectionUrl: PropTypes.string,
-    loadForemanDataUrl: PropTypes.string,
   }).isRequired,
+  location: PropTypes.string.isRequired,
+  organization: PropTypes.string.isRequired,
+  loadForemanDataUrl: PropTypes.string,
   initParameterSelection: PropTypes.func,
   editMode: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
   foremanData: PropTypes.object.isRequired,
   parameterTypes: PropTypes.object,
-  rows: PropTypes.array,
+  parameters: PropTypes.array,
   sortingColumns: PropTypes.object,
   columns: PropTypes.array,
   sortParameter: PropTypes.func,
@@ -437,10 +373,8 @@ ParameterSelection.propTypes = {
   confirmEditParameter: PropTypes.func,
   cancelEditParameter: PropTypes.func,
   changeEditParameter: PropTypes.func,
-  loadParameterSelection: PropTypes.func,
   loadForemanData: PropTypes.func,
-  appDefinition: PropTypes.object,
-  hostgroupId: PropTypes.number,
+  serviceDefinition: PropTypes.object,
 };
 
 export default ParameterSelection;

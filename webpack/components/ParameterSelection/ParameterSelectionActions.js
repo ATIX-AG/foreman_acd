@@ -26,26 +26,23 @@ import {
 } from './ParameterSelectionHelper';
 
 import {
-  INIT_PARAMETER_SELECTION,
-  PARAMETER_TYPES,
-  PARAMETER_DELETE,
-  PARAMETER_ADD,
-  PARAMETER_EDIT_ACTIVATE,
-  PARAMETER_EDIT_CONFIRM,
-  PARAMETER_EDIT_CHANGE,
-  PARAMETER_EDIT_CANCEL,
-  PARAMETER_SORT,
-  LOAD_PARAMETER_SELECTION_REQUEST,
-  LOAD_PARAMETER_SELECTION_SUCCESS,
-  LOAD_PARAMETER_SELECTION_FAILURE,
-  LOAD_FOREMAN_DATA_REQUEST,
-  LOAD_FOREMAN_DATA_SUCCESS,
-  LOAD_FOREMAN_DATA_FAILURE,
+  PARAMETER_SELECTION_INIT,
+  PARAMETER_SELECTION_TYPES,
+  PARAMETER_SELECTION_DELETE,
+  PARAMETER_SELECTION_ADD,
+  PARAMETER_SELECTION_EDIT_ACTIVATE,
+  PARAMETER_SELECTION_EDIT_CONFIRM,
+  PARAMETER_SELECTION_EDIT_CHANGE,
+  PARAMETER_SELECTION_EDIT_CANCEL,
+  PARAMETER_SELECTION_SORT,
+  PARAMETER_SELECTION_LOAD_FOREMAN_DATA_REQUEST,
+  PARAMETER_SELECTION_LOAD_FOREMAN_DATA_SUCCESS,
+  PARAMETER_SELECTION_LOAD_FOREMAN_DATA_FAILURE,
 } from './ParameterSelectionConstants';
 
 export const initParameterSelection = (
   mode,
-  appDefinition,
+  serviceDefinition,
   parameters,
   sortingFormatter,
   sortableTransform,
@@ -60,7 +57,7 @@ export const initParameterSelection = (
         position: 0
     }
   };
-  initialState.appDefinition = appDefinition;
+  initialState.serviceDefinition = serviceDefinition;
 
   let valueLabel = 'Value';
   if (isDefinition(mode)) {
@@ -95,7 +92,7 @@ export const initParameterSelection = (
           index: 1,
           sort: true,
           style: {
-            width: '25%'
+            width: '20%'
           }
         },
         transforms: [sortableTransform],
@@ -125,9 +122,6 @@ export const initParameterSelection = (
         customFormatters: [sortableHeaderCellFormatter]
       },
       cell: {
-        props: {
-          index: 2
-        },
         // we are always using the inlineEditFormatter so that
         // the well formatted type name is shown
         formatters: [inlineEditFormatter]
@@ -141,7 +135,7 @@ export const initParameterSelection = (
           index: 3,
           sort: true,
           style: {
-            width: '25%'
+            width: '20%'
           }
         },
         transforms: [sortableTransform],
@@ -149,9 +143,6 @@ export const initParameterSelection = (
         customFormatters: [sortableHeaderCellFormatter]
       },
       cell: {
-        props: {
-          index: 3
-        },
         formatters: [inlineEditFormatter]
       }
     },
@@ -160,36 +151,36 @@ export const initParameterSelection = (
       header: {
         label: 'Actions',
         props: {
-          index: 4
+          index: 4,
+          style: {
+            width: '20%'
+          }
         },
         formatters: [actionHeaderCellFormatter]
       },
       cell: {
-        props: {
-          index: 4
-        },
         formatters: [inlineEditButtonsFormatter]
       }
     }
   ];
 
-  if ((isNewDefinition(mode)) || (isNewInstance(mode))) {
-    initialState.rows = [];
-  } else if ((isEditDefinition(mode)) || (isEditInstance(mode))) {
-    initialState.rows = parameters;
-    initialState.hostgroupId = appDefinition.hostgroup_id;
+  if (isNewDefinition(mode)) {
+    initialState.parameters = [];
+  } else if ((isEditDefinition(mode)) || (isInstance(mode))) {
+    initialState.parameters = parameters;
+    initialState.hostgroupId = serviceDefinition.hostgroup_id;
   } else {
     // FIXME: should never ever happen
   }
 
-  if (isNewDefinition(mode) || isNewInstance(mode)) {
-    initialState.parameterTypes = PARAMETER_TYPES;
+  if (isNewDefinition(mode)) {
+    initialState.parameterTypes = PARAMETER_SELECTION_TYPES;
   } else {
-    initialState.parameterTypes = filterUsedParameterTypes(PARAMETER_TYPES, parameters);
+    initialState.parameterTypes = filterUsedParameterTypes(PARAMETER_SELECTION_TYPES, parameters);
   }
 
   dispatch({
-    type: INIT_PARAMETER_SELECTION,
+    type: PARAMETER_SELECTION_INIT,
     payload: initialState,
   });
 }
@@ -203,42 +194,42 @@ const errorHandler = (msg, err) => {
 };
 
 export const addParameter = (additionalData) => ({
-  type: PARAMETER_ADD,
+  type: PARAMETER_SELECTION_ADD,
   payload: {
     ...additionalData,
   },
 });
 
 export const deleteParameter = (additionalData) => ({
-  type: PARAMETER_DELETE,
+  type: PARAMETER_SELECTION_DELETE,
   payload: {
     ...additionalData,
   },
 });
 
 export const activateEditParameter = (additionalData) => ({
-  type: PARAMETER_EDIT_ACTIVATE,
+  type: PARAMETER_SELECTION_EDIT_ACTIVATE,
   payload: {
     ...additionalData,
   },
 });
 
 export const confirmEditParameter = (rowData) => ({
-  type: PARAMETER_EDIT_CONFIRM,
+  type: PARAMETER_SELECTION_EDIT_CONFIRM,
   payload: {
     ...rowData,
   },
 });
 
 export const cancelEditParameter = (rowData) => ({
-  type: PARAMETER_EDIT_CANCEL,
+  type: PARAMETER_SELECTION_EDIT_CANCEL,
   payload: {
     ...rowData,
   },
 });
 
 export const changeEditParameter = (value, additionalData) => ({
-  type: PARAMETER_EDIT_CHANGE,
+  type: PARAMETER_SELECTION_EDIT_CHANGE,
   payload: {
     value,
     ...additionalData,
@@ -246,39 +237,18 @@ export const changeEditParameter = (value, additionalData) => ({
 });
 
 export const sortParameter = (selectedColumn, defaultSortingOrder) => ({
-  type: PARAMETER_SORT,
+  type: PARAMETER_SELECTION_SORT,
   payload: {
     selectedColumn,
     defaultSortingOrder,
   },
 });
 
-export const loadParameterSelection = (
-  applicationDefinitionId,
-  additionalData,
-) => dispatch => {
-  dispatch({ type: LOAD_PARAMETER_SELECTION_REQUEST });
-
-  console.log(additionalData);
-
-  const realUrl = additionalData.url.replace("__id__", applicationDefinitionId);
-
-  return api
-    .get(realUrl, {}, {})
-    .then(({ data }) =>
-      dispatch({
-        type: LOAD_PARAMETER_SELECTION_SUCCESS,
-        payload: data,
-      })
-    )
-    .catch(error => dispatch(errorHandler(LOAD_PARAMETER_SELECTION_FAILURE, error)));
-};
-
 export const loadForemanData = (
   hostgroupId,
   additionalData,
 ) => dispatch => {
-  dispatch({ type: LOAD_FOREMAN_DATA_REQUEST, payload: { clearRows: additionalData.clearRows } });
+  dispatch({ type: PARAMETER_SELECTION_LOAD_FOREMAN_DATA_REQUEST, payload: { clearParameters: additionalData.clearParameters } });
 
   const realUrl = additionalData.url.replace("__id__", hostgroupId);
 
@@ -286,10 +256,10 @@ export const loadForemanData = (
     .get(realUrl, {}, {})
     .then(({ data }) =>
       dispatch({
-        type: LOAD_FOREMAN_DATA_SUCCESS,
+        type: PARAMETER_SELECTION_LOAD_FOREMAN_DATA_SUCCESS,
         payload: data,
       })
     )
-    .catch(error => dispatch(errorHandler(LOAD_FOREMAN_DATA_FAILURE, error)));
+    .catch(error => dispatch(errorHandler(PARAMETER_SELECTION_LOAD_FOREMAN_DATA_FAILURE, error)));
 };
 

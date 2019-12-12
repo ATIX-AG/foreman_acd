@@ -5,10 +5,10 @@ import {
   Button,
 } from 'patternfly-react';
 
-const DeleteParameter = ({
+const DeleteTableEntry = ({
   hidden,
   disabled,
-  onDeleteParameter,
+  onDeleteTableEntry,
   additionalData,
 }) =>{
   if (hidden) {
@@ -21,7 +21,7 @@ const DeleteParameter = ({
       <Button
         bsStyle="default"
         disabled={disabled}
-        onClick={() => window.confirm("Are you sure you wish to delete this item?") && onDeleteParameter(additionalData) }
+        onClick={() => window.confirm("Are you sure you wish to delete this item?") && onDeleteTableEntry(additionalData) }
       >
         <Icon type="pf" name="delete" />
       </Button>
@@ -29,11 +29,11 @@ const DeleteParameter = ({
   );
 };
 
-DeleteParameter.propTypes = {
+DeleteTableEntry.propTypes = {
   hidden: PropTypes.bool.isRequired,
   disabled: PropTypes.bool.isRequired,
-  onDeleteParameter: PropTypes.func.isRequired,
+  onDeleteTableEntry: PropTypes.func.isRequired,
   additionalData: PropTypes.object.isRequired,
 };
 
-export default DeleteParameter;
+export default DeleteTableEntry;

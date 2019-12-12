@@ -10,11 +10,10 @@ import {
   selectEditMode,
   selectForemanData,
   selectParameterTypes,
-  selectRows,
+  selectParameters,
   selectSortingColumns,
   selectColumns,
-  selectAppDefinition,
-  selectHostgroupId,
+  selectServiceDefinition,
 } from './ParameterSelectionSelectors';
 
 const mapStateToProps = state => ({
@@ -22,11 +21,10 @@ const mapStateToProps = state => ({
   editMode: selectEditMode(state),
   foremanData: selectForemanData(state),
   parameterTypes: selectParameterTypes(state),
-  rows: selectRows(state),
+  parameters: selectParameters(state),
   sortingColumns: selectSortingColumns(state),
   columns: selectColumns(state),
-  appDefinition: selectAppDefinition(state),
-  hostgroupId: selectHostgroupId(state),
+  serviceDefinition: selectServiceDefinition(state),
 });
 
 const mapDispatchToProps = dispatch =>

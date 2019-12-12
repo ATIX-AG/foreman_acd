@@ -24,8 +24,7 @@ module ForemanAcd
           param :app_definition, Hash, :required => true, :action_aware => true do
             param :name, String, :required => true
             param :description, String, :required => true
-            param :hostgroup_id, :number, :required => true
-            param :parameters, String, :required => true
+            param :services, String, :required => true
           end
         end
 

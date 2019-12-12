@@ -9,7 +9,7 @@ module ForemanAcd
       class_methods do
         def app_definition_params_filter
           Foreman::ParameterFilter.new(::ForemanAcd::AppDefinition).tap do |filter|
-            filter.permit(:name, :description, :hostgroup_id, :parameters)
+            filter.permit(:name, :description, :services)
           end
         end
       end

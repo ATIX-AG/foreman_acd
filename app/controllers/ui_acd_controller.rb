@@ -6,7 +6,6 @@ class UiAcdController < ::Api::V2::BaseController
     @app_data = {}
     app_definition = ForemanAcd::AppDefinition.find(params[:id])
     @app_data['app_definition'] = app_definition
-    @app_data['fdata'] = collect_fdata(app_definition.hostgroup_id)
   end
 
   def fdata

@@ -2,4 +2,4 @@
 
 object @app_definition
 
-attributes :id, :name, :description, :hostgroup_id, :parameters, :created_at, :updated_at
+attributes :id, :name, :description, :services, :created_at, :updated_at

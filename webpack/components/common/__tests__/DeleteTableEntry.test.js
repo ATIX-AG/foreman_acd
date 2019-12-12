@@ -1,6 +1,6 @@
 import { testComponentSnapshotsWithFixtures } from 'react-redux-test-utils';
 
-import DeleteParameter from '../DeleteParameter';
+import DeleteTableEntry from '../DeleteTableEntry';
 
 const noop = () => {};
 
@@ -8,22 +8,22 @@ const fixtures = {
   'should render delete parameter': {
     hidden: false,
     disabled: false,
-    onDeleteParameter: noop,
+    onDeleteTableEntry: noop,
     additionalData: {},
   },
   'should render hidden button': {
     hidden: true,
     disabled: false,
-    onDeleteParameter: noop,
+    onDeleteTableEntry: noop,
     additionalData: {},
   },
   'should render disabled button': {
     hidden: false,
     disabled: true,
-    onDeleteParameter: noop,
+    onDeleteTableEntry: noop,
     additionalData: {},
   },
 };
 
-describe('DeleteParameter', () =>
-  testComponentSnapshotsWithFixtures(DeleteParameter, fixtures));
+describe('DeleteTableEntry', () =>
+  testComponentSnapshotsWithFixtures(DeleteTableEntry, fixtures));

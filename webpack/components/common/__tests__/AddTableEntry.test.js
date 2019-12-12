@@ -1,6 +1,6 @@
 import { testComponentSnapshotsWithFixtures } from 'react-redux-test-utils';
 
-import AddParameter from '../AddParameter';
+import AddTableEntry from '../AddTableEntry';
 
 const noop = () => {};
 
@@ -8,19 +8,19 @@ const fixtures = {
   'should render add parameter': {
     hidden: false,
     disabled: false,
-    onAddParameter: noop,
+    onAddTableEntry: noop,
   },
   'should render hidden button': {
     hidden: true,
     disabled: false,
-    onAddParameter: noop,
+    onAddTableEntry: noop,
   },
   'should render disabled button': {
     hidden: false,
     disabled: true,
-    onAddParameter: noop,
+    onAddTableEntry: noop,
   },
 };
 
-describe('AddParameter', () =>
-  testComponentSnapshotsWithFixtures(AddParameter, fixtures));
+describe('AddTableEntry', () =>
+  testComponentSnapshotsWithFixtures(AddTableEntry, fixtures));
