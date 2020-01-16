@@ -15,7 +15,6 @@ export const PARAMETER_SELECTION_LOAD_FOREMAN_DATA_FAILURE = 'PARAMETER_SELECTIO
 export const PARAMETER_SELECTION_TYPES = {
   computeprofile: 'Compute profile',
   domain: 'Domain',
-  hostname: 'Hostname',
   hostparam: 'Host parameter',
   ip: 'IP',
   lifecycleenv: 'Lifecycle environment',

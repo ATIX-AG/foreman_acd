@@ -36,9 +36,9 @@ export const initApplicationInstance = (
 
   initialState.columns = [
     {
-      property: 'name',
+      property: 'hostname',
       header: {
-        label: 'Name',
+        label: 'Hostname',
         formatters: [headerFormatter],
         props: {
           index: 0,
