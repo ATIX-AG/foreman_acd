@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DeleteTableEntry should render delete parameter 1`] = `
+<span>
+   
+  <Button
+    active={false}
+    block={false}
+    bsClass="btn"
+    bsStyle="default"
+    disabled={false}
+    onClick={[Function]}
+  >
+    <Icon
+      name="delete"
+      type="pf"
+    />
+  </Button>
+</span>
+`;
+
+exports[`DeleteTableEntry should render disabled button 1`] = `
+<span>
+   
+  <Button
+    active={false}
+    block={false}
+    bsClass="btn"
+    bsStyle="default"
+    disabled={true}
+    onClick={[Function]}
+  >
+    <Icon
+      name="delete"
+      type="pf"
+    />
+  </Button>
+</span>
+`;
+
+exports[`DeleteTableEntry should render hidden button 1`] = `""`;

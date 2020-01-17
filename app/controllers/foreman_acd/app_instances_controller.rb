@@ -63,24 +63,23 @@ module ForemanAcd
       services = JSON.parse(@app_instance.app_definition.services)
 
       JSON.parse(@app_instance.hosts).each do |host_data|
+        begin
+          service_data = services.select { |k| k['id'] == host_data['service'].to_i }.first
+          host_params = set_host_params(host_data, service_data)
 
-        logger.error(host_data)
+          params = host_attributes(host_params)
 
-        service_data = services.select { |k| k['id'] == host_data['service'].to_i }.first
-        host_params = set_host_params(host_data, service_data)
+          # Print to log for debugging purposes
+          logger.info("Host creation parameters for #{host_data['hostname']}:\n#{params}\n")
 
-        params = host_attributes(host_params)
-
-        # Print to log for debugging purposes
-        logger.info("Host creation parameters for #{host_data['hostname']}:\n#{params}\n")
-
-        host = Host.new(params)
-        apply_compute_profile(host)
-        host.suggest_default_pxe_loader
-        host.save
-        success _('Successfully initiated host creation')
-      rescue StandardError => e
-        logger.error("Failed to initiate host creation: #{e.backtrace.join($INPUT_RECORD_SEPARATOR)}")
+          host = Host.new(params)
+          apply_compute_profile(host)
+          host.suggest_default_pxe_loader
+          host.save
+          success _('Successfully initiated host creation')
+        rescue StandardError => e
+          logger.error("Failed to initiate host creation: #{e.backtrace.join($INPUT_RECORD_SEPARATOR)}")
+        end
       end
     ensure
       redirect_to app_instances_path

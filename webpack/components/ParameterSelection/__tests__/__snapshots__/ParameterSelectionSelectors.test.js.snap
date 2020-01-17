@@ -1,13 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ParameterSelectionSelectors should return appDefinition from parameterSelectionData_1 fixtures 1`] = `
-Object {
-  "hostgroup_id": 1,
-  "id": 1,
-  "name": "Test123",
-}
-`;
-
 exports[`ParameterSelectionSelectors should return columns from parameterSelectionData_1 fixtures 1`] = `
 Array [
   Object {
@@ -138,7 +130,7 @@ Object {
 }
 `;
 
-exports[`ParameterSelectionSelectors should return rows from parameterSelectionData_1 fixtures 1`] = `
+exports[`ParameterSelectionSelectors should return parameters from parameterSelectionData_1 fixtures 1`] = `
 Array [
   Object {
     "description": "",
@@ -198,6 +190,8 @@ Array [
   },
 ]
 `;
+
+exports[`ParameterSelectionSelectors should return serviceDefinition from parameterSelectionData_1 fixtures 1`] = `undefined`;
 
 exports[`ParameterSelectionSelectors should return sortingColumns from parameterSelectionData_1 fixtures 1`] = `
 Object {

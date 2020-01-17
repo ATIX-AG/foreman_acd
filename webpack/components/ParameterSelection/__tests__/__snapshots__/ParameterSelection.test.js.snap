@@ -8,68 +8,10 @@ exports[`ParameterSelection should render editDefinition 1`] = `
     <div
       className="form-group"
     >
-      <label
-        className="col-md-2 control-label"
-      >
-        Host Group
-      </label>
-      <div
-        className="col-md-4"
-      >
-        <ExtSelect
-          additionalData={
-            Object {
-              "clearRows": true,
-              "url": "/acd/ui_acd_fdata/__id__",
-            }
-          }
-          editable={false}
-          hidden={false}
-          onChange={[Function]}
-          options={
-            Object {
-              "1": "centos7",
-            }
-          }
-          selectValue="-1"
-        />
-        <RailsData
-          key="hostgroup_id"
-          parameter="hostgroup_id"
-          value={-1}
-          view="app_definition"
-        />
-      </div>
-    </div>
-  </div>
-  <div
-    className="clearfix"
-  >
-    <div
-      className="form-group"
-    >
-      <label
-        className="col-md-1 control-label"
-      >
-        Application parameters
-      </label>
-      <div
-        className="col-md-5"
-      >
-         
-      </div>
-    </div>
-  </div>
-  <div
-    className="clearfix"
-  >
-    <div
-      className="form-group"
-    >
-      <AddParameter
-        disabled={true}
+      <AddTableEntry
+        disabled={false}
         hidden={false}
-        onAddParameter={[Function]}
+        onAddTableEntry={[Function]}
       />
       <TablePfProvider
         bordered={true}
@@ -105,18 +47,12 @@ exports[`ParameterSelection should render editDefinition 1`] = `
           rows={Array []}
         />
       </TablePfProvider>
-      <AddParameter
-        disabled={true}
+      <AddTableEntry
+        disabled={false}
         hidden={false}
-        onAddParameter={[Function]}
+        onAddTableEntry={[Function]}
       />
     </div>
-    <RailsData
-      key="applications_parameters"
-      parameter="parameters"
-      value="[]"
-      view="app_definition"
-    />
   </div>
 </div>
 `;
@@ -129,63 +65,10 @@ exports[`ParameterSelection should render editInstance 1`] = `
     <div
       className="form-group"
     >
-      <label
-        className="col-md-2 control-label"
-      >
-        Application Definition
-      </label>
-      <div
-        className="col-md-4"
-      >
-        <ExtSelect
-          additionalData={
-            Object {
-              "url": undefined,
-            }
-          }
-          editable={false}
-          hidden={false}
-          onChange={[Function]}
-          selectValue=""
-          viewText=""
-        />
-        <RailsData
-          key="definition_id"
-          parameter="app_definition_id"
-          value=""
-          view="app_instance"
-        />
-      </div>
-    </div>
-  </div>
-  <div
-    className="clearfix"
-  >
-    <div
-      className="form-group"
-    >
-      <label
-        className="col-md-1 control-label"
-      >
-        Application parameters
-      </label>
-      <div
-        className="col-md-5"
-      >
-         
-      </div>
-    </div>
-  </div>
-  <div
-    className="clearfix"
-  >
-    <div
-      className="form-group"
-    >
-      <AddParameter
-        disabled={true}
+      <AddTableEntry
+        disabled={false}
         hidden={true}
-        onAddParameter={[Function]}
+        onAddTableEntry={[Function]}
       />
       <TablePfProvider
         bordered={true}
@@ -221,18 +104,12 @@ exports[`ParameterSelection should render editInstance 1`] = `
           rows={Array []}
         />
       </TablePfProvider>
-      <AddParameter
-        disabled={true}
+      <AddTableEntry
+        disabled={false}
         hidden={true}
-        onAddParameter={[Function]}
+        onAddTableEntry={[Function]}
       />
     </div>
-    <RailsData
-      key="applications_parameters"
-      parameter="parameters"
-      value="[]"
-      view="app_instance"
-    />
   </div>
 </div>
 `;
@@ -245,68 +122,10 @@ exports[`ParameterSelection should render newDefinition 1`] = `
     <div
       className="form-group"
     >
-      <label
-        className="col-md-2 control-label"
-      >
-        Host Group
-      </label>
-      <div
-        className="col-md-4"
-      >
-        <ExtSelect
-          additionalData={
-            Object {
-              "clearRows": true,
-              "url": "/acd/ui_acd_fdata/__id__",
-            }
-          }
-          editable={true}
-          hidden={false}
-          onChange={[Function]}
-          options={
-            Object {
-              "1": "centos7",
-            }
-          }
-          selectValue="-1"
-        />
-        <RailsData
-          key="hostgroup_id"
-          parameter="hostgroup_id"
-          value={-1}
-          view="app_definition"
-        />
-      </div>
-    </div>
-  </div>
-  <div
-    className="clearfix"
-  >
-    <div
-      className="form-group"
-    >
-      <label
-        className="col-md-1 control-label"
-      >
-        Application parameters
-      </label>
-      <div
-        className="col-md-5"
-      >
-         
-      </div>
-    </div>
-  </div>
-  <div
-    className="clearfix"
-  >
-    <div
-      className="form-group"
-    >
-      <AddParameter
-        disabled={true}
+      <AddTableEntry
+        disabled={false}
         hidden={false}
-        onAddParameter={[Function]}
+        onAddTableEntry={[Function]}
       />
       <TablePfProvider
         bordered={true}
@@ -342,18 +161,12 @@ exports[`ParameterSelection should render newDefinition 1`] = `
           rows={Array []}
         />
       </TablePfProvider>
-      <AddParameter
-        disabled={true}
+      <AddTableEntry
+        disabled={false}
         hidden={false}
-        onAddParameter={[Function]}
+        onAddTableEntry={[Function]}
       />
     </div>
-    <RailsData
-      key="applications_parameters"
-      parameter="parameters"
-      value="[]"
-      view="app_definition"
-    />
   </div>
 </div>
 `;
@@ -366,69 +179,10 @@ exports[`ParameterSelection should render newInstance 1`] = `
     <div
       className="form-group"
     >
-      <label
-        className="col-md-2 control-label"
-      >
-        Application Definition
-      </label>
-      <div
-        className="col-md-4"
-      >
-        <ExtSelect
-          additionalData={
-            Object {
-              "url": "/acd/ui_acd_app/__id__",
-            }
-          }
-          editable={true}
-          hidden={false}
-          onChange={[Function]}
-          options={
-            Object {
-              "1": "Test123",
-              "2": "sowasvonneu",
-            }
-          }
-          selectValue=""
-          viewText=""
-        />
-        <RailsData
-          key="definition_id"
-          parameter="app_definition_id"
-          value=""
-          view="app_instance"
-        />
-      </div>
-    </div>
-  </div>
-  <div
-    className="clearfix"
-  >
-    <div
-      className="form-group"
-    >
-      <label
-        className="col-md-1 control-label"
-      >
-        Application parameters
-      </label>
-      <div
-        className="col-md-5"
-      >
-         
-      </div>
-    </div>
-  </div>
-  <div
-    className="clearfix"
-  >
-    <div
-      className="form-group"
-    >
-      <AddParameter
-        disabled={true}
+      <AddTableEntry
+        disabled={false}
         hidden={true}
-        onAddParameter={[Function]}
+        onAddTableEntry={[Function]}
       />
       <TablePfProvider
         bordered={true}
@@ -464,18 +218,12 @@ exports[`ParameterSelection should render newInstance 1`] = `
           rows={Array []}
         />
       </TablePfProvider>
-      <AddParameter
-        disabled={true}
+      <AddTableEntry
+        disabled={false}
         hidden={true}
-        onAddParameter={[Function]}
+        onAddTableEntry={[Function]}
       />
     </div>
-    <RailsData
-      key="applications_parameters"
-      parameter="parameters"
-      value="[]"
-      view="app_instance"
-    />
   </div>
 </div>
 `;

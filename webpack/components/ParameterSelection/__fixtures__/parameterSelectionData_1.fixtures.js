@@ -127,7 +127,7 @@ export const parameterSelectionData_1 = {
       }
     }
   ],
-  rows: [
+  parameters: [
     {
       id: 1,
       name: 'PuppetEnv',

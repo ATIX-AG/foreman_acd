@@ -45,7 +45,7 @@ const parameterSelectionParameters = (state = initialState, action) => {
     }
     case PARAMETER_SELECTION_ADD: {
       let parameters = [];
-      let index = 0;
+      let index = 1;
 
       if ('parameters' in state && state.parameters !== undefined && state.parameters.length > 0) {
         parameters = cloneDeep(state.parameters);
