@@ -60,18 +60,28 @@ module ForemanAcd
     end
 
     def deploy
-      params = host_attributes(set_host_params)
+      services = JSON.parse(@app_instance.app_definition.services)
 
-      # Print to log for debugging purposes
-      logger.info("Host creation parameters:\n#{params}\n")
+      JSON.parse(@app_instance.hosts).each do |host_data|
 
-      @host = Host.new(params)
-      apply_compute_profile(@host)
-      @host.suggest_default_pxe_loader
-      @host.save
-      success _('Successfully initiated host creation')
-    rescue StandardError => e
-      logger.error("Failed to initiate host creation: #{e.backtrace.join($INPUT_RECORD_SEPARATOR)}")
+        logger.error(host_data)
+
+        service_data = services.select { |k| k['id'] == host_data['service'].to_i }.first
+        host_params = set_host_params(host_data, service_data)
+
+        params = host_attributes(host_params)
+
+        # Print to log for debugging purposes
+        logger.info("Host creation parameters for #{host_data['hostname']}:\n#{params}\n")
+
+        host = Host.new(params)
+        apply_compute_profile(host)
+        host.suggest_default_pxe_loader
+        host.save
+        success _('Successfully initiated host creation')
+      rescue StandardError => e
+        logger.error("Failed to initiate host creation: #{e.backtrace.join($INPUT_RECORD_SEPARATOR)}")
+      end
     ensure
       redirect_to app_instances_path
     end
@@ -117,10 +127,12 @@ module ForemanAcd
       result
     end
 
-    def set_host_params
+    def set_host_params(host_data, service_data)
       result = hardcoded_params
-      result['hostgroup_id'] = @app_instance.app_definition.hostgroup_id
-      JSON.parse(@app_instance.parameters).each do |param|
+      result['name'] = host_data['hostname']
+      result['hostgroup_id'] = service_data['hostgroup']
+
+      host_data['parameters'].each do |param|
         case param['type']
 
         when 'computeprofile'
@@ -128,9 +140,6 @@ module ForemanAcd
 
         when 'domain'
           result['domain_id'] = param['value']
-
-        when 'hostname'
-          result['name'] = param['value']
 
         when 'hostparam'
           result['host_parameters_attributes'].push(:name => param['name'], :value => param['value'])
