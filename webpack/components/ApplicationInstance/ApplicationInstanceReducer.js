@@ -48,7 +48,7 @@ const applicationInstanceConf = (state = initialState, action) => {
     }
     case APPLICATION_INSTANCE_HOST_ADD: {
       let hosts = [];
-      let index = 0;
+      let index = 1;
 
       if ('hosts' in state && state.hosts !== undefined && state.hosts.length > 0) {
         hosts = cloneDeep(state.hosts);
@@ -84,6 +84,12 @@ const applicationInstanceConf = (state = initialState, action) => {
     case APPLICATION_INSTANCE_HOST_EDIT_CONFIRM: {
       const hosts = cloneDeep(state.hosts);
       const index = findIndex(hosts, { id: payload.rowData.id });
+
+      // Initialize the new Instance with the parameters of the Application Definition.
+      if (hosts[index].newEntry === true) {
+          const selectedService = state.services.filter(entry => entry.id == payload.rowData.service)[0];
+          hosts[index].parameters = selectedService.parameters;
+      }
 
       delete hosts[index].backup;
       delete hosts[index].newEntry;
@@ -135,8 +141,6 @@ const applicationInstanceConf = (state = initialState, action) => {
           parametersData.mode = 'editInstance';
         } else {
           parametersData.mode = 'newInstance';
-          // Initialize the new Instance with the parameters of the appDefinition.
-          parametersData.parameters = selectedService.parameters;
         }
       }
       return state.merge({
