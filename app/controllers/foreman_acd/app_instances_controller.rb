@@ -61,6 +61,7 @@ module ForemanAcd
 
     def deploy
       services = JSON.parse(@app_instance.app_definition.services)
+      @deploy_hosts = []
 
       JSON.parse(@app_instance.hosts).each do |host_data|
         begin
@@ -73,16 +74,18 @@ module ForemanAcd
           logger.info("Host creation parameters for #{host_data['hostname']}:\n#{params}\n")
 
           host = Host.new(params)
+
+          # REMOVE ME (but very nice for testing)
+          #host.mac = "00:11:22:33:44:55"
+
           apply_compute_profile(host)
           host.suggest_default_pxe_loader
           host.save
-          success _('Successfully initiated host creation')
+          @deploy_hosts.push({name: host.name, progress_report_id: host.progress_report_id})
         rescue StandardError => e
           logger.error("Failed to initiate host creation: #{e.backtrace.join($INPUT_RECORD_SEPARATOR)}")
         end
       end
-    ensure
-      redirect_to app_instances_path
     end
 
     private
