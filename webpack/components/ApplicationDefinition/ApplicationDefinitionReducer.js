@@ -39,7 +39,7 @@ const applicationDefinitionConf = (state = initialState, action) => {
         index = Math.max(...services.map(e => e.id)) + 1;
       }
 
-      const newRow = {id: index, name: "", description: '', hostgroup: '', count: '', parameters: [], newEntry: true };
+      const newRow = {id: index, name: "", description: '', hostgroup: '', minCount: '', maxCount: '', parameters: [], newEntry: true };
       newRow.backup = cloneDeep(newRow)
       services.push(newRow);
 

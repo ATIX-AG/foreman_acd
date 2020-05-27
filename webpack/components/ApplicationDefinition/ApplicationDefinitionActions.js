@@ -80,14 +80,30 @@ export const initApplicationDefinition = (
       }
     },
     {
-      property: 'count',
+      property: 'minCount',
       header: {
-        label: 'Count',
+        label: 'min count',
         formatters: [headerFormatter],
         props: {
           index: 3,
           style: {
-            width: '20%'
+            width: '10%'
+          }
+        },
+      },
+      cell: {
+        formatters: [inlineEditFormatter]
+      }
+    },
+    {
+      property: 'maxCount',
+      header: {
+        label: 'max count',
+        formatters: [headerFormatter],
+        props: {
+          index: 3,
+          style: {
+            width: '10%'
           }
         },
       },

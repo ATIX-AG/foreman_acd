@@ -135,7 +135,9 @@ class ApplicationInstance extends React.Component {
       renderEdit: (value, additionalData) => {
         let prettyValue = value;
         if (additionalData.property == 'service') {
-          const serviceList = arrayToObject(this.props.services, "id", "name");
+          const availableServices = this.props.services.filter(service => service['currentCount'] < service['maxCount']);
+          const serviceList = arrayToObject(availableServices, "id", "name");
+
           if (additionalData.rowData.newEntry === true) {
             return inlineEditFormatterImpl.renderEditSelect(value, additionalData, serviceList);
           }
@@ -175,14 +177,14 @@ class ApplicationInstance extends React.Component {
 
     return (
       <span>
-        <div>
+        <div class="service-counter">
           <ServiceCounter
-            label="Service counts"
+            title="Service counts"
             serviceList={ services }
             hostList={ hosts }
           />
         </div>
-          <div>
+        <div>
           <AppDefinitionSelector
             label="Application Definition"
             editable={ mode == 'newInstance' }

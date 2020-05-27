@@ -40,9 +40,23 @@ const applicationInstanceConf = (state = initialState, action) => {
       return state.set('loading', true);
     }
     case APPLICATION_INSTANCE_LOAD_APPLICATION_DEFINITION_SUCCESS: {
+      const services = JSON.parse(payload.app_definition.services);
+
+      // initialize all services count with 0
+      services.map(serv => {
+        serv['currentCount'] = 0;
+      })
+
+      // Update count
+      state.hosts.map((host, index) => {
+        const hostServiceId = Number(host.service);
+        const service = services.find(serv => serv['id'] == hostServiceId);
+        service['currentCount'] += 1;
+      });
+
       return state.merge({
         appDefinition: payload.app_definition,
-        services: JSON.parse(payload.app_definition.services),
+        services: services,
         loading: false,
       });
     }
@@ -65,9 +79,18 @@ const applicationInstanceConf = (state = initialState, action) => {
       });
     }
     case APPLICATION_INSTANCE_HOST_DELETE: {
-      const hosts = state.hosts.filter(v => v.id !== payload.rowData.id);
+      const services = cloneDeep(state.services);
+      const host = state.hosts.find(v => v.id == payload.rowData.id);
+      const hostServiceId = Number(host.service);
+      const hosts = state.hosts.filter(v => v.id !== host.id);
+
+      // Update count
+      const service = services.find(serv => serv['id'] == hostServiceId);
+      service['currentCount'] -= 1;
+
       return state.merge({
         hosts: hosts,
+        services: services,
       })
     }
     case APPLICATION_INSTANCE_HOST_EDIT_ACTIVATE: {
@@ -84,11 +107,20 @@ const applicationInstanceConf = (state = initialState, action) => {
     case APPLICATION_INSTANCE_HOST_EDIT_CONFIRM: {
       const hosts = cloneDeep(state.hosts);
       const index = findIndex(hosts, { id: payload.rowData.id });
+      const services = cloneDeep(state.services);
 
       // Initialize the new Instance with the parameters of the Application Definition.
       if (hosts[index].newEntry === true) {
           const selectedService = state.services.filter(entry => entry.id == payload.rowData.service)[0];
           hosts[index].parameters = selectedService.parameters;
+
+          const hostServiceId = Number(hosts[index].service);
+          const service = services.find(serv => serv['id'] == hostServiceId);
+          if ('currentCount' in service) {
+            service['currentCount'] += 1;
+          } else {
+            service['currentCount'] = 1;
+          }
       }
 
       delete hosts[index].backup;
@@ -96,6 +128,7 @@ const applicationInstanceConf = (state = initialState, action) => {
 
       return state.merge({
         editMode: false,
+        services: services,
         hosts: hosts
       });
     }

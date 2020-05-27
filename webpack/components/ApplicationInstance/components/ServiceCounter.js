@@ -4,36 +4,25 @@ import Service from './Service';
 import { arrayToObjectObj } from '../../../helper';
 import { cloneDeep } from 'lodash';
 
-
 const ServiceCounter= ({
-  label,
+  title,
   serviceList,
-  hostList,
 }) =>{
   if (serviceList == undefined || serviceList.length == 0) {
     return null;
   }
-
   const services = cloneDeep(arrayToObjectObj(serviceList, "id"));
-
-  hostList.map((host, index) => {
-    const serviceElem = Number(host.service);
-    if ('currentCount' in services[serviceElem]) {
-      services[serviceElem]['currentCount'] += 1;
-    } else {
-      services[serviceElem]['currentCount'] = 1;
-    }
-  });
 
   return (
     <div>
-    <label>{label}</label>
+      <label class="service-counter-title">{title}</label>
     {Object.keys(services).map(key => (
       <Service
         key={services[key].index}
-        label={services[key].name}
+        name={services[key].name}
         currentCount={services[key].currentCount}
-        maxCount={Number(services[key].count)}
+        minCount={Number(services[key].minCount)}
+        maxCount={Number(services[key].maxCount)}
       />)
     )}
     </div>
@@ -41,7 +30,7 @@ const ServiceCounter= ({
 };
 
 ServiceCounter.propTypes = {
-  label: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
   serviceList: PropTypes.array,
   hostList: PropTypes.array,
 };
