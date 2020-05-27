@@ -12,6 +12,7 @@ import AddTableEntry from '../common/AddTableEntry';
 import DeleteTableEntry from '../common/DeleteTableEntry';
 import RailsData from '../common/RailsData'
 import AppDefinitionSelector from './components/AppDefinitionSelector';
+import ServiceCounter from './components/ServiceCounter';
 import { arrayToObject } from '../../helper';
 
 import {
@@ -174,15 +175,24 @@ class ApplicationInstance extends React.Component {
 
     return (
       <span>
-        <AppDefinitionSelector
-          label="Application Definition"
-          editable={ mode == 'newInstance' }
-          viewText={ appDefinition.name }
-          options={ applications }
-          onChange={ loadApplicationDefinition }
-          selectValue={ appDefinition.id.toString() }
-          additionalData={{url: loadAppDefinitionUrl}}
-        />
+        <div>
+          <ServiceCounter
+            label="Service counts"
+            serviceList={ services }
+            hostList={ hosts }
+          />
+        </div>
+          <div>
+          <AppDefinitionSelector
+            label="Application Definition"
+            editable={ mode == 'newInstance' }
+            viewText={ appDefinition.name }
+            options={ applications }
+            onChange={ loadApplicationDefinition }
+            selectValue={ appDefinition.id.toString() }
+            additionalData={{url: loadAppDefinitionUrl}}
+          />
+        </div>
         <div className="form-group">
           <AddTableEntry
              hidden={ false }

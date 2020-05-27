@@ -7,4 +7,14 @@ function arrayToObject(arr, id, value) {
   return rv;
 }
 
-export { arrayToObject };
+function arrayToObjectObj(arr, id) {
+  var rv = {};
+  for (var i = 0; i < arr.length; ++i)
+    rv[arr[i][id]] = arr[i];
+  return rv;
+}
+
+export {
+  arrayToObject,
+  arrayToObjectObj
+};
