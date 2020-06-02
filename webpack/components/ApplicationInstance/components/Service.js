@@ -14,6 +14,12 @@ const Service= ({
   );
 };
 
+Service.defaultProps = {
+  minCount: 0,
+  maxCount: 0,
+  currentCount: 0,
+};
+
 Service.propTypes = {
   name: PropTypes.string.isRequired,
   minCount: PropTypes.number.isRequired,

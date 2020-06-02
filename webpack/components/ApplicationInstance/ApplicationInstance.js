@@ -46,8 +46,8 @@ class ApplicationInstance extends React.Component {
       }
     });
 
-    const invalidMinServices = this.props.services.filter(s => s.currentCount < s.minCount);
-    const invalidMaxServices = this.props.services.filter(s => s.currentCount > s.maxCount);
+    const invalidMinServices = this.props.services.filter(s => (Number(s.minCount) != 0) && (s.currentCount < s.minCount));
+    const invalidMaxServices = this.props.services.filter(s => (Number(s.maxCount) != 0) && (s.currentCount > s.maxCount));
 
     if (invalidMinServices.length > 0 || invalidMaxServices.length > 0) {
       result = false;
@@ -174,7 +174,7 @@ class ApplicationInstance extends React.Component {
       renderEdit: (value, additionalData) => {
         let prettyValue = value;
         if (additionalData.property == 'service') {
-          const availableServices = this.props.services.filter(service => service['currentCount'] < service['maxCount']);
+          const availableServices = this.props.services.filter(service => ((Number(service['maxCount']) == 0) || (service['currentCount'] < service['maxCount'])));
           const serviceList = arrayToObject(availableServices, "id", "name");
 
           if (additionalData.rowData.newEntry === true) {

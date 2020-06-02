@@ -48,11 +48,13 @@ const applicationInstanceConf = (state = initialState, action) => {
       })
 
       // Update count
-      state.hosts.map((host, index) => {
-        const hostServiceId = Number(host.service);
-        const service = services.find(serv => serv['id'] == hostServiceId);
-        service['currentCount'] += 1;
-      });
+      if (state.hosts !== undefined) {
+        state.hosts.map((host, index) => {
+          const hostServiceId = Number(host.service);
+          const service = services.find(serv => serv['id'] == hostServiceId);
+          service['currentCount'] += 1;
+        });
+      }
 
       return state.merge({
         appDefinition: payload.app_definition,

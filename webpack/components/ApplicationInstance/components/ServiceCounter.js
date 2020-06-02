@@ -18,7 +18,7 @@ const ServiceCounter= ({
       <label class="service-counter-title">{title}</label>
     {Object.keys(services).map(key => (
       <Service
-        key={services[key].index}
+        key={services[key].id}
         name={services[key].name}
         currentCount={services[key].currentCount}
         minCount={Number(services[key].minCount)}
@@ -32,7 +32,6 @@ const ServiceCounter= ({
 ServiceCounter.propTypes = {
   title: PropTypes.string.isRequired,
   serviceList: PropTypes.array,
-  hostList: PropTypes.array,
 };
 
 export default ServiceCounter;
