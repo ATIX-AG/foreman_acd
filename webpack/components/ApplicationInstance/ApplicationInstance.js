@@ -33,13 +33,33 @@ class ApplicationInstance extends React.Component {
 
   validateParameters() {
     let result = true;
-    let msg = "For some hosts the values for some parameters are missing. Check the values for these hosts:\n";
+    let msg = "";
+
     this.props.hosts.forEach(h => {
       if (h.parameters.map(e => e.value).filter(i => i == "").length > 0) {
-        msg += "- "+ h.hostname +"\n";
         result = false;
+
+        if (msg == "") {
+          msg += "For some hosts the values for some parameters are missing. Check the values for these hosts:\n";
+        }
+        msg += "- "+ h.hostname +"\n";
       }
     });
+
+    const invalidMinServices = this.props.services.filter(s => s.currentCount < s.minCount);
+    const invalidMaxServices = this.props.services.filter(s => s.currentCount > s.maxCount);
+
+    if (invalidMinServices.length > 0 || invalidMaxServices.length > 0) {
+      result = false;
+
+      if (msg != "") {
+        msg += "\n";
+      }
+      msg += "Unachieved service counts: \n";
+
+      invalidMinServices.map(s => { msg += "- service "+ s.name +" expects at least "+ s.minCount +" configured hosts" });
+      invalidMaxServices.map(s => { msg += "- service "+ s.name +" expects no more than "+ s.maxCount +" configured hosts" });
+    }
 
     if (result === false) {
       window.alert(msg);
