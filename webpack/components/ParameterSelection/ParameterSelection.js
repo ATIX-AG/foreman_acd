@@ -58,14 +58,6 @@ class ParameterSelection extends React.Component {
   // enables our custom header formatters extensions to reactabular
   customHeaderFormatters = customHeaderFormattersDefinition;
 
-  validateParameters() {
-    const result = (this.props.parameters.map(e => e.value).filter(i => i == "").length == 0);
-    if (result === false) {
-      window.alert("All parameters need to have a value!");
-    }
-    return result;
-  }
-
   componentDidMount() {
     const {
       data: { mode, parameters, serviceDefinition },
@@ -81,11 +73,6 @@ class ParameterSelection extends React.Component {
     } = this.props;
 
     loadForemanData(serviceDefinition.hostgroup_id, { url: loadForemanDataUrl, clearParameters: false });
-
-    /*if (isInstance(mode)) {
-      $('input[type="submit"][name="commit"]').on('click', () => this.validateParameters());
-    }
-    */
 
     const inlineEditButtonsFormatter = inlineEditFormatterFactory({
       isEditing: additionalData => this.props.editMode,

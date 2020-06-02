@@ -31,6 +31,22 @@ class ApplicationInstance extends React.Component {
     return (rowData.backup !== undefined);
   }
 
+  validateParameters() {
+    let result = true;
+    let msg = "For some hosts the values for some parameters are missing. Check the values for these hosts:\n";
+    this.props.hosts.forEach(h => {
+      if (h.parameters.map(e => e.value).filter(i => i == "").length > 0) {
+        msg += "- "+ h.hostname +"\n";
+        result = false;
+      }
+    });
+
+    if (result === false) {
+      window.alert(msg);
+    }
+    return result;
+  }
+
   componentDidMount() {
     const {
       data: { mode, appDefinition, hosts, loadAppDefinitionUrl },
@@ -43,6 +59,9 @@ class ApplicationInstance extends React.Component {
       closeParameterSelectionModal,
       loadApplicationDefinition,
     } = this.props;
+
+    // Start from validation when pressing submit
+    $('input[type="submit"][name="commit"]').on('click', () => this.validateParameters());
 
     if (mode === 'editInstance') {
       loadApplicationDefinition(appDefinition.id, { url: loadAppDefinitionUrl });

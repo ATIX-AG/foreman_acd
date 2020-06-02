@@ -69,7 +69,7 @@ const applicationInstanceConf = (state = initialState, action) => {
         index = Math.max(...hosts.map(e => e.id)) + 1;
       }
 
-      const newRow = {id: index, name: "", description: '', service: '', parameters: [], newEntry: true };
+      const newRow = {id: index, hostname: "", description: '', service: '', parameters: [], newEntry: true };
       newRow.backup = cloneDeep(newRow)
       hosts.push(newRow);
 
@@ -109,12 +109,29 @@ const applicationInstanceConf = (state = initialState, action) => {
       const index = findIndex(hosts, { id: payload.rowData.id });
       const services = cloneDeep(state.services);
 
+      const thisHost = hosts[index];
+
+      if (thisHost.hostname == '') {
+        window.alert("Every host needs to have a valid name");
+        return state;
+      }
+
+      if (thisHost.service == '') {
+        window.alert("Every host needs to be assigned to a service");
+        return state;
+      }
+
+      if (state.hosts.filter(v => v.hostname === thisHost.hostname && v.id != thisHost.id).length > 0) {
+        window.alert("Host name already used for this Application Instance. Please make sure that every host name is unique");
+        return state;
+      }
+
       // Initialize the new Instance with the parameters of the Application Definition.
-      if (hosts[index].newEntry === true) {
+      if (thisHost.newEntry === true) {
           const selectedService = state.services.filter(entry => entry.id == payload.rowData.service)[0];
           hosts[index].parameters = selectedService.parameters;
 
-          const hostServiceId = Number(hosts[index].service);
+          const hostServiceId = Number(thisHost.service);
           const service = services.find(serv => serv['id'] == hostServiceId);
           if ('currentCount' in service) {
             service['currentCount'] += 1;
