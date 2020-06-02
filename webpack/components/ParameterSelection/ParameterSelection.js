@@ -172,6 +172,9 @@ class ParameterSelection extends React.Component {
             case 'ptable':
               prettyValue = transformForemanData(this.props.foremanData['ptables'])[value]
               break;
+            case 'password':
+              prettyValue = '****************'
+              break;
             case 'puppetenv':
               prettyValue = transformForemanData(this.props.foremanData['environments'])[value]
               break;
@@ -198,6 +201,8 @@ class ParameterSelection extends React.Component {
                 return inlineEditFormatterImpl.renderEditSelect(value, additionalData, transformForemanData(this.props.foremanData['environments']));
               case 'ptable':
                 return inlineEditFormatterImpl.renderEditSelect(value, additionalData, transformForemanData(this.props.foremanData['ptables']));
+              case 'password':
+                return inlineEditFormatterImpl.renderEditText(value, additionalData, 'password');
               case 'text':
               default:
                 return inlineEditFormatterImpl.renderEditText(value, additionalData);
