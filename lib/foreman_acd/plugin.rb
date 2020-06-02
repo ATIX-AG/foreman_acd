@@ -39,6 +39,16 @@ Foreman::Plugin.register :foreman_acd do
                  :'foreman_acd/api/v2/app_definitions' => [:destroy] },
                :resource_type => 'ForemanAcd::AppDefinition'
 
+    permission :export_app_definitions,
+               { :'foreman_acd/app_definitions' => [:export],
+                 :'foreman_acd/api/v2/app_definitions' => [:export] },
+               :resource_type => 'ForemanAcd::AppDefinition'
+
+    permission :import_app_definitions,
+               { :'foreman_acd/app_definitions' => [:import],
+                 :'foreman_acd/api/v2/app_definitions' => [:import] },
+               :resource_type => 'ForemanAcd::AppDefinition'
+
     permission :create_app_instances,
                { :'foreman_acd/app_instances' => [:new, :create],
                  :'foreman_acd/api/v2/app_instances' => [:create] },
@@ -69,7 +79,8 @@ Foreman::Plugin.register :foreman_acd do
   role 'Application Centric Deployment Manager', [:create_app_definitions,
                                                   :view_app_definitions,
                                                   :edit_app_definitions,
-                                                  :destroy_app_definitions]
+                                                  :export_app_definitions,
+                                                  :import_app_definitions]
 
   # User Role
   role 'Application Centric Deployment User', [:create_app_instances,

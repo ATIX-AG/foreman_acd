@@ -5,7 +5,13 @@ Rails.application.routes.draw do
     resources :app_definitions, :controller => 'foreman_acd/app_definitions' do
       collection do
         get 'auto_complete_search'
+        get 'import'
       end
+
+      member do
+        get 'export'
+      end
+
     end
 
     resources :app_instances, :controller => 'foreman_acd/app_instances' do

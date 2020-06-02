@@ -6,7 +6,8 @@ module ForemanAcd
     include Foreman::Controller::AutoCompleteSearch
     include ::ForemanAcd::Concerns::AppDefinitionParameters
 
-    before_action :find_resource, :only => [:edit, :update, :destroy]
+    before_action :find_resource, :only => [:edit, :update, :destroy, :export]
+    before_action :handle_file_upload, :only => [:create]
 
     def index
       @app_definitions = resource_base.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
@@ -48,6 +49,33 @@ module ForemanAcd
       else
         process_error
       end
+    end
+
+    def action_permission
+      case params[:action]
+      when 'export'
+        :export
+      else
+        super
+      end
+    end
+
+    def import
+      read_hostgroups
+      @app_definition = AppDefinition.new
+    end
+
+    def export
+      filename = "#{@app_definition.name}.yaml"
+      data = JSON.parse(@app_definition.services).to_yaml
+      send_data data, :type => 'text/yaml', :disposition => 'attachment', :filename => filename
+    end
+
+    private
+
+    def handle_file_upload
+      return unless params[:foreman_acd_app_definition] && raw_file = params[:foreman_acd_app_definition][:app_definition_file]
+      params[:foreman_acd_app_definition][:services] = YAML.load_file(raw_file.tempfile).to_json
     end
   end
 end
