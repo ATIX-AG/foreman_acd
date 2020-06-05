@@ -4,7 +4,7 @@
 
 %global gem_name foreman_acd
 %global plugin_name acd
-%global foreman_min_version 1.24.0
+%global foreman_min_version 2.0
 
 Name: %{?scl_prefix}rubygem-%{gem_name}
 Version: 0.1.0
@@ -31,33 +31,29 @@ Provides: foreman-plugin-%{plugin_name} = %{version}
 # end specfile generated dependencies
 
 # start package.json devDependencies BuildRequires
-BuildRequires: %{?scl_prefix}npm(babel-plugin-syntax-dynamic-import) >= 6.18.0
-BuildRequires: %{?scl_prefix}npm(babel-plugin-syntax-dynamic-import) < 7.0.0
-BuildRequires: %{?scl_prefix}npm(babel-plugin-transform-class-properties) >= 6.24.1
-BuildRequires: %{?scl_prefix}npm(babel-plugin-transform-class-properties) < 7.0.0
-BuildRequires: %{?scl_prefix}npm(babel-plugin-transform-object-assign) >= 6.22.0
-BuildRequires: %{?scl_prefix}npm(babel-plugin-transform-object-assign) < 7.0.0
-BuildRequires: %{?scl_prefix}npm(babel-plugin-transform-object-rest-spread) >= 6.26.0
-BuildRequires: %{?scl_prefix}npm(babel-plugin-transform-object-rest-spread) < 7.0.0
-BuildRequires: %{?scl_prefix}npm(babel-preset-env) >= 1.6.0
-BuildRequires: %{?scl_prefix}npm(babel-preset-env) < 2.0.0
-BuildRequires: %{?scl_prefix}npm(babel-preset-react) >= 6.24.1
-BuildRequires: %{?scl_prefix}npm(babel-preset-react) < 7.0.0
+BuildRequires: %{?scl_prefix}npm(@babel/core) >= 7.7.0
+BuildRequires: %{?scl_prefix}npm(@babel/core) < 8.0.0
+BuildRequires: %{?scl_prefix}npm(@theforeman/builder) >= 4.0.2
+BuildRequires: %{?scl_prefix}npm(@theforeman/builder) < 5.0.0
 BuildRequires: %{?scl_prefix}npm(identity-obj-proxy) >= 3.0.0
 BuildRequires: %{?scl_prefix}npm(identity-obj-proxy) < 4.0.0
 BuildRequires: %{?scl_prefix}npm(lodash) >= 4.17.11
 BuildRequires: %{?scl_prefix}npm(lodash) < 5.0.0
 BuildRequires: %{?scl_prefix}npm(sortabular) >= 1.5.1
-BuildRequires: %{?scl_prefix}npm(sortabular) < 1.6.0
+BuildRequires: %{?scl_prefix}npm(sortabular) < 2.0.0
 BuildRequires: %{?scl_prefix}npm(table-resolver) >= 3.2.0
-BuildRequires: %{?scl_prefix}npm(table-resolver) < 3.3.0
+BuildRequires: %{?scl_prefix}npm(table-resolver) < 4.0.0
+BuildRequires: %{?scl_prefix}npm(react-redux) >= 5.0.7
+BuildRequires: %{?scl_prefix}npm(react-redux) < 6.0.0
+BuildRequires: %{?scl_prefix}npm(redux) >= 3.7.2
+BuildRequires: %{?scl_prefix}npm(redux) < 4.0.0
+BuildRequires: %{?scl_prefix}npm(redux-thunk) >= 2.3.0
+BuildRequires: %{?scl_prefix}npm(redux-thunk) < 3.0.0
 # end package.json devDependencies BuildRequires
 
 # start package.json dependencies BuildRequires
-BuildRequires: %{?scl_prefix}npm(@theforeman/vendor) >= 1.7.0
-BuildRequires: %{?scl_prefix}npm(@theforeman/vendor) < 2.0.0
-BuildRequires: %{?scl_prefix}npm(react-intl) >= 2.8.0
-BuildRequires: %{?scl_prefix}npm(react-intl) < 3.0.0
+BuildRequires: %{?scl_prefix}npm(react-json-tree) >= 0.11.0
+BuildRequires: %{?scl_prefix}npm(react-json-tree) < 1.0.0
 # end package.json dependencies BuildRequires
 
 %description
