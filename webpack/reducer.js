@@ -18,7 +18,7 @@ import {
   APPLICATION_INSTANCE_PARAMETER_SELECTION_MODAL_CLOSE,
 } from './components/ApplicationInstance/ApplicationInstanceConstants';
 
-const rootReducer = (state = {}, action: Action) => {
+const rootReducer = (state = {}, action) => {
 
   const param_state = parameterSelectionParameters(state.parameterSelectionParameters, action);
   const app_ins_depl_report_state = applicationInstanceDeployReport(state.applicationInstanceDeployReport, action);
