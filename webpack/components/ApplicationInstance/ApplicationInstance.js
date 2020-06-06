@@ -275,9 +275,10 @@ class ApplicationInstance extends React.Component {
         </div>
         <div>
           <ForemanModal
+            id="AppInstanceParamSelection"
             isOpen={isModalOpen}
             dialogClassName="param_selection_modal"
-            title="I'm a modal!"
+            title="Parameter Selection for Application Instance"
             onClose={() => closeParameterSelectionModal({})}
           >
             <ForemanModal.Header>

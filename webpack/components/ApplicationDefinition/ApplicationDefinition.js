@@ -200,9 +200,10 @@ class ApplicationDefinition extends React.Component {
         </div>
         <div>
           <ForemanModal
+            id="AppDefinitionParamSelection"
             isOpen={isModalOpen}
             dialogClassName="param_selection_modal"
-            title="I'm a modal!"
+            title="Parameter Selection for Application Definition"
             onClose={() => closeParameterSelectionModal({})}
           >
             <ForemanModal.Header>
