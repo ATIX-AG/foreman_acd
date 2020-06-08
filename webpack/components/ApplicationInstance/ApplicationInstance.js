@@ -204,7 +204,6 @@ class ApplicationInstance extends React.Component {
       services,
       hosts,
       columns,
-      isModalOpen,
       addApplicationInstanceHost,
       confirmEditApplicationInstanceHost,
       cancelEditApplicationInstanceHost,
@@ -276,13 +275,11 @@ class ApplicationInstance extends React.Component {
         <div>
           <ForemanModal
             id="AppInstanceParamSelection"
-            isOpen={isModalOpen}
             dialogClassName="param_selection_modal"
-            title="Parameter Selection for Application Instance"
-            onClose={() => closeParameterSelectionModal({})}
+            title="Parameter specification for Application Instance"
           >
-            <ForemanModal.Header>
-              Parameter Instance
+            <ForemanModal.Header closeButton={false}>
+              Parameter specification
             </ForemanModal.Header>
             {this.props.parametersData ? (
               <ParameterSelection
@@ -294,7 +291,10 @@ class ApplicationInstance extends React.Component {
             ) : (<span>Empty</span>)
             }
             <ForemanModal.Footer>
-              Click the X in the upper right to close
+              <div>
+                <Button bsStyle="primary" onClick={() => closeParameterSelectionModal({ mode: 'save' })}>Save</Button>
+                <Button bsStyle="default" onClick={() => closeParameterSelectionModal({ mode: 'cancel' })}>Cancel</Button>
+              </div>
             </ForemanModal.Footer>
           </ForemanModal>
         </div>
@@ -316,7 +316,6 @@ ApplicationInstance.defaultProps = {
   hosts: [],
   parametersData: {},
   columns: [],
-  isModalOpen: false,
   editParamsOfRowId: null,
 }
 
@@ -326,7 +325,6 @@ ApplicationInstance.propTypes = {
   services: PropTypes.array,
   appDefinition: PropTypes.object,
   columns: PropTypes.array,
-  isModalOpen: PropTypes.bool,
   loadApplicationDefinition: PropTypes.func,
   addApplicationInstanceHost: PropTypes.func,
   deleteApplicationInstanceHost: PropTypes.func,

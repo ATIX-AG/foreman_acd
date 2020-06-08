@@ -148,7 +148,6 @@ class ApplicationDefinition extends React.Component {
       data: { organization, location, loadForemanDataUrl },
       services,
       columns,
-      isModalOpen,
       addApplicationDefinitionService,
       confirmEditApplicationDefinitionService,
       cancelEditApplicationDefinitionService,
@@ -201,13 +200,11 @@ class ApplicationDefinition extends React.Component {
         <div>
           <ForemanModal
             id="AppDefinitionParamSelection"
-            isOpen={isModalOpen}
             dialogClassName="param_selection_modal"
-            title="Parameter Selection for Application Definition"
-            onClose={() => closeParameterSelectionModal({})}
+            title="Parameter definition for Application Definition"
           >
-            <ForemanModal.Header>
-              Parameter Definition
+            <ForemanModal.Header closeButton={false}>
+              Parameter definition
             </ForemanModal.Header>
             {this.props.parametersData ? (
               <ParameterSelection
@@ -219,7 +216,10 @@ class ApplicationDefinition extends React.Component {
             ) : (<span>Empty</span>)
             }
             <ForemanModal.Footer>
-              Click the X in the upper right to close
+              <div>
+                <Button bsStyle="primary" onClick={() => closeParameterSelectionModal({ mode: 'save' })}>Save</Button>
+                <Button bsStyle="default" onClick={() => closeParameterSelectionModal({ mode: 'cancel' })}>Cancel</Button>
+              </div>
             </ForemanModal.Footer>
           </ForemanModal>
         </div>
@@ -239,7 +239,6 @@ ApplicationDefinition.defaultProps = {
   services: [],
   parametersData: {},
   columns: [],
-  isModalOpen: false,
   editParamsOfRowId: null,
 }
 
@@ -248,7 +247,6 @@ ApplicationDefinition.propTypes = {
   editMode: PropTypes.bool.isRequired,
   services: PropTypes.array,
   columns: PropTypes.array,
-  isModalOpen: PropTypes.bool,
   addApplicationDefinitionService: PropTypes.func,
   deleteApplicationDefinitionService: PropTypes.func,
   activateEditApplicationDefinitionService: PropTypes.func,

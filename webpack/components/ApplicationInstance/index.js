@@ -11,7 +11,6 @@ import {
   selectHosts,
   selectServices,
   selectColumns,
-  selectIsModalOpen,
   selectParametersData,
 } from './ApplicationInstanceSelectors';
 
@@ -21,7 +20,6 @@ const mapStateToProps = state => ({
   hosts: selectHosts(state),
   services: selectServices(state),
   columns: selectColumns(state),
-  isModalOpen: selectIsModalOpen(state),
   parametersData: selectParametersData(state),
 });
 

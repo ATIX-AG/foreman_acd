@@ -120,20 +120,24 @@ const applicationDefinitionConf = (state = initialState, action) => {
       }
 
       return state.merge({
-        isModalOpen: true,
         parametersData: parametersData,
       });
     }
     case APPLICATION_DEFINITION_PARAMETER_SELECTION_MODAL_CLOSE: {
-      const services = cloneDeep(state.services);
-      const index = findIndex(services, { id: state.parametersData.serviceDefinition.id });
-      services[index].parameters = cloneDeep(payload.serviceParameterSelection);
+      if (payload.mode == 'save') {
+        const services = cloneDeep(state.services);
+        const index = findIndex(services, { id: state.parametersData.serviceDefinition.id });
+        services[index].parameters = cloneDeep(payload.serviceParameterSelection);
 
-      return state.merge({
-        isModalOpen: false,
-        parametersData: null,
-        services: services
-      });
+        return state.merge({
+          parametersData: null,
+          services: services,
+        });
+      } else {
+        return state.merge({
+          parametersData: null,
+        });
+      }
     }
     default:
       return state;

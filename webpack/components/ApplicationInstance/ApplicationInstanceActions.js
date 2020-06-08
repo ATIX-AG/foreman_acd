@@ -1,5 +1,9 @@
 import React from 'react';
 import api from 'foremanReact/API';
+import {
+  setModalOpen,
+  setModalClosed,
+} from 'foremanReact/components/ForemanModal/ForemanModalActions';
 
 import {
   actionHeaderCellFormatter,
@@ -180,16 +184,27 @@ export const changeEditApplicationInstanceHost = (value, additionalData) => ({
   },
 });
 
-export const openParameterSelectionModal = (additionalData) => ({
-  type: APPLICATION_INSTANCE_PARAMETER_SELECTION_MODAL_OPEN,
-  payload: {
-    ...additionalData,
-  },
-});
+export const openParameterSelectionModal = (additionalData) => dispatch => {
+  dispatch({
+    type: APPLICATION_INSTANCE_PARAMETER_SELECTION_MODAL_OPEN,
+    payload: {
+      ...additionalData,
+    }
+  });
+  dispatch(
+    setModalOpen({ id: 'AppInstanceParamSelection' })
+  );
+}
 
-export const closeParameterSelectionModal = (additionalData) => ({
-  type: APPLICATION_INSTANCE_PARAMETER_SELECTION_MODAL_CLOSE,
-  payload: {
-    ...additionalData,
-  },
-});
+export const closeParameterSelectionModal = (additionalData) => dispatch => {
+  dispatch({
+    type: APPLICATION_INSTANCE_PARAMETER_SELECTION_MODAL_CLOSE,
+    payload: {
+      ...additionalData,
+    }
+  });
+
+  dispatch(
+    setModalClosed({ id: 'AppInstanceParamSelection' })
+  );
+}

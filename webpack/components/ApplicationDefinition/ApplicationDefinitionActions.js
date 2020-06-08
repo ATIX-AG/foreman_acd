@@ -2,6 +2,11 @@ import React from 'react';
 import api from 'foremanReact/API';
 
 import {
+  setModalOpen,
+  setModalClosed,
+} from 'foremanReact/components/ForemanModal/ForemanModalActions';
+
+import {
   actionHeaderCellFormatter,
 } from 'patternfly-react';
 
@@ -180,16 +185,27 @@ export const changeEditApplicationDefinitionService = (value, additionalData) =>
   },
 });
 
-export const openParameterSelectionModal = (additionalData) => ({
-  type: APPLICATION_DEFINITION_PARAMETER_SELECTION_MODAL_OPEN,
-  payload: {
-    ...additionalData,
-  },
-});
+export const openParameterSelectionModal = (additionalData) => dispatch => {
+  dispatch({
+    type: APPLICATION_DEFINITION_PARAMETER_SELECTION_MODAL_OPEN,
+    payload: {
+      ...additionalData,
+    }
+  });
+  dispatch(
+    setModalOpen({ id: 'AppDefinitionParamSelection' })
+  );
+}
 
-export const closeParameterSelectionModal = (additionalData) => ({
-  type: APPLICATION_DEFINITION_PARAMETER_SELECTION_MODAL_CLOSE,
-  payload: {
-    ...additionalData,
-  },
-});
+export const closeParameterSelectionModal = (additionalData) => dispatch => {
+  dispatch({
+    type: APPLICATION_DEFINITION_PARAMETER_SELECTION_MODAL_CLOSE,
+    payload: {
+      ...additionalData,
+    }
+  });
+
+  dispatch(
+    setModalClosed({ id: 'AppDefinitionParamSelection' })
+  );
+}

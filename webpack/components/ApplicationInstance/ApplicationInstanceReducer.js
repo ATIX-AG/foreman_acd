@@ -196,20 +196,24 @@ const applicationInstanceConf = (state = initialState, action) => {
         }
       }
       return state.merge({
-        isModalOpen: true,
         parametersData: parametersData,
       });
     }
     case APPLICATION_INSTANCE_PARAMETER_SELECTION_MODAL_CLOSE: {
-      const hosts = cloneDeep(state.hosts);
-      const index = findIndex(hosts, { id: state.parametersData.serviceDefinition.hostId });
-      hosts[index].parameters = cloneDeep(payload.hostParameterSelection);
+      if (payload.mode == 'save') {
+        const hosts = cloneDeep(state.hosts);
+        const index = findIndex(hosts, { id: state.parametersData.serviceDefinition.hostId });
+        hosts[index].parameters = cloneDeep(payload.hostParameterSelection);
 
-      return state.merge({
-        isModalOpen: false,
-        parametersData: null,
-        hosts: hosts
-      });
+        return state.merge({
+          parametersData: null,
+          hosts: hosts
+        });
+      } else {
+        return state.merge({
+          parametersData: null,
+        });
+      }
     }
     default:
       return state;
