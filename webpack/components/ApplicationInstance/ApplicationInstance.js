@@ -80,9 +80,6 @@ class ApplicationInstance extends React.Component {
       loadApplicationDefinition,
     } = this.props;
 
-    // Start from validation when pressing submit
-    $('input[type="submit"][name="commit"]').on('click', () => this.validateParameters());
-
     if (mode === 'editInstance') {
       loadApplicationDefinition(appDefinition.id, { url: loadAppDefinitionUrl });
     }
@@ -212,6 +209,11 @@ class ApplicationInstance extends React.Component {
       ParameterSelectionModal,
       loadApplicationDefinition,
     } = this.props;
+
+    // Start from validation when pressing submit. This should be in componentDidMount() but
+    // unfortunatley then the event wasn't fired. To make sure, that the on-click is only added
+    // once, there is a workaround to check if a css class "bound" exists.
+    $('input[type="submit"][name="commit"]:not(.bound)').addClass('bound').on('click', () => this.validateParameters());
 
     return (
       <span>
