@@ -63,17 +63,34 @@ module ForemanAcd
       services = JSON.parse(@app_instance.app_definition.services)
       @deploy_hosts = []
 
-      JSON.parse(@app_instance.hosts).each do |host_data|
+      app_hosts = JSON.parse(@app_instance.hosts)
+
+      app_hosts.each do |host_data|
         begin
           service_data = services.select { |k| k['id'] == host_data['service'].to_i }.first
           host_params = set_host_params(host_data, service_data)
 
-          params = host_attributes(host_params)
+          host = nil
+          if host_data.has_key?('foreman_host_id')
+            logger.debug("Try to find host with id #{host_data['foreman_host_id']}")
+            begin
+              host = Host.find(host_data['foreman_host_id'])
+            rescue ActiveRecord::RecordNotFound
+              logger.info("Host with id #{host_data['foreman_host_id']} couldn\'t be found, create a new one!")
+              host = nil
+            end
+          end
 
-          # Print to log for debugging purposes
-          logger.info("Host creation parameters for #{host_data['hostname']}:\n#{params}\n")
-
-          host = Host.new(params)
+          if host.nil?
+            logger.info("Host creation parameters for #{host_data['hostname']}:\n#{params}\n")
+            params = host_attributes(host_params)
+            host = Host.new(params)
+          else
+            logger.info("Update parameters and re-deploy host #{host_data['hostname']}")
+            host.attributes = host_attributes(host_params, host)
+            host.setBuild
+            host.power.reset
+          end
 
           # REMOVE ME (but very nice for testing)
           #host.mac = "00:11:22:33:44:55"
@@ -81,11 +98,19 @@ module ForemanAcd
           apply_compute_profile(host)
           host.suggest_default_pxe_loader
           host.save
+
+          # save the foreman host id
+          host_data['foreman_host_id'] = host.id
+
           @deploy_hosts.push({name: host.name, progress_report_id: host.progress_report_id})
         rescue StandardError => e
           logger.error("Failed to initiate host creation: #{e.backtrace.join($INPUT_RECORD_SEPARATOR)}")
         end
       end
+
+      # save any change to the app_hosts json
+      @app_instance.hosts = app_hosts.to_json
+      @app_instance.save
     end
 
     private
