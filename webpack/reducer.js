@@ -8,7 +8,7 @@ import {
 import parameterSelectionParameters from './components/ParameterSelection/ParameterSelectionReducer';
 import applicationDefinitionConf from './components/ApplicationDefinition/ApplicationDefinitionReducer';
 import applicationInstanceConf from './components/ApplicationInstance/ApplicationInstanceReducer';
-import applicationInstanceDeployReport from './components/ApplicationInstanceDeploy/ApplicationInstanceDeployReducer';
+import applicationInstanceReport from './components/ApplicationInstanceReport/ApplicationInstanceReportReducer';
 
 import {
   APPLICATION_DEFINITION_PARAMETER_SELECTION_MODAL_CLOSE,
@@ -21,7 +21,7 @@ import {
 const rootReducer = (state = {}, action) => {
 
   const param_state = parameterSelectionParameters(state.parameterSelectionParameters, action);
-  const app_ins_depl_report_state = applicationInstanceDeployReport(state.applicationInstanceDeployReport, action);
+  const app_ins_report_state = applicationInstanceReport(state.applicationInstanceReport, action);
 
   if (action.type == APPLICATION_DEFINITION_PARAMETER_SELECTION_MODAL_CLOSE) {
     action.payload.serviceParameterSelection = param_state.parameters;
@@ -37,7 +37,7 @@ const rootReducer = (state = {}, action) => {
     applicationDefinitionConf: app_def_state,
     applicationInstanceConf: app_ins_state,
     parameterSelectionParameters: param_state,
-    applicationInstanceDeployReport: app_ins_depl_report_state,
+    applicationInstanceReport: app_ins_report_state,
   };
 };
 

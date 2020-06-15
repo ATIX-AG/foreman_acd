@@ -21,6 +21,7 @@ Rails.application.routes.draw do
 
       member do
         post 'deploy'
+        get 'report'
       end
     end
 

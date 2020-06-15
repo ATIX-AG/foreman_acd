@@ -6,7 +6,7 @@ module ForemanAcd
     include Foreman::Controller::AutoCompleteSearch
     include ::ForemanAcd::Concerns::AppInstanceParameters
 
-    before_action :find_resource, :only => [:edit, :update, :destroy, :deploy]
+    before_action :find_resource, :only => [:edit, :update, :destroy, :deploy, :report]
 
     def index
       @app_instances = resource_base.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
@@ -54,6 +54,8 @@ module ForemanAcd
       case params[:action]
       when 'deploy'
         :deploy
+      when 'report'
+        :report
       else
         super
       end
@@ -111,6 +113,14 @@ module ForemanAcd
       # save any change to the app_hosts json
       @app_instance.hosts = app_hosts.to_json
       @app_instance.save
+    end
+
+    def report
+      @deploy_hosts = []
+      app_hosts = JSON.parse(@app_instance.hosts)
+      app_hosts.each do |host_data|
+          @deploy_hosts.push({name: 'Luigi', progress_report_id: 111 })
+      end
     end
 
     private

@@ -16,7 +16,9 @@
       <td><%= app_instance.description %></td>
       <td>
         <%= action_buttons(display_link_if_authorized(_("Deploy"), hash_for_deploy_app_instance_path(:id => app_instance), :method => :post,
-                                                        :title => _("Deploy the application #{app_instance}")),
+                                                        :title => _("Deploy application #{app_instance}")),
+                           display_link_if_authorized(_("Report"), hash_for_report_app_instance_path(:id => app_instance), :method => :get,
+                                                        :title => _("Show last deployment report for application #{app_instance}")),
                            display_delete_if_authorized(hash_for_app_instance_path(:id => app_instance).merge(:auth_object => app_instance, :authorizer => authorizer),
                                                           :data => { 'confirm': _('Delete %s?') % app_instance.name })) %>
       </td>

@@ -15,9 +15,9 @@ import {
   APPLICATION_INSTANCE_DEPLOY_LOAD_REPORT_REQUEST,
   APPLICATION_INSTANCE_DEPLOY_LOAD_REPORT_SUCCESS,
   APPLICATION_INSTANCE_DEPLOY_LOAD_REPORT_FAILURE,
-} from './ApplicationInstanceDeployConstants';
+} from './ApplicationInstanceReportConstants';
 
-export const initApplicationInstanceDeploy = (
+export const initApplicationInstanceReport = (
   hosts,
 ) => dispatch => {
   const initialState = {};
@@ -40,7 +40,7 @@ const errorHandler = (msg, err) => {
 
 export const loadReport = (dispatch, getState, id, url, initial) => {
 
-  const reportState = getState().foremanAcd.applicationInstanceDeployReport;
+  const reportState = getState().foremanAcd.applicationInstanceReport;
 
   if ((reportState.activeHostId == id) || (initial == true)) {
     setTimeout(() => {

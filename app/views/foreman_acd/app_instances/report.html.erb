@@ -1,4 +1,4 @@
-<% title _("Deploy Application Instance #{@app_instance}") %>
+<% title _("Deployment Report for Application Instance #{@app_instance}") %>
 
 <% content_for(:javascripts) do %>
   <%= webpacked_plugins_js_for :foreman_acd %>
@@ -9,11 +9,11 @@
 
 <%
   json = {
-    "mode": 'liveReport',
+    "mode": 'lastReport',
     "hosts": @deploy_hosts
   }
 %>
 
-<div id='deploy'></div>
-  <%=  mount_react_component('ApplicationInstanceReport', "#deploy", json.to_json) %>
+<div id='report'></div>
+  <%=  mount_react_component('ApplicationInstanceReport', "#report", json.to_json) %>
 </div

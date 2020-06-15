@@ -73,6 +73,11 @@ Foreman::Plugin.register :foreman_acd do
                { :'foreman_acd/app_instances' => [:deploy],
                  :'foreman_acd/api/v2/app_instances' => [:deploy] },
                :resource_type => 'ForemanAcd::AppInstance'
+
+    permission :report_app_instances,
+               { :'foreman_acd/app_instances' => [:report],
+                 :'foreman_acd/api/v2/app_instances' => [:report] },
+               :resource_type => 'ForemanAcd::AppInstance'
   end
 
   # Manager Role
@@ -87,5 +92,6 @@ Foreman::Plugin.register :foreman_acd do
                                                :view_app_instances,
                                                :edit_app_instances,
                                                :destroy_app_instances,
-                                               :deploy_app_instances]
+                                               :deploy_app_instances,
+                                               :report_app_instances]
 end

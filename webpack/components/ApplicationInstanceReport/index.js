@@ -1,15 +1,15 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import './ApplicationInstanceDeploy.scss';
-import ApplicationInstanceDeploy from './ApplicationInstanceDeploy';
-import * as ApplicationInstanceDeployActions from './ApplicationInstanceDeployActions';
+import './ApplicationInstanceReport.scss';
+import ApplicationInstanceReport from './ApplicationInstanceReport';
+import * as ApplicationInstanceReportActions from './ApplicationInstanceReportActions';
 
 import {
   selectHosts,
   selectReport,
   selectActiveHostId,
-} from './ApplicationInstanceDeploySelectors';
+} from './ApplicationInstanceReportSelectors';
 
 const mapStateToProps = state => ({
   hosts: selectHosts(state),
@@ -18,10 +18,10 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators(ApplicationInstanceDeployActions, dispatch);
+  bindActionCreators(ApplicationInstanceReportActions, dispatch);
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ApplicationInstanceDeploy);
+)(ApplicationInstanceReport);
 

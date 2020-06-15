@@ -7,7 +7,7 @@ import {
 
 import ReportViewer from './components/ReportViewer';
 
-class ApplicationInstanceDeploy extends React.Component {
+class ApplicationInstanceReport extends React.Component {
 
   constructor(props) {
     super(props);
@@ -16,11 +16,11 @@ class ApplicationInstanceDeploy extends React.Component {
   componentDidMount() {
     const {
       data: { hosts, },
-      initApplicationInstanceDeploy,
+      initApplicationInstanceReport,
       setActiveAndLoadReport,
     } = this.props;
 
-    initApplicationInstanceDeploy(hosts);
+    initApplicationInstanceReport(hosts);
 
     if (hosts.length > 0) {
       const index = 0;
@@ -33,13 +33,7 @@ class ApplicationInstanceDeploy extends React.Component {
     return (this.props.activeHostId === id);
   }
 
-  render() {
-    const {
-      data: { hosts },
-      setActiveAndLoadReport,
-      report,
-    } = this.props;
-
+  collectLiveData(hosts) {
     const tabs = []
     for (const [index, value] of hosts.entries()) {
       const url = `/api/v2/orchestration/${hosts[index].progress_report_id}/tasks`
@@ -56,6 +50,28 @@ class ApplicationInstanceDeploy extends React.Component {
       );
     }
 
+    return tabs;
+  }
+
+  collectLastReportData(hosts) {
+    return "hallo";
+  }
+
+  render() {
+    const {
+      data: { hosts, mode },
+      setActiveAndLoadReport,
+      report,
+    } = this.props;
+
+    let tabs = [];
+
+    if (mode == 'liveReport') {
+      tabs = this.collectLiveData(hosts);
+    } else if (mode == 'lastReport') {
+      tabs = this.collectLastReportData(hosts);
+    }
+
     return (
       <span>
         <div className="deploy_report_hosts">
@@ -70,15 +86,15 @@ class ApplicationInstanceDeploy extends React.Component {
     )};
 }
 
-ApplicationInstanceDeploy.defaultProps = {
+ApplicationInstanceReport.defaultProps = {
   error: {},
   hosts: [],
   report: [],
   activeHostId: -1,
 }
 
-ApplicationInstanceDeploy.propTypes = {
-  initApplicationInstanceDeploy: PropTypes.func,
+ApplicationInstanceReport.propTypes = {
+  initApplicationInstanceReport: PropTypes.func,
   hosts: PropTypes.array,
   report: PropTypes.array,
   setActiveAndLoadReport: PropTypes.func,
@@ -86,4 +102,4 @@ ApplicationInstanceDeploy.propTypes = {
 
 };
 
-export default ApplicationInstanceDeploy;
+export default ApplicationInstanceReport;

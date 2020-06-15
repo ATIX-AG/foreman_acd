@@ -11,14 +11,14 @@ import {
   APPLICATION_INSTANCE_DEPLOY_LOAD_REPORT_REQUEST,
   APPLICATION_INSTANCE_DEPLOY_LOAD_REPORT_SUCCESS,
   APPLICATION_INSTANCE_DEPLOY_LOAD_REPORT_FAILURE,
-} from './ApplicationInstanceDeployConstants';
+} from './ApplicationInstanceReportConstants';
 
 export const initialState = Immutable({
   name: false,
   error: { errorMsg: '', status: '', statusText: '' },
 });
 
-const applicationInstanceDeployReport = (state = initialState, action) => {
+const applicationInstanceReport = (state = initialState, action) => {
   const { payload } = action;
 
   switch (action.type) {
@@ -49,4 +49,4 @@ const applicationInstanceDeployReport = (state = initialState, action) => {
   }
 };
 
-export default applicationInstanceDeployReport;
+export default applicationInstanceReport;
