@@ -104,7 +104,7 @@ module ForemanAcd
           # save the foreman host id
           host_data['foreman_host_id'] = host.id
 
-          @deploy_hosts.push({name: host.name, progress_report_id: host.progress_report_id})
+          @deploy_hosts.push({ id: host.id, name: host_data['hostname'], hostname: host.hostname, hostUrl: host_path(h), progress_report_id: host.progress_report_id})
         rescue StandardError => e
           logger.error("Failed to initiate host creation: #{e.backtrace.join($INPUT_RECORD_SEPARATOR)}")
         end
@@ -116,11 +116,14 @@ module ForemanAcd
     end
 
     def report
-      @deploy_hosts = []
+      @report_hosts = []
       app_hosts = JSON.parse(@app_instance.hosts)
       app_hosts.each do |host_data|
-          @deploy_hosts.push({name: 'Luigi', progress_report_id: 111 })
+        h = Host.find(host_data['foreman_host_id'])
+        @report_hosts.push({id: h.id, name: host_data['hostname'], hostname: h.hostname, hostUrl: host_path(h), powerStatusUrl: power_api_host_path(h) })
       end
+
+      logger.debug("deploy report hosts are: #{@report_hosts.inspect}")
     end
 
     private

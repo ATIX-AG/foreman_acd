@@ -5,6 +5,7 @@ import {
   VerticalTabs,
 } from 'patternfly-react-extensions';
 
+import PowerStatus from 'foremanReact/components/hosts/powerStatus';
 import ReportViewer from './components/ReportViewer';
 
 class ApplicationInstanceReport extends React.Component {
@@ -15,17 +16,19 @@ class ApplicationInstanceReport extends React.Component {
 
   componentDidMount() {
     const {
-      data: { hosts, },
+      data: { hosts, mode },
       initApplicationInstanceReport,
-      setActiveAndLoadReport,
+      setActiveAndLoadLiveReport,
     } = this.props;
 
     initApplicationInstanceReport(hosts);
 
-    if (hosts.length > 0) {
-      const index = 0;
-      const url = `/api/v2/orchestration/${hosts[index].progress_report_id}/tasks`;
-      setActiveAndLoadReport(index, url);
+    if (mode == 'liveReport') {
+      if (hosts.length > 0) {
+        const index = 0;
+        const url = `/api/v2/orchestration/${hosts[index].progress_report_id}/tasks`;
+        setActiveAndLoadLiveReport(index, url);
+      }
     }
   };
 
@@ -34,7 +37,11 @@ class ApplicationInstanceReport extends React.Component {
   }
 
   collectLiveData(hosts) {
+    const {
+      setActiveAndLoadLiveReport,
+    } = this.props;
     const tabs = []
+
     for (const [index, value] of hosts.entries()) {
       const url = `/api/v2/orchestration/${hosts[index].progress_report_id}/tasks`
 
@@ -42,9 +49,9 @@ class ApplicationInstanceReport extends React.Component {
         <VerticalTabs.Tab
           id={index}
           key={"vt_tab_"+index}
-          title={value.name}
+          title={ value.name }
           wrapStyle='nowrap'
-          onActivate={() => setActiveAndLoadReport(index, url)}
+          onActivate={() => setActiveAndLoadLiveReport(index, url)}
           active={this.isActive(index)}
         />
       );
@@ -54,22 +61,61 @@ class ApplicationInstanceReport extends React.Component {
   }
 
   collectLastReportData(hosts) {
-    return "hallo";
+    const {
+      setActiveAndLoadLastReport,
+    } = this.props;
+    // FIXME
+    const url = undefined;
+
+    const tabs = []
+    for (const [index, value] of hosts.entries()) {
+      tabs.push(
+        <VerticalTabs.Tab
+          id={index}
+          key={"vt_tab_"+index}
+          title={ value.name }
+          wrapStyle='nowrap'
+          onActivate={() => setActiveAndLoadLastReport(index, url)}
+          active={this.isActive(index)}
+        />
+      );
+    }
+
+    return tabs;
+  }
+
+  liveReportStatus(host) {
+    return (
+      <span>Host: <a href={ host['hostUrl'] }>{ host['hostname'] }</a></span>
+    );
+  }
+
+  lastReportStatus(host) {
+    return (
+      <div>
+        <span>Host: <a href={ host['hostUrl'] }>{ host['hostname'] }</a></span>
+        <span>&nbsp;|&nbsp;</span>
+        <span>Power Status: <PowerStatus data={{ id: host['id'], url: host['powerStatusUrl'] }} /></span>
+      </div>
+    )
   }
 
   render() {
     const {
       data: { hosts, mode },
-      setActiveAndLoadReport,
       report,
+      activeHostId,
     } = this.props;
 
     let tabs = [];
+    let reportStatus = undefined;
 
     if (mode == 'liveReport') {
       tabs = this.collectLiveData(hosts);
+      reportStatus = this.liveReportStatus(hosts[activeHostId])
     } else if (mode == 'lastReport') {
       tabs = this.collectLastReportData(hosts);
+      reportStatus = this.lastReportStatus(hosts[activeHostId])
     }
 
     return (
@@ -78,6 +124,9 @@ class ApplicationInstanceReport extends React.Component {
           <VerticalTabs id="vertical_tabs">
             {tabs}
           </VerticalTabs>
+        </div>
+        <div className="deploy_report_status">
+          {reportStatus}
         </div>
         <div className="deploy_report_tasks">
           <ReportViewer report={report} />
@@ -90,14 +139,15 @@ ApplicationInstanceReport.defaultProps = {
   error: {},
   hosts: [],
   report: [],
-  activeHostId: -1,
+  activeHostId: 0,
 }
 
 ApplicationInstanceReport.propTypes = {
   initApplicationInstanceReport: PropTypes.func,
   hosts: PropTypes.array,
   report: PropTypes.array,
-  setActiveAndLoadReport: PropTypes.func,
+  setActiveAndLoadLiveReport: PropTypes.func,
+  setActiveAndLoadLastReport: PropTypes.func,
   activeHostId: PropTypes.number,
 
 };

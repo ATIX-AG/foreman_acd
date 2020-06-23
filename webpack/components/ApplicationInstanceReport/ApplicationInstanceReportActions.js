@@ -38,14 +38,16 @@ const errorHandler = (msg, err) => {
   return { type: msg, payload: { error } };
 };
 
-export const loadReport = (dispatch, getState, id, url, initial) => {
+export const loadReport = (dispatch, getState, id, url, live, initial) => {
 
   const reportState = getState().foremanAcd.applicationInstanceReport;
 
-  if ((reportState.activeHostId == id) || (initial == true)) {
-    setTimeout(() => {
-      loadReport(dispatch, getState, id, url, false);
-    }, 1600)
+  if (live) {
+    if ((reportState.activeHostId == id) || (initial == true)) {
+      setTimeout(() => {
+        loadReport(dispatch, getState, id, url, live, false);
+      }, 1600)
+    }
   }
 
   return api
@@ -59,7 +61,7 @@ export const loadReport = (dispatch, getState, id, url, initial) => {
     .catch(error => dispatch(errorHandler(APPLICATION_INSTANCE_DEPLOY_LOAD_REPORT_FAILURE, error)));
 };
 
-export const setActiveAndLoadReport = (
+export const setActiveAndLoadLiveReport = (
   id,
   url,
 ) => (dispatch, getState) => {
@@ -68,5 +70,17 @@ export const setActiveAndLoadReport = (
     type: APPLICATION_INSTANCE_DEPLOY_LOAD_REPORT_REQUEST
   });
 
-  return loadReport(dispatch, getState, id, url, true);
+  return loadReport(dispatch, getState, id, url, true, true);
+}
+
+export const setActiveAndLoadLastReport = (
+  id,
+  url,
+) => (dispatch, getState) => {
+  dispatch({
+    payload: { activeHostId: id },
+    type: APPLICATION_INSTANCE_DEPLOY_LOAD_REPORT_REQUEST
+  });
+
+  return loadReport(dispatch, getState, id, url, false, true);
 };
