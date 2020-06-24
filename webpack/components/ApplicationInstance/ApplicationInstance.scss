@@ -1,0 +1,11 @@
+@import '~@theforeman/vendor/scss/variables';
+
+.service-counter {
+  position: absolute;
+  right: 200px;
+  top: 220px;
+}
+
+.service-counter-title {
+  font-size: 14px;
+}

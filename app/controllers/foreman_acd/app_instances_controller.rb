@@ -6,7 +6,7 @@ module ForemanAcd
     include Foreman::Controller::AutoCompleteSearch
     include ::ForemanAcd::Concerns::AppInstanceParameters
 
-    before_action :find_resource, :only => [:edit, :update, :destroy, :deploy]
+    before_action :find_resource, :only => [:edit, :update, :destroy, :deploy, :report]
 
     def index
       @app_instances = resource_base.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
@@ -54,26 +54,76 @@ module ForemanAcd
       case params[:action]
       when 'deploy'
         :deploy
+      when 'report'
+        :report
       else
         super
       end
     end
 
     def deploy
-      params = host_attributes(set_host_params)
+      services = JSON.parse(@app_instance.app_definition.services)
+      @deploy_hosts = []
 
-      # Print to log for debugging purposes
-      logger.info("Host creation parameters:\n#{params}\n")
+      app_hosts = JSON.parse(@app_instance.hosts)
 
-      @host = Host.new(params)
-      apply_compute_profile(@host)
-      @host.suggest_default_pxe_loader
-      @host.save
-      success _('Successfully initiated host creation')
-    rescue StandardError => e
-      logger.error("Failed to initiate host creation: #{e.backtrace.join($INPUT_RECORD_SEPARATOR)}")
-    ensure
-      redirect_to app_instances_path
+      app_hosts.each do |host_data|
+        begin
+          service_data = services.select { |k| k['id'] == host_data['service'].to_i }.first
+          host_params = set_host_params(host_data, service_data)
+
+          host = nil
+          if host_data.has_key?('foreman_host_id')
+            logger.debug("Try to find host with id #{host_data['foreman_host_id']}")
+            begin
+              host = Host.find(host_data['foreman_host_id'])
+            rescue ActiveRecord::RecordNotFound
+              logger.info("Host with id #{host_data['foreman_host_id']} couldn\'t be found, create a new one!")
+              host = nil
+            end
+          end
+
+          if host.nil?
+            logger.info("Host creation parameters for #{host_data['hostname']}:\n#{params}\n")
+            params = host_attributes(host_params)
+            host = Host.new(params)
+          else
+            logger.info("Update parameters and re-deploy host #{host_data['hostname']}")
+            host.attributes = host_attributes(host_params, host)
+            host.setBuild
+            host.power.reset
+          end
+
+          # REMOVE ME (but very nice for testing)
+          #host.mac = "00:11:22:33:44:55"
+
+          apply_compute_profile(host)
+          host.suggest_default_pxe_loader
+          host.save
+
+          # save the foreman host id
+          host_data['foreman_host_id'] = host.id
+
+          @deploy_hosts.push({ id: host.id, name: host_data['hostname'], hostname: host.hostname, hostUrl: host_path(h), progress_report_id: host.progress_report_id})
+        rescue StandardError => e
+          logger.error("Failed to initiate host creation: #{e.backtrace.join($INPUT_RECORD_SEPARATOR)}")
+        end
+      end
+
+      # save any change to the app_hosts json
+      @app_instance.hosts = app_hosts.to_json
+      @app_instance.save
+    end
+
+    def report
+      @report_hosts = []
+      app_hosts = JSON.parse(@app_instance.hosts)
+      app_hosts.each do |host_data|
+        h = Host.find(host_data['foreman_host_id'])
+        @report_hosts.push({id: h.id, name: host_data['hostname'], hostname: h.hostname, hostUrl: host_path(h), powerStatusUrl: power_api_host_path(h) })
+      end
+
+      logger.debug("deploy report hosts are: #{@report_hosts.inspect}")
     end
 
     private
@@ -117,10 +167,12 @@ module ForemanAcd
       result
     end
 
-    def set_host_params
+    def set_host_params(host_data, service_data)
       result = hardcoded_params
-      result['hostgroup_id'] = @app_instance.app_definition.hostgroup_id
-      JSON.parse(@app_instance.parameters).each do |param|
+      result['name'] = host_data['hostname']
+      result['hostgroup_id'] = service_data['hostgroup']
+
+      host_data['parameters'].each do |param|
         case param['type']
 
         when 'computeprofile'
@@ -128,9 +180,6 @@ module ForemanAcd
 
         when 'domain'
           result['domain_id'] = param['value']
-
-        when 'hostname'
-          result['name'] = param['value']
 
         when 'hostparam'
           result['host_parameters_attributes'].push(:name => param['name'], :value => param['value'])

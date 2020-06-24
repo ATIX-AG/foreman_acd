@@ -1,0 +1,27 @@
+@import '~@theforeman/vendor/scss/variables';
+
+.deploy_report_hosts {
+  float:left;
+  width:25%;
+  height:100%;
+}
+
+.deploy_report_tasks {
+  float:left;
+  width:75%;
+  min-height: 300px;
+  background-color: #ecf9fe;
+  border: 1px solid #3dbff3;
+}
+
+ul.vertical-tabs-pf {
+  list-style-type: none;
+}
+
+.vertical-tabs-pf-tab.active {
+  background-color: $dropdown-link-hover-bg;
+}
+
+.vertical-tabs-pf-tab {
+  background-color: white;
+}

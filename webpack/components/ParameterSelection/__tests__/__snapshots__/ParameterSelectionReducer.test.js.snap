@@ -130,7 +130,7 @@ Object {
     "hostparam": "Host parameter",
     "lifecycleenv": "Lifecycle environment",
   },
-  "rows": Array [
+  "parameters": Array [
     Object {
       "description": "",
       "id": 1,
@@ -334,7 +334,7 @@ Object {
     "hostparam": "Host parameter",
     "lifecycleenv": "Lifecycle environment",
   },
-  "rows": Array [
+  "parameters": Array [
     Object {
       "description": "",
       "id": 1,
@@ -547,7 +547,7 @@ Object {
     "hostparam": "Host parameter",
     "lifecycleenv": "Lifecycle environment",
   },
-  "rows": Array [
+  "parameters": Array [
     Object {
       "description": "",
       "id": 1,
@@ -744,7 +744,7 @@ Object {
     "hostparam": "Host parameter",
     "lifecycleenv": "Lifecycle environment",
   },
-  "rows": Array [
+  "parameters": Array [
     Object {
       "description": "",
       "id": 1,
@@ -948,7 +948,7 @@ Object {
     "hostparam": "Host parameter",
     "lifecycleenv": "Lifecycle environment",
   },
-  "rows": Array [
+  "parameters": Array [
     Object {
       "description": "",
       "id": 1,
@@ -1142,11 +1142,10 @@ Object {
   "parameterTypes": Object {
     "computeprofile": "Compute profile",
     "domain": "Domain",
-    "hostname": "Hostname",
     "hostparam": "Host parameter",
     "lifecycleenv": "Lifecycle environment",
   },
-  "rows": Array [
+  "parameters": Array [
     Object {
       "description": "",
       "id": 1,
@@ -1336,7 +1335,7 @@ Object {
     "hostparam": "Host parameter",
     "lifecycleenv": "Lifecycle environment",
   },
-  "rows": Array [
+  "parameters": Array [
     Object {
       "description": "",
       "id": 1,
@@ -1536,7 +1535,7 @@ Object {
     "hostparam": "Host parameter",
     "lifecycleenv": "Lifecycle environment",
   },
-  "rows": Array [
+  "parameters": Array [
     Object {
       "description": "",
       "id": 1,
@@ -1733,7 +1732,7 @@ Object {
     "hostparam": "Host parameter",
     "lifecycleenv": "Lifecycle environment",
   },
-  "rows": Array [
+  "parameters": Array [
     Object {
       "description": "",
       "id": 1,
@@ -1797,78 +1796,6 @@ Object {
       "position": 0,
     },
   },
-}
-`;
-
-exports[`ParameterSelectionReducer should load parameter selection be erroneous 1`] = `
-Object {
-  "editMode": false,
-  "error": "Something really bad happend",
-  "loading": false,
-}
-`;
-
-exports[`ParameterSelectionReducer should load parameter selection be successful 1`] = `
-Object {
-  "appDefinition": Object {
-    "created_at": "2019-11-13 17:47:27 +0100",
-    "description": "",
-    "hostgroup_id": 1,
-    "id": 2,
-    "name": "sowasvonneu",
-    "parameters": "[{\\"id\\":0,\\"name\\":\\"richtigneu\\",\\"description\\":\\"\\",\\"type\\":\\"puppetenv\\",\\"value\\":\\"1\\"},{\\"id\\":1,\\"name\\":\\"ganzgut\\",\\"description\\":\\"\\",\\"type\\":\\"ip\\",\\"value\\":\\"1.1.1.2\\"}]",
-    "updated_at": "2019-11-13 17:47:27 +0100",
-  },
-  "editMode": false,
-  "error": Object {
-    "errorMsg": "",
-    "status": "",
-    "statusText": "",
-  },
-  "foremanData": Object {
-    "computeprofiles": Array [],
-    "domains": Array [],
-    "environments": Array [
-      Object {
-        "id": 1,
-        "name": "production",
-      },
-      Object {
-        "id": 2,
-        "name": "test",
-      },
-    ],
-    "hostgroup_id": 1,
-    "lifecycle_environments": Array [],
-    "ptables": Array [
-      Object {
-        "id": 105,
-        "name": "Kickstart default",
-      },
-      Object {
-        "id": 104,
-        "name": "Kickstart default thin",
-      },
-    ],
-  },
-  "hostgroupId": 1,
-  "loading": false,
-  "rows": Array [
-    Object {
-      "description": "",
-      "id": 0,
-      "name": "richtigneu",
-      "type": "puppetenv",
-      "value": "1",
-    },
-    Object {
-      "description": "",
-      "id": 1,
-      "name": "ganzgut",
-      "type": "ip",
-      "value": "1.1.1.2",
-    },
-  ],
 }
 `;
 
@@ -1977,7 +1904,7 @@ Object {
     "hostparam": "Host parameter",
     "lifecycleenv": "Lifecycle environment",
   },
-  "rows": Array [
+  "parameters": Array [
     Object {
       "description": "",
       "id": 1,
@@ -2041,18 +1968,6 @@ Object {
       "position": 0,
     },
   },
-}
-`;
-
-exports[`ParameterSelectionReducer should request parameter selection 1`] = `
-Object {
-  "editMode": false,
-  "error": Object {
-    "errorMsg": "",
-    "status": "",
-    "statusText": "",
-  },
-  "loading": true,
 }
 `;
 
@@ -2197,7 +2112,7 @@ Object {
     "hostparam": "Host parameter",
     "lifecycleenv": "Lifecycle environment",
   },
-  "rows": Array [
+  "parameters": Array [
     Object {
       "description": "",
       "id": 1,

@@ -39,6 +39,16 @@ Foreman::Plugin.register :foreman_acd do
                  :'foreman_acd/api/v2/app_definitions' => [:destroy] },
                :resource_type => 'ForemanAcd::AppDefinition'
 
+    permission :export_app_definitions,
+               { :'foreman_acd/app_definitions' => [:export],
+                 :'foreman_acd/api/v2/app_definitions' => [:export] },
+               :resource_type => 'ForemanAcd::AppDefinition'
+
+    permission :import_app_definitions,
+               { :'foreman_acd/app_definitions' => [:import],
+                 :'foreman_acd/api/v2/app_definitions' => [:import] },
+               :resource_type => 'ForemanAcd::AppDefinition'
+
     permission :create_app_instances,
                { :'foreman_acd/app_instances' => [:new, :create],
                  :'foreman_acd/api/v2/app_instances' => [:create] },
@@ -63,18 +73,25 @@ Foreman::Plugin.register :foreman_acd do
                { :'foreman_acd/app_instances' => [:deploy],
                  :'foreman_acd/api/v2/app_instances' => [:deploy] },
                :resource_type => 'ForemanAcd::AppInstance'
+
+    permission :report_app_instances,
+               { :'foreman_acd/app_instances' => [:report],
+                 :'foreman_acd/api/v2/app_instances' => [:report] },
+               :resource_type => 'ForemanAcd::AppInstance'
   end
 
   # Manager Role
   role 'Application Centric Deployment Manager', [:create_app_definitions,
                                                   :view_app_definitions,
                                                   :edit_app_definitions,
-                                                  :destroy_app_definitions]
+                                                  :export_app_definitions,
+                                                  :import_app_definitions]
 
   # User Role
   role 'Application Centric Deployment User', [:create_app_instances,
                                                :view_app_instances,
                                                :edit_app_instances,
                                                :destroy_app_instances,
-                                               :deploy_app_instances]
+                                               :deploy_app_instances,
+                                               :report_app_instances]
 end

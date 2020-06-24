@@ -1,21 +1,14 @@
 export const newDefinition = {
-  organization: "Default Organization",
-  location: "Default Location",
-  hostgroups: {
-    "1": "centos7"
+  mode: "newDefinition",
+  serviceDefinition: {
+    id: 1,
+    name: "Test123",
+    hostgroup_id: 1
   },
-  loadForemanDataUrl: "/acd/ui_acd_fdata/__id__",
-  mode: "newDefinition"
 };
 export const editDefinition = {
-  organization: "Default Organization",
-  location: "Default Location",
-  hostgroups: {
-    "1": "centos7"
-  },
-  loadForemanDataUrl: "/acd/ui_acd_fdata/__id__",
   mode: "editDefinition",
-  appDefinition: {
+  serviceDefinition: {
     id: 1,
     name: "Test123",
     hostgroup_id: 1
@@ -82,21 +75,19 @@ export const editDefinition = {
 
 export const newInstance = {
   mode: "newInstance",
-  organization: "Default Organization",
-  location: "Default Location",
   applications: {
     "1": "Test123",
     "2": "sowasvonneu"
   },
-  loadParameterSelectionUrl: "/acd/ui_acd_app/__id__",
-  loadForemanDataUrl: "/acd/ui_acd_fdata/__id__"
+  serviceDefinition: {
+    id: 1,
+    name: "Test123",
+    hostgroup_id: 1
+  },
 };
 export const editInstance = {
   mode: "editInstance",
-  organization: "Default Organization",
-  location: "Default Location",
-  loadForemanDataUrl: "/acd/ui_acd_fdata/__id__",
-  appDefinition: {
+  serviceDefinition: {
     id: 1,
     name: "Test123",
     hostgroup_id: 1

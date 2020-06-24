@@ -3,21 +3,13 @@
       "organization": current_organization,
       "location": current_location,
       "hostgroups": @hostgroups,
-      "loadForemanDataUrl": ui_acd_fdata_path("__id__")
+      "loadForemanDataUrl": ui_acd_fdata_path("__id__"),
+      "services": [],
     }
 
-    if @app_definition.name.empty?
-      json["mode"] = "newDefinition"
-    else
-      json["mode"] = "editDefinition"
-      json["appDefinition"] = {
-        "id": @app_definition.id,
-        "name": @app_definition.name,
-        "hostgroup_id": @app_definition.hostgroup_id,
-      }
-      json["parameters"] = JSON.parse(@app_definition.parameters)
+    if !@app_definition.name.empty?
+      json["services"] = JSON.parse(@app_definition.services)
     end
-
 %>
 
 <%= form_for @app_definition, :url => (@app_definition.new_record? ? app_definitions_path : app_definition_path(:id => @app_definition.id)) do |f| %>
@@ -31,8 +23,8 @@
       <%= text_f f, :name %>
       <%= text_f f, :description %>
 
-      <div id='param-selection'></div>
-      <%=  mount_react_component('ParameterSelection', "#param-selection", json.to_json) %>
+      <div id='app_definition'></div>
+      <%=  mount_react_component('ApplicationDefinition', "#app_definition", json.to_json) %>
     </div>
   </div>
 

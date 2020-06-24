@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AddTableEntry should render add parameter 1`] = `
+<Button
+  active={false}
+  block={false}
+  bsClass="btn"
+  bsStyle="default"
+  disabled={false}
+  onClick={[Function]}
+>
+  <Icon
+    name="plus"
+    type="fa"
+  />
+</Button>
+`;
+
+exports[`AddTableEntry should render disabled button 1`] = `
+<Button
+  active={false}
+  block={false}
+  bsClass="btn"
+  bsStyle="default"
+  disabled={true}
+  onClick={[Function]}
+>
+  <Icon
+    name="plus"
+    type="fa"
+  />
+</Button>
+`;
+
+exports[`AddTableEntry should render hidden button 1`] = `""`;

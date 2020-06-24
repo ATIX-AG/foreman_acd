@@ -5,26 +5,26 @@ import {
   Button,
 } from 'patternfly-react';
 
-const AddParameter = ({
+const AddTableEntry = ({
   hidden,
   disabled,
-  onAddParameter,
+  onAddTableEntry,
 }) =>{
   if (hidden) {
     return null;
   }
 
   return (
-    <Button bsStyle="default" disabled={disabled} onClick={onAddParameter}>
+    <Button bsStyle="default" disabled={disabled} onClick={onAddTableEntry}>
       <Icon type="fa" name="plus" />
     </Button>
   );
 };
 
-AddParameter.propTypes = {
+AddTableEntry.propTypes = {
   hidden: PropTypes.bool.isRequired,
   disabled: PropTypes.bool.isRequired,
-  onAddParameter: PropTypes.func.isRequired
+  onAddTableEntry: PropTypes.func.isRequired
 };
 
-export default AddParameter;
+export default AddTableEntry;

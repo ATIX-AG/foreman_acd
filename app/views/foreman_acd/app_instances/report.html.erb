@@ -1,0 +1,19 @@
+<% title _("Deployment Report for Application Instance #{@app_instance}") %>
+
+<% content_for(:javascripts) do %>
+  <%= webpacked_plugins_js_for :foreman_acd %>
+<% end %>
+<% content_for(:stylesheets) do %>
+  <%= webpacked_plugins_css_for :foreman_acd %>
+<% end %>
+
+<%
+  json = {
+    "mode": 'lastReport',
+    "hosts": @report_hosts
+  }
+%>
+
+<div id='report'></div>
+  <%=  mount_react_component('ApplicationInstanceReport', "#report", json.to_json) %>
+</div
