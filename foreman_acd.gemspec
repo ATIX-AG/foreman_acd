@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require File.expand_path('lib/foreman_acd/version', __dir__)
+require 'date'
 
 Gem::Specification.new do |s|
   s.name        = 'foreman_acd'
@@ -16,8 +17,5 @@ Gem::Specification.new do |s|
   s.files = Dir['{app,config,db,lib,locale,webpack}/**/*'] + ['LICENSE', 'Rakefile', 'README.md', 'package.json']
   s.test_files = Dir['test/**/*']
 
-  s.add_development_dependency 'rubocop', '~> 0.71.0'
-  s.add_development_dependency 'rubocop-checkstyle_formatter', '~> 0.2'
-  s.add_development_dependency 'rubocop-performance', '~> 1.4.0'
-  s.add_development_dependency 'rubocop-rails', '~> 2.0.1'
+  s.add_development_dependency 'rubocop', '~> 0.80.0'
 end
