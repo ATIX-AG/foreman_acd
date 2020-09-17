@@ -7,6 +7,11 @@ Foreman::Plugin.register :foreman_acd do
 
   # Menus
   divider :top_menu, :parent => :configure_menu, :caption => 'Applications'
+  menu :top_menu, :ansible_playbooks,
+       :url_hash => { :controller => :'foreman_acd/ansible_playbooks', :action => :index },
+       :caption => 'Ansible Playbooks',
+       :parent => :configure_menu
+
   menu :top_menu, :app_definitions,
        :url_hash => { :controller => :'foreman_acd/app_definitions', :action => :index },
        :caption => 'App Definitions',
@@ -19,6 +24,31 @@ Foreman::Plugin.register :foreman_acd do
 
   # Add permissions
   security_block :foreman_acd do
+    permission :create_ansible_playbooks,
+               { :'foreman_acd/ansible_playbooks' => [:new, :create],
+                 :'foreman_acd/api/v2/ansible_playbooks' => [:create] },
+               :resource_type => 'ForemanAcd::AnsiblePlaybook'
+
+    permission :view_ansible_playbooks,
+               { :'foreman_acd/ansible_playbooks' => [:index, :show, :auto_complete_search],
+                 :'foreman_acd/api/v2/ansible_playbooks' => [:index, :show] },
+               :resource_type => 'ForemanAcd::AnsiblePlaybook'
+
+    permission :edit_ansible_playbooks,
+               { :'foreman_acd/ansible_playbooks' => [:update, :edit],
+                 :'foreman_acd/api/v2/ansible_playbooks' => [:update] },
+               :resource_type => 'ForemanAcd::AnsiblePlaybook'
+
+    permission :destroy_ansible_playbooks,
+               { :'foreman_acd/ansible_playbooks' => [:destroy],
+                 :'foreman_acd/api/v2/ansible_playbooks' => [:destroy] },
+               :resource_type => 'ForemanAcd::AnsiblePlaybook'
+
+    permission :import_vars_ansible_playbooks,
+               { :'foreman_acd/ansible_playbooks' => [:import_vars],
+                 :'foreman_acd/api/v2/ansible_playbooks' => [:import_vars] },
+               :resource_type => 'ForemanAcd::AnsiblePlaybook'
+
     permission :create_app_definitions,
                { :'foreman_acd/app_definitions' => [:new, :create],
                  :'foreman_acd/api/v2/app_definitions' => [:create] },
@@ -81,9 +111,15 @@ Foreman::Plugin.register :foreman_acd do
   end
 
   # Manager Role
-  role 'Application Centric Deployment Manager', [:create_app_definitions,
+  role 'Application Centric Deployment Manager', [:create_ansible_playbooks,
+                                                  :view_ansible_playbooks,
+                                                  :edit_ansible_playbooks,
+                                                  :destroy_ansible_playbooks,
+                                                  :import_vars_ansible_playbooks,
+                                                  :create_app_definitions,
                                                   :view_app_definitions,
                                                   :edit_app_definitions,
+                                                  :destroy_app_definitions,
                                                   :export_app_definitions,
                                                   :import_app_definitions]
 

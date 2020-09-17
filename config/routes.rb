@@ -2,6 +2,16 @@
 
 Rails.application.routes.draw do
   scope :acd, :path => '/acd' do
+    resources :ansible_playbooks, :controller => 'foreman_acd/ansible_playbooks' do
+      collection do
+        get 'auto_complete_search'
+      end
+
+      member do
+        get 'import_vars'
+      end
+
+    end
     resources :app_definitions, :controller => 'foreman_acd/app_definitions' do
       collection do
         get 'auto_complete_search'

@@ -1,0 +1,21 @@
+<%= form_for @ansible_playbook, :url => (@ansible_playbook.new_record? ? ansible_playbooks_path : ansible_playbook_path(:id => @ansible_playbook.id)) do |f| %>
+  <%= base_errors_for @ansible_playbook %>
+
+  <ul class="nav nav-tabs" data-tabs="tabs">
+    <li class="active"><a href="#primary" data-toggle="tab"><%= _('Ansible playbooks') %></a></li>
+  </ul>
+
+  <div class="tab-content">
+    <div class="tab-pane active" id="primary">
+      <%= text_f f, :name %>
+      <%= text_f f, :description %>
+      <%= f.hidden_field :scm_type, :value => 'directory' %>
+      <% # TODO:
+         # select_f(f, :scm_type, %w[Directory GIT], :downcase, :to_s)
+      %>
+      <%= text_f f, :path %>
+      <%= text_f f, :playfile %>
+  </div>
+
+  <%= submit_or_cancel f %>
+<% end %>

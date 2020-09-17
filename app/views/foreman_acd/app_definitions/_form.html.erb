@@ -22,6 +22,7 @@
     <div class="tab-pane active" id="primary">
       <%= text_f f, :name %>
       <%= text_f f, :description %>
+      <%= select_f f, :acd_ansible_playbook_id, ForemanAcd::AnsiblePlaybook.all, :id, :name, {}, :label => _("Ansible Playbook") %>
 
       <div id='app_definition'></div>
       <%=  mount_react_component('ApplicationDefinition', "#app_definition", json.to_json) %>

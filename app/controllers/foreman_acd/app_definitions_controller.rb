@@ -36,7 +36,7 @@ module ForemanAcd
     end
 
     def update
-      if @app_definition.update(app_definition_params)
+      if @app_definition.update_attributes(app_definition_params)
         process_success
       else
         process_error
