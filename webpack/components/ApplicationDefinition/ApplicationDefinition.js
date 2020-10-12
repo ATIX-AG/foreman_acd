@@ -1,3 +1,4 @@
+import $ from 'jquery';
 import React, { useState } from 'react'
 import PropTypes from 'prop-types';
 import {
@@ -18,6 +19,11 @@ import {
   inlineEditFormatterFactory,
 } from 'patternfly-react';
 
+import {
+  PARAMETER_SELECTION_PARAM_TYPE_FOREMAN,
+  PARAMETER_SELECTION_PARAM_TYPE_ANSIBLE,
+} from '../ParameterSelection/ParameterSelectionConstants';
+
 class ApplicationDefinition extends React.Component {
 
   constructor(props) {
@@ -28,16 +34,30 @@ class ApplicationDefinition extends React.Component {
     return (rowData.backup !== undefined);
   }
 
+  createAnsibleGroupObject(ansibleGroupArray, withAll=false) {
+    const ansibleGroupObj = {};
+    ansibleGroupArray.forEach(e => (ansibleGroupObj[e] = e));
+
+    if ((withAll === false) && (ansibleGroupObj.hasOwnProperty('all'))) {
+      delete ansibleGroupObj.all;
+    }
+
+    return ansibleGroupObj;
+  }
+
+
   componentDidMount() {
     const {
-      data: { services, hostgroups },
+      data: { services, hostgroups, ansibleGroups },
       initApplicationDefinition,
       addApplicationDefinitionService,
       deleteApplicationDefinitionService,
       activateEditApplicationDefinitionService,
       changeEditApplicationDefinitionService,
-      openParameterSelectionModal,
-      closeParameterSelectionModal,
+      openForemanParameterSelectionModal,
+      closeForemanParameterSelectionModal,
+      openAnsibleParameterSelectionModal,
+      closeAnsibleParameterSelectionModal,
     } = this.props;
 
     const inlineEditButtonsFormatter = inlineEditFormatterFactory({
@@ -48,13 +68,21 @@ class ApplicationDefinition extends React.Component {
             bsStyle="default"
             onClick={() => activateEditApplicationDefinitionService(additionalData)}
           >
-            <Icon type="pf" name="edit" />
+            <Icon type="pf" name="edit" title="edit entry" />
           </Button>
+          &nbsp;
           <Button
             bsStyle="default"
-            onClick={() => openParameterSelectionModal(additionalData)}
+            onClick={() => openForemanParameterSelectionModal(additionalData)}
           >
-            <Icon type="pf" name="settings" />
+            <Icon type="pf" name="settings" title="change parameters" />
+          </Button>
+          &nbsp;
+          <Button
+            bsStyle="default"
+            onClick={() => openAnsibleParameterSelectionModal(additionalData)}
+          >
+            <span title="change ansible parameters">A</span>
           </Button>
           <DeleteTableEntry
             hidden={false}
@@ -121,6 +149,13 @@ class ApplicationDefinition extends React.Component {
         if (additionalData.property == 'hostgroup') {
           prettyValue = hostgroups[value];
         }
+        else if (additionalData.property == 'ansibleGroup') {
+          // FIXME: playbookId should be a state variable. I guess, the field need to be moved to react then
+          //        ... there are other sections in which the playbookId is used.
+          const playbookId = $('#foreman_acd_app_definition_acd_ansible_playbook_id').val();
+          const ag = this.createAnsibleGroupObject(ansibleGroups[playbookId]);
+          prettyValue = ag[value];
+        }
         return inlineEditFormatterImpl.renderValue(prettyValue, additionalData)
       },
       renderEdit: (value, additionalData) => {
@@ -129,6 +164,15 @@ class ApplicationDefinition extends React.Component {
             return inlineEditFormatterImpl.renderEditSelect(value, additionalData, hostgroups);
           }
           return inlineEditFormatterImpl.renderValue(hostgroups[value], additionalData)
+        }
+        else if (additionalData.property == 'ansibleGroup') {
+          const playbookId = $('#foreman_acd_app_definition_acd_ansible_playbook_id').val();
+          const ag = this.createAnsibleGroupObject(ansibleGroups[playbookId]);
+
+          if (additionalData.rowData.newEntry === true) {
+            return inlineEditFormatterImpl.renderEditSelect(value, additionalData, ag);
+          }
+          return inlineEditFormatterImpl.renderValue(ag[value], additionalData);
         }
         return inlineEditFormatterImpl.renderEditText(value, additionalData);
       }
@@ -145,14 +189,16 @@ class ApplicationDefinition extends React.Component {
 
   render() {
     const {
-      data: { organization, location, loadForemanDataUrl },
+      data: { organization, location, foremanDataUrl, ansibleDataUrl, ansibleGroups },
       services,
       columns,
       addApplicationDefinitionService,
       confirmEditApplicationDefinitionService,
       cancelEditApplicationDefinitionService,
-      openParameterSelectionModal,
-      closeParameterSelectionModal,
+      openForemanParameterSelectionModal,
+      closeForemanParameterSelectionModal,
+      openAnsibleParameterSelectionModal,
+      closeAnsibleParameterSelectionModal,
       ParameterSelectionModal,
     } = this.props;
 
@@ -199,26 +245,54 @@ class ApplicationDefinition extends React.Component {
         </div>
         <div>
           <ForemanModal
-            id="AppDefinitionParamSelection"
+            id="AppDefinitionForemanParamSelection"
             dialogClassName="param_selection_modal"
-            title="Parameter definition for Application Definition"
+            title="Foreman Parameter definition for Application Definition"
           >
             <ForemanModal.Header closeButton={false}>
               Parameter definition
             </ForemanModal.Header>
             {this.props.parametersData ? (
               <ParameterSelection
+                paramType={ PARAMETER_SELECTION_PARAM_TYPE_FOREMAN }
                 location={ location }
                 organization={ organization }
-                loadForemanDataUrl= { loadForemanDataUrl }
+                paramDataUrl= { foremanDataUrl }
                 data={ this.props.parametersData }
               />
             ) : (<span>Empty</span>)
             }
             <ForemanModal.Footer>
               <div>
-                <Button bsStyle="primary" onClick={() => closeParameterSelectionModal({ mode: 'save' })}>Save</Button>
-                <Button bsStyle="default" onClick={() => closeParameterSelectionModal({ mode: 'cancel' })}>Cancel</Button>
+                <Button bsStyle="primary" onClick={() => closeForemanParameterSelectionModal({ mode: 'save' })}>Save</Button>
+                <Button bsStyle="default" onClick={() => closeForemanParameterSelectionModal({ mode: 'cancel' })}>Cancel</Button>
+              </div>
+            </ForemanModal.Footer>
+          </ForemanModal>
+        </div>
+        <div>
+          <ForemanModal
+            id="AppDefinitionAnsibleParamSelection"
+            dialogClassName="param_selection_modal"
+            title="Ansible Parameter definition for Application Definition"
+          >
+            <ForemanModal.Header closeButton={false}>
+              Parameter definition
+            </ForemanModal.Header>
+            {this.props.parametersData ? (
+              <ParameterSelection
+                paramType={ PARAMETER_SELECTION_PARAM_TYPE_ANSIBLE }
+                location={ location }
+                organization={ organization }
+                paramDataUrl= { ansibleDataUrl }
+                data={ this.props.parametersData }
+              />
+            ) : (<span>Empty</span>)
+            }
+            <ForemanModal.Footer>
+              <div>
+                <Button bsStyle="primary" onClick={() => closeAnsibleParameterSelectionModal({ mode: 'save' })}>Save</Button>
+                <Button bsStyle="default" onClick={() => closeAnsibleParameterSelectionModal({ mode: 'cancel' })}>Cancel</Button>
               </div>
             </ForemanModal.Footer>
           </ForemanModal>
@@ -253,8 +327,10 @@ ApplicationDefinition.propTypes = {
   confirmEditApplicationDefinitionService: PropTypes.func,
   cancelEditApplicationDefinitionService: PropTypes.func,
   changeEditApplicationDefinitionService: PropTypes.func,
-  openParameterSelectionModal: PropTypes.func,
-  closeParameterSelectionModal: PropTypes.func,
+  openForemanParameterSelectionModal: PropTypes.func,
+  closeForemanParameterSelectionModal: PropTypes.func,
+  openAnsibleParameterSelectionModal: PropTypes.func,
+  closeAnsibleParameterSelectionModal: PropTypes.func,
   parametersData: PropTypes.object,
 };
 

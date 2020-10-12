@@ -16,12 +16,6 @@ import {
 } from 'foremanReact/common/helpers';
 
 import {
-  isNewDefinition,
-  isEditDefinition,
-  isDefinition,
-  isNewInstance,
-  isEditInstance,
-  isInstance,
   filterUsedParameterTypes,
 } from './ParameterSelectionHelper';
 
@@ -35,15 +29,20 @@ import {
   PARAMETER_SELECTION_EDIT_CHANGE,
   PARAMETER_SELECTION_EDIT_CANCEL,
   PARAMETER_SELECTION_SORT,
-  PARAMETER_SELECTION_LOAD_FOREMAN_DATA_REQUEST,
-  PARAMETER_SELECTION_LOAD_FOREMAN_DATA_SUCCESS,
-  PARAMETER_SELECTION_LOAD_FOREMAN_DATA_FAILURE,
+  PARAMETER_SELECTION_PARAM_TYPE_FOREMAN,
+  PARAMETER_SELECTION_PARAM_TYPE_ANSIBLE,
+  PARAMETER_SELECTION_LOAD_PARAM_DATA_REQUEST,
+  PARAMETER_SELECTION_LOAD_PARAM_DATA_SUCCESS,
+  PARAMETER_SELECTION_LOAD_PARAM_DATA_FAILURE,
 } from './ParameterSelectionConstants';
 
 export const initParameterSelection = (
-  mode,
-  serviceDefinition,
+  paramType,
+  paramDefinition,
   parameters,
+  useDefaultValue,
+  allowNameAdjustment,
+  allowDescriptionAdjustment,
   sortingFormatter,
   sortableTransform,
   inlineEditFormatter,
@@ -57,20 +56,25 @@ export const initParameterSelection = (
         position: 0
     }
   };
-  initialState.serviceDefinition = serviceDefinition;
+  initialState.paramDefinition = paramDefinition;
 
   let valueLabel = 'Value';
-  if (isDefinition(mode)) {
+  if (useDefaultValue) {
     valueLabel = 'Default value';
   }
 
-  initialState.columns = [
-    {
+  initialState.columns = []
+  const addToColumns = (obj, idx) => {
+    obj.header.props.index = idx;
+    initialState.columns.push(obj);
+  }
+
+  let idx = 0;
+  addToColumns( {
       property: 'name',
       header: {
         label: 'Name',
         props: {
-          index: 0,
           sort: true,
           style: {
             width: '20%'
@@ -81,15 +85,15 @@ export const initParameterSelection = (
         customFormatters: [sortableHeaderCellFormatter]
       },
       cell: {
-        formatters: [isDefinition(mode) ? inlineEditFormatter : tableCellFormatter]
+        formatters: [allowNameAdjustment ? inlineEditFormatter : tableCellFormatter]
       }
-    },
-    {
+    }, idx++);
+
+  addToColumns( {
       property: 'description',
       header: {
         label: 'Description',
         props: {
-          index: 1,
           sort: true,
           style: {
             width: '20%'
@@ -103,15 +107,16 @@ export const initParameterSelection = (
         props: {
           index: 1
         },
-        formatters: [isDefinition(mode) ? inlineEditFormatter : tableCellFormatter]
+        formatters: [allowDescriptionAdjustment ? inlineEditFormatter : tableCellFormatter]
       }
-    },
-    {
+    }, idx++);
+
+  if (paramType == PARAMETER_SELECTION_PARAM_TYPE_FOREMAN) {
+    addToColumns( {
       property: 'type',
       header: {
         label: 'Type',
         props: {
-          index: 2,
           sort: true,
           style: {
             width: '20%'
@@ -126,13 +131,14 @@ export const initParameterSelection = (
         // the well formatted type name is shown
         formatters: [inlineEditFormatter]
       }
-    },
-    {
+    }, idx++);
+  }
+
+  addToColumns( {
       property: 'value',
       header: {
         label: valueLabel,
         props: {
-          index: 3,
           sort: true,
           style: {
             width: '20%'
@@ -145,13 +151,13 @@ export const initParameterSelection = (
       cell: {
         formatters: [inlineEditFormatter]
       }
-    },
-    {
+    }, idx++);
+
+  addToColumns( {
       property: 'actions',
       header: {
         label: 'Actions',
         props: {
-          index: 4,
           style: {
             width: '20%'
           }
@@ -161,21 +167,11 @@ export const initParameterSelection = (
       cell: {
         formatters: [inlineEditButtonsFormatter]
       }
-    }
-  ];
+    }, idx++);
 
-  if (isNewDefinition(mode)) {
-    initialState.parameters = [];
-  } else if ((isEditDefinition(mode)) || (isInstance(mode))) {
-    initialState.parameters = parameters;
-    initialState.hostgroupId = serviceDefinition.hostgroup_id;
-  } else {
-    // FIXME: should never ever happen
-  }
+  initialState.parameters = parameters;
 
-  if (isNewDefinition(mode)) {
-    initialState.parameterTypes = PARAMETER_SELECTION_TYPES;
-  } else {
+  if ((paramType == PARAMETER_SELECTION_PARAM_TYPE_FOREMAN) && (parameters)) {
     initialState.parameterTypes = filterUsedParameterTypes(PARAMETER_SELECTION_TYPES, parameters);
   }
 
@@ -244,22 +240,23 @@ export const sortParameter = (selectedColumn, defaultSortingOrder) => ({
   },
 });
 
-export const loadForemanData = (
-  hostgroupId,
-  additionalData,
-) => dispatch => {
-  dispatch({ type: PARAMETER_SELECTION_LOAD_FOREMAN_DATA_REQUEST, payload: { clearParameters: additionalData.clearParameters } });
+export const loadParamData = (attr) => dispatch => {
+  dispatch( { type: PARAMETER_SELECTION_LOAD_PARAM_DATA_REQUEST, payload: { dataType: attr.dataType, clearParameters: attr.clearParameters } });
 
-  const realUrl = additionalData.url.replace("__id__", hostgroupId);
+  let realUrl = attr.url.replace("__id__", attr.paramDefinition.dataId);
+
+  if (attr.paramDefinition.hasOwnProperty('dataSubId')) {
+    realUrl = realUrl.replace("__subid__", attr.paramDefinition.dataSubId);
+  }
 
   return api
     .get(realUrl, {}, {})
     .then(({ data }) =>
       dispatch({
-        type: PARAMETER_SELECTION_LOAD_FOREMAN_DATA_SUCCESS,
-        payload: data,
+        type: PARAMETER_SELECTION_LOAD_PARAM_DATA_SUCCESS,
+        payload: { ...data, dataType: attr.dataType }
       })
     )
-    .catch(error => dispatch(errorHandler(PARAMETER_SELECTION_LOAD_FOREMAN_DATA_FAILURE, error)));
+    .catch(error => dispatch(errorHandler(PARAMETER_SELECTION_LOAD_PARAM_DATA_FAILURE, error)));
 };
 

@@ -23,8 +23,10 @@ import {
   APPLICATION_DEFINITION_SERVICE_EDIT_CONFIRM,
   APPLICATION_DEFINITION_SERVICE_EDIT_CHANGE,
   APPLICATION_DEFINITION_SERVICE_EDIT_CANCEL,
-  APPLICATION_DEFINITION_PARAMETER_SELECTION_MODAL_OPEN,
-  APPLICATION_DEFINITION_PARAMETER_SELECTION_MODAL_CLOSE,
+  APPLICATION_DEFINITION_FOREMAN_PARAMETER_SELECTION_MODAL_OPEN,
+  APPLICATION_DEFINITION_FOREMAN_PARAMETER_SELECTION_MODAL_CLOSE,
+  APPLICATION_DEFINITION_ANSIBLE_PARAMETER_SELECTION_MODAL_OPEN,
+  APPLICATION_DEFINITION_ANSIBLE_PARAMETER_SELECTION_MODAL_CLOSE,
 } from './ApplicationDefinitionConstants';
 
 export const initApplicationDefinition = (
@@ -85,12 +87,28 @@ export const initApplicationDefinition = (
       }
     },
     {
+      property: 'ansibleGroup',
+      header: {
+        label: 'Ansible Group',
+        formatters: [headerFormatter],
+        props: {
+          index: 3,
+          style: {
+            width: '20%'
+          }
+        },
+      },
+      cell: {
+        formatters: [inlineEditFormatter]
+      }
+    },
+    {
       property: 'minCount',
       header: {
         label: 'min count',
         formatters: [headerFormatter],
         props: {
-          index: 3,
+          index: 4,
           style: {
             width: '10%'
           }
@@ -106,7 +124,7 @@ export const initApplicationDefinition = (
         label: 'max count',
         formatters: [headerFormatter],
         props: {
-          index: 3,
+          index: 5,
           style: {
             width: '10%'
           }
@@ -122,7 +140,7 @@ export const initApplicationDefinition = (
         label: 'Actions',
         formatters: [actionHeaderCellFormatter],
         props: {
-          index: 4,
+          index: 6,
           style: {
             width: '20%'
           }
@@ -185,27 +203,52 @@ export const changeEditApplicationDefinitionService = (value, additionalData) =>
   },
 });
 
-export const openParameterSelectionModal = (additionalData) => dispatch => {
+export const openForemanParameterSelectionModal = (additionalData) => dispatch => {
   dispatch({
-    type: APPLICATION_DEFINITION_PARAMETER_SELECTION_MODAL_OPEN,
+    type: APPLICATION_DEFINITION_FOREMAN_PARAMETER_SELECTION_MODAL_OPEN,
     payload: {
       ...additionalData,
     }
   });
   dispatch(
-    setModalOpen({ id: 'AppDefinitionParamSelection' })
+    setModalOpen({ id: 'AppDefinitionForemanParamSelection' })
   );
 }
 
-export const closeParameterSelectionModal = (additionalData) => dispatch => {
+export const closeForemanParameterSelectionModal = (additionalData) => dispatch => {
   dispatch({
-    type: APPLICATION_DEFINITION_PARAMETER_SELECTION_MODAL_CLOSE,
+    type: APPLICATION_DEFINITION_FOREMAN_PARAMETER_SELECTION_MODAL_CLOSE,
     payload: {
       ...additionalData,
     }
   });
 
   dispatch(
-    setModalClosed({ id: 'AppDefinitionParamSelection' })
+    setModalClosed({ id: 'AppDefinitionForemanParamSelection' })
+  );
+}
+
+export const openAnsibleParameterSelectionModal = (additionalData) => dispatch => {
+  dispatch({
+    type: APPLICATION_DEFINITION_ANSIBLE_PARAMETER_SELECTION_MODAL_OPEN,
+    payload: {
+      ...additionalData,
+    }
+  });
+  dispatch(
+    setModalOpen({ id: 'AppDefinitionAnsibleParamSelection' })
+  );
+}
+
+export const closeAnsibleParameterSelectionModal = (additionalData) => dispatch => {
+  dispatch({
+    type: APPLICATION_DEFINITION_ANSIBLE_PARAMETER_SELECTION_MODAL_CLOSE,
+    payload: {
+      ...additionalData,
+    }
+  });
+
+  dispatch(
+    setModalClosed({ id: 'AppDefinitionAnsibleParamSelection' })
   );
 }

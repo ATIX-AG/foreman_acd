@@ -71,7 +71,7 @@ const applicationInstanceConf = (state = initialState, action) => {
         index = Math.max(...hosts.map(e => e.id)) + 1;
       }
 
-      const newRow = {id: index, hostname: "", description: '', service: '', parameters: [], newEntry: true };
+      const newRow = {id: index, hostname: "", description: '', service: '', foremanParameters: [], ansibleParameters: [], newEntry: true };
       newRow.backup = cloneDeep(newRow)
       hosts.push(newRow);
 
@@ -131,7 +131,8 @@ const applicationInstanceConf = (state = initialState, action) => {
       // Initialize the new Instance with the parameters of the Application Definition.
       if (thisHost.newEntry === true) {
           const selectedService = state.services.filter(entry => entry.id == payload.rowData.service)[0];
-          hosts[index].parameters = selectedService.parameters;
+          hosts[index].foremanParameters = selectedService.foremanParameters;
+          hosts[index].ansibleParameters = selectedService.ansibleParameters;
 
           const hostServiceId = Number(thisHost.service);
           const service = services.find(serv => serv['id'] == hostServiceId);
@@ -181,19 +182,19 @@ const applicationInstanceConf = (state = initialState, action) => {
       if (payload && payload.rowData) {
         const selectedService = state.services.filter(entry => entry.id == payload.rowData.service)[0];
 
-        parametersData.serviceDefinition = {
+        parametersData.paramDefinition = {
           id: selectedService.id,
           name: selectedService.name,
+          dataId: selectedService.hostgroup,
+          // TODO: is this really correct? Guess it shoud be dataId and we should get rid of them
           hostgroup_id: selectedService.hostgroup,
           hostId: payload.rowData.id,
         };
-        parametersData.parameters = payload.rowData.parameters;
-
-        if (parametersData.parameters.length > 0) {
-          parametersData.mode = 'editInstance';
-        } else {
-          parametersData.mode = 'newInstance';
-        }
+        parametersData.parameters = payload.rowData.foremanParameters;
+        parametersData.useDefaultValue = false;
+        parametersData.allowRowAdjustment = false;
+        parametersData.allowNameAdjustment = false;
+        parametersData.allowDescriptionAdjustment = false;
       }
       return state.merge({
         parametersData: parametersData,
@@ -203,7 +204,7 @@ const applicationInstanceConf = (state = initialState, action) => {
       if (payload.mode == 'save') {
         const hosts = cloneDeep(state.hosts);
         const index = findIndex(hosts, { id: state.parametersData.serviceDefinition.hostId });
-        hosts[index].parameters = cloneDeep(payload.hostParameterSelection);
+        hosts[index].foremanParameters = cloneDeep(payload.parameterSelection);
 
         return state.merge({
           parametersData: null,

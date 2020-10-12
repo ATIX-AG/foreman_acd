@@ -11,7 +11,8 @@ import applicationInstanceConf from './components/ApplicationInstance/Applicatio
 import applicationInstanceReport from './components/ApplicationInstanceReport/ApplicationInstanceReportReducer';
 
 import {
-  APPLICATION_DEFINITION_PARAMETER_SELECTION_MODAL_CLOSE,
+  APPLICATION_DEFINITION_FOREMAN_PARAMETER_SELECTION_MODAL_CLOSE,
+  APPLICATION_DEFINITION_ANSIBLE_PARAMETER_SELECTION_MODAL_CLOSE,
 } from './components/ApplicationDefinition/ApplicationDefinitionConstants';
 
 import {
@@ -23,13 +24,16 @@ const rootReducer = (state = {}, action) => {
   const param_state = parameterSelectionParameters(state.parameterSelectionParameters, action);
   const app_ins_report_state = applicationInstanceReport(state.applicationInstanceReport, action);
 
-  if (action.type == APPLICATION_DEFINITION_PARAMETER_SELECTION_MODAL_CLOSE) {
-    action.payload.serviceParameterSelection = param_state.parameters;
+  if (action.type == APPLICATION_DEFINITION_FOREMAN_PARAMETER_SELECTION_MODAL_CLOSE) {
+    action.payload.parameterSelection = param_state.parameters;
+  }
+  if (action.type == APPLICATION_DEFINITION_ANSIBLE_PARAMETER_SELECTION_MODAL_CLOSE) {
+    action.payload.parameterSelection = param_state.parameters;
   }
   const app_def_state = applicationDefinitionConf(state.applicationDefinitionConf, action);
 
   if (action.type == APPLICATION_INSTANCE_PARAMETER_SELECTION_MODAL_CLOSE) {
-    action.payload.hostParameterSelection = param_state.parameters;
+    action.payload.parameterSelection = param_state.parameters;
   }
   const app_ins_state = applicationInstanceConf(state.applicationInstanceConf, action);
 

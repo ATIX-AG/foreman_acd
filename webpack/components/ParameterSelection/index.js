@@ -8,23 +8,23 @@ import * as ParameterSelectionActions from './ParameterSelectionActions';
 import {
   selectLoading,
   selectEditMode,
-  selectForemanData,
+  selectParamData,
   selectParameterTypes,
   selectParameters,
   selectSortingColumns,
   selectColumns,
-  selectServiceDefinition,
+  selectParamDefinition,
 } from './ParameterSelectionSelectors';
 
 const mapStateToProps = state => ({
   loading: selectLoading(state),
   editMode: selectEditMode(state),
-  foremanData: selectForemanData(state),
+  paramData: selectParamData(state),
   parameterTypes: selectParameterTypes(state),
   parameters: selectParameters(state),
   sortingColumns: selectSortingColumns(state),
   columns: selectColumns(state),
-  serviceDefinition: selectServiceDefinition(state),
+  paramDefinition: selectParamDefinition(state),
 });
 
 const mapDispatchToProps = dispatch =>

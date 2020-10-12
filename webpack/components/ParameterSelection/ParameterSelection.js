@@ -10,12 +10,6 @@ import DeleteTableEntry from '../common/DeleteTableEntry';
 import ExtSelect from '../common/ExtSelect';
 
 import {
-  isNewDefinition,
-  isEditDefinition,
-  isDefinition,
-  isNewInstance,
-  isEditInstance,
-  isInstance,
   transformForemanData,
 } from './ParameterSelectionHelper';
 
@@ -27,6 +21,8 @@ import {
 
 import {
   PARAMETER_SELECTION_TYPES,
+  PARAMETER_SELECTION_PARAM_TYPE_FOREMAN,
+  PARAMETER_SELECTION_PARAM_TYPE_ANSIBLE,
 } from './ParameterSelectionConstants';
 
 import {
@@ -60,19 +56,26 @@ class ParameterSelection extends React.Component {
 
   componentDidMount() {
     const {
-      data: { mode, parameters, serviceDefinition },
+      data: { useDefaultValue, allowRowAdjustment, allowNameAdjustment, allowDescriptionAdjustment, parameters, paramDefinition },
       location,
       organization,
-      loadForemanDataUrl,
+      paramType,
+      paramDataUrl,
       initParameterSelection,
       sortParameter,
       deleteParameter,
       activateEditParameter,
       changeEditParameter,
-      loadForemanData,
+      loadParamData,
     } = this.props;
 
-    loadForemanData(serviceDefinition.hostgroup_id, { url: loadForemanDataUrl, clearParameters: false });
+    if (paramType == PARAMETER_SELECTION_PARAM_TYPE_ANSIBLE) {
+      if (parameters.length <= 0) {
+        loadParamData({ paramDefinition: paramDefinition, url: paramDataUrl, dataType: paramType, clearParameters: false });
+      }
+    } else if (paramType == PARAMETER_SELECTION_PARAM_TYPE_FOREMAN) {
+      loadParamData({ paramDefinition: paramDefinition, url: paramDataUrl, dataType: paramType, clearParameters: false });
+    }
 
     const inlineEditButtonsFormatter = inlineEditFormatterFactory({
       isEditing: additionalData => this.props.editMode,
@@ -85,7 +88,7 @@ class ParameterSelection extends React.Component {
             <Icon type="pf" name="edit" />
           </Button>
           <DeleteTableEntry
-            hidden={isInstance(mode)}
+            hidden={!allowRowAdjustment}
             disabled={false}
             onDeleteTableEntry={deleteParameter}
             additionalData={additionalData}
@@ -98,7 +101,7 @@ class ParameterSelection extends React.Component {
             <Icon type="pf" name="edit" />
           </Button>
           <DeleteTableEntry
-            hidden={isInstance(mode)}
+            hidden={!allowRowAdjustment}
             disabled={true}
             onDeleteTableEntry={deleteParameter}
             additionalData={additionalData}
@@ -152,6 +155,8 @@ class ParameterSelection extends React.Component {
       ),
     };
 
+    // TODO: should we differentiate between paramType FOREMAN and ANSIBLE?
+
     const inlineEditFormatter = inlineEditFormatterFactory({
       isEditing: additionalData => this.isEditing(additionalData),
       renderValue: (value, additionalData) => {
@@ -161,22 +166,25 @@ class ParameterSelection extends React.Component {
         } else if (additionalData.property == 'value') {
           switch (additionalData.rowData.type) {
             case 'computeprofile':
-              prettyValue = transformForemanData(this.props.foremanData['computeprofiles'])[value]
+              prettyValue = transformForemanData(this.props.paramData['computeprofiles'])[value]
               break;
             case 'domain':
-              prettyValue = transformForemanData(this.props.foremanData['domains'])[value]
+              prettyValue = transformForemanData(this.props.paramData['domains'])[value]
               break;
             case 'lifecycleenv':
-              prettyValue = transformForemanData(this.props.foremanData['lifecycle_environments'])[value]
+              prettyValue = transformForemanData(this.props.paramData['lifecycle_environments'])[value]
               break;
             case 'ptable':
-              prettyValue = transformForemanData(this.props.foremanData['ptables'])[value]
+              prettyValue = transformForemanData(this.props.paramData['ptables'])[value]
               break;
             case 'password':
               prettyValue = '****************'
               break;
             case 'puppetenv':
-              prettyValue = transformForemanData(this.props.foremanData['environments'])[value]
+              prettyValue = transformForemanData(this.props.paramData['environments'])[value]
+              break;
+            case 'text':
+              prettyValue = value
               break;
           }
         }
@@ -192,15 +200,15 @@ class ParameterSelection extends React.Component {
           case 'value':
             switch (additionalData.rowData.type) {
               case 'computeprofile':
-                return inlineEditFormatterImpl.renderEditSelect(value, additionalData, transformForemanData(this.props.foremanData['computeprofiles']));
+                return inlineEditFormatterImpl.renderEditSelect(value, additionalData, transformForemanData(this.props.paramData['computeprofiles']));
               case 'domain':
-                return inlineEditFormatterImpl.renderEditSelect(value, additionalData, transformForemanData(this.props.foremanData['domains']));
+                return inlineEditFormatterImpl.renderEditSelect(value, additionalData, transformForemanData(this.props.paramData['domains']));
               case 'lifecycleenv':
-                return inlineEditFormatterImpl.renderEditSelect(value, additionalData, transformForemanData(this.props.foremanData['lifecycle_environments']));
+                return inlineEditFormatterImpl.renderEditSelect(value, additionalData, transformForemanData(this.props.paramData['lifecycle_environments']));
               case 'puppetenv':
-                return inlineEditFormatterImpl.renderEditSelect(value, additionalData, transformForemanData(this.props.foremanData['environments']));
+                return inlineEditFormatterImpl.renderEditSelect(value, additionalData, transformForemanData(this.props.paramData['environments']));
               case 'ptable':
-                return inlineEditFormatterImpl.renderEditSelect(value, additionalData, transformForemanData(this.props.foremanData['ptables']));
+                return inlineEditFormatterImpl.renderEditSelect(value, additionalData, transformForemanData(this.props.paramData['ptables']));
               case 'password':
                 return inlineEditFormatterImpl.renderEditText(value, additionalData, 'password');
               case 'text':
@@ -215,9 +223,12 @@ class ParameterSelection extends React.Component {
     this.inlineEditFormatter = inlineEditFormatter;
 
     initParameterSelection(
-      mode,
-      serviceDefinition,
+      paramType,
+      paramDefinition,
       parameters,
+      useDefaultValue,
+      allowNameAdjustment,
+      allowDescriptionAdjustment,
       this.sortingFormatter,
       this.sortableTransform,
       this.inlineEditFormatter,
@@ -230,10 +241,9 @@ class ParameterSelection extends React.Component {
 
   render() {
     const {
-      data: { mode, applications },
+      data: { allowRowAdjustment, applications },
       location,
       organization,
-      loadForemanDataUrl,
       parameters,
       columns,
       sortingColumns,
@@ -241,8 +251,6 @@ class ParameterSelection extends React.Component {
       addParameter,
       confirmEditParameter,
       cancelEditParameter,
-      loadForemanData,
-      serviceDefinition,
     } = this.props;
 
     let sortedParameters;
@@ -279,7 +287,7 @@ class ParameterSelection extends React.Component {
         <div className="clearfix">
           <div className="form-group">
             <AddTableEntry
-               hidden={isInstance(mode)}
+               hidden={!allowRowAdjustment}
                disabled={ this.props.editMode }
                onAddTableEntry={ addParameter }
             />
@@ -319,7 +327,7 @@ class ParameterSelection extends React.Component {
               />
             </Table.PfProvider>
             <AddTableEntry
-               hidden={isInstance(mode)}
+               hidden={!allowRowAdjustment}
                disabled={ this.props.editMode }
                onAddTableEntry={ addParameter }
             />
@@ -334,7 +342,7 @@ ParameterSelection.defaultProps = {
   error: {},
   editMode: false,
   loading: false,
-  foremanData: {},
+  paramData: {},
   parameters: [],
   columns: [],
   sortingColumns: {},
@@ -342,18 +350,17 @@ ParameterSelection.defaultProps = {
 
 ParameterSelection.propTypes = {
   data: PropTypes.shape({
-    mode: PropTypes.string.isRequired,
     parameters: PropTypes.array,
-    serviceDefinition: PropTypes.object,
+    paramDefinition: PropTypes.object,
     applications: PropTypes.object,
   }).isRequired,
   location: PropTypes.string.isRequired,
   organization: PropTypes.string.isRequired,
-  loadForemanDataUrl: PropTypes.string,
+  paramDataUrl: PropTypes.string,
   initParameterSelection: PropTypes.func,
   editMode: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
-  foremanData: PropTypes.object.isRequired,
+  paramData: PropTypes.object.isRequired,
   parameterTypes: PropTypes.object,
   parameters: PropTypes.array,
   sortingColumns: PropTypes.object,
@@ -365,8 +372,8 @@ ParameterSelection.propTypes = {
   confirmEditParameter: PropTypes.func,
   cancelEditParameter: PropTypes.func,
   changeEditParameter: PropTypes.func,
-  loadForemanData: PropTypes.func,
-  serviceDefinition: PropTypes.object,
+  loadParamData: PropTypes.func,
+  paramDefinition: PropTypes.object,
 };
 
 export default ParameterSelection;

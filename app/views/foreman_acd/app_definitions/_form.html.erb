@@ -3,7 +3,9 @@
       "organization": current_organization,
       "location": current_location,
       "hostgroups": @hostgroups,
-      "loadForemanDataUrl": ui_acd_fdata_path("__id__"),
+      "ansibleGroups": @ansible_groups,
+      "foremanDataUrl": ui_acd_foreman_data_path("__id__"),
+      "ansibleDataUrl": ui_acd_ansible_data_path(:playbook_id => "__id__", :group_name => "__subid__"),
       "services": [],
     }
 
@@ -22,7 +24,7 @@
     <div class="tab-pane active" id="primary">
       <%= text_f f, :name %>
       <%= text_f f, :description %>
-      <%= select_f f, :acd_ansible_playbook_id, ForemanAcd::AnsiblePlaybook.all, :id, :name, {}, :label => _("Ansible Playbook") %>
+      <%= select_f f, :acd_ansible_playbook_id, ForemanAcd::AnsiblePlaybook.all, :id, :name, {}, { :label => _("Ansible Playbook"), :disabled => !@app_definition.new_record? } %>
 
       <div id='app_definition'></div>
       <%=  mount_react_component('ApplicationDefinition', "#app_definition", json.to_json) %>

@@ -36,6 +36,7 @@ Rails.application.routes.draw do
     end
 
     get 'ui_acd_app/:id', :to => 'ui_acd#app', :constraints => { :id => /[\w\.-]+/ }, :as => :ui_acd_app
-    get 'ui_acd_fdata/:id', :to => 'ui_acd#fdata', :constraints => { :id => /[\w\.-]+/ }, :as => :ui_acd_fdata
+    get 'ui_acd_foreman_data/:id', :to => 'ui_acd#foreman_data', :constraints => { :id => /[\w\.-]+/ }, :as => :ui_acd_foreman_data
+    get 'ui_acd_ansible_data/:playbook_id/group/:group_name', :to => 'ui_acd#ansible_data', :constraints => { :playbook_id => /[\w\.-]+/, :group_name => /[\w\.-]+/ }, :as => :ui_acd_ansible_data
   end
 end

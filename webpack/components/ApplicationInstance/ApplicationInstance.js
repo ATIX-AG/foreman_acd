@@ -21,6 +21,10 @@ import {
   inlineEditFormatterFactory,
 } from 'patternfly-react';
 
+import {
+  PARAMETER_SELECTION_PARAM_TYPE_FOREMAN,
+} from '../ParameterSelection/ParameterSelectionConstants';
+
 class ApplicationInstance extends React.Component {
 
   constructor(props) {
@@ -69,7 +73,7 @@ class ApplicationInstance extends React.Component {
 
   componentDidMount() {
     const {
-      data: { mode, appDefinition, hosts, loadAppDefinitionUrl },
+      data: { mode, appDefinition, hosts, appDefinitionUrl },
       initApplicationInstance,
       addApplicationInstanceHost,
       deleteApplicationInstanceHost,
@@ -81,7 +85,7 @@ class ApplicationInstance extends React.Component {
     } = this.props;
 
     if (mode === 'editInstance') {
-      loadApplicationDefinition(appDefinition.id, { url: loadAppDefinitionUrl });
+      loadApplicationDefinition(appDefinition.id, { url: appDefinitionUrl });
     }
 
     const inlineEditButtonsFormatter = inlineEditFormatterFactory({
@@ -196,7 +200,7 @@ class ApplicationInstance extends React.Component {
 
   render() {
     const {
-      data: { mode, applications, organization, location, loadForemanDataUrl, loadAppDefinitionUrl },
+      data: { mode, applications, organization, location, foremanDataUrl, appDefinitionUrl },
       appDefinition,
       services,
       hosts,
@@ -232,7 +236,7 @@ class ApplicationInstance extends React.Component {
             options={ applications }
             onChange={ loadApplicationDefinition }
             selectValue={ appDefinition.id.toString() }
-            additionalData={{url: loadAppDefinitionUrl}}
+            additionalData={{url: appDefinitionUrl}}
           />
         </div>
         <div className="form-group">
@@ -285,9 +289,10 @@ class ApplicationInstance extends React.Component {
             </ForemanModal.Header>
             {this.props.parametersData ? (
               <ParameterSelection
+                paramType={ PARAMETER_SELECTION_PARAM_TYPE_FOREMAN }
                 location={ location }
                 organization={ organization }
-                loadForemanDataUrl= { loadForemanDataUrl }
+                paramDataUrl= { foremanDataUrl }
                 data={ this.props.parametersData }
               />
             ) : (<span>Empty</span>)

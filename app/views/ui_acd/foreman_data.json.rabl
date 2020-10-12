@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-object @fdata
+object @foreman_data
 attribute :hostgroup_id
 
 child :environments => :environments do

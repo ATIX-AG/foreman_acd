@@ -7,6 +7,8 @@ module ForemanAcd
     include ::ForemanAcd::Concerns::AppDefinitionParameters
 
     before_action :find_resource, :only => [:edit, :update, :destroy, :export]
+    before_action :read_hostgroups, :only => [:edit, :new, :import ]
+    before_action :read_playbook_groups, :only => [:edit, :new ]
     before_action :handle_file_upload, :only => [:create]
 
     def index
@@ -17,8 +19,11 @@ module ForemanAcd
       @hostgroups = Hostgroup.all.map { |elem| { elem.id => elem.name } }.reduce({}) { |h, v| h.merge v }
     end
 
+    def read_playbook_groups
+      @ansible_groups = AnsiblePlaybook.all.map { |elem| { elem.id => JSON.parse(elem.vars).keys } }.reduce({}, :merge!)
+    end
+
     def new
-      read_hostgroups
       @app_definition = AppDefinition.new
     end
 
@@ -32,7 +37,6 @@ module ForemanAcd
     end
 
     def edit
-      read_hostgroups
     end
 
     def update
@@ -61,7 +65,6 @@ module ForemanAcd
     end
 
     def import
-      read_hostgroups
       @app_definition = AppDefinition.new
     end
 

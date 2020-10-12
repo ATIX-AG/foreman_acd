@@ -22,9 +22,11 @@ import {
   PARAMETER_SELECTION_EDIT_CHANGE,
   PARAMETER_SELECTION_EDIT_CANCEL,
   PARAMETER_SELECTION_SORT,
-  PARAMETER_SELECTION_LOAD_FOREMAN_DATA_REQUEST,
-  PARAMETER_SELECTION_LOAD_FOREMAN_DATA_SUCCESS,
-  PARAMETER_SELECTION_LOAD_FOREMAN_DATA_FAILURE,
+  PARAMETER_SELECTION_PARAM_TYPE_FOREMAN,
+  PARAMETER_SELECTION_PARAM_TYPE_ANSIBLE,
+  PARAMETER_SELECTION_LOAD_PARAM_DATA_REQUEST,
+  PARAMETER_SELECTION_LOAD_PARAM_DATA_SUCCESS,
+  PARAMETER_SELECTION_LOAD_PARAM_DATA_FAILURE,
 } from './ParameterSelectionConstants';
 
 import {
@@ -127,18 +129,26 @@ const parameterSelectionParameters = (state = initialState, action) => {
         })
       );
     }
-    case PARAMETER_SELECTION_LOAD_FOREMAN_DATA_FAILURE: {
+    case PARAMETER_SELECTION_LOAD_PARAM_DATA_FAILURE: {
       return state.merge({
         error: payload.error,
         loading: false
       });
     }
-    case PARAMETER_SELECTION_LOAD_FOREMAN_DATA_REQUEST: {
-      const newState = {
-        foremanData: {},
-        hostgroupId: -1,
-        loading: true
-      };
+    case PARAMETER_SELECTION_LOAD_PARAM_DATA_REQUEST: {
+      let newState = {};
+
+      if (payload.dataType == PARAMETER_SELECTION_PARAM_TYPE_FOREMAN) {
+        newState = {
+          paramData: {},
+          hostgroupId: -1,
+          loading: true
+        };
+      } else if (payload.dataType == PARAMETER_SELECTION_PARAM_TYPE_ANSIBLE) {
+        newState = {
+          loading: true
+        };
+      }
 
       if (payload.clearParameters === true) {
         Object.assign(newState, { parameters: [] });
@@ -146,12 +156,43 @@ const parameterSelectionParameters = (state = initialState, action) => {
 
       return state.merge(newState);
     }
-    case PARAMETER_SELECTION_LOAD_FOREMAN_DATA_SUCCESS: {
-      return state.merge({
-        loading: false,
-        foremanData: payload,
-        hostgroupId: payload.hostgroup_id,
-      });
+    case PARAMETER_SELECTION_LOAD_PARAM_DATA_SUCCESS: {
+      let newState = {};
+
+      if (payload.dataType == PARAMETER_SELECTION_PARAM_TYPE_FOREMAN) {
+        newState = {
+          loading: false,
+          paramData: payload,
+          hostgroupId: payload.hostgroup_id,
+        };
+      } else if (payload.dataType == PARAMETER_SELECTION_PARAM_TYPE_ANSIBLE) {
+        let parameters = [];
+
+        if ((payload.hasOwnProperty('group_vars')) && (payload.group_vars.length > 0)) {
+          for (let i=0; i<payload.group_vars.length; i++) {
+            let item = payload.group_vars[i];
+            let entry = { id: i };
+
+            // only handle vars with a name, value may be missing...
+            if (item.name) {
+              entry['name'] = item.name;
+
+              if (item.value) {
+                entry['value'] = item.value;
+              }
+
+              parameters.push(entry);
+            }
+          }
+        }
+
+        newState = {
+          loading: false,
+          parameters: parameters,
+        };
+      }
+
+      return state.merge(newState);
     }
     case APPLICATION_DEFINITION_PARAMETER_SELECTION_MODAL_CLOSE: {
       const parameters = cloneDeep(state.parameters);
