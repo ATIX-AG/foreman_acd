@@ -17,5 +17,11 @@ module ForemanAcd
     def self.permission_name
       'app_instances'
     end
+
+    def foreman_hosts()
+      app_hosts = JSON.parse(self.hosts)
+      host_ids = app_hosts.select{ |h| h&.key?('foreman_host_id') }.map{ |h| h['foreman_host_id'] }
+      ::Host.find(host_ids)
+    end
   end
 end

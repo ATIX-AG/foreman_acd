@@ -126,6 +126,22 @@ module ForemanAcd
       logger.debug("deploy report hosts are: #{@report_hosts.inspect}")
     end
 
+    def configure()
+      hosts = @app_instance.foreman_hosts()
+      inventory = ::ForemanAnsible::InventoryCreator.new hosts
+      job_input = {}
+      job_input[:inventory] = inventory.to_hash
+      job_input[:playbook] = @app_instance.app_definition.ansible_playbook.content
+      composer = JobInvocationComposer.for_feature(
+          "Ansible - Run playbook",  # job_invocation_params[:feature],
+          hosts.pluck(:id),
+          job_invocation_params[:inputs].to_hash
+      )
+      composer.trigger!
+      job_invocation = composer.job_invocation
+      hosts = @job_invocation.targeting.hosts
+    end
+
     private
 
     # Copied from foreman/app/controllers/api/v2/hosts_controller.rb

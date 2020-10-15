@@ -20,5 +20,13 @@ module ForemanAcd
     def self.permission_name
       'ansible_playbooks'
     end
+
+    def content
+      case scm_type:
+      when 'directory'
+        File.read File.join(path, playfile)
+      else raise NotImplementedError.new "scm_type #{scm_type.inspect} not supported!"
+      end
+    end
   end
 end
