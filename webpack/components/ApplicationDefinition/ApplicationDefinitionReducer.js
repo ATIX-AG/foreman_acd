@@ -113,19 +113,17 @@ const applicationDefinitionConf = (state = initialState, action) => {
     case APPLICATION_DEFINITION_FOREMAN_PARAMETER_SELECTION_MODAL_OPEN: {
       let parametersData = {};
 
-      if (payload && payload.rowData) {
-        parametersData.paramDefinition = {
-          id: payload.rowData.id,
-          name: payload.rowData.name,
-          dataId: payload.rowData.hostgroup
-        }
-        parametersData.parameters = payload.rowData.foremanParameters;
-        parametersData.type = PARAMETER_SELECTION_PARAM_TYPE_FOREMAN;
-        parametersData.useDefaultValue = true;
-        parametersData.allowRowAdjustment = true;
-        parametersData.allowNameAdjustment = true;
-        parametersData.allowDescriptionAdjustment = true;
+      parametersData.paramDefinition = {
+        id: payload.rowData.id,
+        name: payload.rowData.name,
+        dataId: payload.rowData.hostgroup
       }
+      parametersData.parameters = payload.rowData.foremanParameters;
+      parametersData.type = PARAMETER_SELECTION_PARAM_TYPE_FOREMAN;
+      parametersData.useDefaultValue = true;
+      parametersData.allowRowAdjustment = true;
+      parametersData.allowNameAdjustment = true;
+      parametersData.allowDescriptionAdjustment = true;
 
       return state.merge({
         parametersData: parametersData,
@@ -150,10 +148,19 @@ const applicationDefinitionConf = (state = initialState, action) => {
     case APPLICATION_DEFINITION_ANSIBLE_PARAMETER_SELECTION_MODAL_OPEN: {
       let parametersData = {};
 
+      parametersData.type = PARAMETER_SELECTION_PARAM_TYPE_ANSIBLE;
+
       // FIXME: use the state playbookId.
       const playbookId = $('#foreman_acd_app_definition_acd_ansible_playbook_id').val();
 
-      if (payload && payload.rowData) {
+      if ((payload.hasOwnProperty('isAllGroup')) && (payload.isAllGroup == true)) {
+        parametersData.parameters = state.ansibleGroupVarsAll;
+        parametersData.paramDefinition = {
+          isAllGroup: true,
+          dataId: playbookId,
+          dataSubId: 'all'
+        }
+      } else  {
         parametersData.paramDefinition = {
           id: payload.rowData.id,
           name: payload.rowData.name,
@@ -161,32 +168,41 @@ const applicationDefinitionConf = (state = initialState, action) => {
           dataSubId: payload.rowData.ansibleGroup
         }
         parametersData.parameters = payload.rowData.ansibleParameters;
-        parametersData.type = PARAMETER_SELECTION_PARAM_TYPE_ANSIBLE;
-        parametersData.useDefaultValue = false;
-        parametersData.allowRowAdjustment = false;
-        parametersData.allowNameAdjustment = false;
-        parametersData.allowDescriptionAdjustment = true;
       }
+
+      parametersData.useDefaultValue = false;
+      parametersData.allowRowAdjustment = false;
+      parametersData.allowNameAdjustment = false;
+      parametersData.allowDescriptionAdjustment = true;
 
       return state.merge({
         parametersData: parametersData,
       });
     }
     case APPLICATION_DEFINITION_ANSIBLE_PARAMETER_SELECTION_MODAL_CLOSE: {
+      let newState = {};
       if (payload.mode == 'save') {
-        const services = cloneDeep(state.services);
-        const index = findIndex(services, { id: state.parametersData.paramDefinition.id });
-        services[index].ansibleParameters = cloneDeep(payload.parameterSelection);
+        if ((state.parametersData.paramDefinition.hasOwnProperty('isAllGroup')) && (state.parametersData.paramDefinition.isAllGroup == true)) {
+          newState = {
+            parametersData: null,
+            ansibleGroupVarsAll: cloneDeep(payload.parameterSelection),
+          };
+        } else {
+          const services = cloneDeep(state.services);
+          const index = findIndex(services, { id: state.parametersData.paramDefinition.id });
+          services[index].ansibleParameters = cloneDeep(payload.parameterSelection);
 
-        return state.merge({
-          parametersData: null,
-          services: services,
-        });
+          newState = {
+            parametersData: null,
+            services: services,
+          };
+        }
       } else {
-        return state.merge({
+        newState = {
           parametersData: null,
-        });
+        };
       }
+      return state.merge(newState);
     }
     default:
       return state;

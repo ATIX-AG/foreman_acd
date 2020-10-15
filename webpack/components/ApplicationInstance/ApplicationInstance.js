@@ -111,7 +111,7 @@ class ApplicationInstance extends React.Component {
             bsStyle="default"
             onClick={() => openAnsibleParameterSelectionModal(additionalData)}
           >
-            <span title="change ansible parameters">A</span>
+            <span title="change ansible group vars">A</span>
           </Button>
           <DeleteTableEntry
             hidden={false}
@@ -317,7 +317,7 @@ class ApplicationInstance extends React.Component {
           <ForemanModal
             id="AppInstanceAnsibleParamSelection"
             dialogClassName="param_selection_modal"
-            title="Ansible Parameter definition for Application Instance"
+            title="Ansible group variables for Application Instance"
           >
             <ForemanModal.Header closeButton={false}>
               Parameter specification

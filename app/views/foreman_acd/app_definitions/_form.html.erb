@@ -7,10 +7,15 @@
       "foremanDataUrl": ui_acd_foreman_data_path("__id__"),
       "ansibleDataUrl": ui_acd_ansible_data_path(:playbook_id => "__id__", :group_name => "__subid__"),
       "services": [],
+      "ansibleGroupVarsAll": [],
     }
 
-    if !@app_definition.name.empty?
+    if !@app_definition.services.empty?
       json["services"] = JSON.parse(@app_definition.services)
+    end
+
+    if !@app_definition.ansible_gv_all.empty?
+      json["ansibleGroupVarsAll"] = JSON.parse(@app_definition.ansible_gv_all)
     end
 %>
 

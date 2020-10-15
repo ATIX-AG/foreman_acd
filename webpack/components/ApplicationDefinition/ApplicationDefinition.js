@@ -48,7 +48,7 @@ class ApplicationDefinition extends React.Component {
 
   componentDidMount() {
     const {
-      data: { services, hostgroups, ansibleGroups },
+      data: { services, ansibleGroupVarsAll, hostgroups, ansibleGroups },
       initApplicationDefinition,
       addApplicationDefinitionService,
       deleteApplicationDefinitionService,
@@ -80,7 +80,7 @@ class ApplicationDefinition extends React.Component {
             bsStyle="default"
             onClick={() => openAnsibleParameterSelectionModal(additionalData)}
           >
-            <span title="change ansible parameters">A</span>
+            <span title="change ansible group vars">A</span>
           </Button>
           <DeleteTableEntry
             hidden={false}
@@ -179,6 +179,7 @@ class ApplicationDefinition extends React.Component {
 
     initApplicationDefinition(
       services,
+      ansibleGroupVarsAll,
       this.headerFormatter,
       this.inlineEditFormatter,
       this.inlineEditButtonsFormatter,
@@ -187,13 +188,14 @@ class ApplicationDefinition extends React.Component {
 
   render() {
     const {
-      data: { organization, location, foremanDataUrl, ansibleDataUrl, ansibleGroups },
+      data: { organization, location, foremanDataUrl, ansibleDataUrl },
       services,
       columns,
       addApplicationDefinitionService,
       confirmEditApplicationDefinitionService,
       cancelEditApplicationDefinitionService,
       closeForemanParameterSelectionModal,
+      openAnsibleParameterSelectionModal,
       closeAnsibleParameterSelectionModal,
       ParameterSelectionModal,
     } = this.props;
@@ -238,6 +240,18 @@ class ApplicationDefinition extends React.Component {
              disabled={ this.props.editMode }
              onAddTableEntry={ addApplicationDefinitionService }
           />
+          <span style={{ marginLeft: 30 }}>
+            Ansible group vars 'all':
+            <Button
+              style={{ marginLeft: 10 }}
+              bsStyle="default"
+              onClick={() => openAnsibleParameterSelectionModal({
+                isAllGroup: true
+              })}
+            >
+              <span title="change ansible group vars for 'all'">A</span>
+            </Button>
+          </span>
         </div>
         <div>
           <ForemanModal
@@ -270,7 +284,7 @@ class ApplicationDefinition extends React.Component {
           <ForemanModal
             id="AppDefinitionAnsibleParamSelection"
             dialogClassName="param_selection_modal"
-            title="Ansible Parameter definition for Application Definition"
+            title="Ansible group variables for Application Definition"
           >
             <ForemanModal.Header closeButton={false}>
               Parameter definition
@@ -299,6 +313,12 @@ class ApplicationDefinition extends React.Component {
           parameter='services'
           value={JSON.stringify(this.props.services)}
         />
+        <RailsData
+          key='applications_definition'
+          view='app_definition'
+          parameter='ansible_gv_all'
+          value={JSON.stringify(this.props.ansibleGroupVarsAll)}
+        />
       </span>
     )};
 }
@@ -307,6 +327,7 @@ ApplicationDefinition.defaultProps = {
   error: {},
   editMode: false,
   services: [],
+  ansibleGroupVarsAll: [],
   parametersData: {},
   columns: [],
   editParamsOfRowId: null,
@@ -316,6 +337,7 @@ ApplicationDefinition.propTypes = {
   initApplicationDefinition: PropTypes.func,
   editMode: PropTypes.bool.isRequired,
   services: PropTypes.array,
+  ansibleGroupVarsAll: PropTypes.array,
   columns: PropTypes.array,
   addApplicationDefinitionService: PropTypes.func,
   deleteApplicationDefinitionService: PropTypes.func,

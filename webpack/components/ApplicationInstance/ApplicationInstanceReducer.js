@@ -181,23 +181,22 @@ const applicationInstanceConf = (state = initialState, action) => {
     case APPLICATION_INSTANCE_FOREMAN_PARAMETER_SELECTION_MODAL_OPEN: {
       let parametersData = {};
 
-      if (payload && payload.rowData) {
-        const selectedService = state.services.filter(entry => entry.id == payload.rowData.service)[0];
+      const selectedService = state.services.filter(entry => entry.id == payload.rowData.service)[0];
 
-        parametersData.paramDefinition = {
-          id: selectedService.id,
-          name: selectedService.name,
-          dataId: selectedService.hostgroup,
-          hostId: payload.rowData.id,
-          // TODO: is this really correct? Guess it shoud be dataId and we should get rid of them
-          //hostgroup_id: selectedService.hostgroup,
-        };
-        parametersData.parameters = payload.rowData.foremanParameters;
-        parametersData.useDefaultValue = false;
-        parametersData.allowRowAdjustment = false;
-        parametersData.allowNameAdjustment = false;
-        parametersData.allowDescriptionAdjustment = false;
-      }
+      parametersData.paramDefinition = {
+        id: selectedService.id,
+        name: selectedService.name,
+        dataId: selectedService.hostgroup,
+        hostId: payload.rowData.id,
+        // TODO: is this really correct? Guess it shoud be dataId and we should get rid of them
+        //hostgroup_id: selectedService.hostgroup,
+      };
+      parametersData.parameters = payload.rowData.foremanParameters;
+      parametersData.useDefaultValue = false;
+      parametersData.allowRowAdjustment = false;
+      parametersData.allowNameAdjustment = false;
+      parametersData.allowDescriptionAdjustment = false;
+
       return state.merge({
         parametersData: parametersData,
       });
@@ -220,23 +219,21 @@ const applicationInstanceConf = (state = initialState, action) => {
     }
     case APPLICATION_INSTANCE_ANSIBLE_PARAMETER_SELECTION_MODAL_OPEN: {
       let parametersData = {};
+      const selectedService = state.services.filter(entry => entry.id == payload.rowData.service)[0];
 
-      if (payload && payload.rowData) {
-        const selectedService = state.services.filter(entry => entry.id == payload.rowData.service)[0];
+      parametersData.paramDefinition = {
+        id: selectedService.id,
+        name: selectedService.name,
+        hostId: payload.rowData.id,
+        // TODO: is this really correct? Guess it shoud be dataId and we should get rid of them
+        //hostgroup_id: selectedService.hostgroup,
+      };
+      parametersData.parameters = payload.rowData.ansibleParameters;
+      parametersData.useDefaultValue = false;
+      parametersData.allowRowAdjustment = false;
+      parametersData.allowNameAdjustment = false;
+      parametersData.allowDescriptionAdjustment = false;
 
-        parametersData.paramDefinition = {
-          id: selectedService.id,
-          name: selectedService.name,
-          hostId: payload.rowData.id,
-          // TODO: is this really correct? Guess it shoud be dataId and we should get rid of them
-          //hostgroup_id: selectedService.hostgroup,
-        };
-        parametersData.parameters = payload.rowData.ansibleParameters;
-        parametersData.useDefaultValue = false;
-        parametersData.allowRowAdjustment = false;
-        parametersData.allowNameAdjustment = false;
-        parametersData.allowDescriptionAdjustment = false;
-      }
       return state.merge({
         parametersData: parametersData,
       });
