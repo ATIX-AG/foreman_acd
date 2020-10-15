@@ -1,9 +1,4 @@
 import { combineReducers } from 'redux';
-import {
-  cloneDeep,
-  findIndex,
-  findLastIndex,
-} from 'lodash';
 
 import parameterSelectionParameters from './components/ParameterSelection/ParameterSelectionReducer';
 import applicationDefinitionConf from './components/ApplicationDefinition/ApplicationDefinitionReducer';
@@ -16,7 +11,8 @@ import {
 } from './components/ApplicationDefinition/ApplicationDefinitionConstants';
 
 import {
-  APPLICATION_INSTANCE_PARAMETER_SELECTION_MODAL_CLOSE,
+  APPLICATION_INSTANCE_FOREMAN_PARAMETER_SELECTION_MODAL_CLOSE,
+  APPLICATION_INSTANCE_ANSIBLE_PARAMETER_SELECTION_MODAL_CLOSE,
 } from './components/ApplicationInstance/ApplicationInstanceConstants';
 
 const rootReducer = (state = {}, action) => {
@@ -32,7 +28,10 @@ const rootReducer = (state = {}, action) => {
   }
   const app_def_state = applicationDefinitionConf(state.applicationDefinitionConf, action);
 
-  if (action.type == APPLICATION_INSTANCE_PARAMETER_SELECTION_MODAL_CLOSE) {
+  if (action.type == APPLICATION_INSTANCE_FOREMAN_PARAMETER_SELECTION_MODAL_CLOSE) {
+    action.payload.parameterSelection = param_state.parameters;
+  }
+  if (action.type == APPLICATION_INSTANCE_ANSIBLE_PARAMETER_SELECTION_MODAL_CLOSE) {
     action.payload.parameterSelection = param_state.parameters;
   }
   const app_ins_state = applicationInstanceConf(state.applicationInstanceConf, action);

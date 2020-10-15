@@ -17,8 +17,10 @@ import {
   APPLICATION_INSTANCE_HOST_EDIT_CONFIRM,
   APPLICATION_INSTANCE_HOST_EDIT_CHANGE,
   APPLICATION_INSTANCE_HOST_EDIT_CANCEL,
-  APPLICATION_INSTANCE_PARAMETER_SELECTION_MODAL_OPEN,
-  APPLICATION_INSTANCE_PARAMETER_SELECTION_MODAL_CLOSE,
+  APPLICATION_INSTANCE_FOREMAN_PARAMETER_SELECTION_MODAL_OPEN,
+  APPLICATION_INSTANCE_FOREMAN_PARAMETER_SELECTION_MODAL_CLOSE,
+  APPLICATION_INSTANCE_ANSIBLE_PARAMETER_SELECTION_MODAL_OPEN,
+  APPLICATION_INSTANCE_ANSIBLE_PARAMETER_SELECTION_MODAL_CLOSE,
 } from './ApplicationInstanceConstants';
 
 export const initialState = Immutable({
@@ -176,7 +178,7 @@ const applicationInstanceConf = (state = initialState, action) => {
         hosts: hosts
       });
     }
-    case APPLICATION_INSTANCE_PARAMETER_SELECTION_MODAL_OPEN: {
+    case APPLICATION_INSTANCE_FOREMAN_PARAMETER_SELECTION_MODAL_OPEN: {
       let parametersData = {};
 
       if (payload && payload.rowData) {
@@ -186,9 +188,9 @@ const applicationInstanceConf = (state = initialState, action) => {
           id: selectedService.id,
           name: selectedService.name,
           dataId: selectedService.hostgroup,
-          // TODO: is this really correct? Guess it shoud be dataId and we should get rid of them
-          hostgroup_id: selectedService.hostgroup,
           hostId: payload.rowData.id,
+          // TODO: is this really correct? Guess it shoud be dataId and we should get rid of them
+          //hostgroup_id: selectedService.hostgroup,
         };
         parametersData.parameters = payload.rowData.foremanParameters;
         parametersData.useDefaultValue = false;
@@ -200,11 +202,50 @@ const applicationInstanceConf = (state = initialState, action) => {
         parametersData: parametersData,
       });
     }
-    case APPLICATION_INSTANCE_PARAMETER_SELECTION_MODAL_CLOSE: {
+    case APPLICATION_INSTANCE_FOREMAN_PARAMETER_SELECTION_MODAL_CLOSE: {
       if (payload.mode == 'save') {
         const hosts = cloneDeep(state.hosts);
-        const index = findIndex(hosts, { id: state.parametersData.serviceDefinition.hostId });
+        const index = findIndex(hosts, { id: state.parametersData.paramDefinition.hostId });
         hosts[index].foremanParameters = cloneDeep(payload.parameterSelection);
+
+        return state.merge({
+          parametersData: null,
+          hosts: hosts
+        });
+      } else {
+        return state.merge({
+          parametersData: null,
+        });
+      }
+    }
+    case APPLICATION_INSTANCE_ANSIBLE_PARAMETER_SELECTION_MODAL_OPEN: {
+      let parametersData = {};
+
+      if (payload && payload.rowData) {
+        const selectedService = state.services.filter(entry => entry.id == payload.rowData.service)[0];
+
+        parametersData.paramDefinition = {
+          id: selectedService.id,
+          name: selectedService.name,
+          hostId: payload.rowData.id,
+          // TODO: is this really correct? Guess it shoud be dataId and we should get rid of them
+          //hostgroup_id: selectedService.hostgroup,
+        };
+        parametersData.parameters = payload.rowData.ansibleParameters;
+        parametersData.useDefaultValue = false;
+        parametersData.allowRowAdjustment = false;
+        parametersData.allowNameAdjustment = false;
+        parametersData.allowDescriptionAdjustment = false;
+      }
+      return state.merge({
+        parametersData: parametersData,
+      });
+    }
+    case APPLICATION_INSTANCE_ANSIBLE_PARAMETER_SELECTION_MODAL_CLOSE: {
+      if (payload.mode == 'save') {
+        const hosts = cloneDeep(state.hosts);
+        const index = findIndex(hosts, { id: state.parametersData.paramDefinition.hostId });
+        hosts[index].ansibleParameters = cloneDeep(payload.parameterSelection);
 
         return state.merge({
           parametersData: null,

@@ -69,12 +69,21 @@ class ParameterSelection extends React.Component {
       loadParamData,
     } = this.props;
 
-    if (paramType == PARAMETER_SELECTION_PARAM_TYPE_ANSIBLE) {
-      if (parameters.length <= 0) {
-        loadParamData({ paramDefinition: paramDefinition, url: paramDataUrl, dataType: paramType, clearParameters: false });
+    if (paramDataUrl !== undefined) {
+      switch (paramType) {
+        case PARAMETER_SELECTION_PARAM_TYPE_ANSIBLE: {
+          if (parameters.length <= 0) {
+            loadParamData({ paramDefinition: paramDefinition, url: paramDataUrl, dataType: paramType, clearParameters: false });
+          }
+          break;
+        }
+        case PARAMETER_SELECTION_PARAM_TYPE_FOREMAN: {
+          loadParamData({ paramDefinition: paramDefinition, url: paramDataUrl, dataType: paramType, clearParameters: false });
+          break;
+        }
+        default: {
+        }
       }
-    } else if (paramType == PARAMETER_SELECTION_PARAM_TYPE_FOREMAN) {
-      loadParamData({ paramDefinition: paramDefinition, url: paramDataUrl, dataType: paramType, clearParameters: false });
     }
 
     const inlineEditButtonsFormatter = inlineEditFormatterFactory({

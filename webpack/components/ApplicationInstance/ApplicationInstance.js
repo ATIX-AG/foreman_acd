@@ -23,6 +23,7 @@ import {
 
 import {
   PARAMETER_SELECTION_PARAM_TYPE_FOREMAN,
+  PARAMETER_SELECTION_PARAM_TYPE_ANSIBLE,
 } from '../ParameterSelection/ParameterSelectionConstants';
 
 class ApplicationInstance extends React.Component {
@@ -79,8 +80,8 @@ class ApplicationInstance extends React.Component {
       deleteApplicationInstanceHost,
       activateEditApplicationInstanceHost,
       changeEditApplicationInstanceHost,
-      openParameterSelectionModal,
-      closeParameterSelectionModal,
+      openForemanParameterSelectionModal,
+      openAnsibleParameterSelectionModal,
       loadApplicationDefinition,
     } = this.props;
 
@@ -96,13 +97,21 @@ class ApplicationInstance extends React.Component {
             bsStyle="default"
             onClick={() => activateEditApplicationInstanceHost(additionalData)}
           >
-            <Icon type="pf" name="edit" />
+            <Icon type="pf" name="edit" title="edit entry" />
           </Button>
+          &nbsp;
           <Button
             bsStyle="default"
-            onClick={() => openParameterSelectionModal(additionalData)}
+            onClick={() => openForemanParameterSelectionModal(additionalData)}
           >
-            <Icon type="pf" name="settings" />
+            <Icon type="pf" name="settings" title="change parameters" />
+          </Button>
+          &nbsp;
+          <Button
+            bsStyle="default"
+            onClick={() => openAnsibleParameterSelectionModal(additionalData)}
+          >
+            <span title="change ansible parameters">A</span>
           </Button>
           <DeleteTableEntry
             hidden={false}
@@ -208,9 +217,8 @@ class ApplicationInstance extends React.Component {
       addApplicationInstanceHost,
       confirmEditApplicationInstanceHost,
       cancelEditApplicationInstanceHost,
-      openParameterSelectionModal,
-      closeParameterSelectionModal,
-      ParameterSelectionModal,
+      closeForemanParameterSelectionModal,
+      closeAnsibleParameterSelectionModal,
       loadApplicationDefinition,
     } = this.props;
 
@@ -280,9 +288,9 @@ class ApplicationInstance extends React.Component {
         </div>
         <div>
           <ForemanModal
-            id="AppInstanceParamSelection"
+            id="AppInstanceForemanParamSelection"
             dialogClassName="param_selection_modal"
-            title="Parameter specification for Application Instance"
+            title="Foreman Parameter specification for Application Instance"
           >
             <ForemanModal.Header closeButton={false}>
               Parameter specification
@@ -299,8 +307,34 @@ class ApplicationInstance extends React.Component {
             }
             <ForemanModal.Footer>
               <div>
-                <Button bsStyle="primary" onClick={() => closeParameterSelectionModal({ mode: 'save' })}>Save</Button>
-                <Button bsStyle="default" onClick={() => closeParameterSelectionModal({ mode: 'cancel' })}>Cancel</Button>
+                <Button bsStyle="primary" onClick={() => closeForemanParameterSelectionModal({ mode: 'save' })}>Save</Button>
+                <Button bsStyle="default" onClick={() => closeForemanParameterSelectionModal({ mode: 'cancel' })}>Cancel</Button>
+              </div>
+            </ForemanModal.Footer>
+          </ForemanModal>
+        </div>
+        <div>
+          <ForemanModal
+            id="AppInstanceAnsibleParamSelection"
+            dialogClassName="param_selection_modal"
+            title="Ansible Parameter definition for Application Instance"
+          >
+            <ForemanModal.Header closeButton={false}>
+              Parameter specification
+            </ForemanModal.Header>
+            {this.props.parametersData ? (
+              <ParameterSelection
+                paramType={ PARAMETER_SELECTION_PARAM_TYPE_ANSIBLE }
+                location={ location }
+                organization={ organization }
+                data={ this.props.parametersData }
+              />
+            ) : (<span>Empty</span>)
+            }
+            <ForemanModal.Footer>
+              <div>
+                <Button bsStyle="primary" onClick={() => closeAnsibleParameterSelectionModal({ mode: 'save' })}>Save</Button>
+                <Button bsStyle="default" onClick={() => closeAnsibleParameterSelectionModal({ mode: 'cancel' })}>Cancel</Button>
               </div>
             </ForemanModal.Footer>
           </ForemanModal>
@@ -339,8 +373,10 @@ ApplicationInstance.propTypes = {
   confirmEditApplicationInstanceHost: PropTypes.func,
   cancelEditApplicationInstanceHost: PropTypes.func,
   changeEditApplicationInstanceHost: PropTypes.func,
-  openParameterSelectionModal: PropTypes.func,
-  closeParameterSelectionModal: PropTypes.func,
+  openForemanParameterSelectionModal: PropTypes.func,
+  closeForemanParameterSelectionModal: PropTypes.func,
+  openAnsibleParameterSelectionModal: PropTypes.func,
+  closeAnsibleParameterSelectionModal: PropTypes.func,
   parametersData: PropTypes.object,
 };
 

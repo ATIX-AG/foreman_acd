@@ -55,9 +55,7 @@ class ApplicationDefinition extends React.Component {
       activateEditApplicationDefinitionService,
       changeEditApplicationDefinitionService,
       openForemanParameterSelectionModal,
-      closeForemanParameterSelectionModal,
       openAnsibleParameterSelectionModal,
-      closeAnsibleParameterSelectionModal,
     } = this.props;
 
     const inlineEditButtonsFormatter = inlineEditFormatterFactory({
@@ -195,9 +193,7 @@ class ApplicationDefinition extends React.Component {
       addApplicationDefinitionService,
       confirmEditApplicationDefinitionService,
       cancelEditApplicationDefinitionService,
-      openForemanParameterSelectionModal,
       closeForemanParameterSelectionModal,
-      openAnsibleParameterSelectionModal,
       closeAnsibleParameterSelectionModal,
       ParameterSelectionModal,
     } = this.props;
