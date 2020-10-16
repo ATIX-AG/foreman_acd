@@ -118,8 +118,9 @@ const applicationDefinitionConf = (state = initialState, action) => {
         name: payload.rowData.name,
         dataId: payload.rowData.hostgroup
       }
-      parametersData.parameters = payload.rowData.foremanParameters;
+
       parametersData.type = PARAMETER_SELECTION_PARAM_TYPE_FOREMAN;
+      parametersData.parameters = payload.rowData.foremanParameters;
       parametersData.useDefaultValue = true;
       parametersData.allowRowAdjustment = true;
       parametersData.allowNameAdjustment = true;
@@ -148,8 +149,6 @@ const applicationDefinitionConf = (state = initialState, action) => {
     case APPLICATION_DEFINITION_ANSIBLE_PARAMETER_SELECTION_MODAL_OPEN: {
       let parametersData = {};
 
-      parametersData.type = PARAMETER_SELECTION_PARAM_TYPE_ANSIBLE;
-
       // FIXME: use the state playbookId.
       const playbookId = $('#foreman_acd_app_definition_acd_ansible_playbook_id').val();
 
@@ -170,6 +169,7 @@ const applicationDefinitionConf = (state = initialState, action) => {
         parametersData.parameters = payload.rowData.ansibleParameters;
       }
 
+      parametersData.type = PARAMETER_SELECTION_PARAM_TYPE_ANSIBLE;
       parametersData.useDefaultValue = false;
       parametersData.allowRowAdjustment = false;
       parametersData.allowNameAdjustment = false;

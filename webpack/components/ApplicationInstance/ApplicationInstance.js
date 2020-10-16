@@ -74,7 +74,7 @@ class ApplicationInstance extends React.Component {
 
   componentDidMount() {
     const {
-      data: { mode, appDefinition, hosts, appDefinitionUrl },
+      data: { mode, appDefinition, hosts, ansibleGroupVarsAll, appDefinitionUrl },
       initApplicationInstance,
       addApplicationInstanceHost,
       deleteApplicationInstanceHost,
@@ -126,8 +126,13 @@ class ApplicationInstance extends React.Component {
           <Button bsStyle="default" disabled>
             <Icon type="pf" name="edit" />
           </Button>
+          &nbsp;
           <Button bsStyle="default" disabled>
             <Icon type="pf" name="settings" />
+          </Button>
+          &nbsp;
+          <Button bsStyle="default" disabled>
+            <span>A</span>
           </Button>
           <DeleteTableEntry
             hidden={false}
@@ -201,6 +206,7 @@ class ApplicationInstance extends React.Component {
     initApplicationInstance(
       appDefinition,
       hosts,
+      ansibleGroupVarsAll,
       this.headerFormatter,
       this.inlineEditFormatter,
       this.inlineEditButtonsFormatter,
@@ -218,6 +224,7 @@ class ApplicationInstance extends React.Component {
       confirmEditApplicationInstanceHost,
       cancelEditApplicationInstanceHost,
       closeForemanParameterSelectionModal,
+      openAnsibleParameterSelectionModal,
       closeAnsibleParameterSelectionModal,
       loadApplicationDefinition,
     } = this.props;
@@ -281,10 +288,23 @@ class ApplicationInstance extends React.Component {
             />
           </Table.PfProvider>
           <AddTableEntry
-             hidden={ false }
-             disabled={ this.props.editMode }
-             onAddTableEntry={ addApplicationInstanceHost }
+            hidden={ false }
+            disabled={ this.props.editMode }
+            onAddTableEntry={ addApplicationInstanceHost }
           />
+          <span style={{ marginLeft: 30 }}>
+            Ansible group vars 'all':
+            <Button
+              style={{ marginLeft: 10 }}
+              bsStyle="default"
+              disabled={ this.props.editMode }
+              onClick={() => openAnsibleParameterSelectionModal({
+                isAllGroup: true
+              })}
+            >
+              <span title="change ansible group vars for 'all'">A</span>
+            </Button>
+          </span>
         </div>
         <div>
           <ForemanModal
@@ -345,6 +365,12 @@ class ApplicationInstance extends React.Component {
           parameter='hosts'
           value={JSON.stringify(this.props.hosts)}
         />
+        <RailsData
+          key='applications_instance'
+          view='app_instance'
+          parameter='ansible_gv_all'
+          value={JSON.stringify(this.props.ansibleGroupVarsAll)}
+        />
       </span>
     )};
 }
@@ -355,6 +381,7 @@ ApplicationInstance.defaultProps = {
   editMode: false,
   services: [],
   hosts: [],
+  ansibleGroupVarsAll: [],
   parametersData: {},
   columns: [],
   editParamsOfRowId: null,
@@ -366,6 +393,8 @@ ApplicationInstance.propTypes = {
   services: PropTypes.array,
   appDefinition: PropTypes.object,
   columns: PropTypes.array,
+  hosts: PropTypes.array,
+  ansibleGroupVarsAll: PropTypes.array,
   loadApplicationDefinition: PropTypes.func,
   addApplicationInstanceHost: PropTypes.func,
   deleteApplicationInstanceHost: PropTypes.func,

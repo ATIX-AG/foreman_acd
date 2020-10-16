@@ -95,8 +95,14 @@ class ApplicationDefinition extends React.Component {
           <Button bsStyle="default" disabled>
             <Icon type="pf" name="edit" />
           </Button>
+          &nbsp;
           <Button bsStyle="default" disabled>
             <Icon type="pf" name="settings" />
+          </Button>
+          &nbsp;
+          <Button
+            bsStyle="default" disabled>
+            <span>A</span>
           </Button>
           <DeleteTableEntry
             hidden={false}
@@ -204,9 +210,9 @@ class ApplicationDefinition extends React.Component {
       <span>
         <div className="form-group">
           <AddTableEntry
-             hidden={ false }
-             disabled={ this.props.editMode }
-             onAddTableEntry={ addApplicationDefinitionService }
+            hidden={ false }
+            disabled={ this.props.editMode }
+            onAddTableEntry={ addApplicationDefinitionService }
           />
           <Table.PfProvider
             striped
@@ -236,15 +242,16 @@ class ApplicationDefinition extends React.Component {
             />
           </Table.PfProvider>
           <AddTableEntry
-             hidden={ false }
-             disabled={ this.props.editMode }
-             onAddTableEntry={ addApplicationDefinitionService }
+            hidden={ false }
+            disabled={ this.props.editMode }
+            onAddTableEntry={ addApplicationDefinitionService }
           />
           <span style={{ marginLeft: 30 }}>
             Ansible group vars 'all':
             <Button
               style={{ marginLeft: 10 }}
               bsStyle="default"
+              disabled={ this.props.editMode }
               onClick={() => openAnsibleParameterSelectionModal({
                 isAllGroup: true
               })}

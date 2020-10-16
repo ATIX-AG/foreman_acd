@@ -34,6 +34,7 @@ import {
 export const initApplicationInstance = (
   appDefinition,
   hosts,
+  ansibleGroupVarsAll,
   headerFormatter,
   inlineEditFormatter,
   inlineEditButtonsFormatter,
@@ -109,6 +110,7 @@ export const initApplicationInstance = (
 
   initialState.appDefinition = appDefinition;
   initialState.hosts = hosts;
+  initialState.ansibleGroupVarsAll = ansibleGroupVarsAll;
 
   dispatch({
     type: APPLICATION_INSTANCE_INIT,

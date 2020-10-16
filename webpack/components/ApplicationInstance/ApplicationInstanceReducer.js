@@ -23,6 +23,11 @@ import {
   APPLICATION_INSTANCE_ANSIBLE_PARAMETER_SELECTION_MODAL_CLOSE,
 } from './ApplicationInstanceConstants';
 
+import {
+  PARAMETER_SELECTION_PARAM_TYPE_FOREMAN,
+  PARAMETER_SELECTION_PARAM_TYPE_ANSIBLE,
+} from '../ParameterSelection/ParameterSelectionConstants';
+
 export const initialState = Immutable({
   name: false,
   error: { errorMsg: '', status: '', statusText: '' },
@@ -42,6 +47,7 @@ const applicationInstanceConf = (state = initialState, action) => {
       return state.set('loading', true);
     }
     case APPLICATION_INSTANCE_LOAD_APPLICATION_DEFINITION_SUCCESS: {
+      let newState = {};
       const services = JSON.parse(payload.app_definition.services);
 
       // initialize all services count with 0
@@ -58,11 +64,18 @@ const applicationInstanceConf = (state = initialState, action) => {
         });
       }
 
-      return state.merge({
+      newState = {
         appDefinition: payload.app_definition,
         services: services,
         loading: false,
-      });
+      };
+
+      // Initialize ansibleGroupVarsAll if there is no data available in app instance
+      if (state.ansibleGroupVarsAll.length <= 0) {
+        newState['ansibleGroupVarsAll'] = JSON.parse(payload.app_definition.ansible_gv_all);
+      }
+
+      return state.merge(newState);
     }
     case APPLICATION_INSTANCE_HOST_ADD: {
       let hosts = [];
@@ -191,6 +204,7 @@ const applicationInstanceConf = (state = initialState, action) => {
         // TODO: is this really correct? Guess it shoud be dataId and we should get rid of them
         //hostgroup_id: selectedService.hostgroup,
       };
+      parametersData.type = PARAMETER_SELECTION_PARAM_TYPE_FOREMAN;
       parametersData.parameters = payload.rowData.foremanParameters;
       parametersData.useDefaultValue = false;
       parametersData.allowRowAdjustment = false;
@@ -219,16 +233,26 @@ const applicationInstanceConf = (state = initialState, action) => {
     }
     case APPLICATION_INSTANCE_ANSIBLE_PARAMETER_SELECTION_MODAL_OPEN: {
       let parametersData = {};
-      const selectedService = state.services.filter(entry => entry.id == payload.rowData.service)[0];
 
-      parametersData.paramDefinition = {
-        id: selectedService.id,
-        name: selectedService.name,
-        hostId: payload.rowData.id,
-        // TODO: is this really correct? Guess it shoud be dataId and we should get rid of them
-        //hostgroup_id: selectedService.hostgroup,
-      };
-      parametersData.parameters = payload.rowData.ansibleParameters;
+      if ((payload.hasOwnProperty('isAllGroup')) && (payload.isAllGroup == true)) {
+        parametersData.parameters = state.ansibleGroupVarsAll;
+        parametersData.paramDefinition = {
+          isAllGroup: true,
+        }
+      } else {
+        const selectedService = state.services.filter(entry => entry.id == payload.rowData.service)[0];
+
+        parametersData.paramDefinition = {
+          id: selectedService.id,
+          name: selectedService.name,
+          hostId: payload.rowData.id,
+          // TODO: is this really correct? Guess it shoud be dataId and we should get rid of them
+          //hostgroup_id: selectedService.hostgroup,
+        };
+        parametersData.parameters = payload.rowData.ansibleParameters;
+      }
+
+      parametersData.type = PARAMETER_SELECTION_PARAM_TYPE_ANSIBLE;
       parametersData.useDefaultValue = false;
       parametersData.allowRowAdjustment = false;
       parametersData.allowNameAdjustment = false;
@@ -239,20 +263,29 @@ const applicationInstanceConf = (state = initialState, action) => {
       });
     }
     case APPLICATION_INSTANCE_ANSIBLE_PARAMETER_SELECTION_MODAL_CLOSE: {
+      let newState = {};
       if (payload.mode == 'save') {
-        const hosts = cloneDeep(state.hosts);
-        const index = findIndex(hosts, { id: state.parametersData.paramDefinition.hostId });
-        hosts[index].ansibleParameters = cloneDeep(payload.parameterSelection);
+        if ((state.parametersData.paramDefinition.hasOwnProperty('isAllGroup')) && (state.parametersData.paramDefinition.isAllGroup == true)) {
+          newState = {
+            parametersData: null,
+            ansibleGroupVarsAll: cloneDeep(payload.parameterSelection),
+          };
+        } else {
+          const hosts = cloneDeep(state.hosts);
+          const index = findIndex(hosts, { id: state.parametersData.paramDefinition.hostId });
+          hosts[index].ansibleParameters = cloneDeep(payload.parameterSelection);
 
-        return state.merge({
-          parametersData: null,
-          hosts: hosts
-        });
+          newState = {
+            parametersData: null,
+            hosts: hosts
+          };
+        }
       } else {
-        return state.merge({
+        newState = {
           parametersData: null,
-        });
+        };
       }
+      return state.merge(newState);
     }
     default:
       return state;
