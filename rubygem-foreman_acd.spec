@@ -4,10 +4,10 @@
 
 %global gem_name foreman_acd
 %global plugin_name acd
-%global foreman_min_version 2.0
+%global foreman_min_version 2.1
 
 Name: %{?scl_prefix}rubygem-%{gem_name}
-Version: 0.2.1
+Version: 0.3.0
 Release: 1%{?foremandist}%{?dist}
 Summary: Foreman plugin to provide application centric deployment and self service portal
 Group: Applications/Systems
@@ -124,14 +124,16 @@ cp -pa .%{gem_dir}/* \
 %{gem_instdir}/Rakefile
 %{gem_instdir}/test
 
-%posttrans
-%{foreman_db_migrate}
-%{foreman_db_seed}
-%{foreman_apipie_cache}
-%{foreman_restart}
-exit 0
-
 %changelog
+* Fri Oct 16 2020 Bernhard Suttner <suttner@atix.de> 0.3.0-1
+- Bump foreman acd version
+
+* Tue Jul 21 2020 Evgeni Golov - 0.2.1-3
+- Drop posttrans macros
+
+* Tue Jun 30 2020 Evgeni Golov - 0.2.1-2
+- Rebuild to properly build on EL7 and EL8
+
 * Fri Jun 26 2020 Bernhard Suttner <suttner@atix.de> 0.2.1-1
 - Update to 0.2.1
 
