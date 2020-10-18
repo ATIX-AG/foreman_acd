@@ -31,6 +31,7 @@ Rails.application.routes.draw do
 
       member do
         post 'deploy'
+        post 'configure'
         get 'report'
       end
     end

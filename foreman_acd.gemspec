@@ -18,5 +18,5 @@ Gem::Specification.new do |s|
   s.test_files = Dir['test/**/*']
 
   s.add_development_dependency 'rubocop', '~> 0.80.0'
-  s.add_dependency 'foreman_ansible', '~> 6.0.0'
+  s.add_dependency 'foreman_remote_execution', '>= 3.3.0'
 end

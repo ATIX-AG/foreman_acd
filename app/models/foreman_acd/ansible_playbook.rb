@@ -8,10 +8,10 @@ module ForemanAcd
     friendly_id :name
 
     self.table_name = 'acd_ansible_playbooks'
-    has_many :app_definitions
-
+    has_many :app_definitions, :inverse_of => :ansible_playbook, :dependent => :destroy
     validates :name, :presence => true, :uniqueness => true
     scoped_search :on => :name
+    default_scope -> { order("acd_ansible_playbooks.name") }
 
     def self.humanize_class_name(_name = nil)
       _('Ansible playbook')
@@ -22,10 +22,11 @@ module ForemanAcd
     end
 
     def content
-      case scm_type:
+      case scm_type
       when 'directory'
-        File.read File.join(path, playfile)
-      else raise NotImplementedError.new "scm_type #{scm_type.inspect} not supported!"
+        File.read(File.join(path, playfile))
+      else
+        raise NotImplementedError.new "scm_type #{scm_type.inspect} not supported!"
       end
     end
   end

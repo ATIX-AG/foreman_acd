@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Foreman::Plugin.register :foreman_acd do
-  requires_foreman '>= 1.19'
+  requires_foreman '>= 2.1'
 
   apipie_documented_controllers ["#{ForemanAcd::Engine.root}/app/controllers/foreman_acd/api/v2/*.rb"]
 
@@ -104,6 +104,11 @@ Foreman::Plugin.register :foreman_acd do
                  :'foreman_acd/api/v2/app_instances' => [:deploy] },
                :resource_type => 'ForemanAcd::AppInstance'
 
+    permission :configure_app_instances,
+               { :'foreman_acd/app_instances' => [:configure],
+                 :'foreman_acd/api/v2/app_instances' => [:configure] },
+               :resource_type => 'ForemanAcd::AppInstance'
+
     permission :report_app_instances,
                { :'foreman_acd/app_instances' => [:report],
                  :'foreman_acd/api/v2/app_instances' => [:report] },
@@ -129,5 +134,15 @@ Foreman::Plugin.register :foreman_acd do
                                                :edit_app_instances,
                                                :destroy_app_instances,
                                                :deploy_app_instances,
+                                               :configure_app_instances,
                                                :report_app_instances]
+
+  RemoteExecutionFeature.register(
+    :run_acd_ansible_playbook,
+    N_('Run playbook for ACD'),
+    {
+      :description => N_('Run an Ansible playbook to configure ACD application'),
+      :provided_inputs => %w[application_name playbook_name playbook_path inventory_path]
+    }
+  )
 end

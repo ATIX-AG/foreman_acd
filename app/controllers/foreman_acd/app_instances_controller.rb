@@ -6,7 +6,7 @@ module ForemanAcd
     include Foreman::Controller::AutoCompleteSearch
     include ::ForemanAcd::Concerns::AppInstanceParameters
 
-    before_action :find_resource, :only => [:edit, :update, :destroy, :deploy, :report]
+    before_action :find_resource, :only => [:edit, :update, :destroy, :deploy, :report, :configure]
 
     def index
       @app_instances = resource_base.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
@@ -56,6 +56,8 @@ module ForemanAcd
         :deploy
       when 'report'
         :report
+      when 'configure'
+        :configure
       else
         super
       end
@@ -126,20 +128,26 @@ module ForemanAcd
       logger.debug("deploy report hosts are: #{@report_hosts.inspect}")
     end
 
-    def configure()
-      hosts = @app_instance.foreman_hosts()
-      inventory = ::ForemanAnsible::InventoryCreator.new hosts
+    def configure
       job_input = {}
-      job_input[:inventory] = inventory.to_hash
-      job_input[:playbook] = @app_instance.app_definition.ansible_playbook.content
+      job_input[:application_name] = @app_instance.name
+      job_input[:playbook_name] = @app_instance.app_definition.ansible_playbook.name
+      job_input[:playbook_path] = File.join(@app_instance.app_definition.ansible_playbook.path,
+                                            @app_instance.app_definition.ansible_playbook.playfile)
+      job_input[:inventory_path] = File.join('/etc/', 'passwd')
+
+      # FIXME. The job should run on the smart proxy next to each host - for each smart proxy once
+      hosts = @app_instance.foreman_hosts
+      smart_proxy_hosts = hosts
+
       composer = JobInvocationComposer.for_feature(
-          "Ansible - Run playbook",  # job_invocation_params[:feature],
-          hosts.pluck(:id),
-          job_invocation_params[:inputs].to_hash
+          :run_acd_ansible_playbook,
+          smart_proxy_hosts.pluck(:id),
+          job_input.to_hash
       )
       composer.trigger!
       job_invocation = composer.job_invocation
-      hosts = @job_invocation.targeting.hosts
+      redirect_to job_invocation_path(job_invocation)
     end
 
     private

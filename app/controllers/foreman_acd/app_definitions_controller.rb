@@ -20,7 +20,7 @@ module ForemanAcd
     end
 
     def read_playbook_groups
-      @ansible_groups = AnsiblePlaybook.all.map { |elem| { elem.id => JSON.parse(elem.vars).keys } }.reduce({}, :merge!)
+      @ansible_groups = AnsiblePlaybook.all.map { |elem| { elem.id => elem.vars.nil? ? [] : JSON.parse(elem.vars).keys } }.reduce({}, :merge!)
     end
 
     def new

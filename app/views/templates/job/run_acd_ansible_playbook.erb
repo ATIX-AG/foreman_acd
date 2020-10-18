@@ -1,0 +1,45 @@
+<%#
+kind: job_template
+name: Run ACD Ansible Playbook - SSH Default
+model: JobTemplate
+job_category: Ansible
+description_format: "Run Ansible playbook %{playbook_name} for ACD application %{application_name}"
+provider_type: SSH
+feature: run_acd_ansible_playbook
+template_inputs:
+- name: application_name
+  description: The name of the ACD application instance to run
+  input_type: user
+  required: false
+  advanced: false
+- name: playbook_name
+  description: The name of the Ansible playbook to run
+  input_type: user
+  required: false
+  advanced: false
+- name: playbook_path
+  description: The full path to the Ansible playbook
+  input_type: user
+  required: true
+  advanced: false
+- name: inventory_path
+  description: The full path to the Ansible inventory file
+  input_type: user
+  required: true
+  advanced: false
+%>
+
+<%
+  supported_families = ['Redhat', 'Debian', 'Suse']
+  render_error(N_('Unsupported or no operating system found for this host.')) unless @host.operatingsystem && supported_families.include?(@host.operatingsystem.family)
+  action = input("action")
+
+  if @host.operatingsystem.family == 'Redhat'
+    package_manager = 'yum'
+  elsif @host.operatingsystem.family == 'Debian'
+    package_manager = 'apt'
+  elsif @host.operatingsystem.family == 'Suse'
+    package_manager = 'zypper'
+  end
+-%>
+ansible-playbook --help
