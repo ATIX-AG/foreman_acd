@@ -134,15 +134,29 @@ module ForemanAcd
       job_input[:playbook_name] = @app_instance.app_definition.ansible_playbook.name
       job_input[:playbook_path] = File.join(@app_instance.app_definition.ansible_playbook.path,
                                             @app_instance.app_definition.ansible_playbook.playfile)
-      job_input[:inventory_path] = File.join('/etc/', 'passwd')
+
+      # create the inventory file
+      inventory = create_inventory
+
+      # TODO should or do we really need it to a file?
+      inventory_file = File.new("/tmp/acd_inventory_file", "w") # we can also use Tempfile.new() but a tempfile will be deleted soon (after transaction finished)
+      inventory_file << inventory.to_yaml
+      inventory_file.close
+      job_input[:inventory_path] = inventory_file.path
+
+      logger.info("Use #{inventory_file.path} inventory to configure #{@app_instance.name} with ansible playbook #{@app_instance.app_definition.ansible_playbook.name}")
 
       # FIXME. The job should run on the smart proxy next to each host - for each smart proxy once
+
+      # TODO: do we need to do a .pluck(:id)?
       hosts = @app_instance.foreman_hosts
-      smart_proxy_hosts = hosts
+
+      # TODO just for testing...
+      hosts = Host.pluck(:id)
 
       composer = JobInvocationComposer.for_feature(
           :run_acd_ansible_playbook,
-          smart_proxy_hosts.pluck(:id),
+          hosts,
           job_input.to_hash
       )
       composer.trigger!
@@ -226,6 +240,45 @@ module ForemanAcd
         end
       end
       result
+    end
+
+    def inventory_all_vars
+      JSON.parse(@app_instance.ansible_gv_all).map do |a|
+        { a['name'] => a['value'] }
+      end.reduce({}, :merge!)
+    end
+
+    # TODO this need to return the hostname which depends on the smart proxy / domain the host uses
+    def get_fqdn(hostname)
+      hostname
+    end
+
+    # TODO: this might be part of the smart proxy plugin.
+    def create_inventory
+      inventory = {}
+      inventory['all'] = {}
+
+      inventory['all'] = { 'vars' => inventory_all_vars } unless @app_instance.ansible_gv_all.nil? || @app_instance.ansible_gv_all.empty?
+
+      services = JSON.parse(@app_instance.app_definition.services)
+      app_hosts = JSON.parse(@app_instance.hosts)
+
+      children = {}
+      app_hosts.each do |host_data|
+        service_id = host_data['service'].to_i
+        host_service = services.select { |s| s['id'] == service_id }.first
+        ansible_group = host_service['ansibleGroup']
+
+        unless children.has_key?(host_service['ansibleGroup'])
+          children[ansible_group] = { 'hosts' => {} }
+        end
+
+        ansible_vars = host_data['ansibleParameters'].map { |v| { v['name'] => v['value'] } }.reduce({}, :merge!)
+        children[ansible_group]['hosts'][get_fqdn(host_data['hostname'])] = ansible_vars
+      end
+      inventory['all']['children'] = children
+
+      inventory
     end
   end
 end
