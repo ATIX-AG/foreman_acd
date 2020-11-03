@@ -7,8 +7,8 @@ module ForemanAcd
     include ::ForemanAcd::Concerns::AppDefinitionParameters
 
     before_action :find_resource, :only => [:edit, :update, :destroy, :export]
-    before_action :read_hostgroups, :only => [:edit, :new, :import ]
-    before_action :read_playbook_groups, :only => [:edit, :new ]
+    before_action :read_hostgroups, :only => [:edit, :new, :import]
+    before_action :read_playbook_groups, :only => [:edit, :new]
     before_action :handle_file_upload, :only => [:create]
 
     def index

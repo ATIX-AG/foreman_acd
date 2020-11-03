@@ -7,6 +7,7 @@ module ForemanAcd
     include ::ForemanAcd::Concerns::AppInstanceParameters
 
     before_action :find_resource, :only => [:edit, :update, :destroy, :deploy, :report, :configure]
+    before_action :read_applications, :only => [:new, :edit]
 
     def index
       @app_instances = resource_base.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
@@ -18,7 +19,6 @@ module ForemanAcd
 
     def new
       @app_instance = AppInstance.new
-      read_applications
     end
 
     def create
@@ -31,7 +31,6 @@ module ForemanAcd
     end
 
     def edit
-      read_applications
     end
 
     def update
