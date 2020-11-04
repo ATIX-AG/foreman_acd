@@ -135,7 +135,7 @@ module ForemanAcd
                                             @app_instance.app_definition.ansible_playbook.playfile)
 
       # create the inventory file
-      inventory = create_inventory
+      inventory = ForemanAcd::InventoryCreator.new(@app_instance).create_inventory
 
       # TODO should or do we really need it to a file?
       inventory_file = File.new("/tmp/acd_inventory_file", "w") # we can also use Tempfile.new() but a tempfile will be deleted soon (after transaction finished)
@@ -239,45 +239,6 @@ module ForemanAcd
         end
       end
       result
-    end
-
-    def inventory_all_vars
-      JSON.parse(@app_instance.ansible_gv_all).map do |a|
-        { a['name'] => a['value'] }
-      end.reduce({}, :merge!)
-    end
-
-    # TODO this need to return the hostname which depends on the smart proxy / domain the host uses
-    def get_fqdn(hostname)
-      hostname
-    end
-
-    # TODO: this might be part of the smart proxy plugin.
-    def create_inventory
-      inventory = {}
-      inventory['all'] = {}
-
-      inventory['all'] = { 'vars' => inventory_all_vars } unless @app_instance.ansible_gv_all.nil? || @app_instance.ansible_gv_all.empty?
-
-      services = JSON.parse(@app_instance.app_definition.services)
-      app_hosts = JSON.parse(@app_instance.hosts)
-
-      children = {}
-      app_hosts.each do |host_data|
-        service_id = host_data['service'].to_i
-        host_service = services.select { |s| s['id'] == service_id }.first
-        ansible_group = host_service['ansibleGroup']
-
-        unless children.has_key?(host_service['ansibleGroup'])
-          children[ansible_group] = { 'hosts' => {} }
-        end
-
-        ansible_vars = host_data['ansibleParameters'].map { |v| { v['name'] => v['value'] } }.reduce({}, :merge!)
-        children[ansible_group]['hosts'][get_fqdn(host_data['hostname'])] = ansible_vars
-      end
-      inventory['all']['children'] = children
-
-      inventory
     end
   end
 end
