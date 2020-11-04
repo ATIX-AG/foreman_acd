@@ -48,7 +48,7 @@ const applicationInstanceConf = (state = initialState, action) => {
     }
     case APPLICATION_INSTANCE_LOAD_APPLICATION_DEFINITION_SUCCESS: {
       let newState = {};
-      const services = JSON.parse(payload.app_definition.services);
+      const services = payload.app_definition.services;
 
       // initialize all services count with 0
       services.map(serv => {
@@ -72,7 +72,7 @@ const applicationInstanceConf = (state = initialState, action) => {
 
       // Initialize ansibleGroupVarsAll if there is no data available in app instance
       if (state.ansibleGroupVarsAll.length <= 0) {
-        newState['ansibleGroupVarsAll'] = JSON.parse(payload.app_definition.ansible_gv_all);
+        newState['ansibleGroupVarsAll'] = payload.app_definition.ansible_gv_all;
       }
 
       return state.merge(newState);

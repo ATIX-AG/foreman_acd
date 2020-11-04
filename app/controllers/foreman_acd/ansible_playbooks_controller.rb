@@ -81,7 +81,7 @@ module ForemanAcd
     def import_vars
       logger.debug("Load ansible group vars for #{@ansible_playbook} from #{@ansible_playbook.path}")
       vars, errors = extract_variables(@ansible_playbook.path)
-      @ansible_playbook.vars = vars.to_json
+      @ansible_playbook.vars = vars
       @ansible_playbook.save
       if errors.empty?
         process_success :success_msg => _("Successfully loaded ansible variables from %s") % @ansible_playbook.name, :redirect => ansible_playbooks_path

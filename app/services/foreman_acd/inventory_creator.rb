@@ -15,8 +15,8 @@ module ForemanAcd
 
       inventory['all'] = { 'vars' => inventory_all_vars } unless @app_instance.ansible_gv_all.nil? || @app_instance.ansible_gv_all.empty?
 
-      services = JSON.parse(@app_instance.app_definition.services)
-      app_hosts = JSON.parse(@app_instance.hosts)
+      services = @app_instance.app_definition.services
+      app_hosts = @app_instance.hosts
 
       children = {}
       app_hosts.each do |host_data|
@@ -38,7 +38,7 @@ module ForemanAcd
 
     private
     def inventory_all_vars
-      JSON.parse(@app_instance.ansible_gv_all).map do |a|
+      @app_instance.ansible_gv_all.map do |a|
         { a['name'] => a['value'] }
       end.reduce({}, :merge!)
     end

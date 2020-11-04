@@ -33,9 +33,8 @@ class UiAcdController < ::Api::V2::BaseController
 
   def collect_ansible_data(playbook_id, group_name)
      ap = ForemanAcd::AnsiblePlaybook.find(playbook_id)
-     vars = JSON.parse(ap['vars'])
      adata = OpenStruct.new(
-       :group_vars => vars[group_name]
+       :group_vars => ap.vars[group_name]
      )
      adata
   end

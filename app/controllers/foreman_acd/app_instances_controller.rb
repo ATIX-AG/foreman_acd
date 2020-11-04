@@ -63,10 +63,10 @@ module ForemanAcd
     end
 
     def deploy
-      services = JSON.parse(@app_instance.app_definition.services)
+      services = @app_instance.app_definition.services
       @deploy_hosts = []
 
-      app_hosts = JSON.parse(@app_instance.hosts)
+      app_hosts = @app_instance.hosts
 
       app_hosts.each do |host_data|
         begin
@@ -112,13 +112,13 @@ module ForemanAcd
       end
 
       # save any change to the app_hosts json
-      @app_instance.hosts = app_hosts.to_json
+      @app_instance.hosts = app_hosts
       @app_instance.save
     end
 
     def report
       @report_hosts = []
-      app_hosts = JSON.parse(@app_instance.hosts)
+      app_hosts = @app_instance.hosts
       app_hosts.each do |host_data|
         h = Host.find(host_data['foreman_host_id'])
         @report_hosts.push({id: h.id, name: host_data['hostname'], hostname: h.hostname, hostUrl: host_path(h), powerStatusUrl: power_api_host_path(h) })

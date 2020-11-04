@@ -20,7 +20,7 @@ module ForemanAcd
     end
 
     def read_playbook_groups
-      @ansible_groups = AnsiblePlaybook.all.map { |elem| { elem.id => elem.vars.nil? ? [] : JSON.parse(elem.vars).keys } }.reduce({}, :merge!)
+      @ansible_groups = AnsiblePlaybook.all.map { |elem| { elem.id => elem.vars.blank? ? [] : elem.vars.keys } }.reduce({}, :merge!)
     end
 
     def new
@@ -70,7 +70,7 @@ module ForemanAcd
 
     def export
       filename = "#{@app_definition.name}.yaml"
-      data = JSON.parse(@app_definition.services).to_yaml
+      data = @app_definition.services.to_yaml
       send_data data, :type => 'text/yaml', :disposition => 'attachment', :filename => filename
     end
 
@@ -78,7 +78,7 @@ module ForemanAcd
 
     def handle_file_upload
       return unless params[:foreman_acd_app_definition] && raw_file = params[:foreman_acd_app_definition][:app_definition_file]
-      params[:foreman_acd_app_definition][:services] = YAML.load_file(raw_file.tempfile).to_json
+      params[:foreman_acd_app_definition][:services] = YAML.load_file(raw_file.tempfile)
     end
   end
 end

@@ -10,6 +10,8 @@ module ForemanAcd
     belongs_to :app_definition, :inverse_of => :app_instances
     scoped_search :on => :name
     default_scope -> { order("app_instances.name") }
+    serialize :hosts, JSON
+    serialize :ansible_gv_all, JSON
 
     def self.humanize_class_name(_name = nil)
       _('App Instance')
@@ -20,7 +22,7 @@ module ForemanAcd
     end
 
     def foreman_hosts
-      app_hosts = JSON.parse(self.hosts)
+      app_hosts = self.hosts
       host_ids = app_hosts.select{ |h| h&.key?('foreman_host_id') }.map{ |h| h['foreman_host_id'] }
       ::Host.find(host_ids)
     end
