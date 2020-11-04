@@ -10,12 +10,12 @@ template_inputs:
 - name: application_name
   description: The name of the ACD application instance to run
   input_type: user
-  required: false
+  required: true
   advanced: false
 - name: playbook_name
   description: The name of the Ansible playbook to run
   input_type: user
-  required: false
+  required: true
   advanced: false
 - name: playbook_path
   description: The full path to the Ansible playbook
@@ -29,17 +29,5 @@ template_inputs:
   advanced: false
 %>
 
-<%
-  supported_families = ['Redhat', 'Debian', 'Suse']
-  render_error(N_('Unsupported or no operating system found for this host.')) unless @host.operatingsystem && supported_families.include?(@host.operatingsystem.family)
-  action = input("action")
-
-  if @host.operatingsystem.family == 'Redhat'
-    package_manager = 'yum'
-  elsif @host.operatingsystem.family == 'Debian'
-    package_manager = 'apt'
-  elsif @host.operatingsystem.family == 'Suse'
-    package_manager = 'zypper'
-  end
--%>
-ansible-playbook --help
+echo "Run ansible-playbook <%= input('playbook_name') %> to configure ACD app <%= input('application_name') %>"
+ansible-playbook -i <%= input('inventory_path') %> <%= input('playbook_path') %>
