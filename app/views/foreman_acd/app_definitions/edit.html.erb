@@ -1,5 +1,10 @@
 <% title(_('Edit Application Definition %s') % @app_definition) %>
 
+<%= breadcrumbs(
+  :resource_url => acd_api_v2_app_definitions_path
+  )
+%>
+
 <% content_for(:javascripts) do %>
   <%= webpacked_plugins_js_for :foreman_acd %>
 <% end %>
