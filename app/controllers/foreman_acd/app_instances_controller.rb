@@ -134,33 +134,50 @@ module ForemanAcd
       job_input[:playbook_path] = File.join(@app_instance.app_definition.ansible_playbook.path,
                                             @app_instance.app_definition.ansible_playbook.playfile)
 
-      # create the inventory file
-      inventory = ForemanAcd::InventoryCreator.new(@app_instance).create_inventory
-
       # TODO should or do we really need it to a file?
-      inventory_file = File.new("/tmp/acd_inventory_file", "w") # we can also use Tempfile.new() but a tempfile will be deleted soon (after transaction finished)
-      inventory_file << inventory.to_yaml
-      inventory_file.close
-      job_input[:inventory_path] = inventory_file.path
+      #inventory_file = File.new("/tmp/acd_inventory_file", "w") # we can also use Tempfile.new() but a tempfile will be deleted soon (after transaction finished)
+      #inventory_file << inventory.to_yaml
+      #inventory_file.close
 
-      logger.info("Use #{inventory_file.path} inventory to configure #{@app_instance.name} with ansible playbook #{@app_instance.app_definition.ansible_playbook.name}")
+      logger.info("Use inventory to configure #{@app_instance.name} with ansible playbook #{@app_instance.app_definition.ansible_playbook.name}")
 
-      # FIXME. The job should run on the smart proxy next to each host - for each smart proxy once
+      proxy_hosts = {}
+      job_invocations = []
 
-      # TODO: do we need to do a .pluck(:id)?
       hosts = @app_instance.foreman_hosts
+      proxy_selector = RemoteExecutionProxySelector.new
+      hosts.each do |h|
+        proxy = proxy_selector.determine_proxy(h, 'SSH')
+        unless proxy_hosts.has_key?(proxy.name)
+          proxy_hosts[proxy.name] = Array.new
+        end
+        proxy_hosts[proxy.name] << h.id
+      end
 
       # TODO just for testing...
-      hosts = Host.pluck(:id)
+      proxy_hosts = { Host.first.name => [ Host.first.id] }
 
-      composer = JobInvocationComposer.for_feature(
+      # we need to compose multiple jobs. for each proxy one job.
+      proxy_hosts.each do |proxy_name, host_names|
+        # create the inventory file
+        inventory = ForemanAcd::InventoryCreator.new(@app_instance, host_names).create_inventory
+        job_input[:inventory] = YAML.dump(inventory)
+
+        composer = JobInvocationComposer.for_feature(
           :run_acd_ansible_playbook,
-          hosts,
+          [Host.find_by(:name => proxy_name).id],
           job_input.to_hash
-      )
-      composer.trigger!
-      job_invocation = composer.job_invocation
-      redirect_to job_invocation_path(job_invocation)
+        )
+        composer.trigger!
+        job_invocations << composer.job_invocation
+      end
+
+      # redirect to the job itself if we only have one job, otherwise to the index page
+      if job_invocations.count == 1
+        redirect_to job_invocation_path(job_invocations.first)
+      else
+        redirect_to job_invocations_path
+      end
     end
 
     private

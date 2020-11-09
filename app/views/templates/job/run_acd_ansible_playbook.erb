@@ -22,12 +22,17 @@ template_inputs:
   input_type: user
   required: true
   advanced: false
-- name: inventory_path
-  description: The full path to the Ansible inventory file
+- name: inventory
+  description: The Ansible inventory
   input_type: user
   required: true
   advanced: false
 %>
 
+INVENTORY_FILE=$(tempfile -p "acd_")
+cat << EOF >$INVENTORY_FILE
+<%= input('inventory') %>
+EOF
+
 echo "Run ansible-playbook <%= input('playbook_name') %> to configure ACD app <%= input('application_name') %>"
-ansible-playbook -i <%= input('inventory_path') %> <%= input('playbook_path') %>
+ansible-playbook -i $INVENTORY_FILE <%= input('playbook_path') %>

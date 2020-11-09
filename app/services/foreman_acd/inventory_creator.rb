@@ -4,8 +4,9 @@ module ForemanAcd
   # inventory creator for application instances
   class InventoryCreator
 
-    def initialize(app_instance)
+    def initialize(app_instance, host_ids)
       @app_instance = app_instance
+      @host_ids = host_ids
     end
 
     # TODO: this might be part of the smart proxy plugin.
@@ -16,7 +17,7 @@ module ForemanAcd
       inventory['all'] = { 'vars' => inventory_all_vars } unless @app_instance.ansible_gv_all.nil? || @app_instance.ansible_gv_all.empty?
 
       services = @app_instance.app_definition.services
-      app_hosts = @app_instance.hosts
+      app_hosts = filtered_hosts
 
       children = {}
       app_hosts.each do |host_data|
@@ -46,6 +47,10 @@ module ForemanAcd
     # TODO this need to return the hostname which depends on the smart proxy / domain the host uses
     def get_fqdn(hostname)
       hostname
+    end
+
+    def filtered_hosts
+      @app_instance.hosts.select{ |h| h&.key?('foreman_host_id') && @host_ids.include?(h['foreman_host_id']) }
     end
   end
 end
