@@ -4,6 +4,8 @@ module ForemanAcd
   # inventory creator for application instances
   class InventoryCreator
 
+    delegate :logger, :to => :Rails
+
     def initialize(app_instance, host_ids)
       @app_instance = app_instance
       @host_ids = host_ids
