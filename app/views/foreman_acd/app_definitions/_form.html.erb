@@ -11,11 +11,11 @@
     }
 
     if @app_definition.services.present?
-      json["services"] = @app_definition.services
+      json["services"] = JSON.parse(@app_definition.services)
     end
 
     if @app_definition.ansible_gv_all.present?
-      json["ansibleGroupVarsAll"] = @app_definition.ansible_gv_all
+      json["ansibleGroupVarsAll"] = JSON.parse(@app_definition.ansible_gv_all)
     end
 %>
 

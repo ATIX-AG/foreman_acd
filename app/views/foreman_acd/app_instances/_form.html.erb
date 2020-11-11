@@ -20,8 +20,8 @@
           "id": @app_instance.app_definition.id,
           "name": @app_instance.app_definition.name,
         },
-        "hosts": @app_instance.hosts,
-        "ansibleGroupVarsAll": @app_instance.ansible_gv_all.blank? ? [] : @app_instance.ansible_gv_all,
+        "hosts": JSON.parse(@app_instance.hosts),
+        "ansibleGroupVarsAll": @app_instance.ansible_gv_all.blank? ? [] : JSON.parse(@app_instance.ansible_gv_all),
       }
     end
 %>
