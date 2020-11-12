@@ -33,8 +33,8 @@ module ForemanAcd
           end
 
           if host.nil?
-            logger.info("Host creation parameters for #{host_data['hostname']}:\n#{params}\n")
             params = host_attributes(host_params)
+            logger.info("Host creation parameters for #{host_data['hostname']}:\n#{params}\n")
             host = Host.new(params)
           else
             logger.info("Update parameters and re-deploy host #{host_data['hostname']}")
@@ -55,7 +55,7 @@ module ForemanAcd
 
           @deploy_hosts.push({ id: host.id, name: host_data['hostname'], hostname: host.hostname, hostUrl: host_path(h), progress_report_id: host.progress_report_id})
         rescue StandardError => e
-          logger.error("Failed to initiate host creation: #{e.backtrace.join($INPUT_RECORD_SEPARATOR)}")
+          logger.error("Failed to initiate host creation: #{e.class}: #{e.message}\n#{e.backtrace.join($INPUT_RECORD_SEPARATOR)}")
         end
       end
 
@@ -108,7 +108,7 @@ module ForemanAcd
       result['name'] = host_data['hostname']
       result['hostgroup_id'] = service_data['hostgroup']
 
-      host_data['parameters'].each do |param|
+      host_data['foremanParameters'].each do |param|
         case param['type']
 
         when 'computeprofile'
