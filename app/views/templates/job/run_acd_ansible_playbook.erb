@@ -29,7 +29,7 @@ template_inputs:
   advanced: false
 %>
 
-INVENTORY_FILE=$(tempfile -p "acd_")
+INVENTORY_FILE=$(mktemp --suffix ".yaml")
 cat << EOF >$INVENTORY_FILE
 <%= input('inventory') %>
 EOF

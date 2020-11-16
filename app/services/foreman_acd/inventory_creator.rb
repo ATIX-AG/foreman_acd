@@ -23,6 +23,11 @@ module ForemanAcd
 
       children = {}
       app_hosts.each do |host_data|
+        if host_data['foreman_host_id'].nil?
+          logger.warn "Ignore host #{host_data['hostname']} because no foreman host id could be found. Is the host not provisioned yet?"
+          next
+        end
+
         service_id = host_data['service'].to_i
         host_service = services.select { |s| s['id'] == service_id }.first
         ansible_group = host_service['ansibleGroup']
@@ -32,10 +37,9 @@ module ForemanAcd
         end
 
         ansible_vars = host_data['ansibleParameters'].map { |v| { v['name'] => v['value'] } }.reduce({}, :merge!)
-        children[ansible_group]['hosts'][get_fqdn(host_data['hostname'])] = ansible_vars
+        children[ansible_group]['hosts'][get_fqdn(host_data['foreman_host_id'])] = ansible_vars
       end
       inventory['all']['children'] = children
-
       inventory
     end
 
@@ -46,9 +50,8 @@ module ForemanAcd
       end.reduce({}, :merge!)
     end
 
-    # TODO this need to return the hostname which depends on the smart proxy / domain the host uses
-    def get_fqdn(hostname)
-      hostname
+    def get_fqdn(host_id)
+      Host.find(host_id)&.name
     end
 
     def filtered_hosts
