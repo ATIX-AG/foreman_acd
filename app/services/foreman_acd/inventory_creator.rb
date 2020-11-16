@@ -37,6 +37,12 @@ module ForemanAcd
         end
 
         ansible_vars = host_data['ansibleParameters'].map { |v| { v['name'] => v['value'] } }.reduce({}, :merge!)
+
+        # in case there is no ansible_user defined, set "root" as default.
+        unless ansible_vars.has_key?('ansible_user')
+          ansible_vars['ansible_user'] = 'root'
+        end
+
         children[ansible_group]['hosts'][get_fqdn(host_data['foreman_host_id'])] = ansible_vars
       end
       inventory['all']['children'] = children
