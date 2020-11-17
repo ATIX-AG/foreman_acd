@@ -84,7 +84,7 @@ module ForemanAcd
       @ansible_playbook.vars = vars
       @ansible_playbook.save
       if errors.empty?
-        process_success :success_msg => _("Successfully loaded ansible variables from %s") % @ansible_playbook.name, :redirect => ansible_playbooks_path
+        process_success :success_msg => _("Successfully loaded ansible group variables from %s") % @ansible_playbook.name, :redirect => ansible_playbooks_path
       else
         process_error :error_msg => _(errors.join(' ')), :redirect => ansible_playbooks_path
       end
