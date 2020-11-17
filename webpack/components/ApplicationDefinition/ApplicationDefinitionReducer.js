@@ -153,7 +153,7 @@ const applicationDefinitionConf = (state = initialState, action) => {
       const playbookId = $('#foreman_acd_app_definition_acd_ansible_playbook_id').val();
 
       if ((payload.hasOwnProperty('isAllGroup')) && (payload.isAllGroup == true)) {
-        parametersData.parameters = state.ansibleGroupVarsAll;
+        parametersData.parameters = state.ansibleVarsAll;
         parametersData.paramDefinition = {
           isAllGroup: true,
           dataId: playbookId,
@@ -185,7 +185,7 @@ const applicationDefinitionConf = (state = initialState, action) => {
         if ((state.parametersData.paramDefinition.hasOwnProperty('isAllGroup')) && (state.parametersData.paramDefinition.isAllGroup == true)) {
           newState = {
             parametersData: null,
-            ansibleGroupVarsAll: cloneDeep(payload.parameterSelection),
+            ansibleVarsAll: cloneDeep(payload.parameterSelection),
           };
         } else {
           const services = cloneDeep(state.services);

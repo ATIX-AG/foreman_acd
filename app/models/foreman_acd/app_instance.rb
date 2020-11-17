@@ -11,7 +11,7 @@ module ForemanAcd
     scoped_search :on => :name
     default_scope -> { order("app_instances.name") }
     serialize :hosts, JSON
-    serialize :ansible_gv_all, JSON
+    serialize :ansible_vars_all, JSON
 
     def self.humanize_class_name(_name = nil)
       _('App Instance')

@@ -70,9 +70,9 @@ const applicationInstanceConf = (state = initialState, action) => {
         loading: false,
       };
 
-      // Initialize ansibleGroupVarsAll if there is no data available in app instance
-      if (state.ansibleGroupVarsAll.length <= 0) {
-        newState['ansibleGroupVarsAll'] = JSON.parse(payload.app_definition.ansible_gv_all);
+      // Initialize ansibleVarsAll if there is no data available in app instance
+      if (state.ansibleVarsAll.length <= 0) {
+        newState['ansibleVarsAll'] = JSON.parse(payload.app_definition.ansible_vars_all);
       }
 
       return state.merge(newState);
@@ -235,7 +235,7 @@ const applicationInstanceConf = (state = initialState, action) => {
       let parametersData = {};
 
       if ((payload.hasOwnProperty('isAllGroup')) && (payload.isAllGroup == true)) {
-        parametersData.parameters = state.ansibleGroupVarsAll;
+        parametersData.parameters = state.ansibleVarsAll;
         parametersData.paramDefinition = {
           isAllGroup: true,
         }
@@ -268,7 +268,7 @@ const applicationInstanceConf = (state = initialState, action) => {
         if ((state.parametersData.paramDefinition.hasOwnProperty('isAllGroup')) && (state.parametersData.paramDefinition.isAllGroup == true)) {
           newState = {
             parametersData: null,
-            ansibleGroupVarsAll: cloneDeep(payload.parameterSelection),
+            ansibleVarsAll: cloneDeep(payload.parameterSelection),
           };
         } else {
           const hosts = cloneDeep(state.hosts);

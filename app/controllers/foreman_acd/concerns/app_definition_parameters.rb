@@ -9,7 +9,7 @@ module ForemanAcd
       class_methods do
         def app_definition_params_filter
           Foreman::ParameterFilter.new(::ForemanAcd::AppDefinition).tap do |filter|
-            filter.permit(:name, :description, :acd_ansible_playbook_id, :services, :ansible_gv_all)
+            filter.permit(:name, :description, :acd_ansible_playbook_id, :services, :ansible_vars_all)
           end
         end
       end

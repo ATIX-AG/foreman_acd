@@ -6,4 +6,4 @@ export const selectHosts = state => applicationInstanceConf(state).hosts;
 export const selectColumns = state => applicationInstanceConf(state).columns;
 export const selectServices = state => applicationInstanceConf(state).services;
 export const selectParametersData = state => applicationInstanceConf(state).parametersData;
-export const selectAnsibleGroupVarsAll = state => applicationInstanceConf(state).ansibleGroupVarsAll;
+export const selectAnsibleVarsAll = state => applicationInstanceConf(state).ansibleVarsAll;

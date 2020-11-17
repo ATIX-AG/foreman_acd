@@ -16,7 +16,7 @@ module ForemanAcd
       inventory = {}
       inventory['all'] = {}
 
-      inventory['all'] = { 'vars' => inventory_all_vars } unless @app_instance.ansible_gv_all.nil? || @app_instance.ansible_gv_all.empty?
+      inventory['all'] = { 'vars' => inventory_all_vars } unless @app_instance.ansible_vars_all.nil? || @app_instance.ansible_vars_all.empty?
 
       services = @app_instance.app_definition.services
       app_hosts = filtered_hosts
@@ -51,7 +51,7 @@ module ForemanAcd
 
     private
     def inventory_all_vars
-      @app_instance.ansible_gv_all.map do |a|
+      @app_instance.ansible_vars_all.map do |a|
         { a['name'] => a['value'] }
       end.reduce({}, :merge!)
     end

@@ -74,7 +74,7 @@ class ApplicationInstance extends React.Component {
 
   componentDidMount() {
     const {
-      data: { mode, appDefinition, hosts, ansibleGroupVarsAll, appDefinitionUrl },
+      data: { mode, appDefinition, hosts, ansibleVarsAll, appDefinitionUrl },
       initApplicationInstance,
       addApplicationInstanceHost,
       deleteApplicationInstanceHost,
@@ -111,7 +111,7 @@ class ApplicationInstance extends React.Component {
             bsStyle="default"
             onClick={() => openAnsibleParameterSelectionModal(additionalData)}
           >
-            <span title="change ansible group vars">A</span>
+            <span title="change ansible variables">A</span>
           </Button>
           <DeleteTableEntry
             hidden={false}
@@ -206,7 +206,7 @@ class ApplicationInstance extends React.Component {
     initApplicationInstance(
       appDefinition,
       hosts,
-      ansibleGroupVarsAll,
+      ansibleVarsAll,
       this.headerFormatter,
       this.inlineEditFormatter,
       this.inlineEditButtonsFormatter,
@@ -302,7 +302,7 @@ class ApplicationInstance extends React.Component {
                 isAllGroup: true
               })}
             >
-              <span title="change ansible group vars for 'all'">A</span>
+              <span title="change ansible variables for 'all'">A</span>
             </Button>
           </span>
         </div>
@@ -368,8 +368,8 @@ class ApplicationInstance extends React.Component {
         <RailsData
           key='applications_instance'
           view='app_instance'
-          parameter='ansible_gv_all'
-          value={JSON.stringify(this.props.ansibleGroupVarsAll)}
+          parameter='ansible_vars_all'
+          value={JSON.stringify(this.props.ansibleVarsAll)}
         />
       </span>
     )};
@@ -381,7 +381,7 @@ ApplicationInstance.defaultProps = {
   editMode: false,
   services: [],
   hosts: [],
-  ansibleGroupVarsAll: [],
+  ansibleVarsAll: [],
   parametersData: {},
   columns: [],
   editParamsOfRowId: null,
@@ -394,7 +394,7 @@ ApplicationInstance.propTypes = {
   appDefinition: PropTypes.object,
   columns: PropTypes.array,
   hosts: PropTypes.array,
-  ansibleGroupVarsAll: PropTypes.array,
+  ansibleVarsAll: PropTypes.array,
   loadApplicationDefinition: PropTypes.func,
   addApplicationInstanceHost: PropTypes.func,
   deleteApplicationInstanceHost: PropTypes.func,

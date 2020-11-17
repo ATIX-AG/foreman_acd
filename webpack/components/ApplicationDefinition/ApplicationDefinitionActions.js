@@ -31,7 +31,7 @@ import {
 
 export const initApplicationDefinition = (
   services,
-  ansibleGroupVarsAll,
+  ansibleVarsAll,
   headerFormatter,
   inlineEditFormatter,
   inlineEditButtonsFormatter,
@@ -154,7 +154,7 @@ export const initApplicationDefinition = (
   ];
 
   initialState.services = services;
-  initialState.ansibleGroupVarsAll = ansibleGroupVarsAll;
+  initialState.ansibleVarsAll = ansibleVarsAll;
 
   dispatch({
     type: APPLICATION_DEFINITION_INIT,

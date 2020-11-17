@@ -7,7 +7,7 @@
         "applications": @applications,
         "appDefinitionUrl": ui_acd_app_path("__id__"),
         "foremanDataUrl": ui_acd_foreman_data_path("__id__"),
-        "ansibleGroupVarsAll": [],
+        "ansibleVarsAll": [],
       }
     else
       json = {
@@ -21,7 +21,7 @@
           "name": @app_instance.app_definition.name,
         },
         "hosts": JSON.parse(@app_instance.hosts),
-        "ansibleGroupVarsAll": @app_instance.ansible_gv_all.blank? ? [] : JSON.parse(@app_instance.ansible_gv_all),
+        "ansibleVarsAll": @app_instance.ansible_vars_all.blank? ? [] : JSON.parse(@app_instance.ansible_vars_all),
       }
     end
 %>

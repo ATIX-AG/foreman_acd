@@ -48,7 +48,7 @@ class ApplicationDefinition extends React.Component {
 
   componentDidMount() {
     const {
-      data: { services, ansibleGroupVarsAll, hostgroups, ansibleGroups },
+      data: { services, ansibleVarsAll, hostgroups, ansibleGroups },
       initApplicationDefinition,
       addApplicationDefinitionService,
       deleteApplicationDefinitionService,
@@ -80,7 +80,7 @@ class ApplicationDefinition extends React.Component {
             bsStyle="default"
             onClick={() => openAnsibleParameterSelectionModal(additionalData)}
           >
-            <span title="change ansible group vars">A</span>
+            <span title="change ansible variables">A</span>
           </Button>
           <DeleteTableEntry
             hidden={false}
@@ -185,7 +185,7 @@ class ApplicationDefinition extends React.Component {
 
     initApplicationDefinition(
       services,
-      ansibleGroupVarsAll,
+      ansibleVarsAll,
       this.headerFormatter,
       this.inlineEditFormatter,
       this.inlineEditButtonsFormatter,
@@ -256,7 +256,7 @@ class ApplicationDefinition extends React.Component {
                 isAllGroup: true
               })}
             >
-              <span title="change ansible group vars for 'all'">A</span>
+              <span title="change ansible variables for 'all'">A</span>
             </Button>
           </span>
         </div>
@@ -323,8 +323,8 @@ class ApplicationDefinition extends React.Component {
         <RailsData
           key='applications_definition'
           view='app_definition'
-          parameter='ansible_gv_all'
-          value={JSON.stringify(this.props.ansibleGroupVarsAll)}
+          parameter='ansible_vars_all'
+          value={JSON.stringify(this.props.ansibleVarsAll)}
         />
       </span>
     )};
@@ -334,7 +334,7 @@ ApplicationDefinition.defaultProps = {
   error: {},
   editMode: false,
   services: [],
-  ansibleGroupVarsAll: [],
+  ansibleVarsAll: [],
   parametersData: {},
   columns: [],
   editParamsOfRowId: null,
@@ -344,7 +344,7 @@ ApplicationDefinition.propTypes = {
   initApplicationDefinition: PropTypes.func,
   editMode: PropTypes.bool.isRequired,
   services: PropTypes.array,
-  ansibleGroupVarsAll: PropTypes.array,
+  ansibleVarsAll: PropTypes.array,
   columns: PropTypes.array,
   addApplicationDefinitionService: PropTypes.func,
   deleteApplicationDefinitionService: PropTypes.func,
