@@ -171,8 +171,8 @@ const applicationDefinitionConf = (state = initialState, action) => {
 
       parametersData.type = PARAMETER_SELECTION_PARAM_TYPE_ANSIBLE;
       parametersData.useDefaultValue = false;
-      parametersData.allowRowAdjustment = false;
-      parametersData.allowNameAdjustment = false;
+      parametersData.allowRowAdjustment = true;
+      parametersData.allowNameAdjustment = true;
       parametersData.allowDescriptionAdjustment = true;
 
       return state.merge({
