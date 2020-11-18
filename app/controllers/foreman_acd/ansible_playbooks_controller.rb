@@ -57,9 +57,19 @@ module ForemanAcd
     def extract_variables(playbook_path)
       errors = []
       vars = {}
+
+      unless File.directory?(playbook_path) || File.directory?("#{playbook_path}/group_vars")
+        errors << "Playbook path '#{playbook_path}' or '#{playbook_path}/group_vars' doesn't exist"
+        return vars, errors
+      end
+
+      everything_empty = true
+
       vars_files = Dir.glob("#{playbook_path}/group_vars/**/*")
       vars_files.each do |vars_file|
         loaded_yaml = {}
+        next if File.directory?(vars_file)
+
         begin
           loaded_yaml = YAML.load_file(vars_file)
         rescue Psych::SyntaxError
@@ -72,9 +82,28 @@ module ForemanAcd
           logger.error(err)
           errors << err
         end
-        basename = File.basename(vars_file, '.*')
-        vars[basename] = loaded_yaml
+        everything_empty = false unless loaded_yaml.empty?
+
+        # We need to support: group_vars/group_file and group_vars/group_dir/yaml_files
+        dir_and_file = File.split(vars_file)
+        basename = File.basename(dir_and_file[0], '.*')
+        if basename == 'group_vars'
+          group_name = dir_and_file[1]
+        else
+          group_name = basename
+        end
+
+        logger.debug("Add ansible vars from file #{vars_file} to group #{group_name}")
+
+        if vars.has_key?(group_name)
+          vars[group_name].merge!(loaded_yaml)
+        else
+          vars[group_name] = loaded_yaml
+        end
       end
+
+      errors << "No ansible group variable in #{playbook_path} defined." if everything_empty
+
       return vars, errors
     end
 
