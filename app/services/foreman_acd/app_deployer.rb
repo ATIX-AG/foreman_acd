@@ -14,7 +14,7 @@ module ForemanAcd
 
     def deploy
       services = JSON.parse(@app_instance.app_definition.services)
-      app_hosts = @app_instance.hosts
+      app_hosts = JSON.parse(@app_instance.hosts)
 
       app_hosts.each do |host_data|
         begin

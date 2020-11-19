@@ -66,7 +66,7 @@ module ForemanAcd
       app_deployer = ForemanAcd::AppDeployer.new(@app_instance)
 
       # save any change to the app_hosts json
-      @app_instance.hosts = app_deployer.deploy
+      @app_instance.hosts = app_deployer.deploy.to_json
       @app_instance.save
 
       @deploy_hosts = app_deployer.deploy_hosts
@@ -74,7 +74,7 @@ module ForemanAcd
 
     def report
       @report_hosts = []
-      app_hosts = @app_instance.hosts
+      app_hosts = JSON.parse(@app_instance.hosts)
       app_hosts.each do |host_data|
         h = Host.find(host_data['foreman_host_id'])
         @report_hosts.push({id: h.id, name: host_data['hostname'], hostname: h.hostname, hostUrl: host_path(h), powerStatusUrl: power_api_host_path(h) })

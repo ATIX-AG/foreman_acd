@@ -12,7 +12,6 @@ module ForemanAcd
     validates :name, :presence => true, :uniqueness => true
     scoped_search :on => :name
     default_scope -> { order("acd_ansible_playbooks.name") }
-    serialize :vars, JSON
 
     def self.humanize_class_name(_name = nil)
       _('Ansible playbook')
