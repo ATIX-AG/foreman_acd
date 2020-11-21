@@ -165,31 +165,6 @@ const parameterSelectionParameters = (state = initialState, action) => {
           paramData: payload,
           hostgroupId: payload.hostgroup_id,
         };
-      } else if (payload.dataType == PARAMETER_SELECTION_PARAM_TYPE_ANSIBLE) {
-        let parameters = [];
-
-        if ((payload.hasOwnProperty('group_vars')) && (payload.group_vars.length > 0)) {
-          for (let i=0; i<payload.group_vars.length; i++) {
-            let item = payload.group_vars[i];
-            let entry = { id: i };
-
-            // only handle vars with a name, value may be missing...
-            if (item.name) {
-              entry['name'] = item.name;
-
-              if (item.value) {
-                entry['value'] = item.value;
-              }
-
-              parameters.push(entry);
-            }
-          }
-        }
-
-        newState = {
-          loading: false,
-          parameters: parameters,
-        };
       }
 
       return state.merge(newState);

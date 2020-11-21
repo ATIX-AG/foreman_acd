@@ -1,5 +1,5 @@
 <%
-    if @app_instance.app_definition_id.blank?
+    if @app_instance.new_record?
       json = {
         "mode": "newInstance",
         "organization": current_organization,

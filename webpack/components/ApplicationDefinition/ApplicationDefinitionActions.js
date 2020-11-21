@@ -17,6 +17,9 @@ import {
 
 import {
   APPLICATION_DEFINITION_INIT,
+  APPLICATION_DEFINITION_LOAD_ANSIBLE_DATA_REQUEST,
+  APPLICATION_DEFINITION_LOAD_ANSIBLE_DATA_SUCCESS,
+  APPLICATION_DEFINITION_LOAD_ANSIBLE_DATA_FAILURE,
   APPLICATION_DEFINITION_SERVICE_DELETE,
   APPLICATION_DEFINITION_SERVICE_ADD,
   APPLICATION_DEFINITION_SERVICE_EDIT_ACTIVATE,
@@ -29,7 +32,12 @@ import {
   APPLICATION_DEFINITION_ANSIBLE_PARAMETER_SELECTION_MODAL_CLOSE,
 } from './ApplicationDefinitionConstants';
 
+import {
+  transformAnsiblePlaybook,
+} from './ApplicationDefinitionHelper';
+
 export const initApplicationDefinition = (
+  ansiblePlaybook,
   services,
   ansibleVarsAll,
   headerFormatter,
@@ -153,6 +161,9 @@ export const initApplicationDefinition = (
     }
   ];
 
+  if (ansiblePlaybook !== undefined) {
+    initialState.ansiblePlaybook = transformAnsiblePlaybook(ansiblePlaybook);
+  }
   initialState.services = services;
   initialState.ansibleVarsAll = ansibleVarsAll;
 
@@ -160,6 +171,34 @@ export const initApplicationDefinition = (
     type: APPLICATION_DEFINITION_INIT,
     payload: initialState,
   });
+};
+
+const errorHandler = (msg, err) => {
+  const error = {
+    errorMsg: 'Failed to fetch data from server.',
+    statusText: err,
+  };
+  return { type: msg, payload: { error } };
+};
+
+export const loadAnsibleData = (
+  ansiblePlaybookId,
+  additionalData
+) => dispatch => {
+  dispatch({ type: APPLICATION_DEFINITION_LOAD_ANSIBLE_DATA_REQUEST });
+
+  const baseUrl = additionalData.url;
+  const realUrl = baseUrl.replace("__id__", ansiblePlaybookId);
+
+  return api
+    .get(realUrl, {}, {})
+    .then(({ data }) =>
+      dispatch({
+        type: APPLICATION_DEFINITION_LOAD_ANSIBLE_DATA_SUCCESS,
+        payload: { ...data }
+      })
+    )
+    .catch(error => dispatch(errorHandler(APPLICATION_DEFINITION_LOAD_ANSIBLE_DATA_FAILURE, error)));
 };
 
 export const addApplicationDefinitionService = (additionalData) => ({

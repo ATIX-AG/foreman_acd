@@ -8,19 +8,19 @@ module ForemanAcd
 
     before_action :find_resource, :only => [:edit, :update, :destroy, :export]
     before_action :read_hostgroups, :only => [:edit, :new, :import]
-    before_action :read_playbook_groups, :only => [:edit, :new]
+    before_action :read_ansible_playbooks, :only => [:edit, :new]
     before_action :handle_file_upload, :only => [:create]
 
     def index
       @app_definitions = resource_base.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
     end
 
-    def read_hostgroups
-      @hostgroups = Hostgroup.all.map { |elem| { elem.id => elem.name } }.reduce({}) { |h, v| h.merge v }
+    def read_ansible_playbooks
+      @ansible_playbooks = AnsiblePlaybook.all.map { |elem| { elem.id => elem.name } }.reduce({}) { |h, v| h.merge v }
     end
 
-    def read_playbook_groups
-      @ansible_groups = AnsiblePlaybook.all.map { |elem| { elem.id => elem.vars.blank? ? [] : JSON.parse(elem.vars).keys } }.reduce({}, :merge!)
+    def read_hostgroups
+      @hostgroups = Hostgroup.all.map { |elem| { elem.id => elem.name } }.reduce({}) { |h, v| h.merge v }
     end
 
     def new

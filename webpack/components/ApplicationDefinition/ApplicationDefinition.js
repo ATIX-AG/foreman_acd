@@ -12,6 +12,7 @@ import ParameterSelection from '../ParameterSelection';
 import AddTableEntry from '../common/AddTableEntry';
 import DeleteTableEntry from '../common/DeleteTableEntry';
 import RailsData from '../common/RailsData'
+import AnsiblePlaybookSelector from './components/AnsiblePlaybookSelector';
 
 import {
   Table,
@@ -34,8 +35,10 @@ class ApplicationDefinition extends React.Component {
     return (rowData.backup !== undefined);
   }
 
-  createAnsibleGroupObject(ansibleGroupArray, withAll=false) {
+  createAnsibleGroupObject(ansibleGroups, withAll=false) {
     const ansibleGroupObj = {};
+
+    const ansibleGroupArray = Object.keys(ansibleGroups);
     ansibleGroupArray.forEach(e => (ansibleGroupObj[e] = e));
 
     if ((withAll === false) && (ansibleGroupObj.hasOwnProperty('all'))) {
@@ -45,10 +48,9 @@ class ApplicationDefinition extends React.Component {
     return ansibleGroupObj;
   }
 
-
   componentDidMount() {
     const {
-      data: { services, ansibleVarsAll, hostgroups, ansibleGroups },
+      data: { mode, ansiblePlaybook, ansibleDataUrl, services, ansibleVarsAll, hostgroups },
       initApplicationDefinition,
       addApplicationDefinitionService,
       deleteApplicationDefinitionService,
@@ -56,6 +58,7 @@ class ApplicationDefinition extends React.Component {
       changeEditApplicationDefinitionService,
       openForemanParameterSelectionModal,
       openAnsibleParameterSelectionModal,
+      loadAnsibleData,
     } = this.props;
 
     const inlineEditButtonsFormatter = inlineEditFormatterFactory({
@@ -154,10 +157,7 @@ class ApplicationDefinition extends React.Component {
           prettyValue = hostgroups[value];
         }
         else if (additionalData.property == 'ansibleGroup') {
-          // FIXME: playbookId should be a state variable. I guess, the field need to be moved to react then
-          //        ... there are other sections in which the playbookId is used.
-          const playbookId = $('#foreman_acd_app_definition_acd_ansible_playbook_id').val();
-          const ag = this.createAnsibleGroupObject(ansibleGroups[playbookId]);
+          const ag = this.createAnsibleGroupObject(this.props.ansiblePlaybook.groups);
           prettyValue = ag[value];
         }
         return inlineEditFormatterImpl.renderValue(prettyValue, additionalData)
@@ -170,8 +170,7 @@ class ApplicationDefinition extends React.Component {
           return inlineEditFormatterImpl.renderValue(hostgroups[value], additionalData)
         }
         else if (additionalData.property == 'ansibleGroup') {
-          const playbookId = $('#foreman_acd_app_definition_acd_ansible_playbook_id').val();
-          const ag = this.createAnsibleGroupObject(ansibleGroups[playbookId]);
+          const ag = this.createAnsibleGroupObject(this.props.ansiblePlaybook.groups);
 
           if (additionalData.rowData.newEntry === true) {
             return inlineEditFormatterImpl.renderEditSelect(value, additionalData, ag);
@@ -184,6 +183,7 @@ class ApplicationDefinition extends React.Component {
     this.inlineEditFormatter = inlineEditFormatter;
 
     initApplicationDefinition(
+      ansiblePlaybook,
       services,
       ansibleVarsAll,
       this.headerFormatter,
@@ -194,7 +194,8 @@ class ApplicationDefinition extends React.Component {
 
   render() {
     const {
-      data: { organization, location, foremanDataUrl, ansibleDataUrl },
+      data: { organization, location, mode, ansiblePlaybooks, foremanDataUrl, ansibleDataUrl },
+      ansiblePlaybook,
       services,
       columns,
       addApplicationDefinitionService,
@@ -204,10 +205,22 @@ class ApplicationDefinition extends React.Component {
       openAnsibleParameterSelectionModal,
       closeAnsibleParameterSelectionModal,
       ParameterSelectionModal,
+      loadAnsibleData,
     } = this.props;
 
     return (
       <span>
+        <div>
+          <AnsiblePlaybookSelector
+            label="Ansible Playbook"
+            editable={ mode == 'newDefinition' }
+            viewText={ ansiblePlaybook.name }
+            options={ ansiblePlaybooks }
+            onChange={ loadAnsibleData }
+            selectValue={ ansiblePlaybook.id.toString() }
+            additionalData={{url: ansibleDataUrl }}
+          />
+        </div>
         <div className="form-group">
           <AddTableEntry
             hidden={ false }
@@ -291,7 +304,7 @@ class ApplicationDefinition extends React.Component {
           <ForemanModal
             id="AppDefinitionAnsibleParamSelection"
             dialogClassName="param_selection_modal"
-            title="Ansible group variables for Application Definition"
+            title="Ansible variables for Application Definition"
           >
             <ForemanModal.Header closeButton={false}>
               Parameter definition
@@ -301,7 +314,6 @@ class ApplicationDefinition extends React.Component {
                 paramType={ PARAMETER_SELECTION_PARAM_TYPE_ANSIBLE }
                 location={ location }
                 organization={ organization }
-                paramDataUrl= { ansibleDataUrl }
                 data={ this.props.parametersData }
               />
             ) : (<span>Empty</span>)
@@ -333,6 +345,7 @@ class ApplicationDefinition extends React.Component {
 ApplicationDefinition.defaultProps = {
   error: {},
   editMode: false,
+  ansiblePlaybook: { "id": '', "name": '' },
   services: [],
   ansibleVarsAll: [],
   parametersData: {},
@@ -343,6 +356,7 @@ ApplicationDefinition.defaultProps = {
 ApplicationDefinition.propTypes = {
   initApplicationDefinition: PropTypes.func,
   editMode: PropTypes.bool.isRequired,
+  ansiblePlaybook: PropTypes.object,
   services: PropTypes.array,
   ansibleVarsAll: PropTypes.array,
   columns: PropTypes.array,

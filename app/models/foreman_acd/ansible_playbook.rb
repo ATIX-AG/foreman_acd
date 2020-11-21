@@ -29,5 +29,22 @@ module ForemanAcd
         raise NotImplementedError.new "scm_type #{scm_type.inspect} not supported!"
       end
     end
+
+    def as_unified_structobj
+      groups = []
+
+      JSON.load(self.vars).each do |group_name, vars|
+        groups << OpenStruct.new(
+          :name => group_name,
+          :vars => vars.map { |k,v| OpenStruct.new(:name => k, :value => v) })
+      end
+
+      adata = OpenStruct.new(
+        :id => self.id,
+        :name => self.name,
+        :groups => JSON.load(self.vars)
+      )
+      adata
+    end
   end
 end

@@ -71,18 +71,11 @@ class ParameterSelection extends React.Component {
 
     if (paramDataUrl !== undefined) {
       switch (paramType) {
-        case PARAMETER_SELECTION_PARAM_TYPE_ANSIBLE: {
-          if (parameters.length <= 0) {
-            loadParamData({ paramDefinition: paramDefinition, url: paramDataUrl, dataType: paramType, clearParameters: false });
-          }
-          break;
-        }
         case PARAMETER_SELECTION_PARAM_TYPE_FOREMAN: {
           loadParamData({ paramDefinition: paramDefinition, url: paramDataUrl, dataType: paramType, clearParameters: false });
           break;
         }
-        default: {
-        }
+        default: { }
       }
     }
 

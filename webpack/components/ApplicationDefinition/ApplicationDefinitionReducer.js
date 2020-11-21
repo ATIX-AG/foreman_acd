@@ -8,6 +8,9 @@ import {
 
 import {
   APPLICATION_DEFINITION_INIT,
+  APPLICATION_DEFINITION_LOAD_ANSIBLE_DATA_REQUEST,
+  APPLICATION_DEFINITION_LOAD_ANSIBLE_DATA_SUCCESS,
+  APPLICATION_DEFINITION_LOAD_ANSIBLE_DATA_FAILURE,
   APPLICATION_DEFINITION_SERVICE_DELETE,
   APPLICATION_DEFINITION_SERVICE_ADD,
   APPLICATION_DEFINITION_SERVICE_EDIT_ACTIVATE,
@@ -25,6 +28,10 @@ import {
   PARAMETER_SELECTION_PARAM_TYPE_ANSIBLE,
 } from '../ParameterSelection/ParameterSelectionConstants';
 
+import {
+  transformAnsiblePlaybook,
+} from './ApplicationDefinitionHelper';
+
 export const initialState = Immutable({
   name: false,
   error: { errorMsg: '', status: '', statusText: '' },
@@ -36,6 +43,30 @@ const applicationDefinitionConf = (state = initialState, action) => {
   switch (action.type) {
     case APPLICATION_DEFINITION_INIT: {
       return state.merge(payload);
+    }
+
+   case APPLICATION_DEFINITION_LOAD_ANSIBLE_DATA_FAILURE: {
+      return state.merge({ error: payload.error, loading: false });
+    }
+    case APPLICATION_DEFINITION_LOAD_ANSIBLE_DATA_REQUEST: {
+      return state.set('loading', true);
+    }
+    case APPLICATION_DEFINITION_LOAD_ANSIBLE_DATA_SUCCESS: {
+      let newState = {};
+      let allVars = [];
+
+      const ansiblePlaybook = transformAnsiblePlaybook(payload);
+
+      if (ansiblePlaybook.hasOwnProperty('groups')) {
+        allVars = ansiblePlaybook.groups['all']
+      }
+
+      newState = {
+        ansiblePlaybook: ansiblePlaybook,
+        ansibleVarsAll: allVars
+      }
+
+      return state.merge(newState);
     }
     case APPLICATION_DEFINITION_SERVICE_ADD: {
       let services = [];
@@ -81,9 +112,16 @@ const applicationDefinitionConf = (state = initialState, action) => {
       delete services[index].backup;
       delete services[index].newEntry;
 
+      let ansibleParameters = [];
+      const selectedGroup = services[index].ansibleGroup;
+
+      if (selectedGroup) {
+        services[index].ansibleParameters = state.ansiblePlaybook.groups[selectedGroup];
+      }
+
       return state.merge({
         editMode: false,
-        services: services
+        services: services,
       });
     }
     case APPLICATION_DEFINITION_SERVICE_EDIT_CHANGE: {
@@ -149,24 +187,17 @@ const applicationDefinitionConf = (state = initialState, action) => {
     case APPLICATION_DEFINITION_ANSIBLE_PARAMETER_SELECTION_MODAL_OPEN: {
       let parametersData = {};
 
-      // FIXME: use the state playbookId.
-      const playbookId = $('#foreman_acd_app_definition_acd_ansible_playbook_id').val();
-
       if ((payload.hasOwnProperty('isAllGroup')) && (payload.isAllGroup == true)) {
         parametersData.parameters = state.ansibleVarsAll;
         parametersData.paramDefinition = {
           isAllGroup: true,
-          dataId: playbookId,
-          dataSubId: 'all'
         }
       } else  {
+        parametersData.parameters = payload.rowData.ansibleParameters;
         parametersData.paramDefinition = {
           id: payload.rowData.id,
           name: payload.rowData.name,
-          dataId: playbookId,
-          dataSubId: payload.rowData.ansibleGroup
         }
-        parametersData.parameters = payload.rowData.ansibleParameters;
       }
 
       parametersData.type = PARAMETER_SELECTION_PARAM_TYPE_ANSIBLE;

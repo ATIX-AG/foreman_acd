@@ -7,6 +7,7 @@ import * as ApplicationDefinitionActions from './ApplicationDefinitionActions';
 
 import {
   selectEditMode,
+  selectAnsiblePlaybook,
   selectServices,
   selectColumns,
   selectParametersData,
@@ -15,6 +16,7 @@ import {
 
 const mapStateToProps = state => ({
   editMode: selectEditMode(state),
+  ansiblePlaybook: selectAnsiblePlaybook(state),
   services: selectServices(state),
   columns: selectColumns(state),
   parametersData: selectParametersData(state),

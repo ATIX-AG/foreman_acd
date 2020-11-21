@@ -14,7 +14,7 @@ module ForemanAcd
     end
 
     def read_applications
-      @applications = ForemanAcd::AppDefinition.all.map { |elem| { elem.id => elem.name } }.reduce({}) { |h, v| h.merge v }
+      @applications = AppDefinition.all.map { |elem| { elem.id => elem.name } }.reduce({}) { |h, v| h.merge v }
     end
 
     def new
