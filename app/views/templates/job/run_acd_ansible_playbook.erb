@@ -2,7 +2,7 @@
 kind: job_template
 name: Run ACD Ansible Playbook - SSH Default
 model: JobTemplate
-job_category: Ansible
+job_category: Application Centric Deployment
 description_format: "Run Ansible playbook %{playbook_name} for ACD application %{application_name}"
 provider_type: SSH
 feature: run_acd_ansible_playbook
@@ -27,6 +27,17 @@ template_inputs:
   input_type: user
   required: true
   advanced: false
+- name: extra_vars
+  description: Set ansible-playbook extra vars
+  input_type: user
+  required: false
+  advanced: true
+- name: verbose
+  description: Whether to run the ansible-playbook in verbose mode or not.
+  input_type: user
+  options: "false\ntrue"
+  required: false
+  advanced: true
 %>
 
 INVENTORY_FILE=$(mktemp --suffix ".yaml")
@@ -35,4 +46,4 @@ cat << EOF >$INVENTORY_FILE
 EOF
 
 echo "Run ansible-playbook <%= input('playbook_name') %> to configure ACD app <%= input('application_name') %>"
-ansible-playbook -i $INVENTORY_FILE <%= input('playbook_path') %>
+ansible-playbook -i $INVENTORY_FILE <%= "-v" if input('verbose').present? && input('verbose') == 'true' %> <%= "--extra-vars \"#{input('extra_vars')}\"" unless input('extra_vars').blank? %> <%= input('playbook_path') %>

@@ -26,7 +26,7 @@ module ForemanAcd
 
       begin
         proxy_hosts = {}
-        job_invocations = []
+        jobs = []
 
         hosts = @app_instance.foreman_hosts
         proxy_selector = RemoteExecutionProxySelector.new
@@ -59,14 +59,12 @@ module ForemanAcd
             :inputs => job_input.to_hash
           }
           composer = JobInvocationComposer.from_api_params(params)
-          composer.trigger!
-          job_invocations << composer.job_invocation
+          jobs << composer
         end
       rescue StandardError => e
         logger.error("Failed to configure hosts: #{e.class}: #{e.message}\n#{e.backtrace.join($INPUT_RECORD_SEPARATOR)}")
       end
-
-      job_invocations
+      jobs
     end
   end
 end
