@@ -8,15 +8,29 @@ import {
 
 import {
   APPLICATION_DEFINITION_INIT,
+  APPLICATION_DEFINITION_LOAD_ANSIBLE_DATA_REQUEST,
+  APPLICATION_DEFINITION_LOAD_ANSIBLE_DATA_SUCCESS,
+  APPLICATION_DEFINITION_LOAD_ANSIBLE_DATA_FAILURE,
   APPLICATION_DEFINITION_SERVICE_DELETE,
   APPLICATION_DEFINITION_SERVICE_ADD,
   APPLICATION_DEFINITION_SERVICE_EDIT_ACTIVATE,
   APPLICATION_DEFINITION_SERVICE_EDIT_CONFIRM,
   APPLICATION_DEFINITION_SERVICE_EDIT_CHANGE,
   APPLICATION_DEFINITION_SERVICE_EDIT_CANCEL,
-  APPLICATION_DEFINITION_PARAMETER_SELECTION_MODAL_OPEN,
-  APPLICATION_DEFINITION_PARAMETER_SELECTION_MODAL_CLOSE,
+  APPLICATION_DEFINITION_FOREMAN_PARAMETER_SELECTION_MODAL_OPEN,
+  APPLICATION_DEFINITION_FOREMAN_PARAMETER_SELECTION_MODAL_CLOSE,
+  APPLICATION_DEFINITION_ANSIBLE_PARAMETER_SELECTION_MODAL_OPEN,
+  APPLICATION_DEFINITION_ANSIBLE_PARAMETER_SELECTION_MODAL_CLOSE,
 } from './ApplicationDefinitionConstants';
+
+import {
+  PARAMETER_SELECTION_PARAM_TYPE_FOREMAN,
+  PARAMETER_SELECTION_PARAM_TYPE_ANSIBLE,
+} from '../ParameterSelection/ParameterSelectionConstants';
+
+import {
+  transformAnsiblePlaybook,
+} from './ApplicationDefinitionHelper';
 
 export const initialState = Immutable({
   name: false,
@@ -30,6 +44,30 @@ const applicationDefinitionConf = (state = initialState, action) => {
     case APPLICATION_DEFINITION_INIT: {
       return state.merge(payload);
     }
+
+   case APPLICATION_DEFINITION_LOAD_ANSIBLE_DATA_FAILURE: {
+      return state.merge({ error: payload.error, loading: false });
+    }
+    case APPLICATION_DEFINITION_LOAD_ANSIBLE_DATA_REQUEST: {
+      return state.set('loading', true);
+    }
+    case APPLICATION_DEFINITION_LOAD_ANSIBLE_DATA_SUCCESS: {
+      let newState = {};
+      let allVars = [];
+
+      const ansiblePlaybook = transformAnsiblePlaybook(payload);
+
+      if (ansiblePlaybook.hasOwnProperty('groups')) {
+        allVars = ansiblePlaybook.groups['all']
+      }
+
+      newState = {
+        ansiblePlaybook: ansiblePlaybook,
+        ansibleVarsAll: allVars
+      }
+
+      return state.merge(newState);
+    }
     case APPLICATION_DEFINITION_SERVICE_ADD: {
       let services = [];
       let index = 1;
@@ -39,7 +77,9 @@ const applicationDefinitionConf = (state = initialState, action) => {
         index = Math.max(...services.map(e => e.id)) + 1;
       }
 
-      const newRow = {id: index, name: "", description: '', hostgroup: '', minCount: '', maxCount: '', parameters: [], newEntry: true };
+      const newRow = { id: index, name: "", description: '', hostgroup: '',
+                       ansibleGroup: '', minCount: '', maxCount: '',
+                       foremanParameters: [], ansibleParameters: [], newEntry: true };
       newRow.backup = cloneDeep(newRow)
       services.push(newRow);
 
@@ -72,9 +112,16 @@ const applicationDefinitionConf = (state = initialState, action) => {
       delete services[index].backup;
       delete services[index].newEntry;
 
+      let ansibleParameters = [];
+      const selectedGroup = services[index].ansibleGroup;
+
+      if (selectedGroup) {
+        services[index].ansibleParameters = state.ansiblePlaybook.groups[selectedGroup];
+      }
+
       return state.merge({
         editMode: false,
-        services: services
+        services: services,
       });
     }
     case APPLICATION_DEFINITION_SERVICE_EDIT_CHANGE: {
@@ -101,33 +148,31 @@ const applicationDefinitionConf = (state = initialState, action) => {
         services: services
       });
     }
-    case APPLICATION_DEFINITION_PARAMETER_SELECTION_MODAL_OPEN: {
+    case APPLICATION_DEFINITION_FOREMAN_PARAMETER_SELECTION_MODAL_OPEN: {
       let parametersData = {};
 
-      if (payload && payload.rowData) {
-        parametersData.serviceDefinition = {
-          id: payload.rowData.id,
-          name: payload.rowData.name,
-          hostgroup_id: payload.rowData.hostgroup
-        }
-        parametersData.parameters = payload.rowData.parameters;
-
-        if (parametersData.parameters.length > 0) {
-          parametersData.mode = 'editDefinition';
-        } else {
-          parametersData.mode = 'newDefinition';
-        }
+      parametersData.paramDefinition = {
+        id: payload.rowData.id,
+        name: payload.rowData.name,
+        dataId: payload.rowData.hostgroup
       }
+
+      parametersData.type = PARAMETER_SELECTION_PARAM_TYPE_FOREMAN;
+      parametersData.parameters = payload.rowData.foremanParameters;
+      parametersData.useDefaultValue = true;
+      parametersData.allowRowAdjustment = true;
+      parametersData.allowNameAdjustment = true;
+      parametersData.allowDescriptionAdjustment = true;
 
       return state.merge({
         parametersData: parametersData,
       });
     }
-    case APPLICATION_DEFINITION_PARAMETER_SELECTION_MODAL_CLOSE: {
+    case APPLICATION_DEFINITION_FOREMAN_PARAMETER_SELECTION_MODAL_CLOSE: {
       if (payload.mode == 'save') {
         const services = cloneDeep(state.services);
-        const index = findIndex(services, { id: state.parametersData.serviceDefinition.id });
-        services[index].parameters = cloneDeep(payload.serviceParameterSelection);
+        const index = findIndex(services, { id: state.parametersData.paramDefinition.id });
+        services[index].foremanParameters = cloneDeep(payload.parameterSelection);
 
         return state.merge({
           parametersData: null,
@@ -138,6 +183,57 @@ const applicationDefinitionConf = (state = initialState, action) => {
           parametersData: null,
         });
       }
+    }
+    case APPLICATION_DEFINITION_ANSIBLE_PARAMETER_SELECTION_MODAL_OPEN: {
+      let parametersData = {};
+
+      if ((payload.hasOwnProperty('isAllGroup')) && (payload.isAllGroup == true)) {
+        parametersData.parameters = state.ansibleVarsAll;
+        parametersData.paramDefinition = {
+          isAllGroup: true,
+        }
+      } else  {
+        parametersData.parameters = payload.rowData.ansibleParameters;
+        parametersData.paramDefinition = {
+          id: payload.rowData.id,
+          name: payload.rowData.name,
+        }
+      }
+
+      parametersData.type = PARAMETER_SELECTION_PARAM_TYPE_ANSIBLE;
+      parametersData.useDefaultValue = false;
+      parametersData.allowRowAdjustment = true;
+      parametersData.allowNameAdjustment = true;
+      parametersData.allowDescriptionAdjustment = true;
+
+      return state.merge({
+        parametersData: parametersData,
+      });
+    }
+    case APPLICATION_DEFINITION_ANSIBLE_PARAMETER_SELECTION_MODAL_CLOSE: {
+      let newState = {};
+      if (payload.mode == 'save') {
+        if ((state.parametersData.paramDefinition.hasOwnProperty('isAllGroup')) && (state.parametersData.paramDefinition.isAllGroup == true)) {
+          newState = {
+            parametersData: null,
+            ansibleVarsAll: cloneDeep(payload.parameterSelection),
+          };
+        } else {
+          const services = cloneDeep(state.services);
+          const index = findIndex(services, { id: state.parametersData.paramDefinition.id });
+          services[index].ansibleParameters = cloneDeep(payload.parameterSelection);
+
+          newState = {
+            parametersData: null,
+            services: services,
+          };
+        }
+      } else {
+        newState = {
+          parametersData: null,
+        };
+      }
+      return state.merge(newState);
     }
     default:
       return state;

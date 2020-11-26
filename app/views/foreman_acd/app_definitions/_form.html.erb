@@ -1,15 +1,29 @@
 <%
-    json = {
-      "organization": current_organization,
-      "location": current_location,
-      "hostgroups": @hostgroups,
-      "loadForemanDataUrl": ui_acd_fdata_path("__id__"),
-      "services": [],
-    }
+  json = {
+    "organization": current_organization,
+    "location": current_location,
+    "hostgroups": @hostgroups,
+    "foremanDataUrl": ui_acd_foreman_data_path("__id__"),
+    "ansibleDataUrl": ui_acd_ansible_data_path("__id__"),
+    "services": [],
+    "ansibleVarsAll": [],
+  }
 
-    if !@app_definition.name.empty?
-      json["services"] = JSON.parse(@app_definition.services)
-    end
+  if @app_definition.new_record?
+    json["mode"] = "newDefinition"
+    json["ansiblePlaybooks"] = @ansible_playbooks
+  else
+    json["mode"] = "editDefinition"
+    json["ansiblePlaybook"] = @app_definition.ansible_playbook.as_unified_structobj
+  end
+
+  if @app_definition.services.present?
+    json["services"] = JSON.parse(@app_definition.services)
+  end
+
+  if @app_definition.ansible_vars_all.present?
+    json["ansibleVarsAll"] = JSON.parse(@app_definition.ansible_vars_all)
+  end
 %>
 
 <%= form_for @app_definition, :url => (@app_definition.new_record? ? app_definitions_path : app_definition_path(:id => @app_definition.id)) do |f| %>

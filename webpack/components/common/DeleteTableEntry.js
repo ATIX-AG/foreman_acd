@@ -23,7 +23,7 @@ const DeleteTableEntry = ({
         disabled={disabled}
         onClick={() => window.confirm("Are you sure you wish to delete this item?") && onDeleteTableEntry(additionalData) }
       >
-        <Icon type="pf" name="delete" />
+        <Icon type="pf" name="delete" title="delete entry" />
       </Button>
     </span>
   );

@@ -22,8 +22,10 @@ import {
   APPLICATION_INSTANCE_HOST_EDIT_CONFIRM,
   APPLICATION_INSTANCE_HOST_EDIT_CHANGE,
   APPLICATION_INSTANCE_HOST_EDIT_CANCEL,
-  APPLICATION_INSTANCE_PARAMETER_SELECTION_MODAL_OPEN,
-  APPLICATION_INSTANCE_PARAMETER_SELECTION_MODAL_CLOSE,
+  APPLICATION_INSTANCE_FOREMAN_PARAMETER_SELECTION_MODAL_OPEN,
+  APPLICATION_INSTANCE_FOREMAN_PARAMETER_SELECTION_MODAL_CLOSE,
+  APPLICATION_INSTANCE_ANSIBLE_PARAMETER_SELECTION_MODAL_OPEN,
+  APPLICATION_INSTANCE_ANSIBLE_PARAMETER_SELECTION_MODAL_CLOSE,
   APPLICATION_INSTANCE_LOAD_APPLICATION_DEFINITION_REQUEST,
   APPLICATION_INSTANCE_LOAD_APPLICATION_DEFINITION_SUCCESS,
   APPLICATION_INSTANCE_LOAD_APPLICATION_DEFINITION_FAILURE,
@@ -32,6 +34,7 @@ import {
 export const initApplicationInstance = (
   appDefinition,
   hosts,
+  ansibleVarsAll,
   headerFormatter,
   inlineEditFormatter,
   inlineEditButtonsFormatter,
@@ -107,6 +110,7 @@ export const initApplicationInstance = (
 
   initialState.appDefinition = appDefinition;
   initialState.hosts = hosts;
+  initialState.ansibleVarsAll = ansibleVarsAll;
 
   dispatch({
     type: APPLICATION_INSTANCE_INIT,
@@ -184,27 +188,52 @@ export const changeEditApplicationInstanceHost = (value, additionalData) => ({
   },
 });
 
-export const openParameterSelectionModal = (additionalData) => dispatch => {
+export const openForemanParameterSelectionModal = (additionalData) => dispatch => {
   dispatch({
-    type: APPLICATION_INSTANCE_PARAMETER_SELECTION_MODAL_OPEN,
+    type: APPLICATION_INSTANCE_FOREMAN_PARAMETER_SELECTION_MODAL_OPEN,
     payload: {
       ...additionalData,
     }
   });
   dispatch(
-    setModalOpen({ id: 'AppInstanceParamSelection' })
+    setModalOpen({ id: 'AppInstanceForemanParamSelection' })
   );
 }
 
-export const closeParameterSelectionModal = (additionalData) => dispatch => {
+export const closeForemanParameterSelectionModal = (additionalData) => dispatch => {
   dispatch({
-    type: APPLICATION_INSTANCE_PARAMETER_SELECTION_MODAL_CLOSE,
+    type: APPLICATION_INSTANCE_FOREMAN_PARAMETER_SELECTION_MODAL_CLOSE,
     payload: {
       ...additionalData,
     }
   });
 
   dispatch(
-    setModalClosed({ id: 'AppInstanceParamSelection' })
+    setModalClosed({ id: 'AppInstanceForemanParamSelection' })
+  );
+}
+
+export const openAnsibleParameterSelectionModal = (additionalData) => dispatch => {
+  dispatch({
+    type: APPLICATION_INSTANCE_ANSIBLE_PARAMETER_SELECTION_MODAL_OPEN,
+    payload: {
+      ...additionalData,
+    }
+  });
+  dispatch(
+    setModalOpen({ id: 'AppInstanceAnsibleParamSelection' })
+  );
+}
+
+export const closeAnsibleParameterSelectionModal = (additionalData) => dispatch => {
+  dispatch({
+    type: APPLICATION_INSTANCE_ANSIBLE_PARAMETER_SELECTION_MODAL_CLOSE,
+    payload: {
+      ...additionalData,
+    }
+  });
+
+  dispatch(
+    setModalClosed({ id: 'AppInstanceAnsibleParamSelection' })
   );
 }

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'foreman_remote_execution'
+
 module ForemanAcd
   # This engine connects ForemanAcd with Foreman core
   class Engine < ::Rails::Engine
@@ -12,6 +14,7 @@ module ForemanAcd
     config.autoload_paths += Dir["#{config.root}/app/overrides"]
     config.autoload_paths += Dir["#{config.root}/app/services"]
     config.autoload_paths += Dir["#{config.root}/app/lib"]
+    config.autoload_paths += Dir["#{config.root}/lib"]
 
     # Add any db migrations
     initializer 'foreman_acd.load_app_instance_data' do |app|

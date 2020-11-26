@@ -12,6 +12,7 @@ import {
   selectServices,
   selectColumns,
   selectParametersData,
+  selectAnsibleVarsAll,
 } from './ApplicationInstanceSelectors';
 
 const mapStateToProps = state => ({
@@ -21,6 +22,7 @@ const mapStateToProps = state => ({
   services: selectServices(state),
   columns: selectColumns(state),
   parametersData: selectParametersData(state),
+  ansibleVarsAll: selectAnsibleVarsAll(state),
 });
 
 const mapDispatchToProps = dispatch =>

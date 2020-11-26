@@ -17,9 +17,16 @@ import {
   APPLICATION_INSTANCE_HOST_EDIT_CONFIRM,
   APPLICATION_INSTANCE_HOST_EDIT_CHANGE,
   APPLICATION_INSTANCE_HOST_EDIT_CANCEL,
-  APPLICATION_INSTANCE_PARAMETER_SELECTION_MODAL_OPEN,
-  APPLICATION_INSTANCE_PARAMETER_SELECTION_MODAL_CLOSE,
+  APPLICATION_INSTANCE_FOREMAN_PARAMETER_SELECTION_MODAL_OPEN,
+  APPLICATION_INSTANCE_FOREMAN_PARAMETER_SELECTION_MODAL_CLOSE,
+  APPLICATION_INSTANCE_ANSIBLE_PARAMETER_SELECTION_MODAL_OPEN,
+  APPLICATION_INSTANCE_ANSIBLE_PARAMETER_SELECTION_MODAL_CLOSE,
 } from './ApplicationInstanceConstants';
+
+import {
+  PARAMETER_SELECTION_PARAM_TYPE_FOREMAN,
+  PARAMETER_SELECTION_PARAM_TYPE_ANSIBLE,
+} from '../ParameterSelection/ParameterSelectionConstants';
 
 export const initialState = Immutable({
   name: false,
@@ -40,6 +47,7 @@ const applicationInstanceConf = (state = initialState, action) => {
       return state.set('loading', true);
     }
     case APPLICATION_INSTANCE_LOAD_APPLICATION_DEFINITION_SUCCESS: {
+      let newState = {};
       const services = JSON.parse(payload.app_definition.services);
 
       // initialize all services count with 0
@@ -56,11 +64,18 @@ const applicationInstanceConf = (state = initialState, action) => {
         });
       }
 
-      return state.merge({
+      newState = {
         appDefinition: payload.app_definition,
         services: services,
         loading: false,
-      });
+      };
+
+      // Initialize ansibleVarsAll if there is no data available in app instance
+      if (state.ansibleVarsAll.length <= 0) {
+        newState['ansibleVarsAll'] = JSON.parse(payload.app_definition.ansible_vars_all);
+      }
+
+      return state.merge(newState);
     }
     case APPLICATION_INSTANCE_HOST_ADD: {
       let hosts = [];
@@ -71,7 +86,7 @@ const applicationInstanceConf = (state = initialState, action) => {
         index = Math.max(...hosts.map(e => e.id)) + 1;
       }
 
-      const newRow = {id: index, hostname: "", description: '', service: '', parameters: [], newEntry: true };
+      const newRow = {id: index, hostname: "", description: '', service: '', foremanParameters: [], ansibleParameters: [], newEntry: true };
       newRow.backup = cloneDeep(newRow)
       hosts.push(newRow);
 
@@ -131,7 +146,8 @@ const applicationInstanceConf = (state = initialState, action) => {
       // Initialize the new Instance with the parameters of the Application Definition.
       if (thisHost.newEntry === true) {
           const selectedService = state.services.filter(entry => entry.id == payload.rowData.service)[0];
-          hosts[index].parameters = selectedService.parameters;
+          hosts[index].foremanParameters = selectedService.foremanParameters;
+          hosts[index].ansibleParameters = selectedService.ansibleParameters;
 
           const hostServiceId = Number(thisHost.service);
           const service = services.find(serv => serv['id'] == hostServiceId);
@@ -175,35 +191,35 @@ const applicationInstanceConf = (state = initialState, action) => {
         hosts: hosts
       });
     }
-    case APPLICATION_INSTANCE_PARAMETER_SELECTION_MODAL_OPEN: {
+    case APPLICATION_INSTANCE_FOREMAN_PARAMETER_SELECTION_MODAL_OPEN: {
       let parametersData = {};
 
-      if (payload && payload.rowData) {
-        const selectedService = state.services.filter(entry => entry.id == payload.rowData.service)[0];
+      const selectedService = state.services.filter(entry => entry.id == payload.rowData.service)[0];
 
-        parametersData.serviceDefinition = {
-          id: selectedService.id,
-          name: selectedService.name,
-          hostgroup_id: selectedService.hostgroup,
-          hostId: payload.rowData.id,
-        };
-        parametersData.parameters = payload.rowData.parameters;
+      parametersData.paramDefinition = {
+        id: selectedService.id,
+        name: selectedService.name,
+        dataId: selectedService.hostgroup,
+        hostId: payload.rowData.id,
+        // TODO: is this really correct? Guess it shoud be dataId and we should get rid of them
+        //hostgroup_id: selectedService.hostgroup,
+      };
+      parametersData.type = PARAMETER_SELECTION_PARAM_TYPE_FOREMAN;
+      parametersData.parameters = payload.rowData.foremanParameters;
+      parametersData.useDefaultValue = false;
+      parametersData.allowRowAdjustment = false;
+      parametersData.allowNameAdjustment = false;
+      parametersData.allowDescriptionAdjustment = false;
 
-        if (parametersData.parameters.length > 0) {
-          parametersData.mode = 'editInstance';
-        } else {
-          parametersData.mode = 'newInstance';
-        }
-      }
       return state.merge({
         parametersData: parametersData,
       });
     }
-    case APPLICATION_INSTANCE_PARAMETER_SELECTION_MODAL_CLOSE: {
+    case APPLICATION_INSTANCE_FOREMAN_PARAMETER_SELECTION_MODAL_CLOSE: {
       if (payload.mode == 'save') {
         const hosts = cloneDeep(state.hosts);
-        const index = findIndex(hosts, { id: state.parametersData.serviceDefinition.hostId });
-        hosts[index].parameters = cloneDeep(payload.hostParameterSelection);
+        const index = findIndex(hosts, { id: state.parametersData.paramDefinition.hostId });
+        hosts[index].foremanParameters = cloneDeep(payload.parameterSelection);
 
         return state.merge({
           parametersData: null,
@@ -214,6 +230,62 @@ const applicationInstanceConf = (state = initialState, action) => {
           parametersData: null,
         });
       }
+    }
+    case APPLICATION_INSTANCE_ANSIBLE_PARAMETER_SELECTION_MODAL_OPEN: {
+      let parametersData = {};
+
+      if ((payload.hasOwnProperty('isAllGroup')) && (payload.isAllGroup == true)) {
+        parametersData.parameters = state.ansibleVarsAll;
+        parametersData.paramDefinition = {
+          isAllGroup: true,
+        }
+      } else {
+        const selectedService = state.services.filter(entry => entry.id == payload.rowData.service)[0];
+
+        parametersData.paramDefinition = {
+          id: selectedService.id,
+          name: selectedService.name,
+          hostId: payload.rowData.id,
+          // TODO: is this really correct? Guess it shoud be dataId and we should get rid of them
+          //hostgroup_id: selectedService.hostgroup,
+        };
+        parametersData.parameters = payload.rowData.ansibleParameters;
+      }
+
+      parametersData.type = PARAMETER_SELECTION_PARAM_TYPE_ANSIBLE;
+      parametersData.useDefaultValue = false;
+      parametersData.allowRowAdjustment = false;
+      parametersData.allowNameAdjustment = false;
+      parametersData.allowDescriptionAdjustment = false;
+
+      return state.merge({
+        parametersData: parametersData,
+      });
+    }
+    case APPLICATION_INSTANCE_ANSIBLE_PARAMETER_SELECTION_MODAL_CLOSE: {
+      let newState = {};
+      if (payload.mode == 'save') {
+        if ((state.parametersData.paramDefinition.hasOwnProperty('isAllGroup')) && (state.parametersData.paramDefinition.isAllGroup == true)) {
+          newState = {
+            parametersData: null,
+            ansibleVarsAll: cloneDeep(payload.parameterSelection),
+          };
+        } else {
+          const hosts = cloneDeep(state.hosts);
+          const index = findIndex(hosts, { id: state.parametersData.paramDefinition.hostId });
+          hosts[index].ansibleParameters = cloneDeep(payload.parameterSelection);
+
+          newState = {
+            parametersData: null,
+            hosts: hosts
+          };
+        }
+      } else {
+        newState = {
+          parametersData: null,
+        };
+      }
+      return state.merge(newState);
     }
     default:
       return state;

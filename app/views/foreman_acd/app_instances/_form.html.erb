@@ -1,25 +1,27 @@
 <%
-    if @app_instance.app_definition_id.blank?
+    if @app_instance.new_record?
       json = {
         "mode": "newInstance",
         "organization": current_organization,
         "location": current_location,
         "applications": @applications,
-        "loadAppDefinitionUrl": ui_acd_app_path("__id__"),
-        "loadForemanDataUrl": ui_acd_fdata_path("__id__"),
+        "appDefinitionUrl": ui_acd_app_path("__id__"),
+        "foremanDataUrl": ui_acd_foreman_data_path("__id__"),
+        "ansibleVarsAll": [],
       }
     else
       json = {
         "mode": "editInstance",
         "organization": current_organization,
         "location": current_location,
-        "loadAppDefinitionUrl": ui_acd_app_path("__id__"),
-        "loadForemanDataUrl": ui_acd_fdata_path("__id__"),
+        "appDefinitionUrl": ui_acd_app_path("__id__"),
+        "foremanDataUrl": ui_acd_foreman_data_path("__id__"),
         "appDefinition": {
           "id": @app_instance.app_definition.id,
           "name": @app_instance.app_definition.name,
         },
         "hosts": JSON.parse(@app_instance.hosts),
+        "ansibleVarsAll": @app_instance.ansible_vars_all.blank? ? [] : JSON.parse(@app_instance.ansible_vars_all),
       }
     end
 %>

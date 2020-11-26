@@ -21,6 +21,11 @@ import {
   inlineEditFormatterFactory,
 } from 'patternfly-react';
 
+import {
+  PARAMETER_SELECTION_PARAM_TYPE_FOREMAN,
+  PARAMETER_SELECTION_PARAM_TYPE_ANSIBLE,
+} from '../ParameterSelection/ParameterSelectionConstants';
+
 class ApplicationInstance extends React.Component {
 
   constructor(props) {
@@ -69,19 +74,19 @@ class ApplicationInstance extends React.Component {
 
   componentDidMount() {
     const {
-      data: { mode, appDefinition, hosts, loadAppDefinitionUrl },
+      data: { mode, appDefinition, hosts, ansibleVarsAll, appDefinitionUrl },
       initApplicationInstance,
       addApplicationInstanceHost,
       deleteApplicationInstanceHost,
       activateEditApplicationInstanceHost,
       changeEditApplicationInstanceHost,
-      openParameterSelectionModal,
-      closeParameterSelectionModal,
+      openForemanParameterSelectionModal,
+      openAnsibleParameterSelectionModal,
       loadApplicationDefinition,
     } = this.props;
 
     if (mode === 'editInstance') {
-      loadApplicationDefinition(appDefinition.id, { url: loadAppDefinitionUrl });
+      loadApplicationDefinition(appDefinition.id, { url: appDefinitionUrl });
     }
 
     const inlineEditButtonsFormatter = inlineEditFormatterFactory({
@@ -92,13 +97,21 @@ class ApplicationInstance extends React.Component {
             bsStyle="default"
             onClick={() => activateEditApplicationInstanceHost(additionalData)}
           >
-            <Icon type="pf" name="edit" />
+            <Icon type="pf" name="edit" title="edit entry" />
           </Button>
+          &nbsp;
           <Button
             bsStyle="default"
-            onClick={() => openParameterSelectionModal(additionalData)}
+            onClick={() => openForemanParameterSelectionModal(additionalData)}
           >
-            <Icon type="pf" name="settings" />
+            <Icon type="pf" name="settings" title="change parameters" />
+          </Button>
+          &nbsp;
+          <Button
+            bsStyle="default"
+            onClick={() => openAnsibleParameterSelectionModal(additionalData)}
+          >
+            <span title="change ansible variables">A</span>
           </Button>
           <DeleteTableEntry
             hidden={false}
@@ -113,8 +126,13 @@ class ApplicationInstance extends React.Component {
           <Button bsStyle="default" disabled>
             <Icon type="pf" name="edit" />
           </Button>
+          &nbsp;
           <Button bsStyle="default" disabled>
             <Icon type="pf" name="settings" />
+          </Button>
+          &nbsp;
+          <Button bsStyle="default" disabled>
+            <span>A</span>
           </Button>
           <DeleteTableEntry
             hidden={false}
@@ -188,6 +206,7 @@ class ApplicationInstance extends React.Component {
     initApplicationInstance(
       appDefinition,
       hosts,
+      ansibleVarsAll,
       this.headerFormatter,
       this.inlineEditFormatter,
       this.inlineEditButtonsFormatter,
@@ -196,7 +215,7 @@ class ApplicationInstance extends React.Component {
 
   render() {
     const {
-      data: { mode, applications, organization, location, loadForemanDataUrl, loadAppDefinitionUrl },
+      data: { mode, applications, organization, location, foremanDataUrl, appDefinitionUrl },
       appDefinition,
       services,
       hosts,
@@ -204,9 +223,9 @@ class ApplicationInstance extends React.Component {
       addApplicationInstanceHost,
       confirmEditApplicationInstanceHost,
       cancelEditApplicationInstanceHost,
-      openParameterSelectionModal,
-      closeParameterSelectionModal,
-      ParameterSelectionModal,
+      closeForemanParameterSelectionModal,
+      openAnsibleParameterSelectionModal,
+      closeAnsibleParameterSelectionModal,
       loadApplicationDefinition,
     } = this.props;
 
@@ -232,7 +251,7 @@ class ApplicationInstance extends React.Component {
             options={ applications }
             onChange={ loadApplicationDefinition }
             selectValue={ appDefinition.id.toString() }
-            additionalData={{url: loadAppDefinitionUrl}}
+            additionalData={{url: appDefinitionUrl}}
           />
         </div>
         <div className="form-group">
@@ -269,33 +288,73 @@ class ApplicationInstance extends React.Component {
             />
           </Table.PfProvider>
           <AddTableEntry
-             hidden={ false }
-             disabled={ this.props.editMode }
-             onAddTableEntry={ addApplicationInstanceHost }
+            hidden={ false }
+            disabled={ this.props.editMode }
+            onAddTableEntry={ addApplicationInstanceHost }
           />
+          <span style={{ marginLeft: 30 }}>
+            Ansible group vars 'all':
+            <Button
+              style={{ marginLeft: 10 }}
+              bsStyle="default"
+              disabled={ this.props.editMode }
+              onClick={() => openAnsibleParameterSelectionModal({
+                isAllGroup: true
+              })}
+            >
+              <span title="change ansible variables for 'all'">A</span>
+            </Button>
+          </span>
         </div>
         <div>
           <ForemanModal
-            id="AppInstanceParamSelection"
+            id="AppInstanceForemanParamSelection"
             dialogClassName="param_selection_modal"
-            title="Parameter specification for Application Instance"
+            title="Foreman Parameter specification for Application Instance"
           >
             <ForemanModal.Header closeButton={false}>
               Parameter specification
             </ForemanModal.Header>
             {this.props.parametersData ? (
               <ParameterSelection
+                paramType={ PARAMETER_SELECTION_PARAM_TYPE_FOREMAN }
                 location={ location }
                 organization={ organization }
-                loadForemanDataUrl= { loadForemanDataUrl }
+                paramDataUrl= { foremanDataUrl }
                 data={ this.props.parametersData }
               />
             ) : (<span>Empty</span>)
             }
             <ForemanModal.Footer>
               <div>
-                <Button bsStyle="primary" onClick={() => closeParameterSelectionModal({ mode: 'save' })}>Save</Button>
-                <Button bsStyle="default" onClick={() => closeParameterSelectionModal({ mode: 'cancel' })}>Cancel</Button>
+                <Button bsStyle="primary" onClick={() => closeForemanParameterSelectionModal({ mode: 'save' })}>Save</Button>
+                <Button bsStyle="default" onClick={() => closeForemanParameterSelectionModal({ mode: 'cancel' })}>Cancel</Button>
+              </div>
+            </ForemanModal.Footer>
+          </ForemanModal>
+        </div>
+        <div>
+          <ForemanModal
+            id="AppInstanceAnsibleParamSelection"
+            dialogClassName="param_selection_modal"
+            title="Ansible group variables for Application Instance"
+          >
+            <ForemanModal.Header closeButton={false}>
+              Parameter specification
+            </ForemanModal.Header>
+            {this.props.parametersData ? (
+              <ParameterSelection
+                paramType={ PARAMETER_SELECTION_PARAM_TYPE_ANSIBLE }
+                location={ location }
+                organization={ organization }
+                data={ this.props.parametersData }
+              />
+            ) : (<span>Empty</span>)
+            }
+            <ForemanModal.Footer>
+              <div>
+                <Button bsStyle="primary" onClick={() => closeAnsibleParameterSelectionModal({ mode: 'save' })}>Save</Button>
+                <Button bsStyle="default" onClick={() => closeAnsibleParameterSelectionModal({ mode: 'cancel' })}>Cancel</Button>
               </div>
             </ForemanModal.Footer>
           </ForemanModal>
@@ -305,6 +364,12 @@ class ApplicationInstance extends React.Component {
           view='app_instance'
           parameter='hosts'
           value={JSON.stringify(this.props.hosts)}
+        />
+        <RailsData
+          key='applications_instance'
+          view='app_instance'
+          parameter='ansible_vars_all'
+          value={JSON.stringify(this.props.ansibleVarsAll)}
         />
       </span>
     )};
@@ -316,6 +381,7 @@ ApplicationInstance.defaultProps = {
   editMode: false,
   services: [],
   hosts: [],
+  ansibleVarsAll: [],
   parametersData: {},
   columns: [],
   editParamsOfRowId: null,
@@ -327,6 +393,8 @@ ApplicationInstance.propTypes = {
   services: PropTypes.array,
   appDefinition: PropTypes.object,
   columns: PropTypes.array,
+  hosts: PropTypes.array,
+  ansibleVarsAll: PropTypes.array,
   loadApplicationDefinition: PropTypes.func,
   addApplicationInstanceHost: PropTypes.func,
   deleteApplicationInstanceHost: PropTypes.func,
@@ -334,8 +402,10 @@ ApplicationInstance.propTypes = {
   confirmEditApplicationInstanceHost: PropTypes.func,
   cancelEditApplicationInstanceHost: PropTypes.func,
   changeEditApplicationInstanceHost: PropTypes.func,
-  openParameterSelectionModal: PropTypes.func,
-  closeParameterSelectionModal: PropTypes.func,
+  openForemanParameterSelectionModal: PropTypes.func,
+  closeForemanParameterSelectionModal: PropTypes.func,
+  openAnsibleParameterSelectionModal: PropTypes.func,
+  closeAnsibleParameterSelectionModal: PropTypes.func,
   parametersData: PropTypes.object,
 };
 
