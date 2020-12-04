@@ -4,67 +4,114 @@
 
 A plugin to bring an user self service portal and application centric deployment to Foreman.
 
+
 # Description
 
-The target of this plugin is, to deploy whole applications which include multiple hosts 
-and an Ansible Playbook / saltstack state to configure the application. 
+The target of this plugin is, to deploy whole applications which include multiple hosts and 
+configure them using an Ansible Playbook / saltstack state.
 
 This plugin follows the idea of different user types working together.
-The administrative user creates application definitions including multiple servers and
+The administrative user creates Application Definition including multiple servers and
 configuration management items (Ansible Playbook, saltstack state).
-The user can create and deploy new application instances with an easy to use self service portal. 
+The user can create and deploy new Application Instaces with an easy to use self service portal. 
 
-*Example Application Definition:*
-To run a complex web application, a loadbalancer is required.
+*Example Application Definition:* To run a complex web application, a loadbalancer is required.
 The loadbalancer routes the requests to 3 different web servers.
 The web servers are using a database which is in high availability mode on 2 hosts.
 => 6 hosts are required.
 
 This plugin aims to setup all 6 hosts and to deploy the application.
 
+
 # Current State
-In the current state the plugin can be used to provide an easy to use self service user portal 
-to deploy new servers. 
+
+## Application Definition
+
+- Configure a ansible playbook 
+- Use the configured ansible playbook in a Application Definition
+- Overwrite ansible playbook's group variables for the Application Definition
+- Set foreman parameters in the Application Definition
+- Setup various services like webservers, database-servers, etc.
+
+## Application Instance
+
+- Use an Application Definition for your Application Instance
+- Configure specific hosts which uses the Application Definitions services
+- Deploy these hosts
+- Configure the hosts using the configured ansible playbook
+
 
 # Road Map
-- Self service portal for single host deployments (current version)
-- Add application deployment with single host requirements 
-- Add application deployment with multi host requirements 
+- 
+- Add Application deployment with single host requirements 
+- Add Application deployment with multi host requirements 
 
 ## WARNING
 
 This plugin is in development. 
-In the current state, a self service portal to deploy single servers can be created.
 
 ## Installation
 
-See [How_to_Install_a_Plugin](http://projects.theforeman.org/projects/foreman/wiki/How_to_Install_a_Plugin)
-for how to install Foreman plugins
+See [How_to_Install_a_Plugin](https://theforeman.org/plugins/#2.Installation)
+for how to install Foreman plugins. 
 
-ATM, Katello plugin need to exist, too.
+### TL;DR: 
+
+    yum install tfm-rubygem-foreman_acd
+    foreman-maintain service restart --only foreman
+
+### Hints
+
+Katello plugin need to exist, too.
+
+### Configuration
+
+To get ansible playbooks running, you need to:
+
+    cat /var/lib/foreman-proxy/ssh/id_rsa_foreman_proxy.pub >> /root/.ssh/authorized_keys
 
 ## Usage
 
-Application Definition (Admin)
+### Ansible Playbook
+
+* Copy (or checkout a git repository) to e.g. /opt/ansible-playbook
+* Add a new Ansible Playbook via Configure -> Ansible Playbook
+* Set the path to /opt/ansible-playbook and name the playbook file. (e.g. site.yml)
+* Save it and press "Import group variables" for this newly created ansible playbook.
+
+### Application Definition (Admin)
+
 * Create an Application Definition (Configure -> Application Definition) first
-* Select the Hostgroup you want to use. 
+* Select the Ansible Playbook you want to use. 
+* Add new services and specifiy the host group you want to use.
 * Specifiy the values, a user could overwrite.
   (you can set a default value, if you want)
 
-Application Instance (User)
-* Create an Application Instance (Configure -> Application Instrane) 
+### Application Instance (User)
+
+* Create an Application Instance (Configure -> Application Instance) 
 * Select the Application Definition which should be used
 * Set the values.
   Remember, all parameters need to have a value. 
 * Save the Application Instance
-* To Deploy the host, select "Deploy" in the Action selection dropdown field
-  on the Application Instance index site
+
+### Deploy & Configure the Application Instance (User)
+
+* To Deploy the host, select "Deploy" in the action selection dropdown field
+  on the Application Instance index site.
+* See if the hosts are deployed via action selection dropdown -> report.
+* After all hosts are deployed, run the ansible playbook via 
+  action selection dropdown -> Run ansible playbook
+
 
 ## TODO
 
-- Add ansible playbook / saltstack support to configure the application
-- Multi-host support
-- Add validation to the different parameter types
+- Add saltstack support to configure the application
+- "git" support for the ansible playbooks
+- Automatically run the ansible playbook after all hosts are deployed
+- More parameter / value validation
+- Deliver ansible playbooks to the connected foreman smart proxies
+
 
 ## Contributing
 
@@ -72,7 +119,7 @@ Fork and send a Pull Request. Thanks!
 
 ## Copyright
 
-Copyright (c) 2019 ATIX AG 
+Copyright (c) 2020 ATIX AG 
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -86,4 +133,3 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
