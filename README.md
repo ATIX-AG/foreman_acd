@@ -60,6 +60,11 @@ for how to install Foreman plugins.
     yum install tfm-rubygem-foreman_acd
     foreman-maintain service restart --only foreman
 
+In some cases you need to do manally
+
+    foreman-rake db:migrate
+    foreman-rake db:seed
+
 ### Hints
 
 Katello plugin need to exist, too.
@@ -69,6 +74,8 @@ Katello plugin need to exist, too.
 To get ansible playbooks running, you need to:
 
     cat /var/lib/foreman-proxy/ssh/id_rsa_foreman_proxy.pub >> /root/.ssh/authorized_keys
+    
+Make sure, that the job template 'Run ACD Ansible Playbook - SSH Default' is part of your organization / location.     
 
 ## Usage
 
