@@ -8,7 +8,7 @@ module ForemanAcd
     friendly_id :name
 
     self.table_name = 'acd_ansible_playbooks'
-    has_many :app_definitions, :inverse_of => :ansible_playbook, :dependent => :destroy
+    has_many :app_definitions, :inverse_of => :ansible_playbook, :foreign_key => 'acd_ansible_playbook_id', dependent: :restrict_with_error
     validates :name, :presence => true, :uniqueness => true
     scoped_search :on => :name
     default_scope -> { order("acd_ansible_playbooks.name") }
