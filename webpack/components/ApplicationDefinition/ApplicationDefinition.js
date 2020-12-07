@@ -11,7 +11,8 @@ import Select from 'foremanReact/components/common/forms/Select';
 import ParameterSelection from '../ParameterSelection';
 import AddTableEntry from '../common/AddTableEntry';
 import DeleteTableEntry from '../common/DeleteTableEntry';
-import RailsData from '../common/RailsData'
+import RailsData from '../common/RailsData';
+import EasyHeaderFormatter from '../common/EasyHeaderFormatter';
 import AnsiblePlaybookSelector from './components/AnsiblePlaybookSelector';
 
 import {
@@ -118,8 +119,7 @@ class ApplicationDefinition extends React.Component {
     });
     this.inlineEditButtonsFormatter = inlineEditButtonsFormatter;
 
-    const headerFormatter = value => <Table.Heading>{value}</Table.Heading>;
-    this.headerFormatter = headerFormatter;
+    this.headerFormatter = EasyHeaderFormatter;
 
     const inlineEditFormatterImpl = {
       renderValue: (value, additionalData) => (

@@ -50,7 +50,7 @@ export const initApplicationInstance = (
         props: {
           index: 0,
           style: {
-            width: '20%'
+            width: '30%'
           }
         },
       },
@@ -66,7 +66,7 @@ export const initApplicationInstance = (
         props: {
           index: 1,
           style: {
-            width: '20%'
+            width: '30%'
           }
         },
       },

@@ -55,7 +55,7 @@ export const initApplicationDefinition = (
         props: {
           index: 0,
           style: {
-            width: '20%'
+            width: '15%'
           }
         },
       },
@@ -71,7 +71,7 @@ export const initApplicationDefinition = (
         props: {
           index: 1,
           style: {
-            width: '20%'
+            width: '10%'
           }
         },
       },
@@ -151,7 +151,7 @@ export const initApplicationDefinition = (
         props: {
           index: 6,
           style: {
-            width: '20%'
+            width: '15%'
           }
         },
       },

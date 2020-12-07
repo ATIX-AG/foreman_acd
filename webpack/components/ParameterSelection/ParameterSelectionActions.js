@@ -77,7 +77,7 @@ export const initParameterSelection = (
         props: {
           sort: true,
           style: {
-            width: '20%'
+            width: '25%'
           }
         },
         transforms: [sortableTransform],
@@ -96,7 +96,7 @@ export const initParameterSelection = (
         props: {
           sort: true,
           style: {
-            width: '20%'
+            width: '25%'
           }
         },
         transforms: [sortableTransform],
@@ -159,7 +159,7 @@ export const initParameterSelection = (
         label: 'Actions',
         props: {
           style: {
-            width: '20%'
+            width: '10%'
           }
         },
         formatters: [actionHeaderCellFormatter]
