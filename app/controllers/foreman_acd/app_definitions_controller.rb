@@ -16,7 +16,8 @@ module ForemanAcd
     end
 
     def read_ansible_playbooks
-      @ansible_playbooks = AnsiblePlaybook.all.map { |elem| { elem.id => elem.name } }.reduce({}) { |h, v| h.merge v }
+      # Only use ansible playbooks for which the user pressed import group vars once.
+      @ansible_playbooks = AnsiblePlaybook.where.not(vars: nil).map { |elem| { elem.id => elem.name } }.reduce({}) { |h, v| h.merge v }
     end
 
     def read_hostgroups
