@@ -86,11 +86,11 @@ module ForemanAcd
 
         # We need to support: group_vars/group_file and group_vars/group_dir/yaml_files
         dir_and_file = File.split(vars_file)
-        basename = File.basename(dir_and_file[0], '.*')
-        if basename == 'group_vars'
-          group_name = dir_and_file[1]
-        else
-          group_name = basename
+
+        if dir_and_file[0] == 'group_vars' # in case of group_vars/group_file
+          group_name = File.basename(dir_and_file[1], '.*')
+        else # in case of group_vars/group_dir/yaml_files
+          group_name = File.basename(dir_and_file[0])
         end
 
         logger.debug("Add ansible vars from file #{vars_file} to group #{group_name}")
