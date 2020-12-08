@@ -5,11 +5,9 @@ module ForemanAcd
   class AppDeployer
 
     delegate :logger, :to => :Rails
-    attr_reader :deploy_hosts
 
     def initialize(app_instance)
       @app_instance = app_instance
-      @deploy_hosts = []
     end
 
     def deploy
@@ -44,7 +42,7 @@ module ForemanAcd
           end
 
           # REMOVE ME (but very nice for testing)
-          #host.mac = "00:11:22:33:44:55"
+          # host.mac = "00:11:22:33:44:55"
 
           apply_compute_profile(host)
           host.suggest_default_pxe_loader
@@ -52,8 +50,6 @@ module ForemanAcd
 
           # save the foreman host id
           host_data['foreman_host_id'] = host.id
-
-          @deploy_hosts.push({ id: host.id, name: host_data['hostname'], hostname: host.hostname, hostUrl: host_path(h), progress_report_id: host.progress_report_id})
         rescue StandardError => e
           logger.error("Failed to initiate host creation: #{e.class}: #{e.message}\n#{e.backtrace.join($INPUT_RECORD_SEPARATOR)}")
         end

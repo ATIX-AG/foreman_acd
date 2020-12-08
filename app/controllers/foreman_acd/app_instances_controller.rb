@@ -13,10 +13,6 @@ module ForemanAcd
       @app_instances = resource_base.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
     end
 
-    def read_applications
-      @applications = AppDefinition.all.map { |elem| { elem.id => elem.name } }.reduce({}) { |h, v| h.merge v }
-    end
-
     def new
       @app_instance = AppInstance.new
     end
@@ -64,21 +60,18 @@ module ForemanAcd
 
     def deploy
       app_deployer = ForemanAcd::AppDeployer.new(@app_instance)
+      app_hosts = app_deployer.deploy
 
       # save any change to the app_hosts json
-      @app_instance.hosts = app_deployer.deploy.to_json
+      @app_instance.hosts = app_hosts.to_json
       @app_instance.save
 
-      @deploy_hosts = app_deployer.deploy_hosts
+      @deploy_hosts = collect_host_report_data(app_hosts)
     end
 
     def report
-      @report_hosts = []
       app_hosts = JSON.parse(@app_instance.hosts)
-      app_hosts.each do |host_data|
-        h = Host.find(host_data['foreman_host_id'])
-        @report_hosts.push({id: h.id, name: host_data['hostname'], hostname: h.hostname, hostUrl: host_path(h), powerStatusUrl: power_api_host_path(h) })
-      end
+      @report_hosts = collect_host_report_data(app_hosts)
 
       logger.debug("deploy report hosts are: #{@report_hosts.inspect}")
     end
@@ -109,6 +102,21 @@ module ForemanAcd
         # redirect to the job itself if we only have one job, otherwise to the index page
         redirect_to job_invocations_path
       end
+    end
+
+    private
+
+    def read_applications
+      @applications = AppDefinition.all.map { |elem| { elem.id => elem.name } }.reduce({}) { |h, v| h.merge v }
+    end
+
+    def collect_host_report_data(app_hosts)
+      report_data = []
+      app_hosts.each do |host_data|
+        host = Host.find(host_data['foreman_host_id'])
+        report_data << { id: host.id, name: host_data['hostname'], hostname: host.hostname, hostUrl: host_path(host), progress_report_id: host.progress_report_id}
+      end
+      report_data
     end
   end
 end
