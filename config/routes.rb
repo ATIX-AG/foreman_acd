@@ -31,10 +31,11 @@ Rails.application.routes.draw do
 
       member do
         post 'deploy'
-        post 'configure'
         get 'report'
       end
     end
+
+    match '/remote_execution', :controller => 'foreman_acd/remote_execution', :action => 'create', :via => [:post]
 
     get 'ui_acd_app/:id', :to => 'ui_acd#app', :constraints => { :id => /[\w\.-]+/ }, :as => :ui_acd_app
     get 'ui_acd_foreman_data/:id', :to => 'ui_acd#foreman_data', :constraints => { :id => /[\w\.-]+/ }, :as => :ui_acd_foreman_data
