@@ -6,7 +6,7 @@ module ForemanAcd
     include Foreman::Controller::AutoCompleteSearch
     include ::ForemanAcd::Concerns::AppInstanceParameters
 
-    before_action :find_resource, :only => [:edit, :update, :destroy, :deploy, :report, :configure]
+    before_action :find_resource, :only => [:edit, :update, :destroy, :deploy, :report]
     before_action :read_applications, :only => [:new, :edit]
 
     def index
@@ -51,8 +51,6 @@ module ForemanAcd
         :deploy
       when 'report'
         :report
-      when 'configure'
-        :configure
       else
         super
       end
@@ -74,34 +72,6 @@ module ForemanAcd
       @report_hosts = collect_host_report_data(app_hosts)
 
       logger.debug("deploy report hosts are: #{@report_hosts.inspect}")
-    end
-
-    def configure
-      app_configurator = ForemanAcd::AppConfigurator.new(@app_instance)
-      jobs = app_configurator.configure
-      job_count = jobs.count
-
-      customize_first = if params[:customize] == 'true'
-                          true
-                        else
-                          false
-                        end
-
-      logger.debug("Created #{job_count} to configure #{@app_instance} - customize: #{customize_first}")
-
-      if job_count == 1 && customize_first == false
-        jobs.first.trigger!
-        redirect_to job_invocation_path(jobs.first.job_invocation)
-      elsif customize_first == false
-        jobs.each do |composer|
-          composer.save
-        end
-        # redirect to the job itself if we want to customize the job
-        redirect_to job_invocations_path
-      else
-        # redirect to the job itself if we only have one job, otherwise to the index page
-        redirect_to job_invocations_path
-      end
     end
 
     private
