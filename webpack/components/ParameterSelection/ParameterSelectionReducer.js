@@ -15,6 +15,7 @@ import * as sort from 'sortabular';
 import {
   PARAMETER_SELECTION_INIT,
   PARAMETER_SELECTION_TYPES,
+  PARAMETER_SELECTION_LOCK,
   PARAMETER_SELECTION_DELETE,
   PARAMETER_SELECTION_ADD,
   PARAMETER_SELECTION_EDIT_ACTIVATE,
@@ -54,12 +55,26 @@ const parameterSelectionParameters = (state = initialState, action) => {
         index = Math.max(...parameters.map(e => e.id)) + 1;
       }
 
-      const newRow = {id: index, name: "", description: '', type: '', value: '', newEntry: true };
+      const newRow = {id: index, locked: false, name: "", description: '', type: '', value: '', newEntry: true };
       newRow.backup = cloneDeep(newRow)
       parameters.push(newRow);
 
       return state.merge({
         editMode: true,
+        parameters: parameters
+      });
+    }
+    case PARAMETER_SELECTION_LOCK: {
+      const parameters = cloneDeep(state.parameters);
+      const index = findIndex(parameters, { id: payload.rowData.id });
+
+      if (parameters[index].locked !== undefined) {
+        parameters[index].locked = !parameters[index].locked;
+      } else {
+        parameters[index].locked = true;
+      }
+
+      return state.merge({
         parameters: parameters
       });
     }

@@ -6,7 +6,9 @@ import { orderBy } from 'lodash';
 import * as resolve from 'table-resolver';
 import Select from 'foremanReact/components/common/forms/Select';
 import AddTableEntry from '../common/AddTableEntry';
+import EditTableEntry from '../common/EditTableEntry';
 import DeleteTableEntry from '../common/DeleteTableEntry';
+import LockTableEntry from '../common/LockTableEntry';
 import ExtSelect from '../common/ExtSelect';
 
 import {
@@ -64,6 +66,7 @@ class ParameterSelection extends React.Component {
       initParameterSelection,
       sortParameter,
       deleteParameter,
+      lockParameter,
       activateEditParameter,
       changeEditParameter,
       loadParamData,
@@ -83,12 +86,20 @@ class ParameterSelection extends React.Component {
       isEditing: additionalData => this.props.editMode,
       renderValue: (value, additionalData) => (
         <td style={{ padding: '2px' }}>
-          <Button
-            bsStyle="default"
-            onClick={() => activateEditParameter(additionalData)}
-          >
-            <Icon type="pf" name="edit" />
-          </Button>
+          <EditTableEntry
+            disabled={false}
+            handleLocking={!allowRowAdjustment}
+            onEditTableEntry={() => activateEditParameter(additionalData)}
+            additionalData={additionalData}
+          />
+          &nbsp;
+          <LockTableEntry
+            hidden={!allowRowAdjustment}
+            disabled={!allowRowAdjustment}
+            onLockTableEntry={lockParameter}
+            additionalData={additionalData}
+          />
+          &nbsp;
           <DeleteTableEntry
             hidden={!allowRowAdjustment}
             disabled={false}
@@ -99,9 +110,18 @@ class ParameterSelection extends React.Component {
       ),
       renderEdit: (value, additionalData) => (
         <td style={{ padding: '2px' }}>
-          <Button bsStyle="default" disabled>
-            <Icon type="pf" name="edit" />
-          </Button>
+          <EditTableEntry
+            disabled={true}
+            onEditTableEntry={() => activateEditParameter(additionalData)}
+            additionalData={additionalData}
+          />
+          &nbsp;
+          <LockTableEntry
+            disabled={true}
+            onLockTableEntry={lockParameter}
+            additionalData={additionalData}
+          />
+          &nbsp;
           <DeleteTableEntry
             hidden={!allowRowAdjustment}
             disabled={true}
@@ -288,11 +308,6 @@ class ParameterSelection extends React.Component {
       <div>
         <div className="clearfix">
           <div className="form-group">
-            <AddTableEntry
-               hidden={!allowRowAdjustment}
-               disabled={ this.props.editMode }
-               onAddTableEntry={ addParameter }
-            />
             <Table.PfProvider
               striped
               bordered
@@ -370,6 +385,7 @@ ParameterSelection.propTypes = {
   sortParameter: PropTypes.func,
   addParameter: PropTypes.func,
   deleteParameter: PropTypes.func,
+  lockParameter: PropTypes.func,
   activateEditParameter: PropTypes.func,
   confirmEditParameter: PropTypes.func,
   cancelEditParameter: PropTypes.func,

@@ -22,6 +22,7 @@ import {
 import {
   PARAMETER_SELECTION_INIT,
   PARAMETER_SELECTION_TYPES,
+  PARAMETER_SELECTION_LOCK,
   PARAMETER_SELECTION_DELETE,
   PARAMETER_SELECTION_ADD,
   PARAMETER_SELECTION_EDIT_ACTIVATE,
@@ -188,6 +189,13 @@ const errorHandler = (msg, err) => {
   };
   return { type: msg, payload: { error } };
 };
+
+export const lockParameter = (additionalData) => ({
+  type: PARAMETER_SELECTION_LOCK,
+  payload: {
+    ...additionalData,
+  },
+});
 
 export const addParameter = (additionalData) => ({
   type: PARAMETER_SELECTION_ADD,
