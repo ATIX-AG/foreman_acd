@@ -5,7 +5,6 @@ model: JobTemplate
 job_category: Application Centric Deployment
 description_format: "Run Ansible playbook %{playbook_name} for ACD application %{application_name}"
 provider_type: SSH
-feature: run_acd_ansible_playbook
 template_inputs:
 - name: application_name
   description: The name of the ACD application instance to run
@@ -40,10 +39,9 @@ template_inputs:
   advanced: true
 %>
 
-INVENTORY_FILE=$(mktemp --suffix ".yaml")
-cat << EOF >$INVENTORY_FILE
-<%= input('inventory') %>
-EOF
+<%= input('playbook_name') %>:
+  inventory: <%= input('inventory') %>
+  verbose: <%= <%= input('inventory') %>
+  extra-vars: <%= input('extra_vars') %>
+  playbook-path: <%= input('playbook_path') %>
 
-echo "Run ansible-playbook <%= input('playbook_name') %> to configure ACD app <%= input('application_name') %>"
-ansible-playbook -i $INVENTORY_FILE <%= "-v" if input('verbose').present? && input('verbose') == 'true' %> <%= "--extra-vars \"#{input('extra_vars')}\"" unless input('extra_vars').blank? %> <%= input('playbook_path') %>
