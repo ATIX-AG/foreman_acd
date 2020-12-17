@@ -1,10 +1,11 @@
 <%#
 kind: job_template
-name: Run ACD Ansible Playbook - SSH Default
+name: Run ACD Ansible Playbook - ACD Default
 model: JobTemplate
 job_category: Application Centric Deployment
 description_format: "Run Ansible playbook %{playbook_name} for ACD application %{application_name}"
-provider_type: SSH
+feature: run_acd_ansible_playbook
+provider_type: ACD
 template_inputs:
 - name: application_name
   description: The name of the ACD application instance to run
@@ -39,9 +40,9 @@ template_inputs:
   advanced: true
 %>
 
-<%= input('playbook_name') %>:
-  inventory: <%= input('inventory') %>
-  verbose: <%= <%= input('inventory') %>
-  extra-vars: <%= input('extra_vars') %>
-  playbook-path: <%= input('playbook_path') %>
-
+playbook-name: <%= input('playbook_name') %>
+playbook-path: <%= input('playbook_path') %>
+extra-vars: <%= input('extra_vars') %>
+verbose: <%= input('verbose') %>
+inventory: |
+<%=  indent(2) { input('inventory') } %>
