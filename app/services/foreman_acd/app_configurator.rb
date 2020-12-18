@@ -47,18 +47,11 @@ module ForemanAcd
           inventory = ForemanAcd::InventoryCreator.new(@app_instance, host_names).create_inventory
           job_input['inventory'] = YAML.dump(inventory)
 
-          # Unfortunately, we can not use "JobInvocationComposer.for_feature" method
-          # because then its not possible to the set effective_user
-          job = JobTemplate.find(RemoteExecutionFeature.feature('run_acd_ansible_playbook').job_template_id)
-          params = {
-            :job_category => job.job_category,
-            :job_template_id => job.id,
-            :targeting_type => 'static_query',
-            :search_query => "name = #{proxy_name}",
-            :effective_user => 'foreman-proxy',
-            :inputs => job_input.to_hash
-          }
-          composer = JobInvocationComposer.from_api_params(params)
+          composer = JobInvocationComposer.for_feature(
+            :run_acd_ansible_playbook,
+            [Host.find_by(:name => proxy_name).id],
+            job_input.to_hash
+          )
           jobs << composer
         end
       rescue StandardError => e
