@@ -21,9 +21,9 @@ module ForemanAcd
         jobs.each do |composer|
           composer.trigger
         end
-        # redirect to the job itself if we want to customize the job
         redirect_to job_invocations_path
       else
+        # redirect to the job itself if we want to customize the job
         @composer = jobs.first
         render :action => 'new'
       end

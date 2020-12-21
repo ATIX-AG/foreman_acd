@@ -12,13 +12,13 @@ template_inputs:
   input_type: user
   required: true
   advanced: false
-- name: playbook_name
-  description: The name of the Ansible playbook to run
+- name: playbook_id
+  description: The id of the Ansible playbook to run
   input_type: user
   required: true
   advanced: false
-- name: playbook_path
-  description: The full path to the Ansible playbook
+- name: playbook_file
+  description: The playbook file of to the Ansible playbook
   input_type: user
   required: true
   advanced: false
@@ -40,9 +40,10 @@ template_inputs:
   advanced: true
 %>
 
-playbook-name: <%= input('playbook_name') %>
-playbook-path: <%= input('playbook_path') %>
-extra-vars: <%= input('extra_vars') %>
+application_name: <%= input('application_name') %>
+playbook_id: <%= input('playbook_id') %>
+playbook_file: <%= input('playbook_file') %>
+extra_vars: <%= input('extra_vars') %>
 verbose: <%= input('verbose') %>
 inventory: |
 <%=  indent(2) { input('inventory') } %>

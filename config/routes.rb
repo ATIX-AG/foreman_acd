@@ -47,7 +47,11 @@ Rails.application.routes.draw do
         constraints(:id => /[\w\.-]+/) do
           resources :app_definitions, :only => [:show, :index], :controller => 'foreman_acd/api/v2/app_definitions', :as => :acd_api_v2_app_definitions
           resources :app_instances, :only => [:show, :index], :controller => 'foreman_acd/api/v2/app_instances', :as => :api_v2_foreman_acd_app_instances
-          resources :ansible_playbooks, :only => [:show, :index], :controller => 'foreman_acd/api/v2/ansible_playbooks', :as => :api_v2_foreman_acd_ansible_playbooks
+          resources :ansible_playbooks, :only => [:show, :index], :controller => 'foreman_acd/api/v2/ansible_playbooks', :as => :api_v2_foreman_acd_ansible_playbooks do
+            member do
+              get 'grab'
+            end
+          end
         end
       end
     end

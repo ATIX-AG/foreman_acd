@@ -13,14 +13,8 @@ module ForemanAcd
     def configure
       job_input = {}
       job_input['application_name'] = @app_instance.name
-      job_input['playbook_name'] = @app_instance.app_definition.ansible_playbook.name
-      job_input['playbook_path'] = File.join(@app_instance.app_definition.ansible_playbook.path,
-                                            @app_instance.app_definition.ansible_playbook.playfile)
-
-      # TODO should or do we really need it to a file?
-      #inventory_file = File.new("/tmp/acd_inventory_file", "w") # we can also use Tempfile.new() but a tempfile will be deleted soon (after transaction finished)
-      #inventory_file << inventory.to_yaml
-      #inventory_file.close
+      job_input['playbook_id'] = @app_instance.app_definition.ansible_playbook.id
+      job_input['playbook_file'] = @app_instance.app_definition.ansible_playbook.playfile
 
       logger.info("Use inventory to configure #{@app_instance.name} with ansible playbook #{@app_instance.app_definition.ansible_playbook.name}")
 

@@ -49,6 +49,10 @@ Foreman::Plugin.register :foreman_acd do
                  :'foreman_acd/api/v2/ansible_playbooks' => [:import_vars] },
                :resource_type => 'ForemanAcd::AnsiblePlaybook'
 
+    permission :grab_ansible_playbooks,
+               { :'foreman_acd/api/v2/ansible_playbooks' => [:grab] },
+               :resource_type => 'ForemanAcd::AnsiblePlaybook'
+
     permission :create_app_definitions,
                { :'foreman_acd/app_definitions' => [:new, :create],
                  :'foreman_acd/api/v2/app_definitions' => [:create] },
@@ -121,6 +125,7 @@ Foreman::Plugin.register :foreman_acd do
                                                   :edit_ansible_playbooks,
                                                   :destroy_ansible_playbooks,
                                                   :import_vars_ansible_playbooks,
+                                                  :grab_ansible_playbooks,
                                                   :create_app_definitions,
                                                   :view_app_definitions,
                                                   :edit_app_definitions,
