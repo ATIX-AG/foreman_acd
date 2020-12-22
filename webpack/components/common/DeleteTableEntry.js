@@ -17,7 +17,6 @@ const DeleteTableEntry = ({
 
   return (
     <span>
-      &nbsp;
       <Button
         bsStyle="default"
         disabled={disabled}

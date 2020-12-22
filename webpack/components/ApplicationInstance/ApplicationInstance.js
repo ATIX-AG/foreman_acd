@@ -114,6 +114,7 @@ class ApplicationInstance extends React.Component {
           >
             <span title="change ansible variables">A</span>
           </Button>
+          &nbsp;
           <DeleteTableEntry
             hidden={false}
             disabled={false}
@@ -135,6 +136,7 @@ class ApplicationInstance extends React.Component {
           <Button bsStyle="default" disabled>
             <span>A</span>
           </Button>
+          &nbsp;
           <DeleteTableEntry
             hidden={false}
             disabled={true}
