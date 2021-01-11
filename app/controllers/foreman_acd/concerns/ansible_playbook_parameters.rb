@@ -9,7 +9,7 @@ module ForemanAcd
       class_methods do
         def ansible_playbook_params_filter
           Foreman::ParameterFilter.new(::ForemanAcd::AnsiblePlaybook).tap do |filter|
-            filter.permit(:name, :description, :scm_type, :path, :playfile)
+            filter.permit(:name, :description, :scm_type, :path, :playfile, :location_ids => [], :organization_ids => [])
           end
         end
       end

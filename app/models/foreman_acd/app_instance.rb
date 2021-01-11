@@ -8,6 +8,10 @@ module ForemanAcd
     friendly_id :name
     validates :name, :presence => true, :uniqueness => true
     belongs_to :app_definition, :inverse_of => :app_instances
+    belongs_to :organization
+    validates :organization, presence: true
+    belongs_to :location
+    validates :location, presence: true
     scoped_search :on => :name
     default_scope -> { order("app_instances.name") }
 

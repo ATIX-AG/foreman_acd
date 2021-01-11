@@ -3,6 +3,12 @@
 
   <ul class="nav nav-tabs" data-tabs="tabs">
     <li class="active"><a href="#primary" data-toggle="tab"><%= _('Ansible playbooks') %></a></li>
+    <% if show_location_tab? %>
+          <li><a href="#locations" data-toggle="tab"><%= _("Locations") %></a></li>
+      <% end %>
+      <% if show_organization_tab? %>
+          <li><a href="#organizations" data-toggle="tab"><%= _("Organizations") %></a></li>
+      <% end %>
   </ul>
 
   <div class="tab-content">
@@ -15,6 +21,9 @@
       %>
       <%= text_f f, :path %>
       <%= text_f f, :playfile %>
+    </div>
+
+    <%= render 'taxonomies/loc_org_tabs', :f => f, :obj => @ansible_playbook %>
   </div>
 
   <%= submit_or_cancel f %>

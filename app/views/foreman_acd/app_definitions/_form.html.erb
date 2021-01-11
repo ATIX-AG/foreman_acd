@@ -30,6 +30,12 @@
   <%= base_errors_for @app_definition %>
   <ul class="nav nav-tabs" data-tabs="tabs">
     <li class="active"><a href="#primary" data-toggle="tab"><%= _('Application Definitions') %></a></li>
+    <% if show_location_tab? %>
+          <li><a href="#locations" data-toggle="tab"><%= _("Locations") %></a></li>
+      <% end %>
+      <% if show_organization_tab? %>
+          <li><a href="#organizations" data-toggle="tab"><%= _("Organizations") %></a></li>
+      <% end %>
   </ul>
 
   <div class="tab-content">
@@ -40,6 +46,8 @@
       <div id='app_definition'></div>
       <%=  mount_react_component('ApplicationDefinition', "#app_definition", json.to_json) %>
     </div>
+
+    <%= render 'taxonomies/loc_org_tabs', :f => f, :obj => @app_definition %>
   </div>
 
   <%= submit_or_cancel f %>
