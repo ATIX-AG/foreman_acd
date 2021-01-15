@@ -5,9 +5,12 @@ module ForemanAcd
     module V2
       # API controller for Ansible Playbooks
       class AnsiblePlaybooksController < ::ForemanAcd::Api::V2::BaseController
+        include ::Foreman::Controller::SmartProxyAuth
         include ::ForemanAcd::Concerns::AnsiblePlaybookParameters
 
-        before_action :find_resource, :except => [:index, :create]
+        before_action :find_resource, :except => [:index, :create, :grab]
+
+        add_smart_proxy_filters :grab, :features => 'ACD'
 
         api :GET, '/ansible_playbooks/:id', N_('Show ansible playbook')
         param :id, :identifier, :required => true
@@ -41,8 +44,22 @@ module ForemanAcd
           process_response @ansible_playbook.destroy
         end
 
-        def controller_permission
-          'ansible_playbooks'
+        api :GET, '/ansible_playbooks/:id/grab', N_('Grab ansible playbook')
+        param :id, :identifier, :required => true
+        def grab
+          ap = resource_class.find(params['id'])
+          command = "tar cz -C #{ap.path} --exclude \".git\" . 2>/dev/null | base64"
+          result = %x<#{command}>
+          send_data result, type: "text/plain", disposition: 'inline'
+        end
+
+        def action_permission
+          case params[:action]
+          when 'grab'
+            'grab'
+          else
+           super
+          end
         end
 
         def resource_class

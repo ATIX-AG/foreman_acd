@@ -1,24 +1,24 @@
 <%#
 kind: job_template
-name: Run ACD Ansible Playbook - SSH Default
+name: Run ACD Ansible Playbook - ACD Default
 model: JobTemplate
 job_category: Application Centric Deployment
 description_format: "Run Ansible playbook %{playbook_name} for ACD application %{application_name}"
-provider_type: SSH
 feature: run_acd_ansible_playbook
+provider_type: ACD
 template_inputs:
 - name: application_name
   description: The name of the ACD application instance to run
   input_type: user
   required: true
   advanced: false
-- name: playbook_name
-  description: The name of the Ansible playbook to run
+- name: playbook_id
+  description: The id of the Ansible playbook to run
   input_type: user
   required: true
   advanced: false
-- name: playbook_path
-  description: The full path to the Ansible playbook
+- name: playbook_file
+  description: The playbook file of to the Ansible playbook
   input_type: user
   required: true
   advanced: false
@@ -40,10 +40,10 @@ template_inputs:
   advanced: true
 %>
 
-INVENTORY_FILE=$(mktemp --suffix ".yaml")
-cat << EOF >$INVENTORY_FILE
-<%= input('inventory') %>
-EOF
-
-echo "Run ansible-playbook <%= input('playbook_name') %> to configure ACD app <%= input('application_name') %>"
-ansible-playbook -i $INVENTORY_FILE <%= "-v" if input('verbose').present? && input('verbose') == 'true' %> <%= "--extra-vars \"#{input('extra_vars')}\"" unless input('extra_vars').blank? %> <%= input('playbook_path') %>
+application_name: <%= input('application_name') %>
+playbook_id: <%= input('playbook_id') %>
+playbook_file: <%= input('playbook_file') %>
+extra_vars: <%= input('extra_vars') %>
+verbose: <%= input('verbose') %>
+inventory: |
+<%=  indent(2) { input('inventory') } %>

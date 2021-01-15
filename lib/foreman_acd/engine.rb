@@ -42,5 +42,9 @@ module ForemanAcd
     initializer 'foreman_acd.register_plugin', :before => :finisher_hook do
       require 'foreman_acd/plugin'
     end
+
+    config.to_prepare do
+      RemoteExecutionProvider.register(:ACD, AcdProvider)
+    end
   end
 end
