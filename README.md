@@ -40,11 +40,18 @@ This plugin aims to setup all 6 hosts and to deploy the application.
 - Deploy these hosts
 - Configure the hosts using the configured ansible playbook
 
+# How it works
 
-# Road Map
-- 
-- Add Application deployment with single host requirements 
-- Add Application deployment with multi host requirements 
+- Configure ansible playbook, application definition and create an instance.
+- If you deploy the application instance, all hosts are created.
+- When done, you can configure the hosts with the linked ansible-playbook.
+- To do so, the [Smart Proxy ACD](https://github.com/ATIX-AG/smart_proxy_acd) is used.
+- The job to configure the hosts will be send to the Smart Proxy ACD which will
+    - download the ansible playbook from foreman (provided by an foreman_acd API)
+    - extract the ansible playbook on the Smart Proxy
+    - run the ansible-playbook on the Smart Proxy
+- On the Monitor -> Job page you see the output of the ansible-playbook run.
+
 
 ## WARNING
 
@@ -55,10 +62,12 @@ This plugin is in development.
 See [How_to_Install_a_Plugin](https://theforeman.org/plugins/#2.Installation)
 for how to install Foreman plugins. 
 
+You will need to install [Smart Proxy ACD](https://github.com/ATIX-AG/smart_proxy_acd), too. 
+
 ### TL;DR: 
 
-    yum install tfm-rubygem-foreman_acd
-    foreman-maintain service restart --only foreman
+    yum install tfm-rubygem-foreman_acd tfm-rubygem-smart_proxy_acd tfm-rubygem-smart_proxy_acd_core
+    foreman-maintain service restart
 
 In some cases you need to do manally
 
@@ -75,7 +84,7 @@ To get ansible playbooks running, you need to:
 
     cat /var/lib/foreman-proxy/ssh/id_rsa_foreman_proxy.pub >> /root/.ssh/authorized_keys
     
-Make sure, that the job template 'Run ACD Ansible Playbook - SSH Default' is part of your organization / location.     
+Make sure, that the job template 'Run ACD Ansible Playbook - ACD Default' is part of your organization / location.     
 
 ## Usage
 
@@ -113,11 +122,12 @@ Make sure, that the job template 'Run ACD Ansible Playbook - SSH Default' is par
 
 ## TODO
 
-- Add saltstack support to configure the application
 - "git" support for the ansible playbooks
+- Provide application templates which contains application definition and 
+  the required ansible-playbook.
+- Add saltstack support to configure the application
 - Automatically run the ansible playbook after all hosts are deployed
 - More parameter / value validation
-- Deliver ansible playbooks to the connected foreman smart proxies
 
 
 ## Contributing
@@ -126,7 +136,7 @@ Fork and send a Pull Request. Thanks!
 
 ## Copyright
 
-Copyright (c) 2020 ATIX AG 
+Copyright (c) 2021 ATIX AG 
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
