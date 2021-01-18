@@ -78,14 +78,6 @@ In some cases you need to do manally
 
 Katello plugin need to exist, too.
 
-### Configuration
-
-To get ansible playbooks running, you need to:
-
-    cat /var/lib/foreman-proxy/ssh/id_rsa_foreman_proxy.pub >> /root/.ssh/authorized_keys
-    
-Make sure, that the job template 'Run ACD Ansible Playbook - ACD Default' is part of your organization / location.     
-
 ## Usage
 
 ### Ansible Playbook
