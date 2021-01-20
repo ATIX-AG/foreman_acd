@@ -21,6 +21,7 @@ import {
   APPLICATION_DEFINITION_FOREMAN_PARAMETER_SELECTION_MODAL_CLOSE,
   APPLICATION_DEFINITION_ANSIBLE_PARAMETER_SELECTION_MODAL_OPEN,
   APPLICATION_DEFINITION_ANSIBLE_PARAMETER_SELECTION_MODAL_CLOSE,
+  APPLICATION_DEFINITION_CHANGE_PARAMETER_SELECTION_MODE,
 } from './ApplicationDefinitionConstants';
 
 import {
@@ -234,6 +235,9 @@ const applicationDefinitionConf = (state = initialState, action) => {
         };
       }
       return state.merge(newState);
+    }
+    case APPLICATION_DEFINITION_CHANGE_PARAMETER_SELECTION_MODE: {
+      return state.merge({ paramEditMode: payload.mode });
     }
     default:
       return state;

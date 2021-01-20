@@ -29,6 +29,7 @@ import {
   APPLICATION_INSTANCE_LOAD_APPLICATION_DEFINITION_REQUEST,
   APPLICATION_INSTANCE_LOAD_APPLICATION_DEFINITION_SUCCESS,
   APPLICATION_INSTANCE_LOAD_APPLICATION_DEFINITION_FAILURE,
+  APPLICATION_INSTANCE_CHANGE_PARAMETER_SELECTION_MODE,
 } from './ApplicationInstanceConstants';
 
 export const initApplicationInstance = (
@@ -237,3 +238,10 @@ export const closeAnsibleParameterSelectionModal = (additionalData) => dispatch 
     setModalClosed({ id: 'AppInstanceAnsibleParamSelection' })
   );
 }
+
+export const changeParameterSelectionMode = (additionalData) => ({
+  type: APPLICATION_INSTANCE_CHANGE_PARAMETER_SELECTION_MODE,
+  payload: {
+    ...additionalData,
+  },
+})

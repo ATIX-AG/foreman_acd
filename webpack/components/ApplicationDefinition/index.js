@@ -12,6 +12,7 @@ import {
   selectColumns,
   selectParametersData,
   selectAnsibleVarsAll,
+  selectParamEditMode,
 } from './ApplicationDefinitionSelectors';
 
 const mapStateToProps = state => ({
@@ -21,6 +22,7 @@ const mapStateToProps = state => ({
   columns: selectColumns(state),
   parametersData: selectParametersData(state),
   ansibleVarsAll: selectAnsibleVarsAll(state),
+  paramEditMode: selectParamEditMode(state),
 });
 
 const mapDispatchToProps = dispatch =>

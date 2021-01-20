@@ -7,3 +7,4 @@ export const selectColumns = state => applicationInstanceConf(state).columns;
 export const selectServices = state => applicationInstanceConf(state).services;
 export const selectParametersData = state => applicationInstanceConf(state).parametersData;
 export const selectAnsibleVarsAll = state => applicationInstanceConf(state).ansibleVarsAll;
+export const selectParamEditMode = state => applicationInstanceConf(state).paramEditMode;
