@@ -117,6 +117,7 @@ class ParameterSelection extends React.Component {
           />
           &nbsp;
           <LockTableEntry
+            hidden={!allowRowAdjustment}
             disabled={true}
             onLockTableEntry={lockParameter}
             additionalData={additionalData}
