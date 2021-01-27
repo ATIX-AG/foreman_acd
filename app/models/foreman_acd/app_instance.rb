@@ -4,6 +4,7 @@ module ForemanAcd
   # Application Instance
   class AppInstance < ApplicationRecord
     include Authorizable
+    include ForemanTasks::Concerns::ActionSubject
     extend FriendlyId
     friendly_id :name
 
