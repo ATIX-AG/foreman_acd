@@ -11,18 +11,26 @@ module ForemanAcd
 
         api :GET, '/app_instances/:id', N_('Show application instance')
         param :id, :identifier, :required => true
+        param :organization_id, :identifier, :required => true
+        param :location_id, :identifier, :required => true
         def show; end
 
         api :GET, '/app_instances', N_('List application instances')
+        param :organization_id, :identifier, :required => true
+        param :location_id, :identifier, :required => true
         param_group :search_and_pagination, ::Api::V2::BaseController
         add_scoped_search_description_for(AppInstance)
         def index
-          @app_instances = resource_scope_for_index
+          scope = resource_scope_for_index.where(:organization => params[:organization_id]) if params[:organization_id].present?
+          scope = scope.where(:location => params[:location_id]) if params[:location_id].present?
+          @app_instances = scope
         end
 
         def_param_group :app_instance do
           param :app_instance, Hash, :required => true, :action_aware => true do
             param :name, String, :required => true
+            param :organization_id, :identifier, :required => true
+            param :location_id, :identifier, :required => true
             param :description, String, :required => true
             param :services, String, :required => true
           end

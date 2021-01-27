@@ -2,4 +2,4 @@
 
 object @app_definition
 
-attributes :id, :name, :description, :services, :ansible_vars_all, :created_at, :updated_at
+attributes :id, :name, :description, :services, :ansible_vars_all, :location_ids, :organization_ids, :created_at, :updated_at

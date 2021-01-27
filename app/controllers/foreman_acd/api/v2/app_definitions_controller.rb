@@ -23,6 +23,7 @@ module ForemanAcd
         def_param_group :app_definition do
           param :app_definition, Hash, :required => true, :action_aware => true do
             param :name, String, :required => true
+            param_group :taxonomies, ::Api::V2::BaseController
             param :description, String, :required => true
             param :services, String, :required => true
           end

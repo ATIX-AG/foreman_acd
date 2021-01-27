@@ -8,13 +8,18 @@ module ForemanAcd
 
     before_action :find_resource, :only => [:edit, :update, :destroy, :deploy, :report]
     before_action :read_applications, :only => [:new, :edit]
+    before_action :find_taxonomy
 
     def index
-      @app_instances = resource_base.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
+      @app_instances = resource_base.where(organization: @organization)
+                                    .where(location: @location)
+                                    .search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
     end
 
     def new
       @app_instance = AppInstance.new
+      @app_instance.organization = @organization
+      @app_instance.location = @location
     end
 
     def create
@@ -75,6 +80,14 @@ module ForemanAcd
     end
 
     private
+
+    def find_taxonomy
+      @organization = Organization.current
+      redirect_to '/select_organization?toState=' + request.path unless @organization
+
+      @location = Location.current
+      redirect_to '/select_location?toState=' + request.path unless @location
+    end
 
     def read_applications
       @applications = AppDefinition.all.map { |elem| { elem.id => elem.name } }.reduce({}) { |h, v| h.merge v }

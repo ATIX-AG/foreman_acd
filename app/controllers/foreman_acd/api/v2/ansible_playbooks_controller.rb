@@ -26,6 +26,7 @@ module ForemanAcd
         def_param_group :ansible_playbook do
           param :ansible_playbook, Hash, :required => true, :action_aware => true do
             param :name, String, :required => true
+            param_group :taxonomies, ::Api::V2::BaseController
             param :description, String, :required => true
             param :services, String, :required => true
           end
