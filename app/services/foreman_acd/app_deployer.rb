@@ -3,7 +3,6 @@
 module ForemanAcd
   # application instances deployer
   class AppDeployer
-
     delegate :logger, :to => :Rails
 
     def initialize(app_instance)
@@ -15,47 +14,45 @@ module ForemanAcd
       app_hosts = JSON.parse(@app_instance.hosts)
 
       app_hosts.each do |host_data|
-        begin
-          service_data = services.select { |k| k['id'] == host_data['service'].to_i }.first
-          host_params = set_host_params(host_data, service_data)
+        service_data = services.select { |k| k['id'] == host_data['service'].to_i }.first
+        host_params = set_host_params(host_data, service_data)
 
-          host = nil
-          if host_data.has_key?('foreman_host_id')
-            logger.debug("Try to find host with id #{host_data['foreman_host_id']}")
-            begin
-              host = Host.find(host_data['foreman_host_id'])
-            rescue ActiveRecord::RecordNotFound
-              logger.info("Host with id #{host_data['foreman_host_id']} couldn\'t be found, create a new one!")
-              host = nil
-            end
+        host = nil
+        if host_data.key?('foreman_host_id')
+          logger.debug("Try to find host with id #{host_data['foreman_host_id']}")
+          begin
+            host = Host.find(host_data['foreman_host_id'])
+          rescue ActiveRecord::RecordNotFound
+            logger.info("Host with id #{host_data['foreman_host_id']} couldn\'t be found, create a new one!")
+            host = nil
           end
-
-          if host.nil?
-            params = host_attributes(host_params)
-            logger.info("Host creation parameters for #{host_data['hostname']}:\n#{params}\n")
-            host = Host.new(params)
-          else
-            logger.info("Update parameters and re-deploy host #{host_data['hostname']}")
-            host.attributes = host_attributes(host_params, host)
-            host.setBuild
-            host.power.reset
-          end
-
-          # REMOVE ME (but very nice for testing)
-          # host.mac = "00:11:22:33:44:55"
-
-          apply_compute_profile(host)
-          host.suggest_default_pxe_loader
-          host.save
-
-          # save the foreman host id
-          host_data['foreman_host_id'] = host.id
-        rescue StandardError => e
-          logger.error("Failed to initiate host creation: #{e.class}: #{e.message}\n#{e.backtrace.join($INPUT_RECORD_SEPARATOR)}")
         end
+
+        if host.nil?
+          params = host_attributes(host_params)
+          logger.info("Host creation parameters for #{host_data['hostname']}:\n#{params}\n")
+          host = Host.new(params)
+        else
+          logger.info("Update parameters and re-deploy host #{host_data['hostname']}")
+          host.attributes = host_attributes(host_params, host)
+          host.setBuild
+          host.power.reset
+        end
+
+        # REMOVE ME (but very nice for testing)
+        # host.mac = "00:11:22:33:44:55"
+
+        apply_compute_profile(host)
+        host.suggest_default_pxe_loader
+        host.save
+
+        # save the foreman host id
+        host_data['foreman_host_id'] = host.id
+      rescue StandardError => e
+        logger.error("Failed to initiate host creation: #{e.class}: #{e.message}\n#{e.backtrace.join($INPUT_RECORD_SEPARATOR)}")
       end
 
-      return app_hosts
+      app_hosts
     end
 
     private

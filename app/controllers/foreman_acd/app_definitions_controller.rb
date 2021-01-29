@@ -17,7 +17,7 @@ module ForemanAcd
 
     def read_ansible_playbooks
       # Only use ansible playbooks for which the user pressed import group vars once.
-      @ansible_playbooks = AnsiblePlaybook.where.not(vars: nil).map { |elem| { elem.id => elem.name } }.reduce({}) { |h, v| h.merge v }
+      @ansible_playbooks = AnsiblePlaybook.where.not(:vars => nil).map { |elem| { elem.id => elem.name } }.reduce({}) { |h, v| h.merge v }
     end
 
     def read_hostgroups
@@ -37,11 +37,10 @@ module ForemanAcd
       end
     end
 
-    def edit
-    end
+    def edit; end
 
     def update
-      if @app_definition.update_attributes(app_definition_params)
+      if @app_definition.update(app_definition_params)
         process_success
       else
         process_error
@@ -78,7 +77,7 @@ module ForemanAcd
     private
 
     def handle_file_upload
-      return unless params[:foreman_acd_app_definition] && raw_file = params[:foreman_acd_app_definition][:app_definition_file]
+      return unless params[:foreman_acd_app_definition] && (raw_file = params[:foreman_acd_app_definition][:app_definition_file])
       params[:foreman_acd_app_definition][:services] = YAML.load_file(raw_file.tempfile).to_json
     end
   end

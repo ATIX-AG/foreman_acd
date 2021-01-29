@@ -50,8 +50,8 @@ module ForemanAcd
         def grab
           ap = resource_class.find(params['id'])
           command = "tar cz -C #{ap.path} --exclude \".git\" . 2>/dev/null | base64"
-          result = %x<#{command}>
-          send_data result, type: "text/plain", disposition: 'inline'
+          result = `#{command}`
+          send_data result, :type => 'text/plain', :disposition => 'inline'
         end
 
         def action_permission
@@ -59,7 +59,7 @@ module ForemanAcd
           when 'grab'
             'grab'
           else
-           super
+            super
           end
         end
 

@@ -15,20 +15,22 @@ module ForemanAcd
 
     default_scope do
       with_taxonomy_scope do
-        order("app_definitions.name")
+        order('app_definitions.name')
       end
     end
 
     def used_location_ids
       Location.joins(:taxable_taxonomies).where(
         'taxable_taxonomies.taxable_type' => 'ForemanAcd::AppDefinition',
-        'taxable_taxonomies.taxable_id' => id).pluck("#{Taxonomy.table_name}.id")
+        'taxable_taxonomies.taxable_id' => id
+      ).pluck("#{Taxonomy.table_name}.id")
     end
 
     def used_organization_ids
       Organization.joins(:taxable_taxonomies).where(
         'taxable_taxonomies.taxable_type' => 'ForemanAcd::AppDefinition',
-        'taxable_taxonomies.taxable_id' => id).pluck("#{Taxonomy.table_name}.id")
+        'taxable_taxonomies.taxable_id' => id
+      ).pluck("#{Taxonomy.table_name}.id")
     end
 
     def self.humanize_class_name(_name = nil)

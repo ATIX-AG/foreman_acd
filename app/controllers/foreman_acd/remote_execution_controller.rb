@@ -3,7 +3,6 @@
 module ForemanAcd
   # Class to run remote execution jobs
   class RemoteExecutionController < JobInvocationsController
-
     def new
       jobs = init_configuration
       @composer = jobs.first
@@ -18,9 +17,7 @@ module ForemanAcd
         @composer.trigger!
         redirect_to job_invocation_path(@composer.job_invocation)
       elsif customize_first == false
-        jobs.each do |composer|
-          composer.trigger
-        end
+        jobs.each(&:trigger)
         redirect_to job_invocations_path
       else
         # redirect to the job itself if we want to customize the job
@@ -43,7 +40,7 @@ module ForemanAcd
 
       jobs = app_configurator.configure
       logger.debug("Creating #{jobs.count} job(s) to configure the app #{app_instance}. Customize first: #{params[:customize]}")
-      return jobs
+      jobs
     end
   end
 end

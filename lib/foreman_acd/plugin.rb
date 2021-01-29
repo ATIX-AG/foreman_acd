@@ -8,16 +8,16 @@ Foreman::Plugin.register :foreman_acd do
   # Menus
   sub_menu :top_menu, :application, :caption => N_('Applications'), :after => :hosts_menu, :icon => 'pficon pficon-integration' do
     menu :top_menu, :ansible_playbooks,
-      :url_hash => { :controller => :'foreman_acd/ansible_playbooks', :action => :index },
-      :caption => 'Ansible Playbooks'
+         :url_hash => { :controller => :'foreman_acd/ansible_playbooks', :action => :index },
+         :caption => 'Ansible Playbooks'
 
     menu :top_menu, :app_definitions,
-      :url_hash => { :controller => :'foreman_acd/app_definitions', :action => :index },
-      :caption => 'App Definitions'
+         :url_hash => { :controller => :'foreman_acd/app_definitions', :action => :index },
+         :caption => 'App Definitions'
 
     menu :top_menu, :app_instances,
-      :url_hash => { :controller => :'foreman_acd/app_instances', :action => :index },
-      :caption => 'App Instances'
+         :url_hash => { :controller => :'foreman_acd/app_instances', :action => :index },
+         :caption => 'App Instances'
   end
 
   # Add permissions

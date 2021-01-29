@@ -45,7 +45,7 @@ module ForemanAcd
 
     config.to_prepare do
       RemoteExecutionProvider.register(:ACD, AcdProvider)
-      ::Taxonomy.send(:include, ForemanAcd::TaxonomyExtensions)
+      ::Taxonomy.include ForemanAcd::TaxonomyExtensions
     end
   end
 end

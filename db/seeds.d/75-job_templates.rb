@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 User.as_anonymous_admin do
   JobTemplate.without_auditing do
     Dir[File.join("#{ForemanAcd::Engine.root}/app/views/templates/**/*.erb")].each do |template|

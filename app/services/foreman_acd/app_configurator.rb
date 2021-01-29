@@ -3,7 +3,6 @@
 module ForemanAcd
   # application instances configurator
   class AppConfigurator
-
     delegate :logger, :to => :Rails
 
     def initialize(app_instance)
@@ -26,14 +25,12 @@ module ForemanAcd
         proxy_selector = RemoteExecutionProxySelector.new
         hosts.each do |h|
           proxy = proxy_selector.determine_proxy(h, 'SSH')
-          unless proxy_hosts.has_key?(proxy.name)
-            proxy_hosts[proxy.name] = Array.new
-          end
+          proxy_hosts[proxy.name] = [] unless proxy_hosts.key?(proxy.name)
           proxy_hosts[proxy.name] << h.id
         end
 
-        # TODO just for testing...
-        #proxy_hosts = { Host.first.name => [ Host.first.id] }
+        # TODO: just for testing...
+        # proxy_hosts = { Host.first.name => [ Host.first.id] }
 
         # we need to compose multiple jobs. for each proxy one job.
         proxy_hosts.each do |proxy_name, host_names|

@@ -25,8 +25,7 @@ module ForemanAcd
       end
     end
 
-    def edit
-    end
+    def edit; end
 
     def update
       if @ansible_playbook.update(ansible_playbook_params)
@@ -87,15 +86,15 @@ module ForemanAcd
         # We need to support: group_vars/group_file and group_vars/group_dir/yaml_files
         dir_and_file = File.split(vars_file)
 
-        if File.basename(dir_and_file[0]) == 'group_vars' # in case of group_vars/group_file
-          group_name = File.basename(dir_and_file[1], '.*')
-        else # in case of group_vars/group_dir/yaml_files
-          group_name = File.basename(dir_and_file[0])
-        end
+        group_name = if File.basename(dir_and_file[0]) == 'group_vars' # in case of group_vars/group_file
+                       File.basename(dir_and_file[1], '.*')
+                     else # in case of group_vars/group_dir/yaml_files
+                       File.basename(dir_and_file[0])
+                     end
 
         logger.debug("Add ansible vars from file #{vars_file} to group #{group_name}")
 
-        if vars.has_key?(group_name)
+        if vars.key?(group_name)
           vars[group_name].merge!(loaded_yaml)
         else
           vars[group_name] = loaded_yaml
@@ -104,7 +103,7 @@ module ForemanAcd
 
       errors << "No ansible group variable in #{playbook_path} defined." if everything_empty
 
-      return vars, errors
+      [vars, errors]
     end
 
     def import_vars
@@ -113,7 +112,7 @@ module ForemanAcd
       @ansible_playbook.vars = vars.to_json
       @ansible_playbook.save
       if errors.empty?
-        process_success :success_msg => _("Successfully loaded ansible group variables from %s") % @ansible_playbook.name, :redirect => ansible_playbooks_path
+        process_success :success_msg => _('Successfully loaded ansible group variables from %s') % @ansible_playbook.name, :redirect => ansible_playbooks_path
       else
         process_error :error_msg => _(errors.join(' ')), :redirect => ansible_playbooks_path
       end
