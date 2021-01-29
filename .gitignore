@@ -20,3 +20,4 @@ locale/*/*.pox
 locale/*/LC_MESSAGES
 *.gem
 coverage/
+vendor/

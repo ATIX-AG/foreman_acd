@@ -1,0 +1,12 @@
+---
+stages:
+  - lint
+
+lint:
+  stage: lint
+  tags:
+    - docker
+  image: ${CI_REGISTRY}/hub/lint/ruby:2-6
+  script:
+    - bundle install --path vendor/bundle
+    - bundle exec rubocop
