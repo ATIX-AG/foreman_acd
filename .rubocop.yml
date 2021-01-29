@@ -2,7 +2,7 @@ require:
   - rubocop-rails
 
 AllCops:
-  TargetRubyVersion: 2.3
+  TargetRubyVersion: 2.5
   TargetRailsVersion: 5.1
   Exclude:
     - '*.spec'
@@ -38,3 +38,4 @@ Rails/SkipsModelValidations:
 
 Metrics:
   Enabled: false
+
