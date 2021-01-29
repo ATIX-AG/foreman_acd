@@ -3,12 +3,13 @@ require:
 
 AllCops:
   TargetRubyVersion: 2.5
-  TargetRailsVersion: 5.1
+  TargetRailsVersion: 5.2
   Exclude:
     - '*.spec'
     - 'extras/**/*'
     - 'locale/**/*'
     - 'node_modules/**/*'
+    - 'vendor/bundle/**/*'
 
 Metrics/BlockLength:
   Exclude:
@@ -18,8 +19,21 @@ Metrics/BlockLength:
 Style/HashSyntax:
   EnforcedStyle: hash_rockets
 
+Naming/FileName:
+  Exclude:
+    - 'db/seeds.d/*'
+
+Rails/RakeEnvironment:
+  Enabled: false
+
 Layout/DotPosition:
   EnforcedStyle: 'trailing'
+
+Layout/EmptyLineAfterGuardClause:
+  Enabled: false
+
+Layout/LineLength:
+  Enabled: false
 
 Rails/ActionFilter:
   EnforcedStyle: action
@@ -39,3 +53,5 @@ Rails/SkipsModelValidations:
 Metrics:
   Enabled: false
 
+Rails:
+  Enabled: true

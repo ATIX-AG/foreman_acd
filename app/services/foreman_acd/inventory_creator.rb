@@ -3,7 +3,6 @@
 module ForemanAcd
   # inventory creator for application instances
   class InventoryCreator
-
     delegate :logger, :to => :Rails
 
     def initialize(app_instance, host_ids)
@@ -16,7 +15,7 @@ module ForemanAcd
       inventory = {}
       inventory['all'] = {}
 
-      inventory['all'] = { 'vars' => inventory_all_vars } unless @app_instance.ansible_vars_all.nil? || @app_instance.ansible_vars_all.empty?
+      inventory['all'] = { 'vars' => inventory_all_vars } if @app_instance.ansible_vars_all.present?
 
       services = JSON.parse(@app_instance.app_definition.services)
       app_hosts = filtered_hosts
@@ -32,16 +31,12 @@ module ForemanAcd
         host_service = services.select { |s| s['id'] == service_id }.first
         ansible_group = host_service['ansibleGroup']
 
-        unless children.has_key?(host_service['ansibleGroup'])
-          children[ansible_group] = { 'hosts' => {} }
-        end
+        children[ansible_group] = { 'hosts' => {} } unless children.key?(host_service['ansibleGroup'])
 
         ansible_vars = host_data['ansibleParameters'].map { |v| { v['name'] => v['value'] } }.reduce({}, :merge!)
 
         # in case there is no ansible_user defined, set "root" as default.
-        unless ansible_vars.has_key?('ansible_user')
-          ansible_vars['ansible_user'] = 'root'
-        end
+        ansible_vars['ansible_user'] = 'root' unless ansible_vars.key?('ansible_user')
 
         children[ansible_group]['hosts'][get_fqdn(host_data['foreman_host_id'])] = ansible_vars
       end
@@ -50,6 +45,7 @@ module ForemanAcd
     end
 
     private
+
     def inventory_all_vars
       JSON.parse(@app_instance.ansible_vars_all).map do |a|
         { a['name'] => a['value'] }
@@ -61,7 +57,7 @@ module ForemanAcd
     end
 
     def filtered_hosts
-      JSON.parse(@app_instance.hosts).select{ |h| h&.key?('foreman_host_id') && @host_ids.include?(h['foreman_host_id']) }
+      JSON.parse(@app_instance.hosts).select { |h| h&.key?('foreman_host_id') && @host_ids.include?(h['foreman_host_id']) }
     end
   end
 end

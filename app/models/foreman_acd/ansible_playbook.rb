@@ -9,26 +9,28 @@ module ForemanAcd
     friendly_id :name
 
     self.table_name = 'acd_ansible_playbooks'
-    has_many :app_definitions, :inverse_of => :ansible_playbook, :foreign_key => 'acd_ansible_playbook_id', dependent: :restrict_with_error
+    has_many :app_definitions, :inverse_of => :ansible_playbook, :foreign_key => 'acd_ansible_playbook_id', :dependent => :restrict_with_error
     validates :name, :presence => true, :uniqueness => true
     scoped_search :on => :name
 
     default_scope do
       with_taxonomy_scope do
-        order("acd_ansible_playbooks.name")
+        order('acd_ansible_playbooks.name')
       end
     end
 
     def used_location_ids
       Location.joins(:taxable_taxonomies).where(
         'taxable_taxonomies.taxable_type' => 'ForemanAcd::AnsiblePlaybook',
-        'taxable_taxonomies.taxable_id' => id).pluck("#{Taxonomy.table_name}.id")
+        'taxable_taxonomies.taxable_id' => id
+      ).pluck("#{Taxonomy.table_name}.id")
     end
 
     def used_organization_ids
       Organization.joins(:taxable_taxonomies).where(
         'taxable_taxonomies.taxable_type' => 'ForemanAcd::AnsiblePlaybook',
-        'taxable_taxonomies.taxable_id' => id).pluck("#{Taxonomy.table_name}.id")
+        'taxable_taxonomies.taxable_id' => id
+      ).pluck("#{Taxonomy.table_name}.id")
     end
 
     def self.humanize_class_name(_name = nil)
@@ -51,16 +53,17 @@ module ForemanAcd
     def as_unified_structobj
       groups = []
 
-      JSON.load(self.vars).each do |group_name, vars|
+      JSON.parse(vars).each do |group_name, vars|
         groups << OpenStruct.new(
           :name => group_name,
-          :vars => vars.map { |k,v| OpenStruct.new(:name => k, :value => v) })
+          :vars => vars.map { |k, v| OpenStruct.new(:name => k, :value => v) }
+        )
       end
 
       adata = OpenStruct.new(
-        :id => self.id,
-        :name => self.name,
-        :groups => JSON.load(self.vars)
+        :id => id,
+        :name => name,
+        :groups => JSON.parse(self.vars)
       )
       adata
     end

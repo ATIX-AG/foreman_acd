@@ -1,4 +1,7 @@
+# frozen_string_literal: true
+
 module ForemanAcd
+  # Implement a RemoteExecutionProvider
   class AcdProvider < RemoteExecutionProvider
     class << self
       def supports_effective_user?

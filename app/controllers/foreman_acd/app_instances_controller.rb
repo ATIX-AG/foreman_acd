@@ -11,9 +11,9 @@ module ForemanAcd
     before_action :find_taxonomy
 
     def index
-      @app_instances = resource_base.where(organization: @organization)
-                                    .where(location: @location)
-                                    .search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
+      @app_instances = resource_base.where(:organization => @organization).
+                       where(:location => @location).
+                       search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
     end
 
     def new
@@ -31,8 +31,7 @@ module ForemanAcd
       end
     end
 
-    def edit
-    end
+    def edit; end
 
     def update
       if @app_instance.update(app_instance_params)
@@ -97,7 +96,7 @@ module ForemanAcd
       report_data = []
       app_hosts.each do |host_data|
         host = Host.find(host_data['foreman_host_id'])
-        report_data << { id: host.id, name: host_data['hostname'], hostname: host.hostname, hostUrl: host_path(host), progress_report_id: host.progress_report_id}
+        report_data << { :id => host.id, :name => host_data['hostname'], :hostname => host.hostname, :hostUrl => host_path(host), :progress_report_id => host.progress_report_id }
       end
       report_data
     end

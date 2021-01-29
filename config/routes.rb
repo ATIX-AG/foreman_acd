@@ -10,7 +10,6 @@ Rails.application.routes.draw do
       member do
         get 'import_vars'
       end
-
     end
     resources :app_definitions, :controller => 'foreman_acd/app_definitions' do
       collection do
@@ -21,7 +20,6 @@ Rails.application.routes.draw do
       member do
         get 'export'
       end
-
     end
 
     resources :app_instances, :controller => 'foreman_acd/app_instances' do
