@@ -117,6 +117,7 @@ class ParameterSelection extends React.Component {
           />
           &nbsp;
           <LockTableEntry
+            hidden={!allowRowAdjustment}
             disabled={true}
             onLockTableEntry={lockParameter}
             additionalData={additionalData}
@@ -273,6 +274,7 @@ class ParameterSelection extends React.Component {
       addParameter,
       confirmEditParameter,
       cancelEditParameter,
+      editModeCallback,
     } = this.props;
 
     let sortedParameters;
@@ -302,6 +304,12 @@ class ParameterSelection extends React.Component {
           strategy: sort.strategies.byProperty
         })
       )(parameters);
+    }
+
+    // Make sure that the component which includes the
+    // ParameterSelection is aware of the current editMode state
+    if (editModeCallback !== undefined) {
+      editModeCallback(this.props.editMode);
     }
 
     return(
@@ -363,6 +371,7 @@ ParameterSelection.defaultProps = {
   parameters: [],
   columns: [],
   sortingColumns: {},
+  editModeCallback: undefined,
 };
 
 ParameterSelection.propTypes = {
@@ -381,6 +390,7 @@ ParameterSelection.propTypes = {
   parameterTypes: PropTypes.object,
   parameters: PropTypes.array,
   sortingColumns: PropTypes.object,
+  editModeCallback: PropTypes.func,
   columns: PropTypes.array,
   sortParameter: PropTypes.func,
   addParameter: PropTypes.func,

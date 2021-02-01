@@ -21,6 +21,7 @@ import {
   APPLICATION_INSTANCE_FOREMAN_PARAMETER_SELECTION_MODAL_CLOSE,
   APPLICATION_INSTANCE_ANSIBLE_PARAMETER_SELECTION_MODAL_OPEN,
   APPLICATION_INSTANCE_ANSIBLE_PARAMETER_SELECTION_MODAL_CLOSE,
+  APPLICATION_INSTANCE_CHANGE_PARAMETER_SELECTION_MODE,
 } from './ApplicationInstanceConstants';
 
 import {
@@ -286,6 +287,9 @@ const applicationInstanceConf = (state = initialState, action) => {
         };
       }
       return state.merge(newState);
+    }
+    case APPLICATION_INSTANCE_CHANGE_PARAMETER_SELECTION_MODE: {
+      return state.merge({ paramEditMode: payload.mode });
     }
     default:
       return state;

@@ -30,6 +30,7 @@ import {
   APPLICATION_DEFINITION_FOREMAN_PARAMETER_SELECTION_MODAL_CLOSE,
   APPLICATION_DEFINITION_ANSIBLE_PARAMETER_SELECTION_MODAL_OPEN,
   APPLICATION_DEFINITION_ANSIBLE_PARAMETER_SELECTION_MODAL_CLOSE,
+  APPLICATION_DEFINITION_CHANGE_PARAMETER_SELECTION_MODE,
 } from './ApplicationDefinitionConstants';
 
 import {
@@ -293,3 +294,10 @@ export const closeAnsibleParameterSelectionModal = (additionalData) => dispatch 
     setModalClosed({ id: 'AppDefinitionAnsibleParamSelection' })
   );
 }
+
+export const changeParameterSelectionMode = (additionalData) => ({
+  type: APPLICATION_DEFINITION_CHANGE_PARAMETER_SELECTION_MODE,
+  payload: {
+    ...additionalData,
+  },
+})
