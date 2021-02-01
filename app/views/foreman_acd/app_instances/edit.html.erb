@@ -1,3 +1,13 @@
+<%=
+  breadcrumbs(:resource_url => "/acd/api/v2/app_instances?location_id=#{@location.id}&organization_id=#{@organization.id}",
+              :items => [
+                { :caption => _('App Instances'),
+                  :url => url_for(app_instances_path) },
+                { :caption => "Edit #{@app_instance.name}",
+                  :url => (edit_app_instance_path(@app_instance) if authorized_for(hash_for_edit_app_instance_path(@app_instance))) }
+              ])
+%>
+
 <% title(_('Edit Application Instance %s') % @app_instance) %>
 
 <% content_for(:javascripts) do %>

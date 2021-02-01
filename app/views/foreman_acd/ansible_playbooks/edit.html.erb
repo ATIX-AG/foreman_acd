@@ -1,3 +1,11 @@
+<%=
+  breadcrumbs(:resource_url => "/acd/api/v2/ansible_playbooks",
+              :items => [
+                { :caption => _('Ansible Playbooks'),
+                  :url => url_for(ansible_playbooks_path) },
+                { :caption => "Edit #{@ansible_playbook.name}",
+                  :url => (edit_ansible_playbook_path(@ansible_playbook) if authorized_for(hash_for_edit_ansible_playbook_path(@ansible_playbook))) }
+              ])
+%>
 <% title(_('Edit Ansible Playbook %s') % @ansible_playbook) %>
-
 <%= render :partial => 'form' %>

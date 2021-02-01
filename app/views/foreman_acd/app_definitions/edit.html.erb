@@ -1,9 +1,14 @@
-<% title(_('Edit Application Definition %s') % @app_definition) %>
-
-<%= breadcrumbs(
-  :resource_url => acd_api_v2_app_definitions_path
-  )
+<%=
+  breadcrumbs(:resource_url => "/acd/api/v2/app_definitions",
+              :items => [
+                { :caption => _('App Definitions'),
+                  :url => url_for(app_definitions_path) },
+                { :caption => "Edit #{@app_definition.name}",
+                  :url => (edit_app_definition_path(@app_definition) if authorized_for(hash_for_edit_app_definition_path(@app_definition))) }
+              ])
 %>
+
+<% title(_('Edit Application Definition %s') % @app_definition) %>
 
 <% content_for(:javascripts) do %>
   <%= webpacked_plugins_js_for :foreman_acd %>
