@@ -11,19 +11,18 @@ module ForemanAcd
 
     def deploy
       services = JSON.parse(@app_instance.app_definition.services)
-      app_hosts = JSON.parse(@app_instance.hosts)
 
-      app_hosts.each do |host_data|
+      @app_instance.foreman_hosts.each do |host_data|
         service_data = services.select { |k| k['id'] == host_data['service'].to_i }.first
         host_params = set_host_params(host_data, service_data)
 
         host = nil
-        if host_data.key?('foreman_host_id')
-          logger.debug("Try to find host with id #{host_data['foreman_host_id']}")
+        if host_data.host_id?
+          logger.debug("Try to find host with id #{host_data['host_id']}")
           begin
-            host = Host.find(host_data['foreman_host_id'])
+            host = Host.find(host_data['host_id'])
           rescue ActiveRecord::RecordNotFound
-            logger.info("Host with id #{host_data['foreman_host_id']} couldn\'t be found, create a new one!")
+            logger.info("Host with id #{host_data['host_id']} couldn\'t be found, create a new one!")
             host = nil
           end
         end
@@ -47,12 +46,13 @@ module ForemanAcd
         host.save
 
         # save the foreman host id
-        host_data['foreman_host_id'] = host.id
+        host_data.update(:host_id => host.id)
       rescue StandardError => e
         logger.error("Failed to initiate host creation: #{e.class}: #{e.message}\n#{e.backtrace.join($INPUT_RECORD_SEPARATOR)}")
       end
 
-      app_hosts
+      # Can be removed as we don't need to return any data and directly update in database
+      # @app_instance.foreman_hosts
     end
 
     private
@@ -101,7 +101,7 @@ module ForemanAcd
       result['name'] = host_data['hostname']
       result['hostgroup_id'] = service_data['hostgroup']
 
-      host_data['foremanParameters'].each do |param|
+      JSON.parse(host_data['foremanParameters']) do |param|
         case param['type']
 
         when 'computeprofile'

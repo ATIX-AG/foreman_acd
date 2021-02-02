@@ -20,7 +20,7 @@
           "id": @app_instance.app_definition.id,
           "name": @app_instance.app_definition.name,
         },
-        "hosts": JSON.parse(@app_instance.hosts),
+        "hosts": collect_hosts_data,
         "ansibleVarsAll": @app_instance.ansible_vars_all.blank? ? [] : JSON.parse(@app_instance.ansible_vars_all),
       }
     end

@@ -21,7 +21,7 @@ module ForemanAcd
         proxy_hosts = {}
         jobs = []
 
-        hosts = @app_instance.foreman_hosts
+        hosts = @app_instance.acd_foreman_hosts
         proxy_selector = RemoteExecutionProxySelector.new
         hosts.each do |h|
           proxy = proxy_selector.determine_proxy(h, 'SSH')

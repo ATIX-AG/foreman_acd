@@ -9,6 +9,7 @@ module ForemanAcd
     before_action :find_resource, :only => [:edit, :update, :destroy, :deploy, :report]
     before_action :read_applications, :only => [:new, :edit]
     before_action :find_taxonomy
+    helper_method :collect_hosts_data
 
     def index
       @app_instances = resource_base.where(:organization => @organization).
@@ -25,6 +26,7 @@ module ForemanAcd
     def create
       @app_instance = AppInstance.new(app_instance_params)
       if @app_instance.save
+        app_instance_has_foreman_hosts
         process_success
       else
         process_error
@@ -35,6 +37,7 @@ module ForemanAcd
 
     def update
       if @app_instance.update(app_instance_params)
+        app_instance_has_foreman_hosts
         process_success
       else
         process_error
@@ -62,20 +65,42 @@ module ForemanAcd
 
     def deploy
       app_deployer = ForemanAcd::AppDeployer.new(@app_instance)
-      app_hosts = app_deployer.deploy
+      app_deployer.deploy
 
-      # save any change to the app_hosts json
-      @app_instance.hosts = app_hosts.to_json
-      @app_instance.save
-
-      @deploy_hosts = collect_host_report_data(app_hosts)
+      @deploy_hosts = collect_host_report_data
     end
 
     def report
-      app_hosts = JSON.parse(@app_instance.hosts)
-      @report_hosts = collect_host_report_data(app_hosts)
+      @report_hosts = collect_host_report_data
 
       logger.debug("deploy report hosts are: #{@report_hosts.inspect}")
+    end
+
+    def app_instance_has_foreman_hosts
+      hosts = JSON.parse(@app_instance.hosts)
+      hosts.each do |h|
+        if @app_instance.foreman_hosts.where(:hostname => h['hostname']).exists?
+          @app_instance.foreman_hosts.where(:hostname => h['hostname']).
+            update(:service => h['service'], :description => h['description'],
+                   :foremanParameters => JSON.dump(h['foremanParameters']), :ansibleParameters => JSON.dump(h['ansibleParameters']))
+        else
+          @app_instance.foreman_hosts.create(:hostname => h['hostname'], :service => h['service'], :description => h['description'],
+                                             :foremanParameters => JSON.dump(h['foremanParameters']), :ansibleParameters => JSON.dump(h['ansibleParameters']))
+        end
+      end
+
+      # Delete record if json hosts are deleted
+      deleted_json_hosts = @app_instance.foreman_hosts.pluck('hostname') - hosts.pluck('hostname')
+      @app_instance.foreman_hosts.where(:hostname => deleted_json_hosts).destroy_all if deleted_json_hosts
+    end
+
+    def collect_hosts_data
+      hosts_data = []
+      @app_instance.foreman_hosts.each do |h|
+        hosts_data << { :id => h.id, :hostname => h.hostname, :service => h.service, :description => h.description,
+                        :foremanParameters => JSON.parse(h.foremanParameters), :ansibleParameters => JSON.parse(h.ansibleParameters) }
+      end
+      hosts_data
     end
 
     private
@@ -92,10 +117,10 @@ module ForemanAcd
       @applications = AppDefinition.all.map { |elem| { elem.id => elem.name } }.reduce({}) { |h, v| h.merge v }
     end
 
-    def collect_host_report_data(app_hosts)
+    def collect_host_report_data
       report_data = []
-      app_hosts.each do |host_data|
-        host = Host.find(host_data['foreman_host_id'])
+      @app_instance.foreman_hosts.each do |host_data|
+        host = Host.find(host_data['host_id'])
         report_data << { :id => host.id, :name => host_data['hostname'], :hostname => host.hostname, :hostUrl => host_path(host), :progress_report_id => host.progress_report_id }
       end
       report_data

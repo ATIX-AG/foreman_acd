@@ -57,7 +57,7 @@ module ForemanAcd
     end
 
     def filtered_hosts
-      JSON.parse(@app_instance.hosts).select { |h| h&.key?('foreman_host_id') && @host_ids.include?(h['foreman_host_id']) }
+      @app_instance.foreman_hosts.select { |h| h.host_id? && @host_ids.include?(h.host_id) }
     end
   end
 end
