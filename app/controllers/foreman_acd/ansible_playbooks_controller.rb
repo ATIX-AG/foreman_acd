@@ -19,7 +19,8 @@ module ForemanAcd
     def create
       @ansible_playbook = AnsiblePlaybook.new(ansible_playbook_params)
       if @ansible_playbook.save
-        process_success
+        process_success :success_msg => _("Successfully created %s. You need to press the \"Import groups\" button
+                                           before this ansible playbook can be used in App Definitions!") % @ansible_playbook
       else
         process_error
       end
