@@ -73,7 +73,7 @@ module ForemanAcd
     def report
       @report_hosts = collect_host_report_data
 
-      logger.debug("deploy report hosts are: #{@report_hosts.inspect}")
+      logger.debug("app instance host details: #{@report_hosts.inspect}")
     end
 
     def app_instance_has_foreman_hosts
@@ -97,8 +97,14 @@ module ForemanAcd
     def collect_hosts_data
       hosts_data = []
       @app_instance.foreman_hosts.each do |h|
-        hosts_data << { :id => h.id, :hostname => h.hostname, :service => h.service, :description => h.description,
-                        :foremanParameters => JSON.parse(h.foremanParameters), :ansibleParameters => JSON.parse(h.ansibleParameters) }
+        hosts_data << {
+          :id => h.id,
+          :hostname => h.hostname,
+          :service => h.service,
+          :description => h.description,
+          :foremanParameters => JSON.parse(h.foremanParameters),
+          :ansibleParameters => JSON.parse(h.ansibleParameters)
+        }
       end
       hosts_data
     end
@@ -119,9 +125,15 @@ module ForemanAcd
 
     def collect_host_report_data
       report_data = []
-      @app_instance.foreman_hosts.each do |host_data|
-        host = Host.find(host_data['host_id'])
-        report_data << { :id => host.id, :name => host_data['hostname'], :hostname => host.hostname, :hostUrl => host_path(host), :progress_report_id => host.progress_report_id }
+      @app_instance.foreman_hosts.each do |foreman_host|
+        report_data << {
+          :id => foreman_host.host.id,
+          :name => foreman_host.hostname,
+          :build => foreman_host.host.build,
+          :hostname => foreman_host.host.hostname,
+          :hostUrl => host_path(foreman_host.host),
+          :progress_report_id => foreman_host.host.progress_report_id
+        }
       end
       report_data
     end

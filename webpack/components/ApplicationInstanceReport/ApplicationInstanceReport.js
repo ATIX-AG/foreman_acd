@@ -95,6 +95,8 @@ class ApplicationInstanceReport extends React.Component {
       <div>
         <span>Host: <a href={ host['hostUrl'] }>{ host['hostname'] }</a></span>
         <span>&nbsp;|&nbsp;</span>
+        <span>State: { host['build'] == true ? "Build" : "Deployed" }</span>
+        <span>&nbsp;|&nbsp;</span>
         <span>Power Status: <PowerStatus data={{ id: host['id'], url: host['powerStatusUrl'] }} /></span>
       </div>
     )
@@ -102,7 +104,7 @@ class ApplicationInstanceReport extends React.Component {
 
   render() {
     const {
-      data: { hosts, mode },
+      data: { hosts, mode, appInstanceName, configureJobUrl },
       report,
       activeHostId,
     } = this.props;
@@ -120,6 +122,9 @@ class ApplicationInstanceReport extends React.Component {
 
     return (
       <span>
+        <div>
+          <a href={ configureJobUrl }>See configuration jobs</a>
+        </div>
         <div className="deploy_report_hosts">
           <VerticalTabs id="vertical_tabs">
             {tabs}
@@ -137,6 +142,8 @@ class ApplicationInstanceReport extends React.Component {
 
 ApplicationInstanceReport.defaultProps = {
   error: {},
+  appInstanceName: '',
+  configureJobUrl: '',
   hosts: [],
   report: [],
   activeHostId: 0,
@@ -144,6 +151,8 @@ ApplicationInstanceReport.defaultProps = {
 
 ApplicationInstanceReport.propTypes = {
   initApplicationInstanceReport: PropTypes.func,
+  appInstanceName: PropTypes.string,
+  configureJobUrl: PropTypes.string,
   hosts: PropTypes.array,
   report: PropTypes.array,
   setActiveAndLoadLiveReport: PropTypes.func,

@@ -1,4 +1,4 @@
-<% title _("Deployment Report for Application Instance #{@app_instance}") %>
+<% title _("Provisioning details for application instance #{@app_instance}") %>
 
 <% content_for(:javascripts) do %>
   <%= webpacked_plugins_js_for :foreman_acd %>
@@ -10,7 +10,9 @@
 <%
   json = {
     "mode": 'lastReport',
-    "hosts": @report_hosts
+    "appInstanceName": @app_instance.name,
+    "hosts": @report_hosts,
+    "configureJobUrl": job_invocations_path(search: "description ~ \"ACD application #{@app_instance.name}\"")
   }
 %>
 
