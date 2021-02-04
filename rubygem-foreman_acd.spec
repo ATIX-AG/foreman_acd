@@ -99,6 +99,11 @@ cp -pa .%{gem_dir}/* \
 %foreman_bundlerd_file
 %foreman_precompile_plugin -a -s
 
+mkdir -p %{buildroot}%{foreman_pluginconf_dir}/%{gem_name}/ansible-playbooks/
+
+%post
+type foreman-selinux-relabel >/dev/null 2>&1 && foreman-selinux-relabel 2>&1 >/dev/null || true
+
 %files
 %dir %{gem_instdir}
 %license %{gem_instdir}/LICENSE
@@ -117,6 +122,7 @@ cp -pa .%{gem_dir}/* \
 %{foreman_assets_plugin}
 %{foreman_webpack_plugin}
 %{foreman_webpack_foreman}
+%config %{foreman_pluginconf_dir}/%{gem_name}/ansible-playbooks/
 
 %files doc
 %doc %{gem_docdir}

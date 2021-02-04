@@ -25,9 +25,13 @@ This plugin aims to setup all 6 hosts and to deploy the application.
 
 # Current State
 
+## Ansible Playbooks
+
+- Specifiy the path to the ansible playbook and playfile
+- Read groups configured in the ansible playbook
+
 ## Application Definition
 
-- Configure a ansible playbook 
 - Use the configured ansible playbook in a Application Definition
 - Overwrite ansible playbook's group variables for the Application Definition
 - Set foreman parameters in the Application Definition
@@ -80,11 +84,15 @@ Katello plugin need to exist, too.
 
 ## Usage
 
+**Important:** Use /etc/foreman/plugins/foreman_acd/ansible-playbooks/ to 
+store the ansible-playbooks. Otherwise SELinux may deny the access to it.
+
 ### Ansible Playbook
 
-* Copy (or checkout a git repository) to e.g. /opt/ansible-playbook
+* Copy (or checkout a git repository) a ansible-playbook. Store them in 
+  /etc/foreman/plugins/foreman_acd/ansible-playbooks/ so that SELinux is able to read it.
 * Add a new Ansible Playbook via Configure -> Ansible Playbook
-* Set the path to /opt/ansible-playbook and name the playbook file. (e.g. site.yml)
+* Set the path to the ansible-playbook and name the playbook file. (e.g. site.yml)
 * Save it and press "Import group variables" for this newly created ansible playbook.
 
 ### Application Definition (Admin)
@@ -118,7 +126,6 @@ Katello plugin need to exist, too.
 - Provide application templates which contains application definition and 
   the required ansible-playbook.
 - Add saltstack support to configure the application
-- Automatically run the ansible playbook after all hosts are deployed
 - More parameter / value validation
 
 
