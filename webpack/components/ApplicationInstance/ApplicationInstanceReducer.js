@@ -134,13 +134,23 @@ const applicationInstanceConf = (state = initialState, action) => {
         return state;
       }
 
+      // hostnames are lower case
+      thisHost.hostname = thisHost.hostname.toLowerCase();
+
+      const hostnameRegex = /^[0-9a-z]([0-9a-z\-]{0,61}[0-9a-z])$/;
+
+      if (thisHost.hostname.match(hostnameRegex) == undefined) {
+        window.alert("The hostname uses not allowed characters. See https://en.wikipedia.org/wiki/Hostname#Syntax for more details.")
+        return state;
+      }
+
       if (thisHost.service == '') {
-        window.alert("Every host needs to be assigned to a service");
+        window.alert("Every host needs to be assigned to a service.");
         return state;
       }
 
       if (state.hosts.filter(v => v.hostname === thisHost.hostname && v.id != thisHost.id).length > 0) {
-        window.alert("Host name already used for this Application Instance. Please make sure that every host name is unique");
+        window.alert("Host name already used in this Application Instance. Please make sure that every host name is unique.");
         return state;
       }
 
