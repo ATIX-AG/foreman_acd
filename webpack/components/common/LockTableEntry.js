@@ -4,6 +4,7 @@ import {
   Icon,
   Button,
 } from 'patternfly-react';
+import { translate as __ } from 'foremanReact/common/I18n';
 
 const LockTableEntry = ({
   hidden,
@@ -43,7 +44,7 @@ const LockTableEntry = ({
         disabled={disabled}
         onClick={() => onLockTableEntry(additionalData) }
       >
-        <Icon type="pf" name={lockButton} title={lockButtonTitle} />
+        <Icon type="pf" name={lockButton} title={__(lockButtonTitle)} />
       </Button>
     </span>
   );

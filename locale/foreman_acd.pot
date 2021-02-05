@@ -1,19 +1,354 @@
-# foreman_acd
-#
-# This file is distributed under the same license as foreman_acd.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the foreman_acd package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: version 0.0.1\n"
+"Project-Id-Version: foreman_acd 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-20 08:46+0100\n"
-"PO-Revision-Date: 2014-08-20 08:46+0100\n"
-"Last-Translator: Foreman Team <foreman-dev@googlegroups.com>\n"
-"Language-Team: Foreman Team <foreman-dev@googlegroups.com>\n"
+"POT-Creation-Date: 2021-02-05 21:21+0000\n"
+"PO-Revision-Date: 2021-02-05 21:21+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
+#: ../app/controllers/foreman_acd/ansible_playbooks_controller.rb:22
+msgid ""
+"Successfully created %s. You need to press the \"Import groups\" button\n"
+"                                           before this ansible playbook can be"
+" used in App Definitions!"
+msgstr ""
+
+#: ../app/controllers/foreman_acd/ansible_playbooks_controller.rb:116
+msgid "Successfully loaded ansible group variables from %s"
+msgstr ""
+
+#: ../app/controllers/foreman_acd/api/v2/ansible_playbooks_controller.rb:15
+msgid "Show ansible playbook"
+msgstr ""
+
+#: ../app/controllers/foreman_acd/api/v2/ansible_playbooks_controller.rb:19
+msgid "List ansible playbooks"
+msgstr ""
+
+#: ../app/controllers/foreman_acd/api/v2/ansible_playbooks_controller.rb:35
+msgid "Create a ansible playbook"
+msgstr ""
+
+#: ../app/controllers/foreman_acd/api/v2/ansible_playbooks_controller.rb:42
+msgid "Deletes ansible playbook"
+msgstr ""
+
+#: ../app/controllers/foreman_acd/api/v2/ansible_playbooks_controller.rb:48
+msgid "Grab ansible playbook"
+msgstr ""
+
+#: ../app/controllers/foreman_acd/api/v2/app_definitions_controller.rb:12
+msgid "Show application definition"
+msgstr ""
+
+#: ../app/controllers/foreman_acd/api/v2/app_definitions_controller.rb:16
+msgid "List application definitions"
+msgstr ""
+
+#: ../app/controllers/foreman_acd/api/v2/app_definitions_controller.rb:32
+msgid "Create a application definition"
+msgstr ""
+
+#: ../app/controllers/foreman_acd/api/v2/app_definitions_controller.rb:39
+msgid "Deletes application definition"
+msgstr ""
+
+#: ../app/controllers/foreman_acd/api/v2/app_instances_controller.rb:12
+msgid "Show application instance"
+msgstr ""
+
+#: ../app/controllers/foreman_acd/api/v2/app_instances_controller.rb:18
+msgid "List application instances"
+msgstr ""
+
+#: ../app/controllers/foreman_acd/api/v2/app_instances_controller.rb:39
+msgid "Create a application instance"
+msgstr ""
+
+#: ../app/controllers/foreman_acd/api/v2/app_instances_controller.rb:46
+msgid "Deletes application instance"
+msgstr ""
+
+#: ../app/models/foreman_acd/ansible_playbook.rb:37
+msgid "Ansible playbook"
+msgstr ""
+
+#: ../app/models/foreman_acd/app_definition.rb:37
+msgid "App Definition"
+msgstr ""
+
+#: ../app/models/foreman_acd/app_instance.rb:19
+msgid "App Instance"
+msgstr ""
+
+#: ../app/views/foreman_acd/ansible_playbooks/_form.html.erb:5
+msgid "Ansible playbooks"
+msgstr ""
+
+#: ../app/views/foreman_acd/ansible_playbooks/_form.html.erb:7
+#: ../app/views/foreman_acd/app_definitions/_form.html.erb:34
+msgid "Locations"
+msgstr ""
+
+#: ../app/views/foreman_acd/ansible_playbooks/_form.html.erb:10
+#: ../app/views/foreman_acd/app_definitions/_form.html.erb:37
+msgid "Organizations"
+msgstr ""
+
+#: ../app/views/foreman_acd/ansible_playbooks/edit.html.erb:4
+#: ../app/views/foreman_acd/ansible_playbooks/index.html.erb:1
+msgid "Ansible Playbooks"
+msgstr ""
+
+#: ../app/views/foreman_acd/ansible_playbooks/edit.html.erb:10
+msgid "Edit Ansible Playbook %s"
+msgstr ""
+
+#: ../app/views/foreman_acd/ansible_playbooks/index.html.erb:4
+#: ../app/views/foreman_acd/ansible_playbooks/new.html.erb:1
+msgid "New Ansible Playbook"
+msgstr ""
+
+#: ../app/views/foreman_acd/ansible_playbooks/index.html.erb:9
+msgid "AnsiblePlaybook|Name"
+msgstr ""
+
+#: ../app/views/foreman_acd/ansible_playbooks/index.html.erb:10
+#: ../app/views/foreman_acd/app_definitions/index.html.erb:11
+#: ../app/views/foreman_acd/app_instances/index.html.erb:9
+#: ../webpack/components/ParameterSelection/ParameterSelectionActions.js:97
+msgid "Description"
+msgstr ""
+
+#: ../app/views/foreman_acd/ansible_playbooks/index.html.erb:19
+msgid "Import groups"
+msgstr ""
+
+#: ../app/views/foreman_acd/ansible_playbooks/index.html.erb:21
+#: ../app/views/foreman_acd/app_definitions/index.html.erb:21
+#: ../app/views/foreman_acd/app_instances/index.html.erb:27
+msgid "Delete %s?"
+msgstr ""
+
+#: ../app/views/foreman_acd/app_definitions/_form.html.erb:32
+#: ../app/views/foreman_acd/app_definitions/import.html.erb:6
+#: ../app/views/foreman_acd/app_definitions/index.html.erb:1
+msgid "Application Definitions"
+msgstr ""
+
+#: ../app/views/foreman_acd/app_definitions/edit.html.erb:4
+msgid "App Definitions"
+msgstr ""
+
+#: ../app/views/foreman_acd/app_definitions/edit.html.erb:11
+msgid "Edit Application Definition %s"
+msgstr ""
+
+#: ../app/views/foreman_acd/app_definitions/import.html.erb:1
+msgid "Import Application Definition"
+msgstr ""
+
+#: ../app/views/foreman_acd/app_definitions/import.html.erb:13
+msgid "Application Definition file"
+msgstr ""
+
+#: ../app/views/foreman_acd/app_definitions/index.html.erb:4
+#: ../app/views/foreman_acd/app_definitions/new.html.erb:1
+msgid "New Application Definition"
+msgstr ""
+
+#: ../app/views/foreman_acd/app_definitions/index.html.erb:5
+msgid "Import"
+msgstr ""
+
+#: ../app/views/foreman_acd/app_definitions/index.html.erb:10
+msgid "AppDefinition|Name"
+msgstr ""
+
+#: ../app/views/foreman_acd/app_definitions/index.html.erb:22
+msgid "Export"
+msgstr ""
+
+#: ../app/views/foreman_acd/app_instances/_form.html.erb:32
+#: ../app/views/foreman_acd/app_instances/index.html.erb:1
+msgid "Application Instances"
+msgstr ""
+
+#: ../app/views/foreman_acd/app_instances/edit.html.erb:4
+msgid "App Instances"
+msgstr ""
+
+#: ../app/views/foreman_acd/app_instances/edit.html.erb:11
+msgid "Edit Application Instance %s"
+msgstr ""
+
+#: ../app/views/foreman_acd/app_instances/index.html.erb:3
+#: ../app/views/foreman_acd/app_instances/new.html.erb:1
+msgid "New Application Instance"
+msgstr ""
+
+#: ../app/views/foreman_acd/app_instances/index.html.erb:7
+msgid "AppInstance|Name"
+msgstr ""
+
+#: ../app/views/foreman_acd/app_instances/index.html.erb:8
+msgid "Application"
+msgstr ""
+
+#: ../app/views/foreman_acd/app_instances/index.html.erb:18
+msgid "Deploy"
+msgstr ""
+
+#: ../app/views/foreman_acd/app_instances/index.html.erb:20
+msgid "Run Playbook"
+msgstr ""
+
+#: ../app/views/foreman_acd/app_instances/index.html.erb:22
+msgid "Run Playbook - customize first"
+msgstr ""
+
+#: ../app/views/foreman_acd/app_instances/index.html.erb:24
+msgid "Report"
+msgstr ""
+
+#: ../lib/foreman_acd/plugin.rb:9
+msgid "Applications"
+msgstr ""
+
+#: ../lib/foreman_acd/plugin.rb:145
+msgid "Run playbook for ACD"
+msgstr ""
+
+#: ../lib/foreman_acd/plugin.rb:147
+msgid "Run an Ansible playbook to configure ACD application"
+msgstr ""
+
+#: ../webpack/components/ApplicationDefinition/ApplicationDefinition.js:74
+#: ../webpack/components/ApplicationInstance/ApplicationInstance.js:114
+msgid "edit entry"
+msgstr ""
+
+#: ../webpack/components/ApplicationDefinition/ApplicationDefinition.js:81
+#: ../webpack/components/ApplicationInstance/ApplicationInstance.js:121
+msgid "change parameters"
+msgstr ""
+
+#: ../webpack/components/ApplicationDefinition/ApplicationDefinition.js:88
+#: ../webpack/components/ApplicationInstance/ApplicationInstance.js:128
+msgid "change ansible variables"
+msgstr ""
+
+#: ../webpack/components/ApplicationDefinition/ApplicationDefinition.js:102
+#: ../webpack/components/ApplicationInstance/ApplicationInstance.js:142
+msgid "edit"
+msgstr ""
+
+#: ../webpack/components/ApplicationDefinition/ApplicationDefinition.js:106
+#: ../webpack/components/ApplicationInstance/ApplicationInstance.js:146
+msgid "settings"
+msgstr ""
+
+#: ../webpack/components/ApplicationDefinition/ApplicationDefinition.js:277
+#: ../webpack/components/ApplicationInstance/ApplicationInstance.js:324
+msgid "change ansible variables for 'all'"
+msgstr ""
+
+#: ../webpack/components/ApplicationDefinition/ApplicationDefinition.js:285
+msgid "Foreman Parameter definition for Application Definition"
+msgstr ""
+
+#: ../webpack/components/ApplicationDefinition/ApplicationDefinition.js:303
+#: ../webpack/components/ApplicationDefinition/ApplicationDefinition.js:330
+#: ../webpack/components/ApplicationInstance/ApplicationInstance.js:350
+#: ../webpack/components/ApplicationInstance/ApplicationInstance.js:377
+msgid "Save"
+msgstr ""
+
+#: ../webpack/components/ApplicationDefinition/ApplicationDefinition.js:304
+#: ../webpack/components/ApplicationDefinition/ApplicationDefinition.js:331
+#: ../webpack/components/ApplicationInstance/ApplicationInstance.js:351
+#: ../webpack/components/ApplicationInstance/ApplicationInstance.js:378
+msgid "Cancel"
+msgstr ""
+
+#: ../webpack/components/ApplicationDefinition/ApplicationDefinition.js:313
+msgid "Ansible variables for Application Definition"
+msgstr ""
+
+#: ../webpack/components/ApplicationInstance/ApplicationInstance.js:53
+msgid ""
+"For some hosts the values for some parameters are missing. Check the values fo"
+"r these hosts:\\n"
+msgstr ""
+
+#: ../webpack/components/ApplicationInstance/ApplicationInstance.js:71
+msgid "Unachieved service counts:"
+msgstr ""
+
+#: ../webpack/components/ApplicationInstance/ApplicationInstance.js:75
+msgid "- service ${s.name} expects at ${s.minCount} least configured hosts\\n"
+msgstr ""
+
+#: ../webpack/components/ApplicationInstance/ApplicationInstance.js:79
+msgid "- service ${s.name} expects no more than ${s.axCount} configured hosts\\n"
+msgstr ""
+
+#: ../webpack/components/ApplicationInstance/ApplicationInstance.js:332
+msgid "Foreman Parameter specification for Application Instance"
+msgstr ""
+
+#: ../webpack/components/ApplicationInstance/ApplicationInstance.js:360
+msgid "Ansible group variables for Application Instance"
+msgstr ""
+
+#: ../webpack/components/ApplicationInstance/components/Service.js:12
+msgid "Min/Max"
+msgstr ""
+
+#: ../webpack/components/ParameterSelection/ParameterSelectionActions.js:63
+msgid "Value"
+msgstr ""
+
+#: ../webpack/components/ParameterSelection/ParameterSelectionActions.js:65
+msgid "Default value"
+msgstr ""
+
+#: ../webpack/components/ParameterSelection/ParameterSelectionActions.js:78
+msgid "Name"
+msgstr ""
+
+#: ../webpack/components/ParameterSelection/ParameterSelectionActions.js:120
+msgid "Type"
+msgstr ""
+
+#: ../webpack/components/ParameterSelection/ParameterSelectionActions.js:161
+msgid "Actions"
+msgstr ""
+
+#: ../webpack/components/ParameterSelection/ParameterSelectionActions.js:188
+msgid "Failed to fetch data from server."
+msgstr ""
+
+#: ../webpack/components/common/DeleteTableEntry.js:24
+msgid "Are you sure you wish to delete this item?"
+msgstr ""
+
+#: ../webpack/components/common/DeleteTableEntry.js:26
+msgid "Delete entry"
+msgstr ""
+
+#: gemspec.rb:2
+msgid "TODO: Description of ForemanAcd."
+msgstr ""

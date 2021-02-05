@@ -4,6 +4,7 @@ import {
   Icon,
   Button,
 } from 'patternfly-react';
+import { translate as __ } from 'foremanReact/common/I18n';
 
 const EditTableEntry = ({
   hidden,
@@ -32,7 +33,7 @@ const EditTableEntry = ({
         disabled={disabled}
         onClick={() => onEditTableEntry(additionalData) }
       >
-        <Icon type="pf" name="edit" title={title} />
+        <Icon type="pf" name="edit" title={__(title)} />
       </Button>
     </span>
   );

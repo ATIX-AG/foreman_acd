@@ -14,6 +14,7 @@ import DeleteTableEntry from '../common/DeleteTableEntry';
 import RailsData from '../common/RailsData';
 import EasyHeaderFormatter from '../common/EasyHeaderFormatter';
 import AnsiblePlaybookSelector from './components/AnsiblePlaybookSelector';
+import { translate as __ } from 'foremanReact/common/I18n';
 
 import {
   Table,
@@ -70,21 +71,21 @@ class ApplicationDefinition extends React.Component {
             bsStyle="default"
             onClick={() => activateEditApplicationDefinitionService(additionalData)}
           >
-            <Icon type="pf" name="edit" title="edit entry" />
+            <Icon type="pf" name="edit" title={__("edit entry")} />
           </Button>
           &nbsp;
           <Button
             bsStyle="default"
             onClick={() => openForemanParameterSelectionModal(additionalData)}
           >
-            <Icon type="pf" name="settings" title="change parameters" />
+            <Icon type="pf" name="settings" title={__("change parameters")} />
           </Button>
           &nbsp;
           <Button
             bsStyle="default"
             onClick={() => openAnsibleParameterSelectionModal(additionalData)}
           >
-            <span title="change ansible variables">A</span>
+            <span title={__("change ansible variables")}>A</span>
           </Button>
           &nbsp;
           <DeleteTableEntry
@@ -98,11 +99,11 @@ class ApplicationDefinition extends React.Component {
       renderEdit: (value, additionalData) => (
         <td style={{ padding: '2px' }}>
           <Button bsStyle="default" disabled>
-            <Icon type="pf" name="edit" />
+            <Icon type="pf" name={__("edit")} />
           </Button>
           &nbsp;
           <Button bsStyle="default" disabled>
-            <Icon type="pf" name="settings" />
+            <Icon type="pf" name={__("settings")} />
           </Button>
           &nbsp;
           <Button
@@ -273,7 +274,7 @@ class ApplicationDefinition extends React.Component {
                 isAllGroup: true
               })}
             >
-              <span title="change ansible variables for 'all'">A</span>
+              <span title={__("change ansible variables for 'all'")}>A</span>
             </Button>
           </span>
         </div>
@@ -281,7 +282,7 @@ class ApplicationDefinition extends React.Component {
           <ForemanModal
             id="AppDefinitionForemanParamSelection"
             dialogClassName="param_selection_modal"
-            title="Foreman Parameter definition for Application Definition"
+            title={__("Foreman Parameter definition for Application Definition")}
           >
             <ForemanModal.Header closeButton={false}>
               Parameter definition
@@ -299,8 +300,8 @@ class ApplicationDefinition extends React.Component {
             }
             <ForemanModal.Footer>
               <div>
-                <Button bsStyle="primary" disabled={this.props.paramEditMode} onClick={() => closeForemanParameterSelectionModal({ mode: 'save' })}>Save</Button>
-                <Button bsStyle="default" disabled={this.props.paramEditMode} onClick={() => closeForemanParameterSelectionModal({ mode: 'cancel' })}>Cancel</Button>
+                <Button bsStyle="primary" disabled={this.props.paramEditMode} onClick={() => closeForemanParameterSelectionModal({ mode: 'save' })}>{__("Save")}</Button>
+                <Button bsStyle="default" disabled={this.props.paramEditMode} onClick={() => closeForemanParameterSelectionModal({ mode: 'cancel' })}>{__("Cancel")}</Button>
               </div>
             </ForemanModal.Footer>
           </ForemanModal>
@@ -309,7 +310,7 @@ class ApplicationDefinition extends React.Component {
           <ForemanModal
             id="AppDefinitionAnsibleParamSelection"
             dialogClassName="param_selection_modal"
-            title="Ansible variables for Application Definition"
+            title={__("Ansible variables for Application Definition")}
           >
             <ForemanModal.Header closeButton={false}>
               Parameter definition
@@ -326,8 +327,8 @@ class ApplicationDefinition extends React.Component {
             }
             <ForemanModal.Footer>
               <div>
-                <Button bsStyle="primary" disabled={this.props.paramEditMode} onClick={() => closeAnsibleParameterSelectionModal({ mode: 'save' })}>Save</Button>
-                <Button bsStyle="default" disabled={this.props.paramEditMode} onClick={() => closeAnsibleParameterSelectionModal({ mode: 'cancel' })}>Cancel</Button>
+                <Button bsStyle="primary" disabled={this.props.paramEditMode} onClick={() => closeAnsibleParameterSelectionModal({ mode: 'save' })}>{__("Save")}</Button>
+                <Button bsStyle="default" disabled={this.props.paramEditMode} onClick={() => closeAnsibleParameterSelectionModal({ mode: 'cancel' })}>{__("Cancel")}</Button>
               </div>
             </ForemanModal.Footer>
           </ForemanModal>

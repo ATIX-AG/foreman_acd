@@ -9,7 +9,7 @@ const Service= ({
 }) =>{
   return (
     <div>
-      <label>{name}:</label> {currentCount} (Min/Max: {minCount}/{maxCount})
+      <label>{name}:</label> {currentCount} ({__("Min/Max")}: {minCount}/{maxCount})
     </div>
   );
 };

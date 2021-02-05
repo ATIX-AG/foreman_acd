@@ -6,6 +6,10 @@ import {
 } from 'patternfly-react';
 import * as resolve from 'table-resolver';
 import ForemanModal from 'foremanReact/components/ForemanModal';
+import {
+  sprintf,
+  translate as __
+} from 'foremanReact/common/I18n';
 import Select from 'foremanReact/components/common/forms/Select';
 import ParameterSelection from '../ParameterSelection';
 import AddTableEntry from '../common/AddTableEntry';
@@ -42,11 +46,11 @@ class ApplicationInstance extends React.Component {
     let msg = "";
 
     this.props.hosts.forEach(h => {
-      if (h.parameters.map(e => e.value).filter(i => i == "").length > 0) {
+      if (h.foremanParameters.map(e => e.value).filter(i => i == "").length > 0) {
         result = false;
 
         if (msg == "") {
-          msg += "For some hosts the values for some parameters are missing. Check the values for these hosts:\n";
+          msg += __("For some hosts the values for some parameters are missing. Check the values for these hosts:\n");
         }
         msg += "- "+ h.hostname +"\n";
       }
@@ -55,22 +59,31 @@ class ApplicationInstance extends React.Component {
     const invalidMinServices = this.props.services.filter(s => (Number(s.minCount) != 0) && (s.currentCount < s.minCount));
     const invalidMaxServices = this.props.services.filter(s => (Number(s.maxCount) != 0) && (s.currentCount > s.maxCount));
 
+    console.log(invalidMinServices);
+
     if (invalidMinServices.length > 0 || invalidMaxServices.length > 0) {
       result = false;
 
       if (msg != "") {
         msg += "\n";
       }
-      msg += "Unachieved service counts: \n";
 
-      invalidMinServices.map(s => { msg += "- service "+ s.name +" expects at least "+ s.minCount +" configured hosts" });
-      invalidMaxServices.map(s => { msg += "- service "+ s.name +" expects no more than "+ s.maxCount +" configured hosts" });
+      msg += __("Unachieved service counts:");
+      msg += "\n";
+
+      invalidMinServices.map(s => { msg += sprintf(
+        __(`- service ${s.name} expects at ${s.minCount} least configured hosts\n`)
+      )});
+
+      invalidMaxServices.map(s => { msg += sprintf(
+        __(`- service ${s.name} expects no more than ${s.axCount} configured hosts\n`)
+      )});
     }
 
-    if (result === false) {
-      window.alert(msg);
+    return {
+      validateResult: result,
+      validateMsg: msg
     }
-    return result;
   }
 
   componentDidMount() {
@@ -98,21 +111,21 @@ class ApplicationInstance extends React.Component {
             bsStyle="default"
             onClick={() => activateEditApplicationInstanceHost(additionalData)}
           >
-            <Icon type="pf" name="edit" title="edit entry" />
+            <Icon type="pf" name="edit" title={__("edit entry")} />
           </Button>
           &nbsp;
           <Button
             bsStyle="default"
             onClick={() => openForemanParameterSelectionModal(additionalData)}
           >
-            <Icon type="pf" name="settings" title="change parameters" />
+            <Icon type="pf" name="settings" title={__("change parameters")} />
           </Button>
           &nbsp;
           <Button
             bsStyle="default"
             onClick={() => openAnsibleParameterSelectionModal(additionalData)}
           >
-            <span title="change ansible variables">A</span>
+            <span title={__("change ansible variables")}>A</span>
           </Button>
           &nbsp;
           <DeleteTableEntry
@@ -126,11 +139,11 @@ class ApplicationInstance extends React.Component {
       renderEdit: (value, additionalData) => (
         <td style={{ padding: '2px' }}>
           <Button bsStyle="default" disabled>
-            <Icon type="pf" name="edit" />
+            <Icon type="pf" name={__("edit")} />
           </Button>
           &nbsp;
           <Button bsStyle="default" disabled>
-            <Icon type="pf" name="settings" />
+            <Icon type="pf" name={__("settings")} />
           </Button>
           &nbsp;
           <Button bsStyle="default" disabled>
@@ -232,10 +245,13 @@ class ApplicationInstance extends React.Component {
       loadApplicationDefinition,
     } = this.props;
 
-    // Start from validation when pressing submit. This should be in componentDidMount() but
-    // unfortunatley then the event wasn't fired. To make sure, that the on-click is only added
-    // once, there is a workaround to check if a css class "bound" exists.
-    $('input[type="submit"][name="commit"]:not(.bound)').addClass('bound').on('click', () => this.validateParameters());
+    let { validateResult, validateMsg } = this.validateParameters();
+
+    if (validateResult == false) {
+      $('input[type="submit"][name="commit"]').attr("disabled", true);
+    } else {
+      $('input[type="submit"][name="commit"]').attr("disabled", false);
+    }
 
     return (
       <span>
@@ -305,7 +321,7 @@ class ApplicationInstance extends React.Component {
                 isAllGroup: true
               })}
             >
-              <span title="change ansible variables for 'all'">A</span>
+              <span title={__("change ansible variables for 'all'")}>A</span>
             </Button>
           </span>
         </div>
@@ -313,7 +329,7 @@ class ApplicationInstance extends React.Component {
           <ForemanModal
             id="AppInstanceForemanParamSelection"
             dialogClassName="param_selection_modal"
-            title="Foreman Parameter specification for Application Instance"
+            title={__("Foreman Parameter specification for Application Instance")}
           >
             <ForemanModal.Header closeButton={false}>
               Parameter specification
@@ -331,8 +347,8 @@ class ApplicationInstance extends React.Component {
             }
             <ForemanModal.Footer>
               <div>
-                <Button bsStyle="primary" disabled={this.props.paramEditMode} onClick={() => closeForemanParameterSelectionModal({ mode: 'save' })}>Save</Button>
-                <Button bsStyle="default" disabled={this.props.paramEditMode} onClick={() => closeForemanParameterSelectionModal({ mode: 'cancel' })}>Cancel</Button>
+                <Button bsStyle="primary" disabled={this.props.paramEditMode} onClick={() => closeForemanParameterSelectionModal({ mode: 'save' })}>{__("Save")}</Button>
+                <Button bsStyle="default" disabled={this.props.paramEditMode} onClick={() => closeForemanParameterSelectionModal({ mode: 'cancel' })}>{__("Cancel")}</Button>
               </div>
             </ForemanModal.Footer>
           </ForemanModal>
@@ -341,7 +357,7 @@ class ApplicationInstance extends React.Component {
           <ForemanModal
             id="AppInstanceAnsibleParamSelection"
             dialogClassName="param_selection_modal"
-            title="Ansible group variables for Application Instance"
+            title={__("Ansible group variables for Application Instance")}
           >
             <ForemanModal.Header closeButton={false}>
               Parameter specification
@@ -358,12 +374,17 @@ class ApplicationInstance extends React.Component {
             }
             <ForemanModal.Footer>
               <div>
-                <Button bsStyle="primary" disabled={this.props.paramEditMode} onClick={() => closeAnsibleParameterSelectionModal({ mode: 'save' })}>Save</Button>
-                <Button bsStyle="default" disabled={this.props.paramEditMode} onClick={() => closeAnsibleParameterSelectionModal({ mode: 'cancel' })}>Cancel</Button>
+                <Button bsStyle="primary" disabled={this.props.paramEditMode} onClick={() => closeAnsibleParameterSelectionModal({ mode: 'save' })}>{__("Save")}</Button>
+                <Button bsStyle="default" disabled={this.props.paramEditMode} onClick={() => closeAnsibleParameterSelectionModal({ mode: 'cancel' })}>{__("Cancel")}</Button>
               </div>
             </ForemanModal.Footer>
           </ForemanModal>
         </div>
+        {validateResult == false ? (
+          <p style={{ paddingTop: 25 }}>
+            <pre>{ validateMsg }</pre>
+          </p>
+        ) : (<div></div>)}
         <RailsData
           key='applications_instance'
           view='app_instance'
