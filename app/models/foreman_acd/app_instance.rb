@@ -11,9 +11,11 @@ module ForemanAcd
     belongs_to :organization
     validates :organization, :presence => true
     belongs_to :location
+    has_many :foreman_hosts, :inverse_of => :app_instance, :dependent => :destroy
     validates :location, :presence => true
     scoped_search :on => :name
     default_scope -> { order('app_instances.name') }
+    attr_accessor :hosts
 
     def self.humanize_class_name(_name = nil)
       _('App Instance')
@@ -23,9 +25,8 @@ module ForemanAcd
       'app_instances'
     end
 
-    def foreman_hosts
-      app_hosts = JSON.parse(hosts)
-      host_ids = app_hosts.select { |h| h&.key?('foreman_host_id') }.map { |h| h['foreman_host_id'] }
+    def acd_foreman_hosts
+      host_ids = foreman_hosts.map(&:host_id)
       ::Host.find(host_ids)
     end
   end
