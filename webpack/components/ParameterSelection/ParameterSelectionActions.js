@@ -1,5 +1,6 @@
 import React from 'react';
 import * as sort from 'sortabular';
+import { translate as __ } from 'foremanReact/common/I18n';
 
 import {
   actionHeaderCellFormatter,
@@ -59,9 +60,9 @@ export const initParameterSelection = (
   };
   initialState.paramDefinition = paramDefinition;
 
-  let valueLabel = 'Value';
+  let valueLabel = __('Value');
   if (useDefaultValue) {
-    valueLabel = 'Default value';
+    valueLabel = __('Default value');
   }
 
   initialState.columns = []
@@ -74,7 +75,7 @@ export const initParameterSelection = (
   addToColumns( {
       property: 'name',
       header: {
-        label: 'Name',
+        label: __('Name'),
         props: {
           sort: true,
           style: {
@@ -93,7 +94,7 @@ export const initParameterSelection = (
   addToColumns( {
       property: 'description',
       header: {
-        label: 'Description',
+        label: __('Description'),
         props: {
           sort: true,
           style: {
@@ -116,7 +117,7 @@ export const initParameterSelection = (
     addToColumns( {
       property: 'type',
       header: {
-        label: 'Type',
+        label: __('Type'),
         props: {
           sort: true,
           style: {
@@ -157,7 +158,7 @@ export const initParameterSelection = (
   addToColumns( {
       property: 'actions',
       header: {
-        label: 'Actions',
+        label: __('Actions'),
         props: {
           style: {
             width: '10%'
@@ -184,7 +185,7 @@ export const initParameterSelection = (
 
 const errorHandler = (msg, err) => {
   const error = {
-    errorMsg: 'Failed to fetch data from server.',
+    errorMsg: __('Failed to fetch data from server.'),
     statusText: err,
   };
   return { type: msg, payload: { error } };

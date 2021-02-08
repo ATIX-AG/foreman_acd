@@ -4,6 +4,7 @@ import {
   Icon,
   Button,
 } from 'patternfly-react';
+import { translate as __ } from 'foremanReact/common/I18n';
 
 const DeleteTableEntry = ({
   hidden,
@@ -20,9 +21,9 @@ const DeleteTableEntry = ({
       <Button
         bsStyle="default"
         disabled={disabled}
-        onClick={() => window.confirm("Are you sure you wish to delete this item?") && onDeleteTableEntry(additionalData) }
+        onClick={() => window.confirm(__("Are you sure you wish to delete this item?")) && onDeleteTableEntry(additionalData) }
       >
-        <Icon type="pf" name="delete" title="delete entry" />
+        <Icon type="pf" name="delete" title={__("Delete entry")} />
       </Button>
     </span>
   );

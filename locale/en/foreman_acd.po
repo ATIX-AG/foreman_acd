@@ -2,12 +2,10 @@
 #
 # This file is distributed under the same license as foreman_acd.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: version 0.0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-08-20 08:46+0100\n"
 "PO-Revision-Date: 2014-08-20 08:54+0100\n"
 "Last-Translator: Foreman Team <foreman-dev@googlegroups.com>\n"
 "Language-Team: Foreman Team <foreman-dev@googlegroups.com>\n"
@@ -17,3 +15,235 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+msgid ""
+"- service ${s.name} expects at ${s.minCount} least configured hosts\n"
+msgstr ""
+
+msgid ""
+"- service ${s.name} expects no more than ${s.axCount} configured hosts\n"
+msgstr ""
+
+msgid "Actions"
+msgstr ""
+
+msgid "Ansible Playbooks"
+msgstr ""
+
+msgid "Ansible group variables for Application Instance"
+msgstr ""
+
+msgid "Ansible playbook"
+msgstr ""
+
+msgid "Ansible playbooks"
+msgstr ""
+
+msgid "Ansible variables for Application Definition"
+msgstr ""
+
+msgid "AnsiblePlaybook|Name"
+msgstr ""
+
+msgid "App Definition"
+msgstr ""
+
+msgid "App Definitions"
+msgstr ""
+
+msgid "App Instance"
+msgstr ""
+
+msgid "App Instances"
+msgstr ""
+
+msgid "AppDefinition|Name"
+msgstr ""
+
+msgid "AppInstance|Name"
+msgstr ""
+
+msgid "Application"
+msgstr ""
+
+msgid "Application Definition file"
+msgstr ""
+
+msgid "Application Definitions"
+msgstr ""
+
+msgid "Application Instances"
+msgstr ""
+
+msgid "Applications"
+msgstr ""
+
+msgid "Are you sure you wish to delete this item?"
+msgstr ""
+
+msgid "Cancel"
+msgstr ""
+
+msgid "Create a ansible playbook"
+msgstr ""
+
+msgid "Create a application definition"
+msgstr ""
+
+msgid "Create a application instance"
+msgstr ""
+
+msgid "Default value"
+msgstr ""
+
+msgid "Delete %s?"
+msgstr ""
+
+msgid "Delete entry"
+msgstr ""
+
+msgid "Deletes ansible playbook"
+msgstr ""
+
+msgid "Deletes application definition"
+msgstr ""
+
+msgid "Deletes application instance"
+msgstr ""
+
+msgid "Deploy"
+msgstr ""
+
+msgid "Description"
+msgstr ""
+
+msgid "Edit Ansible Playbook %s"
+msgstr ""
+
+msgid "Edit Application Definition %s"
+msgstr ""
+
+msgid "Edit Application Instance %s"
+msgstr ""
+
+msgid "Export"
+msgstr ""
+
+msgid "Failed to fetch data from server."
+msgstr ""
+
+msgid ""
+"For some hosts the values for some parameters are missing. Check the values for these hosts:\n"
+msgstr ""
+
+msgid "Foreman Parameter definition for Application Definition"
+msgstr ""
+
+msgid "Foreman Parameter specification for Application Instance"
+msgstr ""
+
+msgid "Grab ansible playbook"
+msgstr ""
+
+msgid "Import"
+msgstr ""
+
+msgid "Import Application Definition"
+msgstr ""
+
+msgid "Import groups"
+msgstr ""
+
+msgid "List ansible playbooks"
+msgstr ""
+
+msgid "List application definitions"
+msgstr ""
+
+msgid "List application instances"
+msgstr ""
+
+msgid "Locations"
+msgstr ""
+
+msgid "Min/Max"
+msgstr ""
+
+msgid "Name"
+msgstr ""
+
+msgid "New Ansible Playbook"
+msgstr ""
+
+msgid "New Application Definition"
+msgstr ""
+
+msgid "New Application Instance"
+msgstr ""
+
+msgid "Organizations"
+msgstr ""
+
+msgid "Report"
+msgstr ""
+
+msgid "Run Playbook"
+msgstr ""
+
+msgid "Run Playbook - customize first"
+msgstr ""
+
+msgid "Run an Ansible playbook to configure ACD application"
+msgstr ""
+
+msgid "Run playbook for ACD"
+msgstr ""
+
+msgid "Save"
+msgstr ""
+
+msgid "Show ansible playbook"
+msgstr ""
+
+msgid "Show application definition"
+msgstr ""
+
+msgid "Show application instance"
+msgstr ""
+
+msgid ""
+"Successfully created %s. You need to press the \"Import groups\" button\n"
+"                                           before this ansible playbook can be used in App Definitions!"
+msgstr ""
+
+msgid "Successfully loaded ansible group variables from %s"
+msgstr ""
+
+msgid "TODO: Description of ForemanAcd."
+msgstr ""
+
+msgid "Type"
+msgstr ""
+
+msgid "Unachieved service counts:"
+msgstr ""
+
+msgid "Value"
+msgstr ""
+
+msgid "change ansible variables"
+msgstr ""
+
+msgid "change ansible variables for 'all'"
+msgstr ""
+
+msgid "change parameters"
+msgstr ""
+
+msgid "edit"
+msgstr ""
+
+msgid "edit entry"
+msgstr ""
+
+msgid "settings"
+msgstr ""
