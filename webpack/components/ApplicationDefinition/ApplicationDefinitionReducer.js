@@ -110,6 +110,28 @@ const applicationDefinitionConf = (state = initialState, action) => {
       const services = cloneDeep(state.services);
       const index = findIndex(services, { id: payload.rowData.id });
 
+      const thisService = services[index];
+
+      if (thisService.name == '') {
+        window.alert("Every service needs to have a valid name.");
+        return state;
+      }
+
+      if (thisService.hostgroup == '') {
+        window.alert("Every service needs to be assigned to a hostgroup.");
+        return state;
+      }
+
+      if (thisService.ansibleGroup == '') {
+        window.alert("Every service needs to be assigned to a ansible group.");
+        return state;
+      }
+
+      if (state.services.filter(v => v.name === thisService.name && v.id != thisService.id).length > 0) {
+        window.alert("Service name already used in this Application Definition. Please make sure that every service name is unique.");
+        return state;
+      }
+
       delete services[index].backup;
       delete services[index].newEntry;
 
