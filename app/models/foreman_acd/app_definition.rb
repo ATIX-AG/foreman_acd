@@ -8,6 +8,7 @@ module ForemanAcd
     extend FriendlyId
     friendly_id :name
 
+    self.table_name = 'acd_app_definitions'
     validates :name, :presence => true, :uniqueness => true
     has_many :app_instances, :inverse_of => :app_definition, :dependent => :destroy
     belongs_to :ansible_playbook, :inverse_of => :app_definitions, :foreign_key => :acd_ansible_playbook_id
@@ -15,7 +16,7 @@ module ForemanAcd
 
     default_scope do
       with_taxonomy_scope do
-        order('app_definitions.name')
+        order('acd_app_definitions.name')
       end
     end
 

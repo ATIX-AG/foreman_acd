@@ -6,6 +6,8 @@ module ForemanAcd
     include Authorizable
     extend FriendlyId
     friendly_id :name
+
+    self.table_name = 'acd_app_instances'
     validates :name, :presence => true, :uniqueness => true
     belongs_to :app_definition, :inverse_of => :app_instances
     belongs_to :organization
@@ -14,7 +16,7 @@ module ForemanAcd
     has_many :foreman_hosts, :inverse_of => :app_instance, :dependent => :destroy
     validates :location, :presence => true
     scoped_search :on => :name
-    default_scope -> { order('app_instances.name') }
+    default_scope -> { order('acd_app_instances.name') }
     attr_accessor :hosts
 
     def self.humanize_class_name(_name = nil)
