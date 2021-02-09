@@ -66,11 +66,9 @@ This plugin is in development.
 See [How_to_Install_a_Plugin](https://theforeman.org/plugins/#2.Installation)
 for how to install Foreman plugins. 
 
-You will need to install [Smart Proxy ACD](https://github.com/ATIX-AG/smart_proxy_acd), too. 
-
 ### TL;DR: 
 
-    yum install tfm-rubygem-foreman_acd tfm-rubygem-smart_proxy_acd tfm-rubygem-smart_proxy_acd_core
+    yum install tfm-rubygem-foreman_acd
     foreman-maintain service restart
 
 In some cases you need to do manally
@@ -78,9 +76,21 @@ In some cases you need to do manally
     foreman-rake db:migrate
     foreman-rake db:seed
 
+### Smart Proxy installation
+
+You will need to install [Smart Proxy ACD](https://github.com/ATIX-AG/smart_proxy_acd), too. 
+
+    yum install tfm-rubygem-smart_proxy_acd tfm-rubygem-smart_proxy_acd_core
+    foreman-maintain service restart
+
+After the installation of the smart proxy acd components, you need to refresh the smart proxy features in
+Infrastructure > Smart Proxies > Your Smart-Proxy > Actions > Refresh
+
+
 ### Hints
 
-Katello plugin need to exist, too.
+* Katello plugin need to exist, too.
+* Make sure the Job Template 'Run ACD Ansible Playbook - ACD Default' is in your organization / location.
 
 ## Usage
 
