@@ -26,10 +26,5 @@ module ForemanAcd
     def self.permission_name
       'app_instances'
     end
-
-    def acd_foreman_hosts
-      host_ids = foreman_hosts.map(&:host_id)
-      ::Host.find(host_ids)
-    end
   end
 end

@@ -5,9 +5,9 @@ module ForemanAcd
   class InventoryCreator
     delegate :logger, :to => :Rails
 
-    def initialize(app_instance, host_ids)
+    def initialize(app_instance, foreman_hosts)
       @app_instance = app_instance
-      @host_ids = host_ids
+      @foreman_hosts = foreman_hosts
     end
 
     # TODO: this might be part of the smart proxy plugin.
@@ -18,27 +18,26 @@ module ForemanAcd
       inventory['all'] = { 'vars' => inventory_all_vars } if @app_instance.ansible_vars_all.present?
 
       services = JSON.parse(@app_instance.app_definition.services)
-      app_hosts = filtered_hosts
 
       children = {}
-      app_hosts.each do |host_data|
-        if host_data['foreman_host_id'].nil?
-          logger.warn "Ignore host #{host_data['hostname']} because no foreman host id could be found. Is the host not provisioned yet?"
+      @foreman_hosts.each do |foreman_host|
+        if foreman_host.host_id.nil?
+          logger.warn "Ignore host #{foreman_h.hostname} because no foreman host id could be found. Is the host not provisioned yet?"
           next
         end
 
-        service_id = host_data['service'].to_i
+        service_id = foreman_host.service.to_i
         host_service = services.select { |s| s['id'] == service_id }.first
         ansible_group = host_service['ansibleGroup']
 
         children[ansible_group] = { 'hosts' => {} } unless children.key?(host_service['ansibleGroup'])
 
-        ansible_vars = host_data['ansibleParameters'].map { |v| { v['name'] => v['value'] } }.reduce({}, :merge!)
+        ansible_vars = JSON.parse(foreman_host.ansibleParameters).map { |v| { v['name'] => v['value'] } }.reduce({}, :merge!)
 
         # in case there is no ansible_user defined, set "root" as default.
         ansible_vars['ansible_user'] = 'root' unless ansible_vars.key?('ansible_user')
 
-        children[ansible_group]['hosts'][get_fqdn(host_data['foreman_host_id'])] = ansible_vars
+        children[ansible_group]['hosts'][foreman_host.host.name] = ansible_vars
       end
       inventory['all']['children'] = children
       inventory
@@ -50,14 +49,6 @@ module ForemanAcd
       JSON.parse(@app_instance.ansible_vars_all).map do |a|
         { a['name'] => a['value'] }
       end.reduce({}, :merge!)
-    end
-
-    def get_fqdn(host_id)
-      Host.find(host_id)&.name
-    end
-
-    def filtered_hosts
-      @app_instance.foreman_hosts.select { |h| h.host_id? && @host_ids.include?(h.host_id) }
     end
   end
 end

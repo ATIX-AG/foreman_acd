@@ -8,7 +8,7 @@ module ForemanAcd
     self.table_name = 'acd_foreman_hosts'
     validates :hostname, :presence => true
     belongs_to :app_instance, :inverse_of => :foreman_hosts
-    belongs_to :host, :class_name => 'Foreman::Host::Managed', :inverse_of => :foreman_hosts
+    belongs_to :host, :class_name => '::Host::Managed'
     scoped_search :on => :hostname
     default_scope -> { order('acd_foreman_hosts.hostname') }
 
