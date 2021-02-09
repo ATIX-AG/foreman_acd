@@ -21,21 +21,21 @@ module ForemanAcd
         proxy_hosts = {}
         jobs = []
 
-        hosts = @app_instance.acd_foreman_hosts
+        hosts = @app_instance.foreman_hosts
         proxy_selector = RemoteExecutionProxySelector.new
         hosts.each do |h|
-          proxy = proxy_selector.determine_proxy(h, 'SSH')
+          proxy = proxy_selector.determine_proxy(h.host, 'ACD')
           proxy_hosts[proxy.name] = [] unless proxy_hosts.key?(proxy.name)
-          proxy_hosts[proxy.name] << h.id
+          proxy_hosts[proxy.name] << h
         end
 
         # TODO: just for testing...
         # proxy_hosts = { Host.first.name => [ Host.first.id] }
 
         # we need to compose multiple jobs. for each proxy one job.
-        proxy_hosts.each do |proxy_name, host_names|
+        proxy_hosts.each do |proxy_name, foreman_hosts|
           # create the inventory file
-          inventory = ForemanAcd::InventoryCreator.new(@app_instance, host_names).create_inventory
+          inventory = ForemanAcd::InventoryCreator.new(@app_instance, foreman_hosts).create_inventory
           job_input['inventory'] = YAML.dump(inventory)
 
           composer = JobInvocationComposer.for_feature(

@@ -6,7 +6,7 @@ module ForemanAcd
     include Authorizable
     validates :hostname, :presence => true
     belongs_to :app_instance, :inverse_of => :foreman_hosts
-    belongs_to :host, :class_name => 'Foreman::Host::Managed', :inverse_of => :foreman_hosts
+    belongs_to :host, :class_name => '::Host::Managed'
     scoped_search :on => :hostname
     default_scope -> { order('foreman_hosts.hostname') }
 
