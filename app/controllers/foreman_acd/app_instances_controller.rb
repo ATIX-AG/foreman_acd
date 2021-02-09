@@ -110,7 +110,7 @@ module ForemanAcd
       redirect_to '/select_organization?toState=' + request.path unless @organization
 
       @location = Location.current
-      redirect_to '/select_location?toState=' + request.path unless @location
+      redirect_to root_url, :alert => 'Select a location to show App Instances' unless @location
     end
 
     def read_applications
