@@ -8,11 +8,10 @@ module ForemanAcd
     engine_name 'foreman_acd'
 
     config.autoload_paths += Dir["#{config.root}/app/controllers/foreman_acd/concerns"]
-    config.autoload_paths += Dir["#{config.root}/app/helpers"]
-    config.autoload_paths += Dir["#{config.root}/app/models/foreman_acd/concerns"]
-    config.autoload_paths += Dir["#{config.root}/app/models/parameters"]
-    config.autoload_paths += Dir["#{config.root}/app/overrides"]
+    config.autoload_paths += Dir["#{config.root}/app/models"]
     config.autoload_paths += Dir["#{config.root}/app/services"]
+    config.autoload_paths += Dir["#{config.root}/app/helpers"]
+    config.autoload_paths += Dir["#{config.root}/app/overrides"]
     config.autoload_paths += Dir["#{config.root}/app/lib"]
     config.autoload_paths += Dir["#{config.root}/lib"]
 
@@ -43,9 +42,16 @@ module ForemanAcd
       require 'foreman_acd/plugin'
     end
 
+    initializer 'foreman_acd.register_actions', :before => :finisher_hook do |_app|
+      ForemanTasks.dynflow.require!
+      action_paths = %W[#{ForemanAcd::Engine.root}/app/lib/actions]
+      ForemanTasks.dynflow.config.eager_load_paths.concat(action_paths)
+    end
+
     config.to_prepare do
       RemoteExecutionProvider.register(:ACD, AcdProvider)
       ::Taxonomy.include ForemanAcd::TaxonomyExtensions
+      ::Host::Managed.prepend ForemanAcd::HostManagedExtensions
     end
   end
 end
