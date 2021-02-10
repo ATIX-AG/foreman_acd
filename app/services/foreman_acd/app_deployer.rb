@@ -12,27 +12,22 @@ module ForemanAcd
     def deploy
       services = JSON.parse(@app_instance.app_definition.services)
 
-      @app_instance.foreman_hosts.each do |host_data|
-        service_data = services.select { |k| k['id'] == host_data['service'].to_i }.first
-        host_params = set_host_params(host_data, service_data)
+      @app_instance.foreman_hosts.each do |foreman_host|
+        service_data = services.select { |k| k['id'] == foreman_host.service.to_i }.first
+        host_params = set_host_params(foreman_host, service_data)
 
-        host = nil
-        if host_data.host_id?
-          logger.debug("Try to find host with id #{host_data['host_id']}")
-          begin
-            host = Host.find(host_data['host_id'])
-          rescue ActiveRecord::RecordNotFound
-            logger.info("Host with id #{host_data['host_id']} couldn\'t be found, create a new one!")
-            host = nil
-          end
-        end
+        host = if foreman_host.host.blank?
+                 nil
+               else
+                 foreman_host.host
+               end
 
-        if host.nil?
+        if host.blank?
           params = host_attributes(host_params)
-          logger.info("Host creation parameters for #{host_data['hostname']}:\n#{params}\n")
+          logger.info("Host creation parameters for #{foreman_host.hostname}:\n#{params}\n")
           host = Host.new(params)
         else
-          logger.info("Update parameters and re-deploy host #{host_data['hostname']}")
+          logger.info("Update parameters and re-deploy host #{foreman_host.hostname}")
           host.attributes = host_attributes(host_params, host)
           host.setBuild
           host.power.reset
@@ -46,13 +41,16 @@ module ForemanAcd
         host.save
 
         # save the foreman host id
-        host_data.update(:host_id => host.id)
+        foreman_host.update(:host_id => host.id)
       rescue StandardError => e
         logger.error("Failed to initiate host creation: #{e.class}: #{e.message}\n#{e.backtrace.join($INPUT_RECORD_SEPARATOR)}")
       end
 
-      # Can be removed as we don't need to return any data and directly update in database
-      # @app_instance.foreman_hosts
+      # TODO make sure to run the async_task only, if all host objects were created.
+      # ... maybe it would be better to put this into a task which then can "rollback"
+
+      logger.info("Run async foreman task to deploy hosts")
+      ForemanTasks.async_task(::Actions::ForemanAcd::DeployAllHosts, @app_instance)
     end
 
     private
@@ -90,18 +88,17 @@ module ForemanAcd
       result = {}
       result['managed'] = true
       result['enabled'] = true
-      result['build'] = true
       result['compute_attributes'] = { 'start' => '1' }
       result['host_parameters_attributes'] = []
       result
     end
 
-    def set_host_params(host_data, service_data)
+    def set_host_params(foreman_host, service_data)
       result = hardcoded_params
-      result['name'] = host_data['hostname']
+      result['name'] = foreman_host.hostname
       result['hostgroup_id'] = service_data['hostgroup']
 
-      JSON.parse(host_data['foremanParameters']) do |param|
+      JSON.parse(foreman_host.foremanParameters) do |param|
         case param['type']
 
         when 'computeprofile'
