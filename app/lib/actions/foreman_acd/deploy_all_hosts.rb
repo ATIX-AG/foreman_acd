@@ -10,26 +10,19 @@ module Actions
       end
 
       def run
-        output[:status] = 'SUCCESS'
+        output[:status] = 'IN PROGRESS'
         app_instance = ::ForemanAcd::AppInstance.find(input.fetch(:id))
 
         # Goal: all or nothing
         begin
           ::Foreman::Logging.logger('foreman_acd').info "Start to deploy all hosts of the app #{app_instance}"
-          app_instance.foreman_hosts.each do |foreman_host|
-            foreman_host.host.setBuild
-          end
+          app_deployer = ::ForemanAcd::AppDeployer.new(app_instance)
+          output[:data] = app_deployer.deploy
+          output[:status] = 'SUCCESS'
         rescue StandardError => e
-          ::Foreman::Logging.logger('foreman_acd').error "Error while deploying hosts for application instance: #{e}"
-          remember_host_ids = app_instance.foreman_hosts.map(&:host_id)
+          ::Foreman::Logging.logger('foreman_acd').error "Error while deploying hosts for application instance. Clean up all other hosts: #{e}"
+          app_instance.clean_all_hosts
 
-          # Clean the app instance association first
-          app_instance.foreman_hosts.update_all(host_id: nil)
-
-          # Remove all hosts afterwards
-          remember_host_ids.each do |host_id|
-            ::Host.find(host_id).destroy
-          end
           output[:error] = e.to_s
           output[:status] = 'FAILURE'
         end

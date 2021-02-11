@@ -12,6 +12,7 @@
     "mode": 'lastReport',
     "appInstanceName": @app_instance.name,
     "hosts": @report_hosts,
+    "deployTaskUrl": foreman_tasks_task_path(@app_instance.last_deploy_task),
     "configureJobUrl": job_invocations_path(search: "description ~ \"ACD application #{@app_instance.name}\"")
   }
 %>

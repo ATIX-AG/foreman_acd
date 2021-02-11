@@ -7,13 +7,11 @@ import * as ApplicationInstanceReportActions from './ApplicationInstanceReportAc
 
 import {
   selectHosts,
-  selectReport,
   selectActiveHostId,
 } from './ApplicationInstanceReportSelectors';
 
 const mapStateToProps = state => ({
   hosts: selectHosts(state),
-  report: selectReport(state),
   activeHostId: selectActiveHostId(state),
 });
 

@@ -64,15 +64,18 @@ module ForemanAcd
     end
 
     def deploy
-      app_deployer = ForemanAcd::AppDeployer.new(@app_instance)
-      app_deployer.deploy
-
-      @deploy_hosts = collect_host_report_data
+      logger.info('Run async foreman task to deploy hosts')
+      async_task = ForemanTasks.async_task(::Actions::ForemanAcd::DeployAllHosts, @app_instance)
+      @app_instance.update!(:last_deploy_task => async_task)
+      process_success(:success_msg => _('Started task to deploy hosts for %s') % @app_instance)
+    rescue StandardError => e
+      error_msg = "Error happend while deploying hosts of #{@app_instance}: #{e.message}"
+      logger.error("#{error_msg} - #{e.class}\n#{e.backtrace.join($INPUT_RECORD_SEPARATOR)}")
+      process_error :error_msg => error_msg
     end
 
     def report
       @report_hosts = collect_host_report_data
-
       logger.debug("app instance host details: #{@report_hosts.inspect}")
     end
 
@@ -125,15 +128,24 @@ module ForemanAcd
 
     def collect_host_report_data
       report_data = []
+
       @app_instance.foreman_hosts.each do |foreman_host|
-        report_data << {
-          :id => foreman_host.host.id,
+        a_host = {
+          :id => nil,
           :name => foreman_host.hostname,
-          :build => foreman_host.host.build,
-          :hostname => foreman_host.host.hostname,
-          :hostUrl => host_path(foreman_host.host),
-          :progress_report_id => foreman_host.host.progress_report_id
+          :build => nil,
+          :hostUrl => nil,
+          :progress_report => foreman_host.last_progress_report.empty? ? [] : JSON.parse(foreman_host.last_progress_report)
         }
+
+        if foreman_host.host.present?
+          a_host.update({
+                          :id => foreman_host.host.id,
+                          :build => foreman_host.host.build,
+                          :hostUrl => host_path(foreman_host.host)
+                        })
+        end
+        report_data << a_host
       end
       report_data
     end

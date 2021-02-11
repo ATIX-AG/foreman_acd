@@ -10,27 +10,32 @@ module ForemanAcd
     end
 
     def deploy
+      output = []
       services = JSON.parse(@app_instance.app_definition.services)
+      all_hosts = []
 
       @app_instance.foreman_hosts.each do |foreman_host|
         service_data = services.select { |k| k['id'] == foreman_host.service.to_i }.first
         host_params = set_host_params(foreman_host, service_data)
 
-        host = if foreman_host.host.blank?
-                 nil
-               else
-                 foreman_host.host
-               end
+        host = foreman_host.host.presence
+
+        is_rebuild = false
 
         if host.blank?
           params = host_attributes(host_params)
-          logger.info("Host creation parameters for #{foreman_host.hostname}:\n#{params}\n")
+          log_params = params.dup
+          log_params['root_pass'] = '****' if log_params.key?('root_pass')
+          msg = "Host creation parameters for #{foreman_host.hostname}:\n#{log_params}\n"
+          logger.info(msg)
+          output << msg
           host = Host.new(params)
         else
-          logger.info("Update parameters and re-deploy host #{foreman_host.hostname}")
+          msg = "Update parameters and re-deploy host #{foreman_host.hostname}"
+          logger.info(msg)
+          output << msg
           host.attributes = host_attributes(host_params, host)
-          host.setBuild
-          host.power.reset
+          is_rebuild = true
         end
 
         # REMOVE ME (but very nice for testing)
@@ -38,19 +43,31 @@ module ForemanAcd
 
         apply_compute_profile(host)
         host.suggest_default_pxe_loader
-        host.save
 
-        # save the foreman host id
-        foreman_host.update(:host_id => host.id)
-      rescue StandardError => e
-        logger.error("Failed to initiate host creation: #{e.class}: #{e.message}\n#{e.backtrace.join($INPUT_RECORD_SEPARATOR)}")
+        all_hosts << OpenStruct.new(:foreman_host => foreman_host, :host => host, :rebuild => is_rebuild)
       end
 
-      # TODO make sure to run the async_task only, if all host objects were created.
-      # ... maybe it would be better to put this into a task which then can "rollback"
+      # do this in a second step, so that we get the progress report for all
+      all_hosts.each do |os_host|
+        # Save the host -> will initiate the deployment
+        os_host.host.save!
+        msg = "Saved and initiated/updated host #{os_host.foreman_host.hostname}"
+        logger.info(msg)
+        output << msg
 
-      logger.info("Run async foreman task to deploy hosts")
-      ForemanTasks.async_task(::Actions::ForemanAcd::DeployAllHosts, @app_instance)
+        os_host.host.power.reset if os_host.rebuild
+
+        # save the foreman host id
+        os_host.foreman_host.update!(:host_id => os_host.host.id)
+
+        progress_report = Rails.cache.fetch(os_host.host.progress_report_id)
+        os_host.foreman_host.update!(:last_progress_report => progress_report)
+        if progress_report.empty?
+          msg = "Progress report for #{os_host.foreman_host.hostname} is empty!"
+          output << msg
+        end
+      end
+      output
     end
 
     private
@@ -86,10 +103,11 @@ module ForemanAcd
 
     def hardcoded_params
       result = {}
-      result['managed'] = true
-      result['enabled'] = true
+      result['build'] = true
       result['compute_attributes'] = { 'start' => '1' }
+      result['enabled'] = true
       result['host_parameters_attributes'] = []
+      result['managed'] = true
       result
     end
 
