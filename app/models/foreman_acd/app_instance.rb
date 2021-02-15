@@ -15,8 +15,8 @@ module ForemanAcd
     belongs_to :organization
     validates :organization, :presence => true
     belongs_to :location
-    has_many :foreman_hosts, :inverse_of => :app_instance, :dependent => :destroy
     validates :location, :presence => true
+    has_many :foreman_hosts, :inverse_of => :app_instance, :dependent => :destroy
     scoped_search :on => :name
     default_scope -> { order('acd_app_instances.name') }
     attr_accessor :hosts
@@ -36,7 +36,19 @@ module ForemanAcd
       foreman_hosts.update_all(:host_id => nil)
 
       # Remove all hosts afterwards
-      remember_host_ids.each do |host_id|
+      delete_hosts(remember_host_ids)
+    end
+
+    def clean_hosts_by_id(ids = [])
+      # Clean the app instance association first
+      foreman_hosts.where(:host_id => ids).update_all(:host_id => nil)
+
+      # Remove all hosts afterwards
+      delete_hosts(ids)
+    end
+
+    def delete_hosts(ids = [])
+      ids.each do |host_id|
         h = ::Host.find(host_id)
         if h
           h.content_facet&.destroy

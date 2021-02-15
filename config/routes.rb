@@ -30,6 +30,7 @@ Rails.application.routes.draw do
       member do
         post 'deploy'
         get 'report'
+        delete 'destroy_with_hosts'
       end
     end
 
