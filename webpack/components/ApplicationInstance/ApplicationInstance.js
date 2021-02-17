@@ -41,6 +41,10 @@ class ApplicationInstance extends React.Component {
     return (rowData.backup !== undefined);
   }
 
+  addTableEntryAllowed() {
+    return this.props.editMode || this.props.appDefinition.id == ''
+  }
+
   validateParameters() {
     let result = true;
     let msg = "";
@@ -276,7 +280,7 @@ class ApplicationInstance extends React.Component {
         <div className="form-group">
           <AddTableEntry
              hidden={ false }
-             disabled={ this.props.editMode }
+             disabled={ this.addTableEntryAllowed() }
              onAddTableEntry={ addApplicationInstanceHost }
           />
           <Table.PfProvider
@@ -308,7 +312,7 @@ class ApplicationInstance extends React.Component {
           </Table.PfProvider>
           <AddTableEntry
             hidden={ false }
-            disabled={ this.props.editMode }
+            disabled={ this.addTableEntryAllowed() }
             onAddTableEntry={ addApplicationInstanceHost }
           />
           <span style={{ marginLeft: 30 }}>

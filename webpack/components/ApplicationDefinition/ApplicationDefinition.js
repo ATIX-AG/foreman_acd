@@ -50,6 +50,10 @@ class ApplicationDefinition extends React.Component {
     return ansibleGroupObj;
   }
 
+  addTableEntryAllowed() {
+    return this.props.editMode || this.props.ansiblePlaybook.id == ''
+  }
+
   componentDidMount() {
     const {
       data: { mode, ansiblePlaybook, ansibleDataUrl, services, ansibleVarsAll, hostgroups },
@@ -229,7 +233,7 @@ class ApplicationDefinition extends React.Component {
         <div className="form-group">
           <AddTableEntry
             hidden={ false }
-            disabled={ this.props.editMode }
+            disabled={ this.addTableEntryAllowed() }
             onAddTableEntry={ addApplicationDefinitionService }
           />
           <Table.PfProvider
@@ -261,7 +265,7 @@ class ApplicationDefinition extends React.Component {
           </Table.PfProvider>
           <AddTableEntry
             hidden={ false }
-            disabled={ this.props.editMode }
+            disabled={ this.addTableEntryAllowed() }
             onAddTableEntry={ addApplicationDefinitionService }
           />
           <span style={{ marginLeft: 30 }}>
