@@ -5,6 +5,10 @@ import {
   VerticalTabs,
 } from 'patternfly-react-extensions';
 
+import {
+  translate as __
+} from 'foremanReact/common/I18n';
+
 import PowerStatus from 'foremanReact/components/hosts/powerStatus';
 import ReportViewer from './components/ReportViewer';
 
@@ -18,54 +22,20 @@ class ApplicationInstanceReport extends React.Component {
     const {
       data: { hosts, mode },
       initApplicationInstanceReport,
-      setActiveAndLoadLiveReport,
+      setActiveHost,
     } = this.props;
 
     initApplicationInstanceReport(hosts);
-
-    if (mode == 'liveReport') {
-      if (hosts.length > 0) {
-        const index = 0;
-        const url = `/api/v2/orchestration/${hosts[index].progress_report_id}/tasks`;
-        setActiveAndLoadLiveReport(index, url);
-      }
-    }
   };
 
   isActive(id) {
     return (this.props.activeHostId === id);
   }
 
-  collectLiveData(hosts) {
-    const {
-      setActiveAndLoadLiveReport,
-    } = this.props;
-    const tabs = []
-
-    for (const [index, value] of hosts.entries()) {
-      const url = `/api/v2/orchestration/${hosts[index].progress_report_id}/tasks`
-
-      tabs.push(
-        <VerticalTabs.Tab
-          id={index}
-          key={"vt_tab_"+index}
-          title={ value.name }
-          wrapStyle='nowrap'
-          onActivate={() => setActiveAndLoadLiveReport(index, url)}
-          active={this.isActive(index)}
-        />
-      );
-    }
-
-    return tabs;
-  }
-
   collectLastReportData(hosts) {
     const {
-      setActiveAndLoadLastReport,
+      setActiveHost,
     } = this.props;
-    // FIXME
-    const url = undefined;
 
     const tabs = []
     for (const [index, value] of hosts.entries()) {
@@ -75,52 +45,70 @@ class ApplicationInstanceReport extends React.Component {
           key={"vt_tab_"+index}
           title={ value.name }
           wrapStyle='nowrap'
-          onActivate={() => setActiveAndLoadLastReport(index, url)}
+          onActivate={() => setActiveHost(index)}
           active={this.isActive(index)}
         />
       );
     }
 
     return tabs;
-  }
-
-  liveReportStatus(host) {
-    return (
-      <span>Host: <a href={ host['hostUrl'] }>{ host['hostname'] }</a></span>
-    );
   }
 
   lastReportStatus(host) {
-    return (
-      <div>
-        <span>Host: <a href={ host['hostUrl'] }>{ host['hostname'] }</a></span>
-        <span>&nbsp;|&nbsp;</span>
-        <span>Power Status: <PowerStatus data={{ id: host['id'], url: host['powerStatusUrl'] }} /></span>
-      </div>
-    )
+    if (!host['id']) {
+      return (
+        <div>
+          <span>Host: { host['name'] }</span>
+          <span>&nbsp;|&nbsp;</span>
+          <span>State: { __('not build') }</span>
+          <span>&nbsp;|&nbsp;</span>
+          <span>Power Status: { __('unknown') }</span>
+        </div>
+      )
+    } else {
+      return (
+        <div>
+          <span>Host: <a href={ host['hostUrl'] }>{ host['name'] }</a></span>
+          <span>&nbsp;|&nbsp;</span>
+          <span>State: { host['build'] == true ? "in Build" : "Deployed" }</span>
+          <span>&nbsp;|&nbsp;</span>
+          <span>Power Status: <PowerStatus data={{ id: host['id'], url: host['powerStatusUrl'] }} /></span>
+        </div>
+      )
+    }
   }
 
   render() {
     const {
-      data: { hosts, mode },
-      report,
+      data: { hosts, mode, appInstanceName, deployTaskUrl, configureJobUrl },
       activeHostId,
     } = this.props;
 
     let tabs = [];
     let reportStatus = undefined;
+    let report = undefined;
 
-    if (mode == 'liveReport') {
-      tabs = this.collectLiveData(hosts);
-      reportStatus = this.liveReportStatus(hosts[activeHostId])
-    } else if (mode == 'lastReport') {
-      tabs = this.collectLastReportData(hosts);
-      reportStatus = this.lastReportStatus(hosts[activeHostId])
+    tabs = this.collectLastReportData(hosts);
+    reportStatus = this.lastReportStatus(hosts[activeHostId]);
+
+    if (hosts[activeHostId]['progress_report']) {
+      report = hosts[activeHostId]['progress_report'];
     }
 
     return (
       <span>
+        <div className="deploy_status">
+          <div>
+            <div className="deploy_status_head">Deployment task</div>
+            <div className="deploy_status_content"><a href={ deployTaskUrl } >Last deployment task</a></div>
+          </div>
+          <div>
+            <div className="deploy_status_head">Configuration job</div>
+            <div className="deploy_status_content"><a href={ configureJobUrl }>Configuration jobs</a></div>
+          </div>
+        </div>
         <div className="deploy_report_hosts">
+          Hosts
           <VerticalTabs id="vertical_tabs">
             {tabs}
           </VerticalTabs>
@@ -137,6 +125,9 @@ class ApplicationInstanceReport extends React.Component {
 
 ApplicationInstanceReport.defaultProps = {
   error: {},
+  appInstanceName: '',
+  deployTaskUrl: '',
+  configureJobUrl: '',
   hosts: [],
   report: [],
   activeHostId: 0,
@@ -144,10 +135,12 @@ ApplicationInstanceReport.defaultProps = {
 
 ApplicationInstanceReport.propTypes = {
   initApplicationInstanceReport: PropTypes.func,
+  appInstanceName: PropTypes.string,
+  deployTaskUrl: PropTypes.string,
+  configureJobUrl: PropTypes.string,
   hosts: PropTypes.array,
   report: PropTypes.array,
-  setActiveAndLoadLiveReport: PropTypes.func,
-  setActiveAndLoadLastReport: PropTypes.func,
+  setActiveHost: PropTypes.func,
   activeHostId: PropTypes.number,
 
 };

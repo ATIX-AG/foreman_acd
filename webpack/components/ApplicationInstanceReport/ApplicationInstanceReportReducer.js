@@ -7,10 +7,8 @@ import {
 } from 'lodash';
 
 import {
-  APPLICATION_INSTANCE_DEPLOY_INIT,
-  APPLICATION_INSTANCE_DEPLOY_LOAD_REPORT_REQUEST,
-  APPLICATION_INSTANCE_DEPLOY_LOAD_REPORT_SUCCESS,
-  APPLICATION_INSTANCE_DEPLOY_LOAD_REPORT_FAILURE,
+  APPLICATION_INSTANCE_REPORT_INIT,
+  APPLICATION_INSTANCE_REPORT_SET_ACTIVE_HOST,
 } from './ApplicationInstanceReportConstants';
 
 export const initialState = Immutable({
@@ -22,26 +20,14 @@ const applicationInstanceReport = (state = initialState, action) => {
   const { payload } = action;
 
   switch (action.type) {
-    case APPLICATION_INSTANCE_DEPLOY_INIT: {
+    case APPLICATION_INSTANCE_REPORT_INIT: {
       return state.merge(payload);
     }
-    case APPLICATION_INSTANCE_DEPLOY_LOAD_REPORT_REQUEST: {
+    case APPLICATION_INSTANCE_REPORT_SET_ACTIVE_HOST: {
       return state.merge({
         loading: true,
         activeHostId: payload.activeHostId,
       })
-    }
-    case APPLICATION_INSTANCE_DEPLOY_LOAD_REPORT_SUCCESS: {
-      return state.merge({
-        report: payload,
-        loading: false,
-      });
-    }
-    case APPLICATION_INSTANCE_DEPLOY_LOAD_REPORT_FAILURE: {
-      return state.merge({
-        error: payload.error,
-        loading: false
-      });
     }
     default: {
       return state;

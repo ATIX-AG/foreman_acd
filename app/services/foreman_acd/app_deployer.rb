@@ -10,32 +10,32 @@ module ForemanAcd
     end
 
     def deploy
+      output = []
       services = JSON.parse(@app_instance.app_definition.services)
+      all_hosts = []
 
-      @app_instance.foreman_hosts.each do |host_data|
-        service_data = services.select { |k| k['id'] == host_data['service'].to_i }.first
-        host_params = set_host_params(host_data, service_data)
+      @app_instance.foreman_hosts.each do |foreman_host|
+        service_data = services.select { |k| k['id'] == foreman_host.service.to_i }.first
+        host_params = set_host_params(foreman_host, service_data)
 
-        host = nil
-        if host_data.host_id?
-          logger.debug("Try to find host with id #{host_data['host_id']}")
-          begin
-            host = Host.find(host_data['host_id'])
-          rescue ActiveRecord::RecordNotFound
-            logger.info("Host with id #{host_data['host_id']} couldn\'t be found, create a new one!")
-            host = nil
-          end
-        end
+        host = foreman_host.host.presence
 
-        if host.nil?
+        is_rebuild = false
+
+        if host.blank?
           params = host_attributes(host_params)
-          logger.info("Host creation parameters for #{host_data['hostname']}:\n#{params}\n")
+          log_params = params.dup
+          log_params['root_pass'] = '****' if log_params.key?('root_pass')
+          msg = "Host creation parameters for #{foreman_host.hostname}:\n#{log_params}\n"
+          logger.info(msg)
+          output << msg
           host = Host.new(params)
         else
-          logger.info("Update parameters and re-deploy host #{host_data['hostname']}")
+          msg = "Update parameters and re-deploy host #{foreman_host.hostname}"
+          logger.info(msg)
+          output << msg
           host.attributes = host_attributes(host_params, host)
-          host.setBuild
-          host.power.reset
+          is_rebuild = true
         end
 
         # REMOVE ME (but very nice for testing)
@@ -43,16 +43,31 @@ module ForemanAcd
 
         apply_compute_profile(host)
         host.suggest_default_pxe_loader
-        host.save
 
-        # save the foreman host id
-        host_data.update(:host_id => host.id)
-      rescue StandardError => e
-        logger.error("Failed to initiate host creation: #{e.class}: #{e.message}\n#{e.backtrace.join($INPUT_RECORD_SEPARATOR)}")
+        all_hosts << OpenStruct.new(:foreman_host => foreman_host, :host => host, :rebuild => is_rebuild)
       end
 
-      # Can be removed as we don't need to return any data and directly update in database
-      # @app_instance.foreman_hosts
+      # do this in a second step, so that we get the progress report for all
+      all_hosts.each do |os_host|
+        # Save the host -> will initiate the deployment
+        os_host.host.save!
+        msg = "Saved and initiated/updated host #{os_host.foreman_host.hostname}"
+        logger.info(msg)
+        output << msg
+
+        os_host.host.power.reset if os_host.rebuild
+
+        # save the foreman host id
+        os_host.foreman_host.update!(:host_id => os_host.host.id)
+
+        progress_report = Rails.cache.fetch(os_host.host.progress_report_id)
+        os_host.foreman_host.update!(:last_progress_report => progress_report)
+        if progress_report.empty?
+          msg = "Progress report for #{os_host.foreman_host.hostname} is empty!"
+          output << msg
+        end
+      end
+      output
     end
 
     private
@@ -88,20 +103,20 @@ module ForemanAcd
 
     def hardcoded_params
       result = {}
-      result['managed'] = true
-      result['enabled'] = true
       result['build'] = true
       result['compute_attributes'] = { 'start' => '1' }
+      result['enabled'] = true
       result['host_parameters_attributes'] = []
+      result['managed'] = true
       result
     end
 
-    def set_host_params(host_data, service_data)
+    def set_host_params(foreman_host, service_data)
       result = hardcoded_params
-      result['name'] = host_data['hostname']
+      result['name'] = foreman_host.hostname
       result['hostgroup_id'] = service_data['hostgroup']
 
-      JSON.parse(host_data['foremanParameters']) do |param|
+      JSON.parse(foreman_host.foremanParameters) do |param|
         case param['type']
 
         when 'computeprofile'

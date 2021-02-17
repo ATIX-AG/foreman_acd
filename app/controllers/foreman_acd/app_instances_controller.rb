@@ -64,16 +64,19 @@ module ForemanAcd
     end
 
     def deploy
-      app_deployer = ForemanAcd::AppDeployer.new(@app_instance)
-      app_deployer.deploy
-
-      @deploy_hosts = collect_host_report_data
+      logger.info('Run async foreman task to deploy hosts')
+      async_task = ForemanTasks.async_task(::Actions::ForemanAcd::DeployAllHosts, @app_instance)
+      @app_instance.update!(:last_deploy_task => async_task)
+      process_success(:success_msg => _('Started task to deploy hosts for %s') % @app_instance)
+    rescue StandardError => e
+      error_msg = "Error happend while deploying hosts of #{@app_instance}: #{e.message}"
+      logger.error("#{error_msg} - #{e.class}\n#{e.backtrace.join($INPUT_RECORD_SEPARATOR)}")
+      process_error :error_msg => error_msg
     end
 
     def report
       @report_hosts = collect_host_report_data
-
-      logger.debug("deploy report hosts are: #{@report_hosts.inspect}")
+      logger.debug("app instance host details: #{@report_hosts.inspect}")
     end
 
     def app_instance_has_foreman_hosts
@@ -97,8 +100,14 @@ module ForemanAcd
     def collect_hosts_data
       hosts_data = []
       @app_instance.foreman_hosts.each do |h|
-        hosts_data << { :id => h.id, :hostname => h.hostname, :service => h.service, :description => h.description,
-                        :foremanParameters => JSON.parse(h.foremanParameters), :ansibleParameters => JSON.parse(h.ansibleParameters) }
+        hosts_data << {
+          :id => h.id,
+          :hostname => h.hostname,
+          :service => h.service,
+          :description => h.description,
+          :foremanParameters => JSON.parse(h.foremanParameters),
+          :ansibleParameters => JSON.parse(h.ansibleParameters)
+        }
       end
       hosts_data
     end
@@ -119,9 +128,24 @@ module ForemanAcd
 
     def collect_host_report_data
       report_data = []
-      @app_instance.foreman_hosts.each do |host_data|
-        host = Host.find(host_data['host_id'])
-        report_data << { :id => host.id, :name => host_data['hostname'], :hostname => host.hostname, :hostUrl => host_path(host), :progress_report_id => host.progress_report_id }
+
+      @app_instance.foreman_hosts.each do |foreman_host|
+        a_host = {
+          :id => nil,
+          :name => foreman_host.hostname,
+          :build => nil,
+          :hostUrl => nil,
+          :progress_report => foreman_host.last_progress_report.empty? ? [] : JSON.parse(foreman_host.last_progress_report)
+        }
+
+        if foreman_host.host.present?
+          a_host.update({
+                          :id => foreman_host.host.id,
+                          :build => foreman_host.host.build,
+                          :hostUrl => host_path(foreman_host.host)
+                        })
+        end
+        report_data << a_host
       end
       report_data
     end

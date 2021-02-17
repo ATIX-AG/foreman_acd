@@ -14,7 +14,7 @@ const ReportViewer= ({
   }
 
   return report.map((task, id) => (
-    <div key={"report_task_"+id} className="report_task">{task.name}</div>
+    <div key={"report_task_"+id} className="report_task">{task.name} -- {task.status}</div>
   ));
 };
 

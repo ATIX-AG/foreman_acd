@@ -7,6 +7,7 @@
     <th><%= sort :name, :as => s_('AppInstance|Name') %></th>
     <th><%= sort :application, :as => _('Application'), :default => 'DESC' %></th>
     <th><%= _('Description') %></th>
+    <th><%= _('Report') %></th>
     <th></th>
   </tr>
   <% for app_instance in @app_instances %>
@@ -14,15 +15,18 @@
       <td><%=link_to_if_authorized h(app_instance.name), hash_for_edit_app_instance_path(:id => app_instance).merge(:auth_object => app_instance, :authorizer => authorizer) %></td>
       <td><%= app_instance.app_definition %></td>
       <td><%= app_instance.description %></td>
+      <td><%= link_to_if((!app_instance.last_deploy_task.nil? && app_instance.last_deploy_task.ended_at?),
+                         _("Show Report"),
+                         hash_for_report_app_instance_path(:id => app_instance),
+                         :method => :get, :title => _("Show last deployment report for application #{app_instance}")) %></td>
       <td>
         <%= action_buttons(display_link_if_authorized(_("Deploy"), hash_for_deploy_app_instance_path(:id => app_instance), :method => :post,
                                                         :title => _("Deploy application #{app_instance}")),
                            display_link_if_authorized(_("Run Playbook"), hash_for_remote_execution_path(:id => app_instance), :method => :post,
                                                         :title => _("Run ansible playbook for application #{app_instance}")),
-        display_link_if_authorized(_("Run Playbook - customize first"), hash_for_remote_execution_path(:id => app_instance, :customize => true), :method => :post,
+                           display_link_if_authorized(_("Run Playbook - customize first"), hash_for_remote_execution_path(:id => app_instance, :customize => true),
+                                                        :method => :post,
                                                         :title => _("Prepare job to run ansible playbook for application #{app_instance}")),
-                           display_link_if_authorized(_("Show Report"), hash_for_report_app_instance_path(:id => app_instance), :method => :get,
-                                                        :title => _("Show last deployment report for application #{app_instance}")),
                            display_delete_if_authorized(hash_for_app_instance_path(:id => app_instance).merge(:auth_object => app_instance, :authorizer => authorizer),
                                                         :data => { 'confirm': _('Delete %s?') % app_instance.name })) %>
       </td>
