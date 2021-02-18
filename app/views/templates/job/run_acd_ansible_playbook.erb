@@ -35,7 +35,18 @@ template_inputs:
 - name: verbose
   description: Whether to run the ansible-playbook in verbose mode or not.
   input_type: user
-  options: "false\ntrue"
+  options: "0 - Normal\n1 - Verbose\n2 - More Verbose\n3 - Debug\n4 - Connection Debug"
+  default: "0 - Normal"
+  required: false
+  advanced: true
+- name: tags
+  description: List of playbook tags to specify which tasks to execute.
+  input_type: user
+  required: false
+  advanced: true
+- name: skip_tags
+  description: List of playbook tags to skip certain tasks.
+  input_type: user
   required: false
   advanced: true
 %>
@@ -45,5 +56,7 @@ playbook_id: <%= input('playbook_id') %>
 playbook_file: <%= input('playbook_file') %>
 extra_vars: <%= input('extra_vars') %>
 verbose: <%= input('verbose') %>
+tags: <%= input('tags') %>
+skip_tags: <%= input('skip_tags') %>
 inventory: |
 <%=  indent(2) { input('inventory') } %>
