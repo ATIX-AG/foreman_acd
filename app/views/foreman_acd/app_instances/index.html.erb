@@ -20,7 +20,7 @@
                          hash_for_report_app_instance_path(:id => app_instance),
                          :method => :get, :title => _("Show last deployment report for application #{app_instance}")) %></td>
       <td>
-        <%= action_buttons(display_link_if_authorized(_("Deploy"), hash_for_deploy_app_instance_path(:id => app_instance), :method => :post,
+        <%= action_buttons(link_to(_("Deploy"), '#', :remote => true, 'data-toggle': "modal", 'data-target': "#deploy#{app_instance}",
                                                         :title => _("Deploy application #{app_instance}")),
                            display_link_if_authorized(_("Run Playbook"), hash_for_remote_execution_path(:id => app_instance), :method => :post,
                                                         :title => _("Run ansible playbook for application #{app_instance}")),
@@ -32,7 +32,7 @@
                            ) %>
       </td>
     </tr>
-    <!-- Modal -->
+    <!-- Delete Modal -->
       <div class="modal fade" id="delete<%=app_instance%>" tabindex="-1" role="dialog" aria-labelledby="deleteLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -58,8 +58,31 @@
             </div>
           </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
-     </div><!-- /.modal -->
+      </div><!-- /.modal -->
 
+      <!-- Deploy Modal -->
+      <div class="modal fade" id="deploy<%=app_instance%>" tabindex="-1" role="dialog" aria-labelledby="deployLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+              <h4 class="modal-title"><%= _('Confirmation Box') %></h4>
+            </div>
+            <div class="modal-body">
+              <p><%= _('Confirm to deploy ') %><%= app_instance%></p>
+              <%= form_tag deploy_app_instance_path(:id => app_instance), :method => :post do %>
+                <% if app_instance.foreman_hosts.where.not(:host_id => [nil, false]).any? %>
+                  <%= check_box_tag 'delete_hosts'-%><%= _('Delete all hosts before deploying ') %><%= app_instance%>
+                <% end %>
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-danger" data-dismiss="modal"><%= _('Cancel') %></button>
+               <%= submit_tag _("Submit"), name: nil, class: "btn btn-success" %>
+               <% end %>
+            </div>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+     </div><!-- /.modal -->
   <% end %>
 </table>
 

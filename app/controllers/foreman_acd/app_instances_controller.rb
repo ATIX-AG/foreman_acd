@@ -68,6 +68,8 @@ module ForemanAcd
     end
 
     def deploy
+      @app_instance.clean_all_hosts if params[:delete_hosts]
+
       logger.info('Run async foreman task to deploy hosts')
       async_task = ForemanTasks.async_task(::Actions::ForemanAcd::DeployAllHosts, @app_instance)
       @app_instance.update!(:last_deploy_task => async_task)
