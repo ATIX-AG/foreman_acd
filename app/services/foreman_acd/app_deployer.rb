@@ -116,7 +116,7 @@ module ForemanAcd
       result['name'] = foreman_host.hostname
       result['hostgroup_id'] = service_data['hostgroup']
 
-      JSON.parse(foreman_host.foremanParameters) do |param|
+      JSON.parse(foreman_host.foremanParameters).each do |param|
         case param['type']
 
         when 'computeprofile'
