@@ -45,7 +45,7 @@ module ForemanAcd
     end
 
     def destroy_with_hosts
-      @app_instance = AppInstance.find_by(:name => params[:id])
+      @app_instance = AppInstance.find(params[:id])
       @app_instance.clean_hosts_by_id(params[:foreman_host_ids]) if params[:foreman_host_ids]
       if @app_instance.destroy
         redirect_to app_instances_path, :flash => { :success => _('Successfully deleted %s') % @app_instance }
