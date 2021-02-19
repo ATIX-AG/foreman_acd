@@ -7,6 +7,7 @@ module ForemanAcd
     include Taxonomix
     extend FriendlyId
     friendly_id :name
+    include Parameterizable::ByIdName
 
     self.table_name = 'acd_app_definitions'
     validates :name, :presence => true, :uniqueness => true

@@ -7,6 +7,7 @@ module ForemanAcd
     include Taxonomix
     extend FriendlyId
     friendly_id :name
+    include Parameterizable::ByIdName
 
     self.table_name = 'acd_ansible_playbooks'
     has_many :app_definitions, :inverse_of => :ansible_playbook, :foreign_key => 'acd_ansible_playbook_id', :dependent => :restrict_with_error
