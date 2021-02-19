@@ -7,6 +7,7 @@ module ForemanAcd
     include ForemanTasks::Concerns::ActionSubject
     extend FriendlyId
     friendly_id :name
+    include Parameterizable::ByIdName
 
     self.table_name = 'acd_app_instances'
     belongs_to :last_deploy_task, :class_name => 'ForemanTasks::Task'
