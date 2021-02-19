@@ -148,7 +148,8 @@ module ForemanAcd
           a_host.update({
                           :id => foreman_host.host.id,
                           :build => foreman_host.host.build,
-                          :hostUrl => host_path(foreman_host.host)
+                          :hostUrl => host_path(foreman_host.host),
+                          :powerStatusUrl => power_api_host_path(foreman_host.host)
                         })
         end
         report_data << a_host
