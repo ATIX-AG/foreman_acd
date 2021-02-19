@@ -22,9 +22,9 @@
       <td>
         <%= action_buttons(link_to(_("Deploy"), '#', 'data-toggle': "modal", 'data-target': "#deploy#{Parameterizable.parameterize("#{app_instance.id}-#{app_instance.name}")}",
                                                         :title => _("Deploy application #{app_instance}")),
-                           display_link_if_authorized(_("Run Playbook"), hash_for_remote_execution_path(:id => app_instance), :method => :post,
+                           display_link_if_authorized(_("Run Playbook"), hash_for_remote_execution_path(:id => app_instance.id), :method => :post,
                                                         :title => _("Run ansible playbook for application #{app_instance}")),
-                           display_link_if_authorized(_("Run Playbook - customize first"), hash_for_remote_execution_path(:id => app_instance, :customize => true),
+                           display_link_if_authorized(_("Run Playbook - customize first"), hash_for_remote_execution_path(:id => app_instance.id, :customize => true),
                                                         :method => :post,
                                                         :title => _("Prepare job to run ansible playbook for application #{app_instance}")),
                            link_to(_("Delete"), '#', 'data-toggle': "modal", 'data-target': "#delete#{Parameterizable.parameterize("#{app_instance.id}-#{app_instance.name}")}",

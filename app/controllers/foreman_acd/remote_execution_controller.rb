@@ -35,7 +35,7 @@ module ForemanAcd
     private
 
     def init_configuration
-      app_instance = ForemanAcd::AppInstance.find_by(:name => params[:id])
+      app_instance = ForemanAcd::AppInstance.find_by(:id => params[:id])
       app_configurator = ForemanAcd::AppConfigurator.new(app_instance)
 
       jobs = app_configurator.configure
