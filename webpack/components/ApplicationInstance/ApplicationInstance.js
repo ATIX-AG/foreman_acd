@@ -217,6 +217,12 @@ class ApplicationInstance extends React.Component {
           prettyValue = serviceList[value];
           return inlineEditFormatterImpl.renderValue(prettyValue, additionalData)
         }
+	if (additionalData.property == 'hostname') {
+	  if (additionalData.rowData.newEntry === true) {
+            return inlineEditFormatterImpl.renderEditText(value, additionalData);
+          }
+          return inlineEditFormatterImpl.renderValue(prettyValue, additionalData)
+        }
         return inlineEditFormatterImpl.renderEditText(prettyValue, additionalData);
       }
     });
