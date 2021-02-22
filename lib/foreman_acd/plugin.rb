@@ -106,39 +106,41 @@ Foreman::Plugin.register :foreman_acd do
                  :'foreman_acd/api/v2/app_instances' => [:deploy] },
                :resource_type => 'ForemanAcd::AppInstance'
 
-    permission :configure_app_instances,
-               { :'foreman_acd/app_instances' => [:configure],
-                 :'foreman_acd/api/v2/app_instances' => [:configure] },
-               :resource_type => 'ForemanAcd::AppInstance'
-
     permission :report_app_instances,
                { :'foreman_acd/app_instances' => [:report],
                  :'foreman_acd/api/v2/app_instances' => [:report] },
                :resource_type => 'ForemanAcd::AppInstance'
+
+    permission :new_remote_execution,
+               { :'foreman_acd/remote_execution' => [:new] },
+               :resource_type => 'ForemanAcd::RemoteExecution'
+
+    permission :create_remote_execution,
+               { :'foreman_acd/remote_execution' => [:create] },
+               :resource_type => 'ForemanAcd::RemoteExecution'
   end
 
   # Manager Role
-  role 'Application Centric Deployment Manager', [:create_ansible_playbooks,
-                                                  :view_ansible_playbooks,
-                                                  :edit_ansible_playbooks,
+  role 'Application Centric Deployment Manager', [:create_ansible_playbooks, :view_ansible_playbooks, :edit_ansible_playbooks,
                                                   :destroy_ansible_playbooks,
-                                                  :import_vars_ansible_playbooks,
-                                                  :grab_ansible_playbooks,
-                                                  :create_app_definitions,
-                                                  :view_app_definitions,
-                                                  :edit_app_definitions,
+                                                  :import_vars_ansible_playbooks, :grab_ansible_playbooks,
+                                                  :create_app_definitions, :view_app_definitions, :edit_app_definitions,
                                                   :destroy_app_definitions,
-                                                  :export_app_definitions,
-                                                  :import_app_definitions]
+                                                  :export_app_definitions, :import_app_definitions,
+                                                  :create_app_instances, :view_app_instances, :edit_app_instances,
+                                                  :destroy_app_instances,
+                                                  :deploy_app_instances,
+                                                  :new_remote_execution, :create_remote_execution,
+                                                  :report_app_instances]
 
   # User Role
-  role 'Application Centric Deployment User', [:create_app_instances,
-                                               :view_app_instances,
-                                               :edit_app_instances,
+  role 'Application Centric Deployment User', [:create_app_instances, :view_app_instances, :edit_app_instances,
                                                :destroy_app_instances,
                                                :deploy_app_instances,
-                                               :configure_app_instances,
+                                               :new_remote_execution, :create_remote_execution,
                                                :report_app_instances]
+
+  add_all_permissions_to_default_roles
 
   RemoteExecutionFeature.register(
     :run_acd_ansible_playbook,

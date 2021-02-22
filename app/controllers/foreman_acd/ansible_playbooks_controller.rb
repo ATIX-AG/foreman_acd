@@ -48,6 +48,8 @@ module ForemanAcd
       case params[:action]
       when 'import_vars'
         :import_vars
+      when 'grab'
+        :grab
       else
         super
       end
