@@ -43,11 +43,14 @@
             <div class="modal-body">
               <p> <%= _("Confirm to delete ") %> <%= app_instance %></p>
               <%= form_tag destroy_with_hosts_app_instance_path(:id => app_instance.id), :method => :delete do %>
+                <% if app_instance.foreman_hosts.where.not(:host_id => [nil, false]).any? %>
+                  <p><%= _("Select the hosts to delete along with ") %> <%= app_instance %>: </p>
+                <% end %>
                 <% app_instance.foreman_hosts.each do |foreman_host|%>
                   <% if foreman_host.host_id? %>
-                    <p><%= _("Select the hosts to delete along with ") %> <%= app_instance %>: </p>
                     <%= check_box_tag 'foreman_host_ids[]', foreman_host.host_id -%>
                     <%= h foreman_host.host.name -%>
+                    </br>
                   <% end %>
                 <% end %>
             </div>
