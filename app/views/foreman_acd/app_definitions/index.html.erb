@@ -13,14 +13,14 @@
   </tr>
   <% for app_definition in @app_definitions %>
     <tr>
-      <td><%=link_to_if_authorized h(app_definition.name), hash_for_edit_app_definition_path(:id => app_definition).merge(:auth_object => app_definition, :authorizer => authorizer) %></td>
+      <td><%=link_to_if_authorized h(app_definition.name), hash_for_edit_app_definition_path(:id => app_definition) %></td>
       <td><%= app_definition.description %></td>
       <td>
         <%= action_buttons(
-          display_delete_if_authorized(hash_for_app_definition_path(:id => app_definition).merge(:auth_object => app_definition, :authorizer => authorizer),
-                                       :data => { 'confirm': _('Delete %s?') % app_definition.name })) %>
-         <%= display_link_if_authorized(_("Export"), hash_for_export_app_definition_path(:id => app_definition).merge(:auth_object => app_definition, :authorizer => authorizer), :style => "display: none;")
-         %>
+          display_delete_if_authorized(hash_for_app_definition_path(:id => app_definition),
+                                       :data => { 'confirm': _('Delete %s?') % app_definition.name }),
+          display_link_if_authorized(_("Export"), hash_for_export_app_definition_path(:id => app_definition), :style => "display: none;")
+        ) %>
       </td>
     </tr>
   <% end %>

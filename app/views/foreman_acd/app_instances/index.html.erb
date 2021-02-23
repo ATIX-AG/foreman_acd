@@ -12,25 +12,40 @@
   </tr>
   <% for app_instance in @app_instances %>
     <tr>
-      <td><%=link_to_if_authorized h(app_instance.name), hash_for_edit_app_instance_path(:id => app_instance).merge(:auth_object => app_instance, :authorizer => authorizer) %></td>
+      <td><%=link_to_if_authorized h(app_instance.name), hash_for_edit_app_instance_path(:id => app_instance) %></td>
       <td><%= app_instance.app_definition %></td>
       <td><%= app_instance.description %></td>
-      <td><%= link_to_if((!app_instance.last_deploy_task.nil? && app_instance.last_deploy_task.ended_at?),
+      <td><%= link_to_if((authorized_for(:permission => :report_app_instances) &&
+                         !app_instance.last_deploy_task.nil? && app_instance.last_deploy_task.ended_at?),
                          _("Show Report"),
                          hash_for_report_app_instance_path(:id => app_instance),
                          :method => :get, :title => _("Show last deployment report for application #{app_instance}")) %></td>
       <td>
-        <%= action_buttons(display_link_if_authorized(_("Deploy"), {:use_route=>"#", :id => app_instance.id}, :remote => true, 'data-toggle': "modal", 'data-target': "#deploy#{app_instance.id}",
-                                                        :title => _("Deploy application #{app_instance}")),
-                           display_link_if_authorized(_("Run Playbook"), hash_for_remote_execution_path(:id => app_instance.id), :method => :post,
-                                                        :title => _("Run ansible playbook for application #{app_instance}")),
-                           display_link_if_authorized(_("Run Playbook - customize first"), hash_for_remote_execution_path(:id => app_instance.id, :customize => true),
-                                                        :method => :post,
-                                                        :title => _("Prepare job to run ansible playbook for application #{app_instance}")),
-                           display_link_if_authorized(_("Delete"), {:use_route=>"#", :id => app_instance.id}, :remote => true, 'data-toggle': "modal", 'data-target': "#delete#{app_instance.id}",
-                                                        :title => _("Delete application #{app_instance}"))
-                           ) %>
-      </td>
+        <%= action_buttons(
+          display_link_if_authorized(_("Deploy"), { :use_route=>"#",
+                                                    :id => app_instance.id,
+                                                    :action => :deploy,
+                                                    :auth_object => app_instance,
+                                                    :controller => :app_instances },
+                                                  :remote => true, 'data-toggle': "modal", 'data-target': "#deploy#{app_instance.id}",
+                                                  :title => _("Deploy application #{app_instance}")),
+          display_link_if_authorized(_("Run Playbook"),
+                                     hash_for_remote_execution_path(:id => app_instance.id),
+                                     :method => :post,
+                                     :title => _("Run ansible playbook for application #{app_instance}")),
+          display_link_if_authorized(_("Run Playbook - customize first"),
+                                     hash_for_remote_execution_path(:id => app_instance.id, :customize => true),
+                                     :method => :post,
+                                     :title => _("Prepare job to run ansible playbook for application #{app_instance}")),
+          display_link_if_authorized(_("Delete"), { :use_route=>"#",
+                                                    :id => app_instance.id,
+                                                    :action => :destroy,
+                                                    :auth_object => app_instance,
+                                                    :controller => :app_instances },
+                                                  :remote => true, 'data-toggle': "modal", 'data-target': "#delete#{app_instance.id}",
+                                                  :title => _("Delete application #{app_instance}"))
+          ) %>
+    </td>
     </tr>
     <!-- Delete Modal -->
       <div class="modal fade" id="delete<%=app_instance.id%>" tabindex="-1" role="dialog" aria-labelledby="deleteLabel" aria-hidden="true">
@@ -90,4 +105,3 @@
 </table>
 <%= page_entries_info @app_instances %>
 <%= will_paginate @app_instances %>
-

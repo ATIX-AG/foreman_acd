@@ -59,6 +59,8 @@ module ForemanAcd
       case params[:action]
       when 'export'
         :export
+      when 'import'
+        :import
       else
         super
       end
