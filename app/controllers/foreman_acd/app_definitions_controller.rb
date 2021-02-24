@@ -30,10 +30,14 @@ module ForemanAcd
 
     def create
       @app_definition = AppDefinition.new(app_definition_params)
-      if @app_definition.save
-        process_success
-      else
-        process_error
+      begin
+        if @app_definition.save!
+          process_success
+        else
+          process_error
+        end
+      rescue StandardError, ValidationError => e
+        redirect_to new_app_definition_path, :flash => { :error => _(e.message) }
       end
     end
 
