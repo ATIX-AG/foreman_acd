@@ -20,11 +20,24 @@ module ForemanAcd
       begin
         proxy_hosts = {}
         jobs = []
+        result = OpenStruct.new
 
         hosts = @app_instance.foreman_hosts
         proxy_selector = RemoteExecutionProxySelector.new
         hosts.each do |h|
-          proxy = proxy_selector.determine_proxy(h.host, 'ACD')
+          begin
+            unless h.host
+              result.success = false
+              result.error = 'App Instance is not deployed'
+              return [result, jobs]
+            end
+            proxy = proxy_selector.determine_proxy(h.host, 'ACD')
+            result.success = true
+          rescue NoMethodError => e
+            result.success = false
+            result.error = "#{e}, Install/Update smart-proxies for ACD"
+            return [result, jobs]
+          end
           proxy_hosts[proxy.name] = [] unless proxy_hosts.key?(proxy.name)
           proxy_hosts[proxy.name] << h
         end
@@ -48,7 +61,7 @@ module ForemanAcd
       rescue StandardError => e
         logger.error("Failed to configure hosts: #{e.class}: #{e.message}\n#{e.backtrace.join($INPUT_RECORD_SEPARATOR)}")
       end
-      jobs
+      [result, jobs]
     end
   end
 end
