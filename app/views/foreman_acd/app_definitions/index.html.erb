@@ -19,7 +19,7 @@
         <%= action_buttons(
           display_delete_if_authorized(hash_for_app_definition_path(:id => app_definition),
                                        :data => { 'confirm': _('Delete %s?') % app_definition.name }),
-          display_link_if_authorized(_("Export"), hash_for_export_app_definition_path(:id => app_definition), :style => "display: none;")
+          # TODO: add export feature again if app-def + ansible playbook can be exported together display_link_if_authorized(_("Export"), hash_for_export_app_definition_path(:id => app_definition))
         ) %>
       </td>
     </tr>
