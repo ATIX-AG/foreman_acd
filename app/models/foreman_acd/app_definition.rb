@@ -11,6 +11,7 @@ module ForemanAcd
 
     self.table_name = 'acd_app_definitions'
     validates :name, :presence => true, :uniqueness => true
+    validates :ansible_playbook, :presence => true
     has_many :app_instances, :inverse_of => :app_definition, :dependent => :destroy
     belongs_to :ansible_playbook, :inverse_of => :app_definitions, :foreign_key => :acd_ansible_playbook_id
     scoped_search :on => :name

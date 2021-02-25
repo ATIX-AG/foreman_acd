@@ -229,6 +229,12 @@ class ApplicationDefinition extends React.Component {
             selectValue={ ansiblePlaybook.id.toString() }
             additionalData={{url: ansibleDataUrl }}
           />
+          {ansiblePlaybook.id == '' ? (
+          <p style={{ paddingTop: 25 }}>
+            <pre>{ "Ansible Playbook can't be blank" }</pre>
+          </p>
+        ) : (<div></div>)}
+
         </div>
         <div className="form-group">
           <AddTableEntry
