@@ -12,6 +12,7 @@ module ForemanAcd
     self.table_name = 'acd_app_instances'
     belongs_to :last_deploy_task, :class_name => 'ForemanTasks::Task'
     validates :name, :presence => true, :uniqueness => true
+    validates :app_definition, :presence => true
     belongs_to :app_definition, :inverse_of => :app_instances
     belongs_to :organization
     validates :organization, :presence => true

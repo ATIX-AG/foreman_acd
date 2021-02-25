@@ -282,6 +282,11 @@ class ApplicationInstance extends React.Component {
             selectValue={ appDefinition.id.toString() }
             additionalData={{url: appDefinitionUrl}}
           />
+          {appDefinition.id == '' ? (
+          <p style={{ paddingTop: 25 }}>
+            <pre>{ "App Definition can't be blank" }</pre>
+          </p>
+        ) : (<div></div>)}
         </div>
         <div className="form-group">
           <AddTableEntry

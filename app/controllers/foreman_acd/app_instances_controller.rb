@@ -25,11 +25,15 @@ module ForemanAcd
 
     def create
       @app_instance = AppInstance.new(app_instance_params)
-      if @app_instance.save
-        app_instance_has_foreman_hosts
-        process_success
-      else
-        process_error
+      begin
+        if @app_instance.save!
+          app_instance_has_foreman_hosts
+          process_success
+        else
+          process_error
+        end
+      rescue StandardError, ValidationError => e
+        redirect_to new_app_instance_path, :flash => { :error => _(e.message) }
       end
     end
 
