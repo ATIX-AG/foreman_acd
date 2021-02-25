@@ -53,7 +53,7 @@ module ForemanAcd
       ids.each do |host_id|
         h = ::Host.find(host_id)
         if h
-          h.content_facet&.destroy
+          Katello::RegistrationManager.unregister_host(h, :unregistering => false) if ForemanAcd::Engine.with_katello?
           h.destroy
         end
       end
