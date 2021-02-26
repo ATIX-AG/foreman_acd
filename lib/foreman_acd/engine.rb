@@ -53,5 +53,9 @@ module ForemanAcd
       ::Taxonomy.include ForemanAcd::TaxonomyExtensions
       ::Host::Managed.prepend ForemanAcd::HostManagedExtensions
     end
+
+    def self.with_katello?
+      defined?(::Katello)
+    end
   end
 end
