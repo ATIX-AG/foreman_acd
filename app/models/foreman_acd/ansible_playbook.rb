@@ -52,21 +52,16 @@ module ForemanAcd
     end
 
     def as_unified_structobj
-      groups = []
-
-      JSON.parse(vars).each do |group_name, vars|
-        groups << OpenStruct.new(
-          :name => group_name,
-          :vars => vars.map { |k, v| OpenStruct.new(:name => k, :value => v) }
-        )
+      # FIXME: For now, we convert all values to string - even booleans and dicts
+      pretty_groups = JSON.parse(vars).each do |_, params|
+        params.transform_values!(&:to_s)
       end
 
-      adata = OpenStruct.new(
+      OpenStruct.new(
         :id => id,
         :name => name,
-        :groups => JSON.parse(self.vars)
+        :groups => pretty_groups
       )
-      adata
     end
   end
 end
