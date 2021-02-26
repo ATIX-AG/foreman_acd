@@ -237,11 +237,6 @@ class ApplicationDefinition extends React.Component {
 
         </div>
         <div className="form-group">
-          <AddTableEntry
-            hidden={ false }
-            disabled={ this.addTableEntryAllowed() }
-            onAddTableEntry={ addApplicationDefinitionService }
-          />
           <Table.PfProvider
             striped
             bordered

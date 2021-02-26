@@ -289,11 +289,6 @@ class ApplicationInstance extends React.Component {
         ) : (<div></div>)}
         </div>
         <div className="form-group">
-          <AddTableEntry
-             hidden={ false }
-             disabled={ this.addTableEntryAllowed() }
-             onAddTableEntry={ addApplicationInstanceHost }
-          />
           <Table.PfProvider
             striped
             bordered
