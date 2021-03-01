@@ -126,10 +126,10 @@ module ForemanAcd
 
     def find_taxonomy
       @organization = Organization.current
-      redirect_to '/select_organization?toState=' + request.path unless @organization
+      redirect_to '/select_organization?toState=' + request.path and return unless @organization
 
       @location = Location.current
-      redirect_to root_url, :alert => 'Select a location to show App Instances' unless @location
+      redirect_to root_path, :error => 'Select a location to show App Instances' and return unless @location
     end
 
     def read_applications
