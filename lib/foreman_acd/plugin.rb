@@ -97,8 +97,8 @@ Foreman::Plugin.register :foreman_acd do
                :resource_type => 'ForemanAcd::AppInstance'
 
     permission :destroy_app_instances,
-               { :'foreman_acd/app_instances' => [:destroy],
-                 :'foreman_acd/api/v2/app_instances' => [:destroy] },
+               { :'foreman_acd/app_instances' => [:destroy, :destroy_with_hosts],
+                 :'foreman_acd/api/v2/app_instances' => [:destroy, :destroy_with_hosts] },
                :resource_type => 'ForemanAcd::AppInstance'
 
     permission :deploy_app_instances,
@@ -118,6 +118,13 @@ Foreman::Plugin.register :foreman_acd do
     permission :create_remote_execution,
                { :'foreman_acd/remote_execution' => [:create] },
                :resource_type => 'ForemanAcd::RemoteExecution'
+
+    permission :view_ui_acd,
+               { :ui_acd => [:app, :foreman_data, :ansible_data] }
+
+    permission :acd_foreman_hosts,
+               { :'foreman_acd/app_instances' => [:create, :edit, :update, :deploy, :destroy_with_hosts, :destroy] },
+               :resource_type => 'ForemanAcd::ForemanHost'
   end
 
   # Manager Role
@@ -131,14 +138,22 @@ Foreman::Plugin.register :foreman_acd do
                                                   :destroy_app_instances,
                                                   :deploy_app_instances,
                                                   :new_remote_execution, :create_remote_execution,
-                                                  :report_app_instances]
+                                                  :report_app_instances,
+                                                  :view_ui_acd,
+                                                  :view_hosts, :build_hosts, :power_hosts, :create_hosts, :edit_hosts, :destroy_hosts, :console_hosts,
+                                                  :view_job_invocations, :view_foreman_tasks,
+                                                  :acd_foreman_hosts, :view_smart_proxies]
 
   # User Role
   role 'Application Centric Deployment User', [:create_app_instances, :view_app_instances, :edit_app_instances,
                                                :destroy_app_instances,
                                                :deploy_app_instances,
                                                :new_remote_execution, :create_remote_execution,
-                                               :report_app_instances]
+                                               :report_app_instances,
+                                               :view_ui_acd,
+                                               :view_hosts, :build_hosts, :power_hosts, :create_hosts, :edit_hosts, :destroy_hosts, :console_hosts,
+                                               :view_job_invocations, :view_foreman_tasks,
+                                               :acd_foreman_hosts, :view_smart_proxies]
 
   add_all_permissions_to_default_roles
 
