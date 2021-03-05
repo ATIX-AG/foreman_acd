@@ -50,8 +50,9 @@ module ForemanAcd
     end
 
     def delete_hosts(ids = [])
+      return if ids.empty?
       ids.each do |host_id|
-        h = ::Host.find(host_id)
+        h = ::Host.find(host_id) unless host_id.nil?
         if h
           Katello::RegistrationManager.unregister_host(h, :unregistering => false) if ForemanAcd::Engine.with_katello?
           h.destroy
