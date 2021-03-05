@@ -65,7 +65,7 @@ module ForemanAcd
       when 'report'
         :report
       when 'destroy_with_hosts'
-        :destroy_with_hosts
+        :destroy
       else
         super
       end

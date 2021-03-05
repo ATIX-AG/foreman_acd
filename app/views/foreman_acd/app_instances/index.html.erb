@@ -15,7 +15,7 @@
       <td><%=link_to_if_authorized h(app_instance.name), hash_for_edit_app_instance_path(:id => app_instance) %></td>
       <td><%= app_instance.app_definition %></td>
       <td><%= app_instance.description %></td>
-      <td><%= link_to_if((authorized_for(:permission => :report_app_instances) &&
+      <td><%= link_to_if((authorized_for(:auth_object => app_instance, :authorizer => authorizer, :permission => :report_app_instances) &&
                          !app_instance.last_deploy_task.nil? && app_instance.last_deploy_task.ended_at?),
                          _("Show Report"),
                          hash_for_report_app_instance_path(:id => app_instance),

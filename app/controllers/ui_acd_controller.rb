@@ -16,6 +16,15 @@ class UiAcdController < ::Api::V2::BaseController
     @ansible_data = collect_ansible_data(params['id'])
   end
 
+  def action_permission
+    case params[:action]
+    when 'app', 'foreman_data', 'ansible_data'
+      :view
+    else
+      super
+    end
+  end
+
   private
 
   def collect_foreman_data(hostgroup_id)
