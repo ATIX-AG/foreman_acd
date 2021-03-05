@@ -141,7 +141,9 @@ Foreman::Plugin.register :foreman_acd do
                                                   :report_app_instances,
                                                   :view_ui_acd,
                                                   :view_hosts, :build_hosts, :power_hosts, :create_hosts, :edit_hosts, :destroy_hosts, :console_hosts,
-                                                  :view_job_invocations, :view_foreman_tasks,
+                                                  :view_job_invocations, :cancel_job_invocations, :create_job_invocations, :create_template_invocations,
+                                                  :view_job_templates,
+                                                  :view_foreman_tasks,
                                                   :acd_foreman_hosts, :view_smart_proxies]
 
   # User Role
@@ -152,7 +154,9 @@ Foreman::Plugin.register :foreman_acd do
                                                :report_app_instances,
                                                :view_ui_acd,
                                                :view_hosts, :build_hosts, :power_hosts, :create_hosts, :edit_hosts, :destroy_hosts, :console_hosts,
-                                               :view_job_invocations, :view_foreman_tasks,
+                                               :view_job_invocations, :cancel_job_invocations, :create_job_invocations, :create_template_invocations,
+                                               :view_job_templates,
+                                               :view_foreman_tasks,
                                                :acd_foreman_hosts, :view_smart_proxies]
 
   add_all_permissions_to_default_roles
