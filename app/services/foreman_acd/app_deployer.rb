@@ -9,12 +9,18 @@ module ForemanAcd
       @app_instance = app_instance
     end
 
-    def deploy
+    def deploy(safe_deploy)
       output = []
       services = JSON.parse(@app_instance.app_definition.services)
       all_hosts = []
 
-      @app_instance.foreman_hosts.each do |foreman_host|
+      foreman_hosts = if safe_deploy
+                        @app_instance.foreman_hosts.find(safe_deploy)
+                      else
+                        @app_instance.foreman_hosts
+                      end
+
+      foreman_hosts.each do |foreman_host|
         service_data = services.select { |k| k['id'] == foreman_host.service.to_i }.first
         host_params = set_host_params(foreman_host, service_data)
 
