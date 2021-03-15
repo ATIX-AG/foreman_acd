@@ -89,10 +89,12 @@
             <div class="modal-body">
               <p><%= _('Confirm to deploy ') %><%= app_instance%></p>
               <%= form_tag deploy_app_instance_path(:id => app_instance.id), :method => :post do %>
-              <!-- TODO: Add safe-deploy method with delete all hosts option 
                 <% if app_instance.foreman_hosts.where.not(:host_id => [nil, false]).any? %>
-                  <%= check_box_tag 'delete_hosts'-%><%= _('Delete all hosts before deploying ') %><%= app_instance%>
-                <% end %> -->
+                  <ul>
+                  <li><%= check_box_tag 'delete_hosts'-%><%= _('Delete all hosts before deploying ') %><%= app_instance%></li>
+                  <li><%= check_box_tag 'safe_deploy' -%><%= _('Deploy only new and changed hosts for ') %><%= app_instance%></li>
+                  </ul>
+                <% end %>
             </div>
             <div class="modal-footer">
                <button type="button" class="btn btn-danger" data-dismiss="modal"><%= _('Cancel') %></button>
