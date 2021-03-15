@@ -10,19 +10,22 @@ module ForemanAcd
 
     def create
       customize_first = params[:customize] || false
-      jobs = init_configuration
-
-      if jobs.count == 1 && customize_first == false
-        @composer = jobs.first
-        @composer.trigger!
-        redirect_to job_invocation_path(@composer.job_invocation)
-      elsif customize_first == false
-        jobs.each(&:trigger)
-        redirect_to job_invocations_path
-      else
-        # redirect to the job itself if we want to customize the job
-        @composer = jobs.first
-        render :action => 'new'
+      begin
+        jobs = init_configuration
+        if jobs.count == 1 && customize_first == false
+          @composer = jobs.first
+          @composer.trigger!
+          redirect_to job_invocation_path(@composer.job_invocation)
+        elsif customize_first == false
+          jobs.each(&:trigger)
+          redirect_to job_invocations_path
+        else
+          # redirect to the job itself if we want to customize the job
+          @composer = jobs.first
+          render :action => 'new'
+        end
+      rescue StandardError => e
+        redirect_to app_instances_path, :error => _("#{jobs}, #{e}")
       end
     end
 
@@ -37,10 +40,13 @@ module ForemanAcd
     def init_configuration
       app_instance = ForemanAcd::AppInstance.find_by(:id => params[:id])
       app_configurator = ForemanAcd::AppConfigurator.new(app_instance)
-
-      jobs = app_configurator.configure
-      logger.debug("Creating #{jobs.count} job(s) to configure the app #{app_instance}. Customize first: #{params[:customize]}")
-      jobs
+      result, jobs = app_configurator.configure
+      if result.success
+        logger.debug("Creating #{jobs.count} job(s) to configure the app #{app_instance}. Customize first: #{params[:customize]}")
+        jobs
+      else
+        result.error
+      end
     end
   end
 end
