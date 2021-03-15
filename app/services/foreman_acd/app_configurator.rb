@@ -23,6 +23,17 @@ module ForemanAcd
         result = OpenStruct.new
 
         hosts = @app_instance.foreman_hosts
+
+        # Important: This uses the REX Proxy Selector and not
+        #  the AcdProxySelection because the AcdProxySelector
+        #  does not find the proxy but only return the given
+        #  host. This is required because we want to run the
+        #  ansible playbook for a group of hosts on the smart proxy.
+        #  So the process need to be:
+        #  1. get the proxy which is required to connect to host a,b,c
+        #  2. run the job on the proxy
+        #  In 2. we need to make sure that REX doesn't try to find the
+        #  proxy which is necessary to connect to the proxy
         proxy_selector = RemoteExecutionProxySelector.new
         hosts.each do |h|
           begin

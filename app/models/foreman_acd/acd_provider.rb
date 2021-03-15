@@ -2,7 +2,7 @@
 
 module ForemanAcd
   # Implement a RemoteExecutionProvider
-  class AcdProvider < RemoteExecutionProvider
+  class AcdProvider < ::RemoteExecutionProvider
     class << self
       def supports_effective_user?
         true
@@ -25,6 +25,10 @@ module ForemanAcd
       def ssh_key_passphrase(_host); end
 
       def sudo_password(_host); end
+
+      def required_proxy_selector_for(_template)
+        AcdProxyProxySelector.new
+      end
     end
   end
 end
