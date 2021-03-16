@@ -1,17 +1,5 @@
 # frozen_string_literal: true
 
-require 'rake/testtask'
-
-# Tasks
-namespace :foreman_acd do
-  namespace :example do
-    desc 'Example Task'
-    task :task => :environment do
-      # Task goes here
-    end
-  end
-end
-
 # Tests
 namespace :test do
   desc 'Test ForemanAcd'

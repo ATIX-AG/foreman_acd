@@ -13,12 +13,12 @@ module ForemanAcd
       end
     end
 
-    private
-
     def deployed_via_acd?
       find_app_instance_host
       @app_instance_host.present?
     end
+
+    private
 
     def find_app_instance_host
       @app_instance_host = ForemanAcd::ForemanHost.find_by(:host_id => id)

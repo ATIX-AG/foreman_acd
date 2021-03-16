@@ -160,13 +160,4 @@ Foreman::Plugin.register :foreman_acd do
                                                :acd_foreman_hosts, :view_smart_proxies]
 
   add_all_permissions_to_default_roles
-
-  RemoteExecutionFeature.register(
-    :run_acd_ansible_playbook,
-    N_('Run playbook for ACD'),
-    {
-      :description => N_('Run an Ansible playbook to configure ACD application'),
-      :provided_inputs => %w[application_name playbook_name playbook_path inventory_path]
-    }
-  )
 end

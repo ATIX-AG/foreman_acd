@@ -19,20 +19,36 @@ class UiAcdControllerTest < ActionController::TestCase
     get :app, :params => { :id => app_def.id }, :session => set_session_user
     assert_response :success
 
+    json_app_services = JSON.parse(app_def.services)
+    json_app_all = JSON.parse(app_def.ansible_vars_all)
+    parsed_services_response = JSON.parse(json_response['app_definition']['services'])
+    parsed_all_response = JSON.parse(json_response['app_definition']['ansible_vars_all'])
+
     assert_equal app_def.name, json_response['app_definition']['name']
-    assert_equal app_def.hostgroup_id, json_response['fdata']['hostgroup_id']
-    assert_equal app_def.hostgroup.domain.name, json_response['fdata']['domains'][0]['name']
-    assert_equal app_def.hostgroup.environment.name, json_response['fdata']['environments'][0]['name']
-    assert_equal app_def.hostgroup.ptable.name, json_response['fdata']['ptables'][0]['name']
+    assert_equal json_app_services.first['name'], parsed_services_response.first['name']
+    assert_equal json_app_services.first['ansibleGroup'], parsed_services_response.first['ansibleGroup']
+    assert_equal json_app_all.first['name'], parsed_all_response.first['name']
   end
 
-  test 'get fdata json' do
+  test 'get foreman data json' do
     hostgroup = FactoryBot.create(:hostgroup, :with_domain, :with_os, :with_environment)
-    get :fdata, :params => { :id => hostgroup.id }, :session => set_session_user
+    get :foreman_data, :params => { :id => hostgroup.id }, :session => set_session_user
     assert_response :success
 
+    assert_equal hostgroup.id, json_response['hostgroup_id']
     assert_equal hostgroup.environment.name, json_response['environments'][0]['name']
     assert_equal hostgroup.domain.name, json_response['domains'][0]['name']
     assert_equal hostgroup.ptable.name, json_response['ptables'][0]['name']
+  end
+
+  test 'get ansible data json' do
+    ansible_playbook = FactoryBot.create(:ansible_playbook)
+    get :ansible_data, :params => { :id => ansible_playbook.id }, :session => set_session_user
+    assert_response :success
+
+    json_playbook = JSON.parse(ansible_playbook.vars)
+    assert_equal ansible_playbook.name, json_response['name']
+    assert_equal json_playbook['dbservers']['mysqlservice'], json_response['groups']['dbservers']['mysqlservice']
+    assert_equal json_playbook['all']['repository'], json_response['groups']['all']['repository']
   end
 end
