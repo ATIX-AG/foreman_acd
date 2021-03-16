@@ -7,6 +7,7 @@ module ForemanAcd
     include ::ForemanAcd::Concerns::AnsiblePlaybookParameters
 
     before_action :find_resource, :only => [:edit, :update, :destroy, :import_vars]
+    after_action :delete_synced_repo, :only => [:new, :edit, :create, :update, :destroy, :index]
 
     def index
       @ansible_playbooks = resource_base.search_for(params[:search], :order => params[:order]).paginate(:page => params[:page])
@@ -18,6 +19,11 @@ module ForemanAcd
 
     def create
       @ansible_playbook = AnsiblePlaybook.new(ansible_playbook_params)
+      if session[:git_path]
+        @ansible_playbook.update(:path => ansible_playbook_full_path(ansible_playbook_rename(@ansible_playbook[:name])))
+        FileUtils.mv(session[:git_path], @ansible_playbook[:path])
+        session[:git_path] = ''
+      end
       if @ansible_playbook.save
         process_success :success_msg => _("Successfully created %s. You need to press the \"Import groups\" button
                                            before this ansible playbook can be used in App Definitions!") % @ansible_playbook
@@ -29,6 +35,20 @@ module ForemanAcd
     def edit; end
 
     def update
+      # Move synced repo to new path if ansible_playbook name is changed
+      if session[:git_path] != '' && ansible_playbook_params[:name] != @ansible_playbook[:name]
+        FileUtils.mv(@ansible_playbook[:path], ansible_playbook_full_path(ansible_playbook_rename(ansible_playbook_params[:name])))
+        @ansible_playbook.update(:path => ansible_playbook_full_path(ansible_playbook_rename(ansible_playbook_params[:name])))
+        session[:git_path] = ''
+
+      # Remove old version and copy new version of synced repository
+      elsif session[:git_path] != '' && ansible_playbook_params[:name] == @ansible_playbook.name
+        remove_ansible_dir(@ansible_playbook[:path]) if @ansible_playbook.path
+        @ansible_playbook.update(:path => ansible_playbook_full_path(ansible_playbook_rename(@ansible_playbook[:name])))
+        FileUtils.mv(session[:git_path], @ansible_playbook[:path])
+        session[:git_path] = ''
+      end
+
       if @ansible_playbook.update(ansible_playbook_params)
         process_success
       else
@@ -44,10 +64,51 @@ module ForemanAcd
       end
     end
 
+    def sync_git_repo
+      @ansible_playbook = AnsiblePlaybook.new
+      sync_params = params[:ansible_playbook]
+      dir = File.join(ForemanAcd.acd_base_path, 'temp_dir')
+
+      begin
+        # Create path for storing synced repository
+        FileUtils.mkdir_p(ForemanAcd.ansible_playbook_path) unless Dir.exist?(ForemanAcd.ansible_playbook_path)
+
+        # Clear temporary directory before re-syncing the git repository
+        remove_ansible_dir(dir)
+        git_repo = FileUtils.mkdir_p(dir)[0] unless Dir.exist?(dir)
+        git = Git.clone(sync_params[:git_url], git_repo)
+        git.checkout(sync_params[:git_commit]) if sync_params[:git_commit]
+
+        # Fetch latest version of repository
+        git.reset_hard
+        session[:git_path] = git.dir.path
+      rescue StandardError => e
+        render :json => { :status => 'error', :message => e }, :status => :internal_server_error
+      end
+    end
+
+    # Remove abandoned synced git repositories
+    def delete_synced_repo
+      names = []
+      AnsiblePlaybook.all.each do |ansible_playbook|
+        names.push(ansible_playbook_rename(ansible_playbook.name))
+      end
+      names.push('.', '..')
+      return unless Dir.exist?(ForemanAcd.ansible_playbook_path)
+      Dir.foreach(ForemanAcd.ansible_playbook_path) do |dirname|
+        next if names.include? dirname
+        remove_ansible_dir(ansible_playbook_full_path(dirname))
+        logger.info("Successfully removed #{dirname}")
+      end
+      remove_ansible_dir(File.join(ForemanAcd.acd_base_path, 'temp_dir'))
+    end
+
     def action_permission
       case params[:action]
       when 'import_vars'
         :import_vars
+      when 'sync_git_repo'
+        :sync_git_repo
       when 'grab'
         :grab
       else
@@ -119,6 +180,20 @@ module ForemanAcd
       else
         process_error :error_msg => _(errors.join(' ')), :redirect => ansible_playbooks_path
       end
+    end
+
+    private
+
+    def ansible_playbook_rename(name)
+      name.split(/\W+/).join('_')
+    end
+
+    def remove_ansible_dir(dirpath)
+      FileUtils.remove_dir(dirpath) if Dir.exist?(dirpath)
+    end
+
+    def ansible_playbook_full_path(dirname)
+      File.join(ForemanAcd.ansible_playbook_path, dirname)
     end
   end
 end

@@ -5,9 +5,12 @@ Rails.application.routes.draw do
     resources :ansible_playbooks, :controller => 'foreman_acd/ansible_playbooks' do
       collection do
         get 'auto_complete_search'
+        put 'sync_git_repo'
+        post 'sync_git_repo'
       end
 
       member do
+        post 'sync_git_repo'
         get 'import_vars'
       end
     end

@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SyncGitRepoSelectors should return gitCommit from syncGitRepoConfData_1 fixtures 1`] = `"master"`;
+
+exports[`SyncGitRepoSelectors should return gitUrl from syncGitRepoConfData_1 fixtures 1`] = `"https://github.com/alpha.git"`;
+
+exports[`SyncGitRepoSelectors should return path from syncGitRepoConfData_1 fixtures 1`] = `"https://example.com"`;
+
+exports[`SyncGitRepoSelectors should return scmType from syncGitRepoConfData_1 fixtures 1`] = `
+Object {
+  "git": "git",
+}
+`;

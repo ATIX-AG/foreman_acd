@@ -22,4 +22,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rubocop-rails', '~> 2.8.1'
   s.add_dependency 'foreman_remote_execution', '>= 3.3.0'
   s.add_dependency 'foreman-tasks', '>= 0.10'
+  s.add_dependency 'git'
 end
