@@ -23,16 +23,12 @@ import {
   PARAMETER_SELECTION_EDIT_CHANGE,
   PARAMETER_SELECTION_EDIT_CANCEL,
   PARAMETER_SELECTION_SORT,
-  PARAMETER_SELECTION_PARAM_TYPE_FOREMAN,
-  PARAMETER_SELECTION_PARAM_TYPE_ANSIBLE,
   PARAMETER_SELECTION_LOAD_PARAM_DATA_REQUEST,
   PARAMETER_SELECTION_LOAD_PARAM_DATA_SUCCESS,
   PARAMETER_SELECTION_LOAD_PARAM_DATA_FAILURE,
+  PARAMETER_SELECTION_PARAM_TYPE_FOREMAN,
+  PARAMETER_SELECTION_PARAM_TYPE_ANSIBLE,
 } from './ParameterSelectionConstants';
-
-import {
-  APPLICATION_DEFINITION_PARAMETER_SELECTION_MODAL_CLOSE,
-} from '../ApplicationDefinition/ApplicationDefinitionConstants';
 
 export const initialState = Immutable({
   editMode: false,
@@ -183,21 +179,6 @@ const parameterSelectionParameters = (state = initialState, action) => {
       }
 
       return state.merge(newState);
-    }
-    case APPLICATION_DEFINITION_PARAMETER_SELECTION_MODAL_CLOSE: {
-      const parameters = cloneDeep(state.parameters);
-
-      parameters.forEach((param, index) => {
-        delete parameters[index].backup;
-        if (parameters[index].newEntry === true) {
-          parameters.splice(index, 1);
-        }
-      });
-
-      return state.merge({
-        editMode: false,
-        parameters: parameters
-      });
     }
     default:
       return state;

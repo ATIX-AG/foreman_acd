@@ -4,11 +4,14 @@ import {
   Table,
 } from 'patternfly-react';
 
-const EasyHeaderFormatter = (value, { column }) => (
-  <Table.Heading aria-label={column.header.label} {...column.header.props}>
-  {value}
-  </Table.Heading>
-);
+const EasyHeaderFormatter = (value, { column }) => {
+  return
+  (
+    <Table.Heading aria-label={column.header.label} {...column.header.props}>
+    {value}
+    </Table.Heading>
+  );
+};
 
 EasyHeaderFormatter.propTypes = {
   value: PropTypes.string.isRequired,

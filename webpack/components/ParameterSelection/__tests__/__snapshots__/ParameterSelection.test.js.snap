@@ -8,11 +8,6 @@ exports[`ParameterSelection should render editDefinition 1`] = `
     <div
       className="form-group"
     >
-      <AddTableEntry
-        disabled={false}
-        hidden={false}
-        onAddTableEntry={[Function]}
-      />
       <TablePfProvider
         bordered={true}
         className=""
@@ -49,7 +44,7 @@ exports[`ParameterSelection should render editDefinition 1`] = `
       </TablePfProvider>
       <AddTableEntry
         disabled={false}
-        hidden={false}
+        hidden={true}
         onAddTableEntry={[Function]}
       />
     </div>
@@ -65,11 +60,6 @@ exports[`ParameterSelection should render editInstance 1`] = `
     <div
       className="form-group"
     >
-      <AddTableEntry
-        disabled={false}
-        hidden={true}
-        onAddTableEntry={[Function]}
-      />
       <TablePfProvider
         bordered={true}
         className=""
@@ -122,11 +112,6 @@ exports[`ParameterSelection should render newDefinition 1`] = `
     <div
       className="form-group"
     >
-      <AddTableEntry
-        disabled={false}
-        hidden={false}
-        onAddTableEntry={[Function]}
-      />
       <TablePfProvider
         bordered={true}
         className=""
@@ -163,7 +148,7 @@ exports[`ParameterSelection should render newDefinition 1`] = `
       </TablePfProvider>
       <AddTableEntry
         disabled={false}
-        hidden={false}
+        hidden={true}
         onAddTableEntry={[Function]}
       />
     </div>
@@ -179,11 +164,6 @@ exports[`ParameterSelection should render newInstance 1`] = `
     <div
       className="form-group"
     >
-      <AddTableEntry
-        disabled={false}
-        hidden={true}
-        onAddTableEntry={[Function]}
-      />
       <TablePfProvider
         bordered={true}
         className=""

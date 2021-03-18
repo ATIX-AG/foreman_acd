@@ -395,6 +395,7 @@ Object {
       "backup": Object {
         "description": "",
         "id": 9,
+        "locked": false,
         "name": "",
         "newEntry": true,
         "type": "",
@@ -402,6 +403,7 @@ Object {
       },
       "description": "",
       "id": 9,
+      "locked": false,
       "name": "",
       "newEntry": true,
       "type": "",
@@ -1409,7 +1411,7 @@ Object {
 }
 `;
 
-exports[`ParameterSelectionReducer should load foreman data be erroneous 1`] = `
+exports[`ParameterSelectionReducer should load param data be erroneous 1`] = `
 Object {
   "appDefinition": Object {
     "hostgroup_id": 1,
@@ -1602,7 +1604,7 @@ Object {
 }
 `;
 
-exports[`ParameterSelectionReducer should load foreman data be successful 1`] = `
+exports[`ParameterSelectionReducer should load param data be successful 1`] = `
 Object {
   "appDefinition": Object {
     "hostgroup_id": 1,
@@ -1799,7 +1801,7 @@ Object {
 }
 `;
 
-exports[`ParameterSelectionReducer should request load foreman data 1`] = `
+exports[`ParameterSelectionReducer should request load param data 1`] = `
 Object {
   "appDefinition": Object {
     "hostgroup_id": 1,
@@ -1895,9 +1897,34 @@ Object {
     "status": "",
     "statusText": "",
   },
-  "foremanData": Object {},
-  "hostgroupId": -1,
-  "loading": true,
+  "foremanData": Object {
+    "computeprofiles": Array [],
+    "domains": Array [],
+    "environments": Array [
+      Object {
+        "id": 1,
+        "name": "production",
+      },
+      Object {
+        "id": 2,
+        "name": "test",
+      },
+    ],
+    "hostgroup_id": 1,
+    "lifecycle_environments": Array [],
+    "ptables": Array [
+      Object {
+        "id": 105,
+        "name": "Kickstart default",
+      },
+      Object {
+        "id": 104,
+        "name": "Kickstart default thin",
+      },
+    ],
+  },
+  "hostgroupId": 1,
+  "loading": false,
   "parameterTypes": Object {
     "computeprofile": "Compute profile",
     "domain": "Domain",

@@ -51,10 +51,10 @@ export const sortParameterPayload = {
   selectedColumn: "type",
 };
 
-export const loadForemanDataRequestPayload = {
+export const loadParamDataRequestPayload = {
   clearRows: false,
 };
-export const loadForemanDataSuccessPayload = {
+export const loadParamDataSuccessPayload = {
   hostgroup_id: 1,
   environments: [
     {
@@ -80,6 +80,6 @@ export const loadForemanDataSuccessPayload = {
     }
   ]
 };
-export const loadForemanDataFailurePayload = {
+export const loadParamDataFailurePayload = {
   error: "Something really bad happend",
 };

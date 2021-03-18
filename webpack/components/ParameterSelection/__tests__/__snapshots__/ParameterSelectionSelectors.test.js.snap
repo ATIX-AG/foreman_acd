@@ -1,5 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`ParameterSelectionSelectors should return ParamDefinition from parameterSelectionData_1 fixtures 1`] = `undefined`;
+
 exports[`ParameterSelectionSelectors should return columns from parameterSelectionData_1 fixtures 1`] = `
 Array [
   Object {
@@ -88,38 +90,11 @@ Array [
 
 exports[`ParameterSelectionSelectors should return editMode from parameterSelectionData_1 fixtures 1`] = `false`;
 
-exports[`ParameterSelectionSelectors should return foremanData from parameterSelectionData_1 fixtures 1`] = `
-Object {
-  "computeprofiles": Array [],
-  "domains": Array [],
-  "environments": Array [
-    Object {
-      "id": 1,
-      "name": "production",
-    },
-    Object {
-      "id": 2,
-      "name": "test",
-    },
-  ],
-  "hostgroup_id": 1,
-  "lifecycle_environments": Array [],
-  "ptables": Array [
-    Object {
-      "id": 105,
-      "name": "Kickstart default",
-    },
-    Object {
-      "id": 104,
-      "name": "Kickstart default thin",
-    },
-  ],
-}
-`;
-
 exports[`ParameterSelectionSelectors should return hostgroupId from parameterSelectionData_1 fixtures 1`] = `1`;
 
 exports[`ParameterSelectionSelectors should return loading from parameterSelectionData_1 fixtures 1`] = `false`;
+
+exports[`ParameterSelectionSelectors should return paramData from parameterSelectionData_1 fixtures 1`] = `undefined`;
 
 exports[`ParameterSelectionSelectors should return parameterTypes from parameterSelectionData_1 fixtures 1`] = `
 Object {
@@ -190,8 +165,6 @@ Array [
   },
 ]
 `;
-
-exports[`ParameterSelectionSelectors should return serviceDefinition from parameterSelectionData_1 fixtures 1`] = `undefined`;
 
 exports[`ParameterSelectionSelectors should return sortingColumns from parameterSelectionData_1 fixtures 1`] = `
 Object {

@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LockTableEntry should render disabled button 1`] = `
+<span>
+  <Button
+    active={false}
+    block={false}
+    bsClass="btn"
+    bsStyle="default"
+    disabled={true}
+    onClick={[Function]}
+  >
+    <Icon
+      name="unlocked"
+      title="this entry is unlocked"
+      type="pf"
+    />
+  </Button>
+</span>
+`;
+
+exports[`LockTableEntry should render hidden button 1`] = `""`;
+
+exports[`LockTableEntry should render locked table entry 1`] = `
+<span>
+  <Button
+    active={false}
+    block={false}
+    bsClass="btn"
+    bsStyle="default"
+    disabled={false}
+    onClick={[Function]}
+  >
+    <Icon
+      name="locked"
+      title="unlock this entry"
+      type="pf"
+    />
+  </Button>
+</span>
+`;
+
+exports[`LockTableEntry should render unlock table entry 1`] = `
+<span>
+  <Button
+    active={false}
+    block={false}
+    bsClass="btn"
+    bsStyle="default"
+    disabled={false}
+    onClick={[Function]}
+  >
+    <Icon
+      name="unlocked"
+      title="lock this entry"
+      type="pf"
+    />
+  </Button>
+</span>
+`;
