@@ -18,6 +18,7 @@ const AnsiblePlaybookSelector= ({
       <label className="col-md-2 control-label">{label}</label>
       <div className="col-md-4">
         <ExtSelect
+          hidden={hidden}
           editable={editable}
           viewText={viewText}
           selectValue={selectValue}

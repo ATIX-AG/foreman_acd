@@ -2,32 +2,50 @@
 
 exports[`ParameterSelectionReducer should activate edit parameter 1`] = `
 Object {
-  "appDefinition": Object {
-    "hostgroup_id": 1,
-    "id": 1,
-    "name": "Test123",
-  },
   "columns": Array [
     Object {
+      "cell": Object {
+        "formatters": Array [
+          null,
+        ],
+      },
       "header": Object {
+        "customFormatters": Array [
+          null,
+        ],
+        "formatters": Array [
+          null,
+        ],
         "label": "Name",
         "props": Object {
           "index": 0,
           "sort": true,
           "style": Object {
-            "width": "20%",
+            "width": "25%",
           },
         },
+        "transforms": Array [
+          null,
+        ],
       },
       "property": "name",
     },
     Object {
       "cell": Object {
+        "formatters": Array [
+          null,
+        ],
         "props": Object {
           "index": 1,
         },
       },
       "header": Object {
+        "customFormatters": Array [
+          null,
+        ],
+        "formatters": Array [
+          null,
+        ],
         "label": "Description",
         "props": Object {
           "index": 1,
@@ -36,16 +54,25 @@ Object {
             "width": "25%",
           },
         },
+        "transforms": Array [
+          null,
+        ],
       },
       "property": "description",
     },
     Object {
       "cell": Object {
-        "props": Object {
-          "index": 2,
-        },
+        "formatters": Array [
+          null,
+        ],
       },
       "header": Object {
+        "customFormatters": Array [
+          null,
+        ],
+        "formatters": Array [
+          null,
+        ],
         "label": "Type",
         "props": Object {
           "index": 2,
@@ -54,37 +81,55 @@ Object {
             "width": "20%",
           },
         },
+        "transforms": Array [
+          null,
+        ],
       },
       "property": "type",
     },
     Object {
       "cell": Object {
-        "props": Object {
-          "index": 3,
-        },
+        "formatters": Array [
+          null,
+        ],
       },
       "header": Object {
+        "customFormatters": Array [
+          null,
+        ],
+        "formatters": Array [
+          null,
+        ],
         "label": "Default value",
         "props": Object {
           "index": 3,
           "sort": true,
           "style": Object {
-            "width": "25%",
+            "width": "20%",
           },
         },
+        "transforms": Array [
+          null,
+        ],
       },
       "property": "value",
     },
     Object {
       "cell": Object {
-        "props": Object {
-          "index": 4,
-        },
+        "formatters": Array [
+          null,
+        ],
       },
       "header": Object {
+        "formatters": Array [
+          null,
+        ],
         "label": "Actions",
         "props": Object {
           "index": 4,
+          "style": Object {
+            "width": "10%",
+          },
         },
       },
       "property": "actions",
@@ -96,103 +141,91 @@ Object {
     "status": "",
     "statusText": "",
   },
-  "foremanData": Object {
-    "computeprofiles": Array [],
-    "domains": Array [],
+  "hostgroupId": 1,
+  "loading": false,
+  "paramData": Object {
+    "computeprofiles": Array [
+      Object {
+        "id": 1,
+        "name": "1-Small",
+      },
+      Object {
+        "id": 2,
+        "name": "2-Medium",
+      },
+      Object {
+        "id": 3,
+        "name": "3-Large",
+      },
+      Object {
+        "id": 4,
+        "name": "Orchahosts-VM",
+      },
+    ],
+    "dataType": "PARAMETER_SELECTION_PARAM_TYPE_FOREMAN",
+    "domains": Array [
+      Object {
+        "id": 1,
+        "name": "deploy3.dev.atix",
+      },
+    ],
     "environments": Array [
       Object {
         "id": 1,
         "name": "production",
       },
-      Object {
-        "id": 2,
-        "name": "test",
-      },
     ],
     "hostgroup_id": 1,
-    "lifecycle_environments": Array [],
+    "lifecycle_environments": Array [
+      Object {
+        "id": 1,
+        "name": "Library",
+      },
+    ],
     "ptables": Array [
       Object {
-        "id": 105,
+        "id": 125,
         "name": "Kickstart default",
-      },
-      Object {
-        "id": 104,
-        "name": "Kickstart default thin",
       },
     ],
   },
-  "hostgroupId": 1,
-  "loading": false,
+  "paramDefinition": Object {
+    "dataId": "1",
+    "id": 1,
+    "name": "web",
+  },
   "parameterTypes": Object {
-    "computeprofile": "Compute profile",
     "domain": "Domain",
     "hostparam": "Host parameter",
-    "lifecycleenv": "Lifecycle environment",
+    "ip": "IP",
+    "password": "Root password",
+    "ptable": "Partition table",
+    "puppetenv": "Puppet environment",
   },
   "parameters": Array [
     Object {
       "description": "",
       "id": 1,
-      "name": "PuppetEnv",
-      "type": "puppetenv",
-      "value": "2",
-    },
-    Object {
-      "description": "",
-      "id": 2,
-      "name": "PW",
-      "type": "password",
-      "value": "rooot",
-    },
-    Object {
-      "description": "",
-      "id": 3,
-      "name": "Blub",
-      "type": "hostparam",
-      "value": "awesome",
-    },
-    Object {
-      "description": "",
-      "id": 4,
-      "name": "111allo",
-      "type": "ip",
-      "value": "1.1.1.1",
+      "locked": false,
+      "name": "CP",
+      "type": "computeprofile",
+      "value": "1",
     },
     Object {
       "backup": Object {
         "description": "",
-        "id": 5,
-        "name": "1111aasdfasf",
-        "type": "hostname",
-        "value": "dername",
+        "id": 2,
+        "locked": true,
+        "name": "LE",
+        "type": "lifecycleenv",
+        "value": "1",
       },
       "description": "",
-      "id": 5,
-      "name": "1111aasdfasf",
-      "type": "hostname",
-      "value": "dername",
-    },
-    Object {
-      "description": "",
-      "id": 6,
-      "name": "222nocheiner",
-      "type": "hostparam",
-      "value": "",
-    },
-    Object {
-      "description": "aa",
-      "id": 7,
-      "name": "aaaaa",
-      "type": "ptable",
-      "value": "",
-    },
-    Object {
-      "description": "",
-      "id": 8,
-      "name": "aaa",
-      "type": "hostparam",
-      "value": "2134234",
+      "id": 2,
+      "locked": true,
+      "name": "LE",
+      "type": "lifecycleenv",
+      "value": "1",
     },
   ],
   "sortingColumns": Object {
@@ -206,32 +239,50 @@ Object {
 
 exports[`ParameterSelectionReducer should add a parameter 1`] = `
 Object {
-  "appDefinition": Object {
-    "hostgroup_id": 1,
-    "id": 1,
-    "name": "Test123",
-  },
   "columns": Array [
     Object {
+      "cell": Object {
+        "formatters": Array [
+          null,
+        ],
+      },
       "header": Object {
+        "customFormatters": Array [
+          null,
+        ],
+        "formatters": Array [
+          null,
+        ],
         "label": "Name",
         "props": Object {
           "index": 0,
           "sort": true,
           "style": Object {
-            "width": "20%",
+            "width": "25%",
           },
         },
+        "transforms": Array [
+          null,
+        ],
       },
       "property": "name",
     },
     Object {
       "cell": Object {
+        "formatters": Array [
+          null,
+        ],
         "props": Object {
           "index": 1,
         },
       },
       "header": Object {
+        "customFormatters": Array [
+          null,
+        ],
+        "formatters": Array [
+          null,
+        ],
         "label": "Description",
         "props": Object {
           "index": 1,
@@ -240,16 +291,25 @@ Object {
             "width": "25%",
           },
         },
+        "transforms": Array [
+          null,
+        ],
       },
       "property": "description",
     },
     Object {
       "cell": Object {
-        "props": Object {
-          "index": 2,
-        },
+        "formatters": Array [
+          null,
+        ],
       },
       "header": Object {
+        "customFormatters": Array [
+          null,
+        ],
+        "formatters": Array [
+          null,
+        ],
         "label": "Type",
         "props": Object {
           "index": 2,
@@ -258,37 +318,55 @@ Object {
             "width": "20%",
           },
         },
+        "transforms": Array [
+          null,
+        ],
       },
       "property": "type",
     },
     Object {
       "cell": Object {
-        "props": Object {
-          "index": 3,
-        },
+        "formatters": Array [
+          null,
+        ],
       },
       "header": Object {
+        "customFormatters": Array [
+          null,
+        ],
+        "formatters": Array [
+          null,
+        ],
         "label": "Default value",
         "props": Object {
           "index": 3,
           "sort": true,
           "style": Object {
-            "width": "25%",
+            "width": "20%",
           },
         },
+        "transforms": Array [
+          null,
+        ],
       },
       "property": "value",
     },
     Object {
       "cell": Object {
-        "props": Object {
-          "index": 4,
-        },
+        "formatters": Array [
+          null,
+        ],
       },
       "header": Object {
+        "formatters": Array [
+          null,
+        ],
         "label": "Actions",
         "props": Object {
           "index": 4,
+          "style": Object {
+            "width": "10%",
+          },
         },
       },
       "property": "actions",
@@ -300,101 +378,88 @@ Object {
     "status": "",
     "statusText": "",
   },
-  "foremanData": Object {
-    "computeprofiles": Array [],
-    "domains": Array [],
+  "hostgroupId": 1,
+  "loading": false,
+  "paramData": Object {
+    "computeprofiles": Array [
+      Object {
+        "id": 1,
+        "name": "1-Small",
+      },
+      Object {
+        "id": 2,
+        "name": "2-Medium",
+      },
+      Object {
+        "id": 3,
+        "name": "3-Large",
+      },
+      Object {
+        "id": 4,
+        "name": "Orchahosts-VM",
+      },
+    ],
+    "dataType": "PARAMETER_SELECTION_PARAM_TYPE_FOREMAN",
+    "domains": Array [
+      Object {
+        "id": 1,
+        "name": "deploy3.dev.atix",
+      },
+    ],
     "environments": Array [
       Object {
         "id": 1,
         "name": "production",
       },
-      Object {
-        "id": 2,
-        "name": "test",
-      },
     ],
     "hostgroup_id": 1,
-    "lifecycle_environments": Array [],
+    "lifecycle_environments": Array [
+      Object {
+        "id": 1,
+        "name": "Library",
+      },
+    ],
     "ptables": Array [
       Object {
-        "id": 105,
+        "id": 125,
         "name": "Kickstart default",
-      },
-      Object {
-        "id": 104,
-        "name": "Kickstart default thin",
       },
     ],
   },
-  "hostgroupId": 1,
-  "loading": false,
+  "paramDefinition": Object {
+    "dataId": "1",
+    "id": 1,
+    "name": "web",
+  },
   "parameterTypes": Object {
-    "computeprofile": "Compute profile",
     "domain": "Domain",
     "hostparam": "Host parameter",
-    "lifecycleenv": "Lifecycle environment",
+    "ip": "IP",
+    "password": "Root password",
+    "ptable": "Partition table",
+    "puppetenv": "Puppet environment",
   },
   "parameters": Array [
     Object {
       "description": "",
       "id": 1,
-      "name": "PuppetEnv",
-      "type": "puppetenv",
-      "value": "2",
+      "locked": false,
+      "name": "CP",
+      "type": "computeprofile",
+      "value": "1",
     },
     Object {
       "description": "",
       "id": 2,
-      "name": "PW",
-      "type": "password",
-      "value": "rooot",
-    },
-    Object {
-      "description": "",
-      "id": 3,
-      "name": "Blub",
-      "type": "hostparam",
-      "value": "awesome",
-    },
-    Object {
-      "description": "",
-      "id": 4,
-      "name": "111allo",
-      "type": "ip",
-      "value": "1.1.1.1",
-    },
-    Object {
-      "description": "",
-      "id": 5,
-      "name": "1111aasdfasf",
-      "type": "hostname",
-      "value": "dername",
-    },
-    Object {
-      "description": "",
-      "id": 6,
-      "name": "222nocheiner",
-      "type": "hostparam",
-      "value": "",
-    },
-    Object {
-      "description": "aa",
-      "id": 7,
-      "name": "aaaaa",
-      "type": "ptable",
-      "value": "",
-    },
-    Object {
-      "description": "",
-      "id": 8,
-      "name": "aaa",
-      "type": "hostparam",
-      "value": "2134234",
+      "locked": true,
+      "name": "LE",
+      "type": "lifecycleenv",
+      "value": "1",
     },
     Object {
       "backup": Object {
         "description": "",
-        "id": 9,
+        "id": 3,
         "locked": false,
         "name": "",
         "newEntry": true,
@@ -402,7 +467,7 @@ Object {
         "value": "",
       },
       "description": "",
-      "id": 9,
+      "id": 3,
       "locked": false,
       "name": "",
       "newEntry": true,
@@ -421,32 +486,50 @@ Object {
 
 exports[`ParameterSelectionReducer should cancel edit parameter 1`] = `
 Object {
-  "appDefinition": Object {
-    "hostgroup_id": 1,
-    "id": 1,
-    "name": "Test123",
-  },
   "columns": Array [
     Object {
+      "cell": Object {
+        "formatters": Array [
+          null,
+        ],
+      },
       "header": Object {
+        "customFormatters": Array [
+          null,
+        ],
+        "formatters": Array [
+          null,
+        ],
         "label": "Name",
         "props": Object {
           "index": 0,
           "sort": true,
           "style": Object {
-            "width": "20%",
+            "width": "25%",
           },
         },
+        "transforms": Array [
+          null,
+        ],
       },
       "property": "name",
     },
     Object {
       "cell": Object {
+        "formatters": Array [
+          null,
+        ],
         "props": Object {
           "index": 1,
         },
       },
       "header": Object {
+        "customFormatters": Array [
+          null,
+        ],
+        "formatters": Array [
+          null,
+        ],
         "label": "Description",
         "props": Object {
           "index": 1,
@@ -455,16 +538,25 @@ Object {
             "width": "25%",
           },
         },
+        "transforms": Array [
+          null,
+        ],
       },
       "property": "description",
     },
     Object {
       "cell": Object {
-        "props": Object {
-          "index": 2,
-        },
+        "formatters": Array [
+          null,
+        ],
       },
       "header": Object {
+        "customFormatters": Array [
+          null,
+        ],
+        "formatters": Array [
+          null,
+        ],
         "label": "Type",
         "props": Object {
           "index": 2,
@@ -473,37 +565,55 @@ Object {
             "width": "20%",
           },
         },
+        "transforms": Array [
+          null,
+        ],
       },
       "property": "type",
     },
     Object {
       "cell": Object {
-        "props": Object {
-          "index": 3,
-        },
+        "formatters": Array [
+          null,
+        ],
       },
       "header": Object {
+        "customFormatters": Array [
+          null,
+        ],
+        "formatters": Array [
+          null,
+        ],
         "label": "Default value",
         "props": Object {
           "index": 3,
           "sort": true,
           "style": Object {
-            "width": "25%",
+            "width": "20%",
           },
         },
+        "transforms": Array [
+          null,
+        ],
       },
       "property": "value",
     },
     Object {
       "cell": Object {
-        "props": Object {
-          "index": 4,
-        },
+        "formatters": Array [
+          null,
+        ],
       },
       "header": Object {
+        "formatters": Array [
+          null,
+        ],
         "label": "Actions",
         "props": Object {
           "index": 4,
+          "style": Object {
+            "width": "10%",
+          },
         },
       },
       "property": "actions",
@@ -515,96 +625,83 @@ Object {
     "status": "",
     "statusText": "",
   },
-  "foremanData": Object {
-    "computeprofiles": Array [],
-    "domains": Array [],
+  "hostgroupId": 1,
+  "loading": false,
+  "paramData": Object {
+    "computeprofiles": Array [
+      Object {
+        "id": 1,
+        "name": "1-Small",
+      },
+      Object {
+        "id": 2,
+        "name": "2-Medium",
+      },
+      Object {
+        "id": 3,
+        "name": "3-Large",
+      },
+      Object {
+        "id": 4,
+        "name": "Orchahosts-VM",
+      },
+    ],
+    "dataType": "PARAMETER_SELECTION_PARAM_TYPE_FOREMAN",
+    "domains": Array [
+      Object {
+        "id": 1,
+        "name": "deploy3.dev.atix",
+      },
+    ],
     "environments": Array [
       Object {
         "id": 1,
         "name": "production",
       },
-      Object {
-        "id": 2,
-        "name": "test",
-      },
     ],
     "hostgroup_id": 1,
-    "lifecycle_environments": Array [],
+    "lifecycle_environments": Array [
+      Object {
+        "id": 1,
+        "name": "Library",
+      },
+    ],
     "ptables": Array [
       Object {
-        "id": 105,
+        "id": 125,
         "name": "Kickstart default",
-      },
-      Object {
-        "id": 104,
-        "name": "Kickstart default thin",
       },
     ],
   },
-  "hostgroupId": 1,
-  "loading": false,
+  "paramDefinition": Object {
+    "dataId": "1",
+    "id": 1,
+    "name": "web",
+  },
   "parameterTypes": Object {
-    "computeprofile": "Compute profile",
     "domain": "Domain",
     "hostparam": "Host parameter",
-    "lifecycleenv": "Lifecycle environment",
+    "ip": "IP",
+    "password": "Root password",
+    "ptable": "Partition table",
+    "puppetenv": "Puppet environment",
   },
   "parameters": Array [
     Object {
       "description": "",
       "id": 1,
-      "name": "PuppetEnv",
-      "type": "puppetenv",
-      "value": "2",
+      "locked": false,
+      "name": "CP",
+      "type": "computeprofile",
+      "value": "1",
     },
     Object {
       "description": "",
       "id": 2,
-      "name": "PW",
-      "type": "password",
-      "value": "rooot",
-    },
-    Object {
-      "description": "",
-      "id": 3,
-      "name": "Blub",
-      "type": "hostparam",
-      "value": "awesome",
-    },
-    Object {
-      "description": "",
-      "id": 4,
-      "name": "111allo",
-      "type": "ip",
-      "value": "1.1.1.1",
-    },
-    Object {
-      "description": "",
-      "id": 5,
-      "name": "1111aasdfasf",
-      "type": "hostname",
-      "value": "dername",
-    },
-    Object {
-      "description": "",
-      "id": 6,
-      "name": "222nocheiner",
-      "type": "hostparam",
-      "value": "",
-    },
-    Object {
-      "description": "aa",
-      "id": 7,
-      "name": "aaaaa",
-      "type": "ptable",
-      "value": "",
-    },
-    Object {
-      "description": "",
-      "id": 8,
-      "name": "aaa",
-      "type": "hostparam",
-      "value": "2134234",
+      "locked": true,
+      "name": "LE",
+      "type": "lifecycleenv",
+      "value": "1",
     },
   ],
   "sortingColumns": Object {
@@ -618,32 +715,50 @@ Object {
 
 exports[`ParameterSelectionReducer should change edit parameter 1`] = `
 Object {
-  "appDefinition": Object {
-    "hostgroup_id": 1,
-    "id": 1,
-    "name": "Test123",
-  },
   "columns": Array [
     Object {
+      "cell": Object {
+        "formatters": Array [
+          null,
+        ],
+      },
       "header": Object {
+        "customFormatters": Array [
+          null,
+        ],
+        "formatters": Array [
+          null,
+        ],
         "label": "Name",
         "props": Object {
           "index": 0,
           "sort": true,
           "style": Object {
-            "width": "20%",
+            "width": "25%",
           },
         },
+        "transforms": Array [
+          null,
+        ],
       },
       "property": "name",
     },
     Object {
       "cell": Object {
+        "formatters": Array [
+          null,
+        ],
         "props": Object {
           "index": 1,
         },
       },
       "header": Object {
+        "customFormatters": Array [
+          null,
+        ],
+        "formatters": Array [
+          null,
+        ],
         "label": "Description",
         "props": Object {
           "index": 1,
@@ -652,16 +767,25 @@ Object {
             "width": "25%",
           },
         },
+        "transforms": Array [
+          null,
+        ],
       },
       "property": "description",
     },
     Object {
       "cell": Object {
-        "props": Object {
-          "index": 2,
-        },
+        "formatters": Array [
+          null,
+        ],
       },
       "header": Object {
+        "customFormatters": Array [
+          null,
+        ],
+        "formatters": Array [
+          null,
+        ],
         "label": "Type",
         "props": Object {
           "index": 2,
@@ -670,37 +794,55 @@ Object {
             "width": "20%",
           },
         },
+        "transforms": Array [
+          null,
+        ],
       },
       "property": "type",
     },
     Object {
       "cell": Object {
-        "props": Object {
-          "index": 3,
-        },
+        "formatters": Array [
+          null,
+        ],
       },
       "header": Object {
+        "customFormatters": Array [
+          null,
+        ],
+        "formatters": Array [
+          null,
+        ],
         "label": "Default value",
         "props": Object {
           "index": 3,
           "sort": true,
           "style": Object {
-            "width": "25%",
+            "width": "20%",
           },
         },
+        "transforms": Array [
+          null,
+        ],
       },
       "property": "value",
     },
     Object {
       "cell": Object {
-        "props": Object {
-          "index": 4,
-        },
+        "formatters": Array [
+          null,
+        ],
       },
       "header": Object {
+        "formatters": Array [
+          null,
+        ],
         "label": "Actions",
         "props": Object {
           "index": 4,
+          "style": Object {
+            "width": "10%",
+          },
         },
       },
       "property": "actions",
@@ -712,103 +854,91 @@ Object {
     "status": "",
     "statusText": "",
   },
-  "foremanData": Object {
-    "computeprofiles": Array [],
-    "domains": Array [],
+  "hostgroupId": 1,
+  "loading": false,
+  "paramData": Object {
+    "computeprofiles": Array [
+      Object {
+        "id": 1,
+        "name": "1-Small",
+      },
+      Object {
+        "id": 2,
+        "name": "2-Medium",
+      },
+      Object {
+        "id": 3,
+        "name": "3-Large",
+      },
+      Object {
+        "id": 4,
+        "name": "Orchahosts-VM",
+      },
+    ],
+    "dataType": "PARAMETER_SELECTION_PARAM_TYPE_FOREMAN",
+    "domains": Array [
+      Object {
+        "id": 1,
+        "name": "deploy3.dev.atix",
+      },
+    ],
     "environments": Array [
       Object {
         "id": 1,
         "name": "production",
       },
-      Object {
-        "id": 2,
-        "name": "test",
-      },
     ],
     "hostgroup_id": 1,
-    "lifecycle_environments": Array [],
+    "lifecycle_environments": Array [
+      Object {
+        "id": 1,
+        "name": "Library",
+      },
+    ],
     "ptables": Array [
       Object {
-        "id": 105,
+        "id": 125,
         "name": "Kickstart default",
-      },
-      Object {
-        "id": 104,
-        "name": "Kickstart default thin",
       },
     ],
   },
-  "hostgroupId": 1,
-  "loading": false,
+  "paramDefinition": Object {
+    "dataId": "1",
+    "id": 1,
+    "name": "web",
+  },
   "parameterTypes": Object {
-    "computeprofile": "Compute profile",
     "domain": "Domain",
     "hostparam": "Host parameter",
-    "lifecycleenv": "Lifecycle environment",
+    "ip": "IP",
+    "password": "Root password",
+    "ptable": "Partition table",
+    "puppetenv": "Puppet environment",
   },
   "parameters": Array [
     Object {
       "description": "",
       "id": 1,
-      "name": "PuppetEnv",
-      "type": "puppetenv",
-      "value": "2",
-    },
-    Object {
-      "description": "",
-      "id": 2,
-      "name": "PW",
-      "type": "password",
-      "value": "rooot",
-    },
-    Object {
-      "description": "",
-      "id": 3,
-      "name": "Blub",
-      "type": "hostparam",
-      "value": "awesome",
-    },
-    Object {
-      "description": "",
-      "id": 4,
-      "name": "111allo",
-      "type": "ip",
-      "value": "1.1.1.1",
+      "locked": false,
+      "name": "CP",
+      "type": "computeprofile",
+      "value": "1",
     },
     Object {
       "backup": Object {
         "description": "",
-        "id": 5,
-        "name": "1111aasdfasf",
-        "type": "hostname",
-        "value": "dername",
+        "id": 2,
+        "locked": true,
+        "name": "LE",
+        "type": "lifecycleenv",
+        "value": "1",
       },
       "description": "",
-      "id": 5,
-      "name": "1111aasdfasf",
-      "type": "hostname",
+      "id": 2,
+      "locked": true,
+      "name": "LE",
+      "type": "lifecycleenv",
       "value": "helloworld",
-    },
-    Object {
-      "description": "",
-      "id": 6,
-      "name": "222nocheiner",
-      "type": "hostparam",
-      "value": "",
-    },
-    Object {
-      "description": "aa",
-      "id": 7,
-      "name": "aaaaa",
-      "type": "ptable",
-      "value": "",
-    },
-    Object {
-      "description": "",
-      "id": 8,
-      "name": "aaa",
-      "type": "hostparam",
-      "value": "2134234",
     },
   ],
   "sortingColumns": Object {
@@ -822,32 +952,50 @@ Object {
 
 exports[`ParameterSelectionReducer should confirm edit parameter 1`] = `
 Object {
-  "appDefinition": Object {
-    "hostgroup_id": 1,
-    "id": 1,
-    "name": "Test123",
-  },
   "columns": Array [
     Object {
+      "cell": Object {
+        "formatters": Array [
+          null,
+        ],
+      },
       "header": Object {
+        "customFormatters": Array [
+          null,
+        ],
+        "formatters": Array [
+          null,
+        ],
         "label": "Name",
         "props": Object {
           "index": 0,
           "sort": true,
           "style": Object {
-            "width": "20%",
+            "width": "25%",
           },
         },
+        "transforms": Array [
+          null,
+        ],
       },
       "property": "name",
     },
     Object {
       "cell": Object {
+        "formatters": Array [
+          null,
+        ],
         "props": Object {
           "index": 1,
         },
       },
       "header": Object {
+        "customFormatters": Array [
+          null,
+        ],
+        "formatters": Array [
+          null,
+        ],
         "label": "Description",
         "props": Object {
           "index": 1,
@@ -856,16 +1004,25 @@ Object {
             "width": "25%",
           },
         },
+        "transforms": Array [
+          null,
+        ],
       },
       "property": "description",
     },
     Object {
       "cell": Object {
-        "props": Object {
-          "index": 2,
-        },
+        "formatters": Array [
+          null,
+        ],
       },
       "header": Object {
+        "customFormatters": Array [
+          null,
+        ],
+        "formatters": Array [
+          null,
+        ],
         "label": "Type",
         "props": Object {
           "index": 2,
@@ -874,37 +1031,55 @@ Object {
             "width": "20%",
           },
         },
+        "transforms": Array [
+          null,
+        ],
       },
       "property": "type",
     },
     Object {
       "cell": Object {
-        "props": Object {
-          "index": 3,
-        },
+        "formatters": Array [
+          null,
+        ],
       },
       "header": Object {
+        "customFormatters": Array [
+          null,
+        ],
+        "formatters": Array [
+          null,
+        ],
         "label": "Default value",
         "props": Object {
           "index": 3,
           "sort": true,
           "style": Object {
-            "width": "25%",
+            "width": "20%",
           },
         },
+        "transforms": Array [
+          null,
+        ],
       },
       "property": "value",
     },
     Object {
       "cell": Object {
-        "props": Object {
-          "index": 4,
-        },
+        "formatters": Array [
+          null,
+        ],
       },
       "header": Object {
+        "formatters": Array [
+          null,
+        ],
         "label": "Actions",
         "props": Object {
           "index": 4,
+          "style": Object {
+            "width": "10%",
+          },
         },
       },
       "property": "actions",
@@ -916,96 +1091,83 @@ Object {
     "status": "",
     "statusText": "",
   },
-  "foremanData": Object {
-    "computeprofiles": Array [],
-    "domains": Array [],
+  "hostgroupId": 1,
+  "loading": false,
+  "paramData": Object {
+    "computeprofiles": Array [
+      Object {
+        "id": 1,
+        "name": "1-Small",
+      },
+      Object {
+        "id": 2,
+        "name": "2-Medium",
+      },
+      Object {
+        "id": 3,
+        "name": "3-Large",
+      },
+      Object {
+        "id": 4,
+        "name": "Orchahosts-VM",
+      },
+    ],
+    "dataType": "PARAMETER_SELECTION_PARAM_TYPE_FOREMAN",
+    "domains": Array [
+      Object {
+        "id": 1,
+        "name": "deploy3.dev.atix",
+      },
+    ],
     "environments": Array [
       Object {
         "id": 1,
         "name": "production",
       },
-      Object {
-        "id": 2,
-        "name": "test",
-      },
     ],
     "hostgroup_id": 1,
-    "lifecycle_environments": Array [],
+    "lifecycle_environments": Array [
+      Object {
+        "id": 1,
+        "name": "Library",
+      },
+    ],
     "ptables": Array [
       Object {
-        "id": 105,
+        "id": 125,
         "name": "Kickstart default",
-      },
-      Object {
-        "id": 104,
-        "name": "Kickstart default thin",
       },
     ],
   },
-  "hostgroupId": 1,
-  "loading": false,
+  "paramDefinition": Object {
+    "dataId": "1",
+    "id": 1,
+    "name": "web",
+  },
   "parameterTypes": Object {
-    "computeprofile": "Compute profile",
     "domain": "Domain",
     "hostparam": "Host parameter",
-    "lifecycleenv": "Lifecycle environment",
+    "ip": "IP",
+    "password": "Root password",
+    "ptable": "Partition table",
+    "puppetenv": "Puppet environment",
   },
   "parameters": Array [
     Object {
       "description": "",
       "id": 1,
-      "name": "PuppetEnv",
-      "type": "puppetenv",
-      "value": "2",
+      "locked": false,
+      "name": "CP",
+      "type": "computeprofile",
+      "value": "1",
     },
     Object {
       "description": "",
       "id": 2,
-      "name": "PW",
-      "type": "password",
-      "value": "rooot",
-    },
-    Object {
-      "description": "",
-      "id": 3,
-      "name": "Blub",
-      "type": "hostparam",
-      "value": "awesome",
-    },
-    Object {
-      "description": "",
-      "id": 4,
-      "name": "111allo",
-      "type": "ip",
-      "value": "1.1.1.1",
-    },
-    Object {
-      "description": "",
-      "id": 5,
-      "name": "1111aasdfasf",
-      "type": "hostname",
-      "value": "dername",
-    },
-    Object {
-      "description": "",
-      "id": 6,
-      "name": "222nocheiner",
-      "type": "hostparam",
-      "value": "",
-    },
-    Object {
-      "description": "aa",
-      "id": 7,
-      "name": "aaaaa",
-      "type": "ptable",
-      "value": "",
-    },
-    Object {
-      "description": "",
-      "id": 8,
-      "name": "aaa",
-      "type": "hostparam",
-      "value": "2134234",
+      "locked": true,
+      "name": "LE",
+      "type": "lifecycleenv",
+      "value": "1",
     },
   ],
   "sortingColumns": Object {
@@ -1019,32 +1181,50 @@ Object {
 
 exports[`ParameterSelectionReducer should delete a parameter 1`] = `
 Object {
-  "appDefinition": Object {
-    "hostgroup_id": 1,
-    "id": 1,
-    "name": "Test123",
-  },
   "columns": Array [
     Object {
+      "cell": Object {
+        "formatters": Array [
+          null,
+        ],
+      },
       "header": Object {
+        "customFormatters": Array [
+          null,
+        ],
+        "formatters": Array [
+          null,
+        ],
         "label": "Name",
         "props": Object {
           "index": 0,
           "sort": true,
           "style": Object {
-            "width": "20%",
+            "width": "25%",
           },
         },
+        "transforms": Array [
+          null,
+        ],
       },
       "property": "name",
     },
     Object {
       "cell": Object {
+        "formatters": Array [
+          null,
+        ],
         "props": Object {
           "index": 1,
         },
       },
       "header": Object {
+        "customFormatters": Array [
+          null,
+        ],
+        "formatters": Array [
+          null,
+        ],
         "label": "Description",
         "props": Object {
           "index": 1,
@@ -1053,16 +1233,25 @@ Object {
             "width": "25%",
           },
         },
+        "transforms": Array [
+          null,
+        ],
       },
       "property": "description",
     },
     Object {
       "cell": Object {
-        "props": Object {
-          "index": 2,
-        },
+        "formatters": Array [
+          null,
+        ],
       },
       "header": Object {
+        "customFormatters": Array [
+          null,
+        ],
+        "formatters": Array [
+          null,
+        ],
         "label": "Type",
         "props": Object {
           "index": 2,
@@ -1071,37 +1260,55 @@ Object {
             "width": "20%",
           },
         },
+        "transforms": Array [
+          null,
+        ],
       },
       "property": "type",
     },
     Object {
       "cell": Object {
-        "props": Object {
-          "index": 3,
-        },
+        "formatters": Array [
+          null,
+        ],
       },
       "header": Object {
+        "customFormatters": Array [
+          null,
+        ],
+        "formatters": Array [
+          null,
+        ],
         "label": "Default value",
         "props": Object {
           "index": 3,
           "sort": true,
           "style": Object {
-            "width": "25%",
+            "width": "20%",
           },
         },
+        "transforms": Array [
+          null,
+        ],
       },
       "property": "value",
     },
     Object {
       "cell": Object {
-        "props": Object {
-          "index": 4,
-        },
+        "formatters": Array [
+          null,
+        ],
       },
       "header": Object {
+        "formatters": Array [
+          null,
+        ],
         "label": "Actions",
         "props": Object {
           "index": 4,
+          "style": Object {
+            "width": "10%",
+          },
         },
       },
       "property": "actions",
@@ -1113,89 +1320,76 @@ Object {
     "status": "",
     "statusText": "",
   },
-  "foremanData": Object {
-    "computeprofiles": Array [],
-    "domains": Array [],
+  "hostgroupId": 1,
+  "loading": false,
+  "paramData": Object {
+    "computeprofiles": Array [
+      Object {
+        "id": 1,
+        "name": "1-Small",
+      },
+      Object {
+        "id": 2,
+        "name": "2-Medium",
+      },
+      Object {
+        "id": 3,
+        "name": "3-Large",
+      },
+      Object {
+        "id": 4,
+        "name": "Orchahosts-VM",
+      },
+    ],
+    "dataType": "PARAMETER_SELECTION_PARAM_TYPE_FOREMAN",
+    "domains": Array [
+      Object {
+        "id": 1,
+        "name": "deploy3.dev.atix",
+      },
+    ],
     "environments": Array [
       Object {
         "id": 1,
         "name": "production",
       },
-      Object {
-        "id": 2,
-        "name": "test",
-      },
     ],
     "hostgroup_id": 1,
-    "lifecycle_environments": Array [],
+    "lifecycle_environments": Array [
+      Object {
+        "id": 1,
+        "name": "Library",
+      },
+    ],
     "ptables": Array [
       Object {
-        "id": 105,
+        "id": 125,
         "name": "Kickstart default",
-      },
-      Object {
-        "id": 104,
-        "name": "Kickstart default thin",
       },
     ],
   },
-  "hostgroupId": 1,
-  "loading": false,
+  "paramDefinition": Object {
+    "dataId": "1",
+    "id": 1,
+    "name": "web",
+  },
   "parameterTypes": Object {
-    "computeprofile": "Compute profile",
     "domain": "Domain",
     "hostparam": "Host parameter",
+    "ip": "IP",
     "lifecycleenv": "Lifecycle environment",
+    "password": "Root password",
+    "ptable": "Partition table",
+    "puppetenv": "Puppet environment",
   },
   "parameters": Array [
     Object {
       "description": "",
       "id": 1,
-      "name": "PuppetEnv",
-      "type": "puppetenv",
-      "value": "2",
-    },
-    Object {
-      "description": "",
-      "id": 2,
-      "name": "PW",
-      "type": "password",
-      "value": "rooot",
-    },
-    Object {
-      "description": "",
-      "id": 3,
-      "name": "Blub",
-      "type": "hostparam",
-      "value": "awesome",
-    },
-    Object {
-      "description": "",
-      "id": 4,
-      "name": "111allo",
-      "type": "ip",
-      "value": "1.1.1.1",
-    },
-    Object {
-      "description": "",
-      "id": 6,
-      "name": "222nocheiner",
-      "type": "hostparam",
-      "value": "",
-    },
-    Object {
-      "description": "aa",
-      "id": 7,
-      "name": "aaaaa",
-      "type": "ptable",
-      "value": "",
-    },
-    Object {
-      "description": "",
-      "id": 8,
-      "name": "aaa",
-      "type": "hostparam",
-      "value": "2134234",
+      "locked": false,
+      "name": "CP",
+      "type": "computeprofile",
+      "value": "1",
     },
   ],
   "sortingColumns": Object {
@@ -1209,32 +1403,50 @@ Object {
 
 exports[`ParameterSelectionReducer should initialize component 1`] = `
 Object {
-  "appDefinition": Object {
-    "hostgroup_id": 1,
-    "id": 1,
-    "name": "Test123",
-  },
   "columns": Array [
     Object {
+      "cell": Object {
+        "formatters": Array [
+          null,
+        ],
+      },
       "header": Object {
+        "customFormatters": Array [
+          null,
+        ],
+        "formatters": Array [
+          null,
+        ],
         "label": "Name",
         "props": Object {
           "index": 0,
           "sort": true,
           "style": Object {
-            "width": "20%",
+            "width": "25%",
           },
         },
+        "transforms": Array [
+          null,
+        ],
       },
       "property": "name",
     },
     Object {
       "cell": Object {
+        "formatters": Array [
+          null,
+        ],
         "props": Object {
           "index": 1,
         },
       },
       "header": Object {
+        "customFormatters": Array [
+          null,
+        ],
+        "formatters": Array [
+          null,
+        ],
         "label": "Description",
         "props": Object {
           "index": 1,
@@ -1243,16 +1455,25 @@ Object {
             "width": "25%",
           },
         },
+        "transforms": Array [
+          null,
+        ],
       },
       "property": "description",
     },
     Object {
       "cell": Object {
-        "props": Object {
-          "index": 2,
-        },
+        "formatters": Array [
+          null,
+        ],
       },
       "header": Object {
+        "customFormatters": Array [
+          null,
+        ],
+        "formatters": Array [
+          null,
+        ],
         "label": "Type",
         "props": Object {
           "index": 2,
@@ -1261,37 +1482,55 @@ Object {
             "width": "20%",
           },
         },
+        "transforms": Array [
+          null,
+        ],
       },
       "property": "type",
     },
     Object {
       "cell": Object {
-        "props": Object {
-          "index": 3,
-        },
+        "formatters": Array [
+          null,
+        ],
       },
       "header": Object {
+        "customFormatters": Array [
+          null,
+        ],
+        "formatters": Array [
+          null,
+        ],
         "label": "Default value",
         "props": Object {
           "index": 3,
           "sort": true,
           "style": Object {
-            "width": "25%",
+            "width": "20%",
           },
         },
+        "transforms": Array [
+          null,
+        ],
       },
       "property": "value",
     },
     Object {
       "cell": Object {
-        "props": Object {
-          "index": 4,
-        },
+        "formatters": Array [
+          null,
+        ],
       },
       "header": Object {
+        "formatters": Array [
+          null,
+        ],
         "label": "Actions",
         "props": Object {
           "index": 4,
+          "style": Object {
+            "width": "10%",
+          },
         },
       },
       "property": "actions",
@@ -1303,103 +1542,91 @@ Object {
     "status": "",
     "statusText": "",
   },
-  "foremanData": Object {
-    "computeprofiles": Array [],
-    "domains": Array [],
+  "hostgroupId": 1,
+  "loading": false,
+  "paramData": Object {
+    "computeprofiles": Array [
+      Object {
+        "id": 1,
+        "name": "1-Small",
+      },
+      Object {
+        "id": 2,
+        "name": "2-Medium",
+      },
+      Object {
+        "id": 3,
+        "name": "3-Large",
+      },
+      Object {
+        "id": 4,
+        "name": "Orchahosts-VM",
+      },
+    ],
+    "dataType": "PARAMETER_SELECTION_PARAM_TYPE_FOREMAN",
+    "domains": Array [
+      Object {
+        "id": 1,
+        "name": "deploy3.dev.atix",
+      },
+    ],
     "environments": Array [
       Object {
         "id": 1,
         "name": "production",
       },
-      Object {
-        "id": 2,
-        "name": "test",
-      },
     ],
     "hostgroup_id": 1,
-    "lifecycle_environments": Array [],
+    "lifecycle_environments": Array [
+      Object {
+        "id": 1,
+        "name": "Library",
+      },
+    ],
     "ptables": Array [
       Object {
-        "id": 105,
+        "id": 125,
         "name": "Kickstart default",
-      },
-      Object {
-        "id": 104,
-        "name": "Kickstart default thin",
       },
     ],
   },
-  "hostgroupId": 1,
-  "loading": false,
+  "paramDefinition": Object {
+    "dataId": "1",
+    "id": 1,
+    "name": "web",
+  },
   "parameterTypes": Object {
-    "computeprofile": "Compute profile",
     "domain": "Domain",
     "hostparam": "Host parameter",
-    "lifecycleenv": "Lifecycle environment",
+    "ip": "IP",
+    "password": "Root password",
+    "ptable": "Partition table",
+    "puppetenv": "Puppet environment",
   },
   "parameters": Array [
     Object {
       "description": "",
       "id": 1,
-      "name": "PuppetEnv",
-      "type": "puppetenv",
-      "value": "2",
-    },
-    Object {
-      "description": "",
-      "id": 2,
-      "name": "PW",
-      "type": "password",
-      "value": "rooot",
-    },
-    Object {
-      "description": "",
-      "id": 3,
-      "name": "Blub",
-      "type": "hostparam",
-      "value": "awesome",
-    },
-    Object {
-      "description": "",
-      "id": 4,
-      "name": "111allo",
-      "type": "ip",
-      "value": "1.1.1.1",
+      "locked": false,
+      "name": "CP",
+      "type": "computeprofile",
+      "value": "1",
     },
     Object {
       "backup": Object {
         "description": "",
-        "id": 5,
-        "name": "1111aasdfasf",
-        "type": "hostname",
-        "value": "dername",
+        "id": 2,
+        "locked": true,
+        "name": "LE",
+        "type": "lifecycleenv",
+        "value": "1",
       },
       "description": "",
-      "id": 5,
-      "name": "1111aasdfasf",
-      "type": "hostname",
-      "value": "dername",
-    },
-    Object {
-      "description": "",
-      "id": 6,
-      "name": "222nocheiner",
-      "type": "hostparam",
-      "value": "",
-    },
-    Object {
-      "description": "aa",
-      "id": 7,
-      "name": "aaaaa",
-      "type": "ptable",
-      "value": "",
-    },
-    Object {
-      "description": "",
-      "id": 8,
-      "name": "aaa",
-      "type": "hostparam",
-      "value": "2134234",
+      "id": 2,
+      "locked": true,
+      "name": "LE",
+      "type": "lifecycleenv",
+      "value": "1",
     },
   ],
   "sortingColumns": Object {
@@ -1413,32 +1640,50 @@ Object {
 
 exports[`ParameterSelectionReducer should load param data be erroneous 1`] = `
 Object {
-  "appDefinition": Object {
-    "hostgroup_id": 1,
-    "id": 1,
-    "name": "Test123",
-  },
   "columns": Array [
     Object {
+      "cell": Object {
+        "formatters": Array [
+          null,
+        ],
+      },
       "header": Object {
+        "customFormatters": Array [
+          null,
+        ],
+        "formatters": Array [
+          null,
+        ],
         "label": "Name",
         "props": Object {
           "index": 0,
           "sort": true,
           "style": Object {
-            "width": "20%",
+            "width": "25%",
           },
         },
+        "transforms": Array [
+          null,
+        ],
       },
       "property": "name",
     },
     Object {
       "cell": Object {
+        "formatters": Array [
+          null,
+        ],
         "props": Object {
           "index": 1,
         },
       },
       "header": Object {
+        "customFormatters": Array [
+          null,
+        ],
+        "formatters": Array [
+          null,
+        ],
         "label": "Description",
         "props": Object {
           "index": 1,
@@ -1447,16 +1692,25 @@ Object {
             "width": "25%",
           },
         },
+        "transforms": Array [
+          null,
+        ],
       },
       "property": "description",
     },
     Object {
       "cell": Object {
-        "props": Object {
-          "index": 2,
-        },
+        "formatters": Array [
+          null,
+        ],
       },
       "header": Object {
+        "customFormatters": Array [
+          null,
+        ],
+        "formatters": Array [
+          null,
+        ],
         "label": "Type",
         "props": Object {
           "index": 2,
@@ -1465,37 +1719,55 @@ Object {
             "width": "20%",
           },
         },
+        "transforms": Array [
+          null,
+        ],
       },
       "property": "type",
     },
     Object {
       "cell": Object {
-        "props": Object {
-          "index": 3,
-        },
+        "formatters": Array [
+          null,
+        ],
       },
       "header": Object {
+        "customFormatters": Array [
+          null,
+        ],
+        "formatters": Array [
+          null,
+        ],
         "label": "Default value",
         "props": Object {
           "index": 3,
           "sort": true,
           "style": Object {
-            "width": "25%",
+            "width": "20%",
           },
         },
+        "transforms": Array [
+          null,
+        ],
       },
       "property": "value",
     },
     Object {
       "cell": Object {
-        "props": Object {
-          "index": 4,
-        },
+        "formatters": Array [
+          null,
+        ],
       },
       "header": Object {
+        "formatters": Array [
+          null,
+        ],
         "label": "Actions",
         "props": Object {
           "index": 4,
+          "style": Object {
+            "width": "10%",
+          },
         },
       },
       "property": "actions",
@@ -1503,96 +1775,83 @@ Object {
   ],
   "editMode": false,
   "error": "Something really bad happend",
-  "foremanData": Object {
-    "computeprofiles": Array [],
-    "domains": Array [],
+  "hostgroupId": 1,
+  "loading": false,
+  "paramData": Object {
+    "computeprofiles": Array [
+      Object {
+        "id": 1,
+        "name": "1-Small",
+      },
+      Object {
+        "id": 2,
+        "name": "2-Medium",
+      },
+      Object {
+        "id": 3,
+        "name": "3-Large",
+      },
+      Object {
+        "id": 4,
+        "name": "Orchahosts-VM",
+      },
+    ],
+    "dataType": "PARAMETER_SELECTION_PARAM_TYPE_FOREMAN",
+    "domains": Array [
+      Object {
+        "id": 1,
+        "name": "deploy3.dev.atix",
+      },
+    ],
     "environments": Array [
       Object {
         "id": 1,
         "name": "production",
       },
-      Object {
-        "id": 2,
-        "name": "test",
-      },
     ],
     "hostgroup_id": 1,
-    "lifecycle_environments": Array [],
+    "lifecycle_environments": Array [
+      Object {
+        "id": 1,
+        "name": "Library",
+      },
+    ],
     "ptables": Array [
       Object {
-        "id": 105,
+        "id": 125,
         "name": "Kickstart default",
-      },
-      Object {
-        "id": 104,
-        "name": "Kickstart default thin",
       },
     ],
   },
-  "hostgroupId": 1,
-  "loading": false,
+  "paramDefinition": Object {
+    "dataId": "1",
+    "id": 1,
+    "name": "web",
+  },
   "parameterTypes": Object {
-    "computeprofile": "Compute profile",
     "domain": "Domain",
     "hostparam": "Host parameter",
-    "lifecycleenv": "Lifecycle environment",
+    "ip": "IP",
+    "password": "Root password",
+    "ptable": "Partition table",
+    "puppetenv": "Puppet environment",
   },
   "parameters": Array [
     Object {
       "description": "",
       "id": 1,
-      "name": "PuppetEnv",
-      "type": "puppetenv",
-      "value": "2",
+      "locked": false,
+      "name": "CP",
+      "type": "computeprofile",
+      "value": "1",
     },
     Object {
       "description": "",
       "id": 2,
-      "name": "PW",
-      "type": "password",
-      "value": "rooot",
-    },
-    Object {
-      "description": "",
-      "id": 3,
-      "name": "Blub",
-      "type": "hostparam",
-      "value": "awesome",
-    },
-    Object {
-      "description": "",
-      "id": 4,
-      "name": "111allo",
-      "type": "ip",
-      "value": "1.1.1.1",
-    },
-    Object {
-      "description": "",
-      "id": 5,
-      "name": "1111aasdfasf",
-      "type": "hostname",
-      "value": "dername",
-    },
-    Object {
-      "description": "",
-      "id": 6,
-      "name": "222nocheiner",
-      "type": "hostparam",
-      "value": "",
-    },
-    Object {
-      "description": "aa",
-      "id": 7,
-      "name": "aaaaa",
-      "type": "ptable",
-      "value": "",
-    },
-    Object {
-      "description": "",
-      "id": 8,
-      "name": "aaa",
-      "type": "hostparam",
-      "value": "2134234",
+      "locked": true,
+      "name": "LE",
+      "type": "lifecycleenv",
+      "value": "1",
     },
   ],
   "sortingColumns": Object {
@@ -1606,32 +1865,50 @@ Object {
 
 exports[`ParameterSelectionReducer should load param data be successful 1`] = `
 Object {
-  "appDefinition": Object {
-    "hostgroup_id": 1,
-    "id": 1,
-    "name": "Test123",
-  },
   "columns": Array [
     Object {
+      "cell": Object {
+        "formatters": Array [
+          null,
+        ],
+      },
       "header": Object {
+        "customFormatters": Array [
+          null,
+        ],
+        "formatters": Array [
+          null,
+        ],
         "label": "Name",
         "props": Object {
           "index": 0,
           "sort": true,
           "style": Object {
-            "width": "20%",
+            "width": "25%",
           },
         },
+        "transforms": Array [
+          null,
+        ],
       },
       "property": "name",
     },
     Object {
       "cell": Object {
+        "formatters": Array [
+          null,
+        ],
         "props": Object {
           "index": 1,
         },
       },
       "header": Object {
+        "customFormatters": Array [
+          null,
+        ],
+        "formatters": Array [
+          null,
+        ],
         "label": "Description",
         "props": Object {
           "index": 1,
@@ -1640,16 +1917,25 @@ Object {
             "width": "25%",
           },
         },
+        "transforms": Array [
+          null,
+        ],
       },
       "property": "description",
     },
     Object {
       "cell": Object {
-        "props": Object {
-          "index": 2,
-        },
+        "formatters": Array [
+          null,
+        ],
       },
       "header": Object {
+        "customFormatters": Array [
+          null,
+        ],
+        "formatters": Array [
+          null,
+        ],
         "label": "Type",
         "props": Object {
           "index": 2,
@@ -1658,37 +1944,55 @@ Object {
             "width": "20%",
           },
         },
+        "transforms": Array [
+          null,
+        ],
       },
       "property": "type",
     },
     Object {
       "cell": Object {
-        "props": Object {
-          "index": 3,
-        },
+        "formatters": Array [
+          null,
+        ],
       },
       "header": Object {
+        "customFormatters": Array [
+          null,
+        ],
+        "formatters": Array [
+          null,
+        ],
         "label": "Default value",
         "props": Object {
           "index": 3,
           "sort": true,
           "style": Object {
-            "width": "25%",
+            "width": "20%",
           },
         },
+        "transforms": Array [
+          null,
+        ],
       },
       "property": "value",
     },
     Object {
       "cell": Object {
-        "props": Object {
-          "index": 4,
-        },
+        "formatters": Array [
+          null,
+        ],
       },
       "header": Object {
+        "formatters": Array [
+          null,
+        ],
         "label": "Actions",
         "props": Object {
           "index": 4,
+          "style": Object {
+            "width": "10%",
+          },
         },
       },
       "property": "actions",
@@ -1700,96 +2004,312 @@ Object {
     "status": "",
     "statusText": "",
   },
-  "foremanData": Object {
-    "computeprofiles": Array [],
-    "domains": Array [],
+  "hostgroupId": 1,
+  "loading": false,
+  "paramData": Object {
+    "computeprofiles": Array [
+      Object {
+        "id": 1,
+        "name": "1-Small",
+      },
+      Object {
+        "id": 2,
+        "name": "2-Medium",
+      },
+      Object {
+        "id": 3,
+        "name": "3-Large",
+      },
+      Object {
+        "id": 4,
+        "name": "Orchahosts-VM",
+      },
+    ],
+    "dataType": "PARAMETER_SELECTION_PARAM_TYPE_FOREMAN",
+    "domains": Array [
+      Object {
+        "id": 1,
+        "name": "deploy3.dev.atix",
+      },
+    ],
     "environments": Array [
       Object {
         "id": 1,
         "name": "production",
       },
-      Object {
-        "id": 2,
-        "name": "test",
-      },
     ],
     "hostgroup_id": 1,
-    "lifecycle_environments": Array [],
+    "lifecycle_environments": Array [
+      Object {
+        "id": 1,
+        "name": "Library",
+      },
+    ],
     "ptables": Array [
       Object {
-        "id": 105,
+        "id": 125,
         "name": "Kickstart default",
-      },
-      Object {
-        "id": 104,
-        "name": "Kickstart default thin",
       },
     ],
   },
-  "hostgroupId": 1,
-  "loading": false,
+  "paramDefinition": Object {
+    "dataId": "1",
+    "id": 1,
+    "name": "web",
+  },
   "parameterTypes": Object {
-    "computeprofile": "Compute profile",
     "domain": "Domain",
     "hostparam": "Host parameter",
-    "lifecycleenv": "Lifecycle environment",
+    "ip": "IP",
+    "password": "Root password",
+    "ptable": "Partition table",
+    "puppetenv": "Puppet environment",
   },
   "parameters": Array [
     Object {
       "description": "",
       "id": 1,
-      "name": "PuppetEnv",
-      "type": "puppetenv",
-      "value": "2",
+      "locked": false,
+      "name": "CP",
+      "type": "computeprofile",
+      "value": "1",
     },
     Object {
       "description": "",
       "id": 2,
-      "name": "PW",
-      "type": "password",
-      "value": "rooot",
+      "locked": true,
+      "name": "LE",
+      "type": "lifecycleenv",
+      "value": "1",
+    },
+  ],
+  "sortingColumns": Object {
+    "name": Object {
+      "direction": "asc",
+      "position": 0,
+    },
+  },
+}
+`;
+
+exports[`ParameterSelectionReducer should lock a parameter 1`] = `
+Object {
+  "columns": Array [
+    Object {
+      "cell": Object {
+        "formatters": Array [
+          null,
+        ],
+      },
+      "header": Object {
+        "customFormatters": Array [
+          null,
+        ],
+        "formatters": Array [
+          null,
+        ],
+        "label": "Name",
+        "props": Object {
+          "index": 0,
+          "sort": true,
+          "style": Object {
+            "width": "25%",
+          },
+        },
+        "transforms": Array [
+          null,
+        ],
+      },
+      "property": "name",
+    },
+    Object {
+      "cell": Object {
+        "formatters": Array [
+          null,
+        ],
+        "props": Object {
+          "index": 1,
+        },
+      },
+      "header": Object {
+        "customFormatters": Array [
+          null,
+        ],
+        "formatters": Array [
+          null,
+        ],
+        "label": "Description",
+        "props": Object {
+          "index": 1,
+          "sort": true,
+          "style": Object {
+            "width": "25%",
+          },
+        },
+        "transforms": Array [
+          null,
+        ],
+      },
+      "property": "description",
+    },
+    Object {
+      "cell": Object {
+        "formatters": Array [
+          null,
+        ],
+      },
+      "header": Object {
+        "customFormatters": Array [
+          null,
+        ],
+        "formatters": Array [
+          null,
+        ],
+        "label": "Type",
+        "props": Object {
+          "index": 2,
+          "sort": true,
+          "style": Object {
+            "width": "20%",
+          },
+        },
+        "transforms": Array [
+          null,
+        ],
+      },
+      "property": "type",
+    },
+    Object {
+      "cell": Object {
+        "formatters": Array [
+          null,
+        ],
+      },
+      "header": Object {
+        "customFormatters": Array [
+          null,
+        ],
+        "formatters": Array [
+          null,
+        ],
+        "label": "Default value",
+        "props": Object {
+          "index": 3,
+          "sort": true,
+          "style": Object {
+            "width": "20%",
+          },
+        },
+        "transforms": Array [
+          null,
+        ],
+      },
+      "property": "value",
+    },
+    Object {
+      "cell": Object {
+        "formatters": Array [
+          null,
+        ],
+      },
+      "header": Object {
+        "formatters": Array [
+          null,
+        ],
+        "label": "Actions",
+        "props": Object {
+          "index": 4,
+          "style": Object {
+            "width": "10%",
+          },
+        },
+      },
+      "property": "actions",
+    },
+  ],
+  "editMode": false,
+  "error": Object {
+    "errorMsg": "",
+    "status": "",
+    "statusText": "",
+  },
+  "hostgroupId": 1,
+  "loading": false,
+  "paramData": Object {
+    "computeprofiles": Array [
+      Object {
+        "id": 1,
+        "name": "1-Small",
+      },
+      Object {
+        "id": 2,
+        "name": "2-Medium",
+      },
+      Object {
+        "id": 3,
+        "name": "3-Large",
+      },
+      Object {
+        "id": 4,
+        "name": "Orchahosts-VM",
+      },
+    ],
+    "dataType": "PARAMETER_SELECTION_PARAM_TYPE_FOREMAN",
+    "domains": Array [
+      Object {
+        "id": 1,
+        "name": "deploy3.dev.atix",
+      },
+    ],
+    "environments": Array [
+      Object {
+        "id": 1,
+        "name": "production",
+      },
+    ],
+    "hostgroup_id": 1,
+    "lifecycle_environments": Array [
+      Object {
+        "id": 1,
+        "name": "Library",
+      },
+    ],
+    "ptables": Array [
+      Object {
+        "id": 125,
+        "name": "Kickstart default",
+      },
+    ],
+  },
+  "paramDefinition": Object {
+    "dataId": "1",
+    "id": 1,
+    "name": "web",
+  },
+  "parameterTypes": Object {
+    "domain": "Domain",
+    "hostparam": "Host parameter",
+    "ip": "IP",
+    "password": "Root password",
+    "ptable": "Partition table",
+    "puppetenv": "Puppet environment",
+  },
+  "parameters": Array [
+    Object {
+      "description": "",
+      "id": 1,
+      "locked": false,
+      "name": "CP",
+      "type": "computeprofile",
+      "value": "1",
     },
     Object {
       "description": "",
-      "id": 3,
-      "name": "Blub",
-      "type": "hostparam",
-      "value": "awesome",
-    },
-    Object {
-      "description": "",
-      "id": 4,
-      "name": "111allo",
-      "type": "ip",
-      "value": "1.1.1.1",
-    },
-    Object {
-      "description": "",
-      "id": 5,
-      "name": "1111aasdfasf",
-      "type": "hostname",
-      "value": "dername",
-    },
-    Object {
-      "description": "",
-      "id": 6,
-      "name": "222nocheiner",
-      "type": "hostparam",
-      "value": "",
-    },
-    Object {
-      "description": "aa",
-      "id": 7,
-      "name": "aaaaa",
-      "type": "ptable",
-      "value": "",
-    },
-    Object {
-      "description": "",
-      "id": 8,
-      "name": "aaa",
-      "type": "hostparam",
-      "value": "2134234",
+      "id": 2,
+      "locked": false,
+      "name": "LE",
+      "type": "lifecycleenv",
+      "value": "1",
     },
   ],
   "sortingColumns": Object {
@@ -1803,32 +2323,50 @@ Object {
 
 exports[`ParameterSelectionReducer should request load param data 1`] = `
 Object {
-  "appDefinition": Object {
-    "hostgroup_id": 1,
-    "id": 1,
-    "name": "Test123",
-  },
   "columns": Array [
     Object {
+      "cell": Object {
+        "formatters": Array [
+          null,
+        ],
+      },
       "header": Object {
+        "customFormatters": Array [
+          null,
+        ],
+        "formatters": Array [
+          null,
+        ],
         "label": "Name",
         "props": Object {
           "index": 0,
           "sort": true,
           "style": Object {
-            "width": "20%",
+            "width": "25%",
           },
         },
+        "transforms": Array [
+          null,
+        ],
       },
       "property": "name",
     },
     Object {
       "cell": Object {
+        "formatters": Array [
+          null,
+        ],
         "props": Object {
           "index": 1,
         },
       },
       "header": Object {
+        "customFormatters": Array [
+          null,
+        ],
+        "formatters": Array [
+          null,
+        ],
         "label": "Description",
         "props": Object {
           "index": 1,
@@ -1837,16 +2375,25 @@ Object {
             "width": "25%",
           },
         },
+        "transforms": Array [
+          null,
+        ],
       },
       "property": "description",
     },
     Object {
       "cell": Object {
-        "props": Object {
-          "index": 2,
-        },
+        "formatters": Array [
+          null,
+        ],
       },
       "header": Object {
+        "customFormatters": Array [
+          null,
+        ],
+        "formatters": Array [
+          null,
+        ],
         "label": "Type",
         "props": Object {
           "index": 2,
@@ -1855,37 +2402,55 @@ Object {
             "width": "20%",
           },
         },
+        "transforms": Array [
+          null,
+        ],
       },
       "property": "type",
     },
     Object {
       "cell": Object {
-        "props": Object {
-          "index": 3,
-        },
+        "formatters": Array [
+          null,
+        ],
       },
       "header": Object {
+        "customFormatters": Array [
+          null,
+        ],
+        "formatters": Array [
+          null,
+        ],
         "label": "Default value",
         "props": Object {
           "index": 3,
           "sort": true,
           "style": Object {
-            "width": "25%",
+            "width": "20%",
           },
         },
+        "transforms": Array [
+          null,
+        ],
       },
       "property": "value",
     },
     Object {
       "cell": Object {
-        "props": Object {
-          "index": 4,
-        },
+        "formatters": Array [
+          null,
+        ],
       },
       "header": Object {
+        "formatters": Array [
+          null,
+        ],
         "label": "Actions",
         "props": Object {
           "index": 4,
+          "style": Object {
+            "width": "10%",
+          },
         },
       },
       "property": "actions",
@@ -1897,96 +2462,83 @@ Object {
     "status": "",
     "statusText": "",
   },
-  "foremanData": Object {
-    "computeprofiles": Array [],
-    "domains": Array [],
+  "hostgroupId": 1,
+  "loading": false,
+  "paramData": Object {
+    "computeprofiles": Array [
+      Object {
+        "id": 1,
+        "name": "1-Small",
+      },
+      Object {
+        "id": 2,
+        "name": "2-Medium",
+      },
+      Object {
+        "id": 3,
+        "name": "3-Large",
+      },
+      Object {
+        "id": 4,
+        "name": "Orchahosts-VM",
+      },
+    ],
+    "dataType": "PARAMETER_SELECTION_PARAM_TYPE_FOREMAN",
+    "domains": Array [
+      Object {
+        "id": 1,
+        "name": "deploy3.dev.atix",
+      },
+    ],
     "environments": Array [
       Object {
         "id": 1,
         "name": "production",
       },
-      Object {
-        "id": 2,
-        "name": "test",
-      },
     ],
     "hostgroup_id": 1,
-    "lifecycle_environments": Array [],
+    "lifecycle_environments": Array [
+      Object {
+        "id": 1,
+        "name": "Library",
+      },
+    ],
     "ptables": Array [
       Object {
-        "id": 105,
+        "id": 125,
         "name": "Kickstart default",
-      },
-      Object {
-        "id": 104,
-        "name": "Kickstart default thin",
       },
     ],
   },
-  "hostgroupId": 1,
-  "loading": false,
+  "paramDefinition": Object {
+    "dataId": "1",
+    "id": 1,
+    "name": "web",
+  },
   "parameterTypes": Object {
-    "computeprofile": "Compute profile",
     "domain": "Domain",
     "hostparam": "Host parameter",
-    "lifecycleenv": "Lifecycle environment",
+    "ip": "IP",
+    "password": "Root password",
+    "ptable": "Partition table",
+    "puppetenv": "Puppet environment",
   },
   "parameters": Array [
     Object {
       "description": "",
       "id": 1,
-      "name": "PuppetEnv",
-      "type": "puppetenv",
-      "value": "2",
+      "locked": false,
+      "name": "CP",
+      "type": "computeprofile",
+      "value": "1",
     },
     Object {
       "description": "",
       "id": 2,
-      "name": "PW",
-      "type": "password",
-      "value": "rooot",
-    },
-    Object {
-      "description": "",
-      "id": 3,
-      "name": "Blub",
-      "type": "hostparam",
-      "value": "awesome",
-    },
-    Object {
-      "description": "",
-      "id": 4,
-      "name": "111allo",
-      "type": "ip",
-      "value": "1.1.1.1",
-    },
-    Object {
-      "description": "",
-      "id": 5,
-      "name": "1111aasdfasf",
-      "type": "hostname",
-      "value": "dername",
-    },
-    Object {
-      "description": "",
-      "id": 6,
-      "name": "222nocheiner",
-      "type": "hostparam",
-      "value": "",
-    },
-    Object {
-      "description": "aa",
-      "id": 7,
-      "name": "aaaaa",
-      "type": "ptable",
-      "value": "",
-    },
-    Object {
-      "description": "",
-      "id": 8,
-      "name": "aaa",
-      "type": "hostparam",
-      "value": "2134234",
+      "locked": true,
+      "name": "LE",
+      "type": "lifecycleenv",
+      "value": "1",
     },
   ],
   "sortingColumns": Object {
@@ -2011,32 +2563,50 @@ Object {
 
 exports[`ParameterSelectionReducer should sort parameter 1`] = `
 Object {
-  "appDefinition": Object {
-    "hostgroup_id": 1,
-    "id": 1,
-    "name": "Test123",
-  },
   "columns": Array [
     Object {
+      "cell": Object {
+        "formatters": Array [
+          null,
+        ],
+      },
       "header": Object {
+        "customFormatters": Array [
+          null,
+        ],
+        "formatters": Array [
+          null,
+        ],
         "label": "Name",
         "props": Object {
           "index": 0,
           "sort": true,
           "style": Object {
-            "width": "20%",
+            "width": "25%",
           },
         },
+        "transforms": Array [
+          null,
+        ],
       },
       "property": "name",
     },
     Object {
       "cell": Object {
+        "formatters": Array [
+          null,
+        ],
         "props": Object {
           "index": 1,
         },
       },
       "header": Object {
+        "customFormatters": Array [
+          null,
+        ],
+        "formatters": Array [
+          null,
+        ],
         "label": "Description",
         "props": Object {
           "index": 1,
@@ -2045,16 +2615,25 @@ Object {
             "width": "25%",
           },
         },
+        "transforms": Array [
+          null,
+        ],
       },
       "property": "description",
     },
     Object {
       "cell": Object {
-        "props": Object {
-          "index": 2,
-        },
+        "formatters": Array [
+          null,
+        ],
       },
       "header": Object {
+        "customFormatters": Array [
+          null,
+        ],
+        "formatters": Array [
+          null,
+        ],
         "label": "Type",
         "props": Object {
           "index": 2,
@@ -2063,37 +2642,55 @@ Object {
             "width": "20%",
           },
         },
+        "transforms": Array [
+          null,
+        ],
       },
       "property": "type",
     },
     Object {
       "cell": Object {
-        "props": Object {
-          "index": 3,
-        },
+        "formatters": Array [
+          null,
+        ],
       },
       "header": Object {
+        "customFormatters": Array [
+          null,
+        ],
+        "formatters": Array [
+          null,
+        ],
         "label": "Default value",
         "props": Object {
           "index": 3,
           "sort": true,
           "style": Object {
-            "width": "25%",
+            "width": "20%",
           },
         },
+        "transforms": Array [
+          null,
+        ],
       },
       "property": "value",
     },
     Object {
       "cell": Object {
-        "props": Object {
-          "index": 4,
-        },
+        "formatters": Array [
+          null,
+        ],
       },
       "header": Object {
+        "formatters": Array [
+          null,
+        ],
         "label": "Actions",
         "props": Object {
           "index": 4,
+          "style": Object {
+            "width": "10%",
+          },
         },
       },
       "property": "actions",
@@ -2105,96 +2702,83 @@ Object {
     "status": "",
     "statusText": "",
   },
-  "foremanData": Object {
-    "computeprofiles": Array [],
-    "domains": Array [],
+  "hostgroupId": 1,
+  "loading": false,
+  "paramData": Object {
+    "computeprofiles": Array [
+      Object {
+        "id": 1,
+        "name": "1-Small",
+      },
+      Object {
+        "id": 2,
+        "name": "2-Medium",
+      },
+      Object {
+        "id": 3,
+        "name": "3-Large",
+      },
+      Object {
+        "id": 4,
+        "name": "Orchahosts-VM",
+      },
+    ],
+    "dataType": "PARAMETER_SELECTION_PARAM_TYPE_FOREMAN",
+    "domains": Array [
+      Object {
+        "id": 1,
+        "name": "deploy3.dev.atix",
+      },
+    ],
     "environments": Array [
       Object {
         "id": 1,
         "name": "production",
       },
-      Object {
-        "id": 2,
-        "name": "test",
-      },
     ],
     "hostgroup_id": 1,
-    "lifecycle_environments": Array [],
+    "lifecycle_environments": Array [
+      Object {
+        "id": 1,
+        "name": "Library",
+      },
+    ],
     "ptables": Array [
       Object {
-        "id": 105,
+        "id": 125,
         "name": "Kickstart default",
-      },
-      Object {
-        "id": 104,
-        "name": "Kickstart default thin",
       },
     ],
   },
-  "hostgroupId": 1,
-  "loading": false,
+  "paramDefinition": Object {
+    "dataId": "1",
+    "id": 1,
+    "name": "web",
+  },
   "parameterTypes": Object {
-    "computeprofile": "Compute profile",
     "domain": "Domain",
     "hostparam": "Host parameter",
-    "lifecycleenv": "Lifecycle environment",
+    "ip": "IP",
+    "password": "Root password",
+    "ptable": "Partition table",
+    "puppetenv": "Puppet environment",
   },
   "parameters": Array [
     Object {
       "description": "",
       "id": 1,
-      "name": "PuppetEnv",
-      "type": "puppetenv",
-      "value": "2",
+      "locked": false,
+      "name": "CP",
+      "type": "computeprofile",
+      "value": "1",
     },
     Object {
       "description": "",
       "id": 2,
-      "name": "PW",
-      "type": "password",
-      "value": "rooot",
-    },
-    Object {
-      "description": "",
-      "id": 3,
-      "name": "Blub",
-      "type": "hostparam",
-      "value": "awesome",
-    },
-    Object {
-      "description": "",
-      "id": 4,
-      "name": "111allo",
-      "type": "ip",
-      "value": "1.1.1.1",
-    },
-    Object {
-      "description": "",
-      "id": 5,
-      "name": "1111aasdfasf",
-      "type": "hostname",
-      "value": "dername",
-    },
-    Object {
-      "description": "",
-      "id": 6,
-      "name": "222nocheiner",
-      "type": "hostparam",
-      "value": "",
-    },
-    Object {
-      "description": "aa",
-      "id": 7,
-      "name": "aaaaa",
-      "type": "ptable",
-      "value": "",
-    },
-    Object {
-      "description": "",
-      "id": 8,
-      "name": "aaa",
-      "type": "hostparam",
-      "value": "2134234",
+      "locked": true,
+      "name": "LE",
+      "type": "lifecycleenv",
+      "value": "1",
     },
   ],
   "sortingColumns": Object {

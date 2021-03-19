@@ -4,7 +4,7 @@ import EasyHeaderFormatter from '../EasyHeaderFormatter';
 
 const noop = () => {};
 
-const value = 'Hallo Welt';
+const value = 'MyValue';
 const data = {
   header: {
     label: 'MyLabel',

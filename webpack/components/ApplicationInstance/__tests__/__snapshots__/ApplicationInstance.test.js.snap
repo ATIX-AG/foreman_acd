@@ -1,0 +1,209 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ApplicationInstance should render application instance 1`] = `
+<span>
+  <div
+    class="service-counter"
+  >
+    <ServiceCounter
+      hostList={Array []}
+      serviceList={Array []}
+      title="Service counts"
+    />
+  </div>
+  <div>
+    <AppDefinitionSelector
+      additionalData={
+        Object {
+          "url": undefined,
+        }
+      }
+      editable={false}
+      label="Application Definition"
+      onChange={[Function]}
+      selectValue=""
+      viewText=""
+    />
+    <p
+      style={
+        Object {
+          "paddingTop": 25,
+        }
+      }
+    >
+      <pre>
+        App Definition can't be blank
+      </pre>
+    </p>
+  </div>
+  <div
+    className="form-group"
+  >
+    <TablePfProvider
+      bordered={true}
+      className=""
+      columns={Array []}
+      components={
+        Object {
+          "body": Object {
+            "cell": [Function],
+            "row": [Function],
+          },
+        }
+      }
+      condensed={false}
+      dataTable={true}
+      hover={true}
+      inlineEdit={true}
+      striped={true}
+    >
+      <Header
+        headerRows={
+          Array [
+            Array [],
+          ]
+        }
+      />
+      <Body
+        onRow={[Function]}
+        rowKey="id"
+        rows={Array []}
+      />
+    </TablePfProvider>
+    <AddTableEntry
+      disabled={true}
+      hidden={false}
+      onAddTableEntry={[Function]}
+    />
+    <span
+      style={
+        Object {
+          "marginLeft": 30,
+        }
+      }
+    >
+      Ansible group vars 'all':
+      <Button
+        active={false}
+        block={false}
+        bsClass="btn"
+        bsStyle="default"
+        disabled={false}
+        onClick={[Function]}
+        style={
+          Object {
+            "marginLeft": 10,
+          }
+        }
+      >
+        <span
+          title="change ansible variables for 'all'"
+        >
+          A
+        </span>
+      </Button>
+    </span>
+  </div>
+  <div>
+    <ForemanModal
+      dialogClassName="param_selection_modal"
+      id="AppInstanceForemanParamSelection"
+      title="Foreman Parameter specification for Application Instance"
+    >
+      <Header
+        closeButton={false}
+      >
+        Parameter specification
+      </Header>
+      <Connect(ParameterSelection)
+        data={Object {}}
+        editModeCallback={[Function]}
+        location="Default Location"
+        organization="Default Organization"
+        paramType="PARAMETER_SELECTION_PARAM_TYPE_FOREMAN"
+      />
+      <Footer>
+        <div>
+          <Button
+            active={false}
+            block={false}
+            bsClass="btn"
+            bsStyle="primary"
+            disabled={false}
+            onClick={[Function]}
+          >
+            Save
+          </Button>
+          <Button
+            active={false}
+            block={false}
+            bsClass="btn"
+            bsStyle="default"
+            disabled={false}
+            onClick={[Function]}
+          >
+            Cancel
+          </Button>
+        </div>
+      </Footer>
+    </ForemanModal>
+  </div>
+  <div>
+    <ForemanModal
+      dialogClassName="param_selection_modal"
+      id="AppInstanceAnsibleParamSelection"
+      title="Ansible group variables for Application Instance"
+    >
+      <Header
+        closeButton={false}
+      >
+        Parameter specification
+      </Header>
+      <Connect(ParameterSelection)
+        data={Object {}}
+        editModeCallback={[Function]}
+        location="Default Location"
+        organization="Default Organization"
+        paramType="PARAMETER_SELECTION_PARAM_TYPE_ANSIBLE"
+      />
+      <Footer>
+        <div>
+          <Button
+            active={false}
+            block={false}
+            bsClass="btn"
+            bsStyle="primary"
+            disabled={false}
+            onClick={[Function]}
+          >
+            Save
+          </Button>
+          <Button
+            active={false}
+            block={false}
+            bsClass="btn"
+            bsStyle="default"
+            disabled={false}
+            onClick={[Function]}
+          >
+            Cancel
+          </Button>
+        </div>
+      </Footer>
+    </ForemanModal>
+  </div>
+  <div />
+  <RailsData
+    key="applications_instance"
+    parameter="hosts"
+    value="[]"
+    view="app_instance"
+  />
+  <RailsData
+    key="applications_instance"
+    parameter="ansible_vars_all"
+    value="[]"
+    view="app_instance"
+  />
+</span>
+`;

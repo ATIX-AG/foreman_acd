@@ -6,6 +6,7 @@ import {
   editState,
   initParameterSelectionPayload,
   addParameterPayload,
+  lockParameterPayload,
   deleteParameterPayload,
   activateEditParameterPayload,
   confirmEditParameterPayload,
@@ -15,9 +16,6 @@ import {
   loadParamDataRequestPayload,
   loadParamDataSuccessPayload,
   loadParamDataFailurePayload,
-  loadParameterSelectionRequestPayload,
-  loadParameterSelectionSuccessPayload,
-  loadParameterSelectionFailurePayload,
 } from '../__fixtures__/parameterSelectionReducer.fixtures';
 
 import {
@@ -33,8 +31,6 @@ import {
   PARAMETER_SELECTION_LOAD_PARAM_DATA_REQUEST,
   PARAMETER_SELECTION_LOAD_PARAM_DATA_SUCCESS,
   PARAMETER_SELECTION_LOAD_PARAM_DATA_FAILURE,
-  PARAMETER_SELECTION_PARAM_TYPE_FOREMAN,
-  PARAMETER_SELECTION_PARAM_TYPE_ANSIBLE,
 } from '../ParameterSelectionConstants';
 
 const fixtures = {
@@ -60,6 +56,13 @@ const fixtures = {
       payload: addParameterPayload,
     },
   },
+  'should lock a parameter': {
+    state: successState,
+    action: {
+      type: PARAMETER_SELECTION_LOCK,
+      payload: lockParameterPayload,
+    },
+  },
   'should delete a parameter': {
     state: successState,
     action: {
@@ -74,6 +77,13 @@ const fixtures = {
       payload: activateEditParameterPayload,
     },
   },
+  'should change edit parameter': {
+    state: editState,
+    action: {
+      type: PARAMETER_SELECTION_EDIT_CHANGE,
+      payload: changeEditParameterPayload,
+    },
+  },
   'should confirm edit parameter': {
     state: editState,
     action: {
@@ -86,13 +96,6 @@ const fixtures = {
     action: {
       type: PARAMETER_SELECTION_EDIT_CANCEL,
       payload: cancelEditParameterPayload,
-    },
-  },
-  'should change edit parameter': {
-    state: editState,
-    action: {
-      type: PARAMETER_SELECTION_EDIT_CHANGE,
-      payload: changeEditParameterPayload,
     },
   },
   'should sort parameter': {

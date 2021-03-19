@@ -3,65 +3,55 @@ import { testComponentSnapshotsWithFixtures } from 'react-redux-test-utils';
 import ParameterSelection from '../ParameterSelection';
 
 import {
-  newDefinition,
-  editDefinition,
-  newInstance,
-  editInstance,
-} from '../__fixtures__/parameterSelection.fixtures'
-
-jest.mock('foremanReact/components/common/forms/Select');
+  PARAMETER_SELECTION_PARAM_TYPE_FOREMAN,
+  PARAMETER_SELECTION_PARAM_TYPE_ANSIBLE,
+} from '../ParameterSelectionConstants';
 
 const noop = () => {};
 
 const fixtures = {
-  'should render newDefinition': {
+  'should render foreman parameter selection': {
     location: "Default Location",
     organization: "Default Organization",
-    loadForemanDataUrl: "/acd/ui_acd_fdata/__id__",
-    loading: false,
-    data: newDefinition,
-    error: { statusText: '', errorMsg: '' },
-    initParameterSelection: noop,
-    loadForemanData: noop,
+    editModeCallback: noop,
+    paramDataUrl: "/acd/ui_acd_fdata/__id__",
+    paramType: PARAMETER_SELECTION_PARAM_TYPE_FOREMAN,
+    data: {
+      type: PARAMETER_SELECTION_PARAM_TYPE_FOREMAN,
+      parameters: [],
+      useDefaultValue: true,
+      allowRowAdjustment: true,
+      allowNameAdjustment: true,
+      allowDescriptionAdjustment: true,
+    },
     addParameter: noop,
-    deleteParameter: noop,
+    confirmEditParametre: noop,
+    cancelEditParameter: noop,
+    editModeCallback: noop,
+    loadParamData: noop,
+    initParameterSelection: noop,
   },
-  'should render editDefinition': {
+
+  'should render ansible parameter selection': {
     location: "Default Location",
     organization: "Default Organization",
-    loadForemanDataUrl: "/acd/ui_acd_fdata/__id__",
-    loading: false,
-    data: editDefinition,
-    error: { statusText: '', errorMsg: '' },
-    initParameterSelection: noop,
-    loadForemanData: noop,
+    editModeCallback: noop,
+    paramType: PARAMETER_SELECTION_PARAM_TYPE_ANSIBLE,
+    data: {
+      type: PARAMETER_SELECTION_PARAM_TYPE_ANSIBLE,
+      parameters: [],
+      useDefaultValue: false,
+      allowRowAdjustment: true,
+      allowNameAdjustment: true,
+      allowDescriptionAdjustment: true,
+    },
     addParameter: noop,
-    deleteParameter: noop,
-  },
-  'should render newInstance': {
-    location: "Default Location",
-    organization: "Default Organization",
-    loading: false,
-    loadForemanDataUrl: "/acd/ui_acd_fdata/__id__",
-    data: newInstance,
-    error: { statusText: '', errorMsg: '' },
+    confirmEditParametre: noop,
+    cancelEditParameter: noop,
+    editModeCallback: noop,
+    loadParamData: noop,
     initParameterSelection: noop,
-    loadForemanData: noop,
-    addParameter: noop,
-    deleteParameter: noop,
-  },
-  'should render editInstance': {
-    location: "Default Location",
-    organization: "Default Organization",
-    loading: false,
-    loadForemanDataUrl: "/acd/ui_acd_fdata/__id__",
-    data: editInstance,
-    error: { statusText: '', errorMsg: '' },
-    initParameterSelection: noop,
-    loadForemanData: noop,
-    addParameter: noop,
-    deleteParameter: noop,
-  },
+  }
 };
 
 describe('ParameterSelection', () =>
