@@ -2,6 +2,7 @@
 
 require 'foreman_remote_execution'
 
+# The ForemanAcd module
 module ForemanAcd
   # This engine connects ForemanAcd with Foreman core
   class Engine < ::Rails::Engine
@@ -49,13 +50,33 @@ module ForemanAcd
     end
 
     config.to_prepare do
-      RemoteExecutionProvider.register(:ACD, AcdProvider)
       ::Taxonomy.include ForemanAcd::TaxonomyExtensions
       ::Host::Managed.prepend ForemanAcd::HostManagedExtensions
-    end
 
-    def self.with_katello?
-      defined?(::Katello)
+      RemoteExecutionProvider.register(:ACD, AcdProvider)
+      ForemanAcd.register_rex_feature
     end
+  end
+
+  def self.with_katello?
+    defined?(::Katello)
+  end
+
+  def self.with_remote_execution?
+    RemoteExecutionFeature
+  rescue StandardError
+    false
+  end
+
+  def self.register_rex_feature
+    return unless ForemanAcd.with_remote_execution?
+    RemoteExecutionFeature.register(
+      :run_acd_ansible_playbook,
+      N_('Run playbook for ACD'),
+      {
+        :description => N_('Run an Ansible playbook to configure ACD application'),
+        :provided_inputs => %w[application_name playbook_name playbook_path inventory_path]
+      }
+    )
   end
 end

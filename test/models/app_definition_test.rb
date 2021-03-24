@@ -7,7 +7,7 @@ module ForemanAcd
   class AppDefinitionTest < ActiveSupport::TestCase
     should validate_presence_of(:name)
     should validate_uniqueness_of(:name)
-    should belong_to(:hostgroup)
+    should belong_to(:ansible_playbook)
     should have_many(:app_instances).dependent(:destroy)
   end
 end
