@@ -2,7 +2,6 @@
 
 exports[`DeleteTableEntry should render delete parameter 1`] = `
 <span>
-   
   <Button
     active={false}
     block={false}
@@ -13,6 +12,7 @@ exports[`DeleteTableEntry should render delete parameter 1`] = `
   >
     <Icon
       name="delete"
+      title="Delete entry"
       type="pf"
     />
   </Button>
@@ -21,7 +21,6 @@ exports[`DeleteTableEntry should render delete parameter 1`] = `
 
 exports[`DeleteTableEntry should render disabled button 1`] = `
 <span>
-   
   <Button
     active={false}
     block={false}
@@ -32,6 +31,7 @@ exports[`DeleteTableEntry should render disabled button 1`] = `
   >
     <Icon
       name="delete"
+      title="Delete entry"
       type="pf"
     />
   </Button>

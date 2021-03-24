@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ParameterSelection should render editDefinition 1`] = `
+exports[`ParameterSelection should render ansible parameter selection 1`] = `
 <div>
   <div
     className="clearfix"
@@ -8,11 +8,6 @@ exports[`ParameterSelection should render editDefinition 1`] = `
     <div
       className="form-group"
     >
-      <AddTableEntry
-        disabled={false}
-        hidden={false}
-        onAddTableEntry={[Function]}
-      />
       <TablePfProvider
         bordered={true}
         className=""
@@ -57,7 +52,7 @@ exports[`ParameterSelection should render editDefinition 1`] = `
 </div>
 `;
 
-exports[`ParameterSelection should render editInstance 1`] = `
+exports[`ParameterSelection should render foreman parameter selection 1`] = `
 <div>
   <div
     className="clearfix"
@@ -65,68 +60,6 @@ exports[`ParameterSelection should render editInstance 1`] = `
     <div
       className="form-group"
     >
-      <AddTableEntry
-        disabled={false}
-        hidden={true}
-        onAddTableEntry={[Function]}
-      />
-      <TablePfProvider
-        bordered={true}
-        className=""
-        columns={Array []}
-        components={
-          Object {
-            "body": Object {
-              "cell": [Function],
-              "row": [Function],
-            },
-            "header": Object {
-              "cell": [Function],
-            },
-          }
-        }
-        condensed={false}
-        dataTable={true}
-        hover={true}
-        inlineEdit={true}
-        striped={true}
-      >
-        <Header
-          headerRows={
-            Array [
-              Array [],
-            ]
-          }
-        />
-        <Body
-          onRow={[Function]}
-          rowKey="id"
-          rows={Array []}
-        />
-      </TablePfProvider>
-      <AddTableEntry
-        disabled={false}
-        hidden={true}
-        onAddTableEntry={[Function]}
-      />
-    </div>
-  </div>
-</div>
-`;
-
-exports[`ParameterSelection should render newDefinition 1`] = `
-<div>
-  <div
-    className="clearfix"
-  >
-    <div
-      className="form-group"
-    >
-      <AddTableEntry
-        disabled={false}
-        hidden={false}
-        onAddTableEntry={[Function]}
-      />
       <TablePfProvider
         bordered={true}
         className=""
@@ -164,63 +97,6 @@ exports[`ParameterSelection should render newDefinition 1`] = `
       <AddTableEntry
         disabled={false}
         hidden={false}
-        onAddTableEntry={[Function]}
-      />
-    </div>
-  </div>
-</div>
-`;
-
-exports[`ParameterSelection should render newInstance 1`] = `
-<div>
-  <div
-    className="clearfix"
-  >
-    <div
-      className="form-group"
-    >
-      <AddTableEntry
-        disabled={false}
-        hidden={true}
-        onAddTableEntry={[Function]}
-      />
-      <TablePfProvider
-        bordered={true}
-        className=""
-        columns={Array []}
-        components={
-          Object {
-            "body": Object {
-              "cell": [Function],
-              "row": [Function],
-            },
-            "header": Object {
-              "cell": [Function],
-            },
-          }
-        }
-        condensed={false}
-        dataTable={true}
-        hover={true}
-        inlineEdit={true}
-        striped={true}
-      >
-        <Header
-          headerRows={
-            Array [
-              Array [],
-            ]
-          }
-        />
-        <Body
-          onRow={[Function]}
-          rowKey="id"
-          rows={Array []}
-        />
-      </TablePfProvider>
-      <AddTableEntry
-        disabled={false}
-        hidden={true}
         onAddTableEntry={[Function]}
       />
     </div>

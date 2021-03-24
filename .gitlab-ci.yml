@@ -1,12 +1,25 @@
 ---
 stages:
   - lint
+  - webpack
 
 lint:
   stage: lint
   tags:
     - docker
   image: ${CI_REGISTRY}/hub/lint/ruby:2-6
+  needs: []
   script:
     - bundle install --path vendor/bundle
     - bundle exec rubocop
+
+webpack:
+  stage: webpack
+  tags:
+    - docker
+  image: ${CI_REGISTRY}/hub/test/foreman_plugins:master
+  needs: []
+  script:
+    - npm install
+    - npm test
+

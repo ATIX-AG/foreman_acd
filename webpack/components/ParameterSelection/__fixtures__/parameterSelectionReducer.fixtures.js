@@ -11,15 +11,21 @@ import {
 
 export const successState = Immutable(parameterSelectionData_1);
 
-const EDIT_ROW_ID = 5;
+const EDIT_ROW_ID = 2;
 
 const editClone = parameterSelectionData_1;
 const editIndex = findIndex(editClone.parameters, { id: EDIT_ROW_ID })
 editClone["parameters"][editIndex].backup = cloneDeep(editClone["parameters"][editIndex]);
 export const editState = Immutable(editClone);
 
+// Payload Data
 export const initParameterSelectionPayload = parameterSelectionData_1;
 export const addParameterPayload = { };
+export const lockParameterPayload = {
+  rowData: {
+    id: EDIT_ROW_ID,
+  },
+};
 export const deleteParameterPayload = {
   rowData: {
     id: EDIT_ROW_ID,
@@ -51,10 +57,10 @@ export const sortParameterPayload = {
   selectedColumn: "type",
 };
 
-export const loadForemanDataRequestPayload = {
+export const loadParamDataRequestPayload = {
   clearRows: false,
 };
-export const loadForemanDataSuccessPayload = {
+export const loadParamDataSuccessPayload = {
   hostgroup_id: 1,
   environments: [
     {
@@ -80,6 +86,6 @@ export const loadForemanDataSuccessPayload = {
     }
   ]
 };
-export const loadForemanDataFailurePayload = {
+export const loadParamDataFailurePayload = {
   error: "Something really bad happend",
 };

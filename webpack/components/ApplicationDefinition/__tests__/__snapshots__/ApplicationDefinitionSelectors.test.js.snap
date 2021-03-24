@@ -1,0 +1,299 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ApplicationDefinitionSelectors should return ParamEditMode from applicationDefinitionConfData_1 fixtures 1`] = `undefined`;
+
+exports[`ApplicationDefinitionSelectors should return ansiblePlaybook from applicationDefinitionConfData_1 fixtures 1`] = `
+Object {
+  "groups": Object {
+    "all": Array [
+      Object {
+        "id": 0,
+        "name": "repository",
+        "value": "https://github.com/bennojoy/mywebapp.git",
+      },
+    ],
+    "dbservers": Array [
+      Object {
+        "id": 0,
+        "name": "mysqlservice",
+        "value": "mysqld",
+      },
+      Object {
+        "id": 1,
+        "name": "mysql_port",
+        "value": "3306",
+      },
+      Object {
+        "id": 2,
+        "name": "dbuser",
+        "value": "webapp",
+      },
+      Object {
+        "id": 3,
+        "name": "dbname",
+        "value": "ANSAP01",
+      },
+      Object {
+        "id": 4,
+        "name": "upassword",
+        "value": "Bond@007",
+      },
+      Object {
+        "id": 5,
+        "name": "masterpassword",
+        "value": "MySQL@007",
+      },
+    ],
+    "webservers": Array [
+      Object {
+        "id": 0,
+        "name": "dummy_var",
+        "value": "0",
+      },
+    ],
+  },
+  "id": 2,
+  "name": "LAMP",
+}
+`;
+
+exports[`ApplicationDefinitionSelectors should return ansibleVarsAll from applicationDefinitionConfData_1 fixtures 1`] = `
+Array [
+  Object {
+    "id": 0,
+    "name": "repository",
+    "value": "https://github.com/bennojoy/mywebapp.git",
+  },
+]
+`;
+
+exports[`ApplicationDefinitionSelectors should return columns from applicationDefinitionConfData_1 fixtures 1`] = `
+Array [
+  Object {
+    "cell": Object {
+      "formatters": Array [
+        null,
+      ],
+    },
+    "header": Object {
+      "formatters": Array [
+        null,
+      ],
+      "label": "Name",
+      "props": Object {
+        "index": 0,
+        "style": Object {
+          "width": "15%",
+        },
+      },
+    },
+    "property": "name",
+  },
+  Object {
+    "cell": Object {
+      "formatters": Array [
+        null,
+      ],
+    },
+    "header": Object {
+      "formatters": Array [
+        null,
+      ],
+      "label": "Description",
+      "props": Object {
+        "index": 1,
+        "style": Object {
+          "width": "10%",
+        },
+      },
+    },
+    "property": "description",
+  },
+  Object {
+    "cell": Object {
+      "formatters": Array [
+        null,
+      ],
+    },
+    "header": Object {
+      "formatters": Array [
+        null,
+      ],
+      "label": "Hostgroup",
+      "props": Object {
+        "index": 2,
+        "style": Object {
+          "width": "20%",
+        },
+      },
+    },
+    "property": "hostgroup",
+  },
+  Object {
+    "cell": Object {
+      "formatters": Array [
+        null,
+      ],
+    },
+    "header": Object {
+      "formatters": Array [
+        null,
+      ],
+      "label": "Ansible Group",
+      "props": Object {
+        "index": 3,
+        "style": Object {
+          "width": "20%",
+        },
+      },
+    },
+    "property": "ansibleGroup",
+  },
+  Object {
+    "cell": Object {
+      "formatters": Array [
+        null,
+      ],
+    },
+    "header": Object {
+      "formatters": Array [
+        null,
+      ],
+      "label": "min count",
+      "props": Object {
+        "index": 4,
+        "style": Object {
+          "width": "10%",
+        },
+      },
+    },
+    "property": "minCount",
+  },
+  Object {
+    "cell": Object {
+      "formatters": Array [
+        null,
+      ],
+    },
+    "header": Object {
+      "formatters": Array [
+        null,
+      ],
+      "label": "max count",
+      "props": Object {
+        "index": 5,
+        "style": Object {
+          "width": "10%",
+        },
+      },
+    },
+    "property": "maxCount",
+  },
+  Object {
+    "cell": Object {
+      "formatters": Array [
+        null,
+      ],
+    },
+    "header": Object {
+      "formatters": Array [
+        null,
+      ],
+      "label": "Actions",
+      "props": Object {
+        "index": 6,
+        "style": Object {
+          "width": "15%",
+        },
+      },
+    },
+    "property": "actions",
+  },
+]
+`;
+
+exports[`ApplicationDefinitionSelectors should return editMode from applicationDefinitionConfData_1 fixtures 1`] = `undefined`;
+
+exports[`ApplicationDefinitionSelectors should return parametersData from applicationDefinitionConfData_1 fixtures 1`] = `undefined`;
+
+exports[`ApplicationDefinitionSelectors should return services from applicationDefinitionConfData_1 fixtures 1`] = `
+Array [
+  Object {
+    "ansibleGroup": "webservers",
+    "ansibleParameters": Array [
+      Object {
+        "id": 0,
+        "name": "dummy_var",
+        "value": "0",
+      },
+    ],
+    "description": "",
+    "foremanParameters": Array [
+      Object {
+        "description": "",
+        "id": 1,
+        "locked": false,
+        "name": "CP",
+        "type": "computeprofile",
+        "value": "1",
+      },
+      Object {
+        "description": "",
+        "id": 2,
+        "locked": true,
+        "name": "LE",
+        "type": "lifecycleenv",
+        "value": "1",
+      },
+    ],
+    "hostgroup": "1",
+    "id": 1,
+    "maxCount": "",
+    "minCount": "2",
+    "name": "web",
+  },
+  Object {
+    "ansibleGroup": "dbservers",
+    "ansibleParameters": Array [
+      Object {
+        "id": 0,
+        "name": "mysqlservice",
+        "value": "mysqld",
+      },
+      Object {
+        "id": 1,
+        "locked": true,
+        "name": "mysql_port",
+        "value": "3306",
+      },
+      Object {
+        "id": 2,
+        "name": "dbuser",
+        "value": "webapp",
+      },
+      Object {
+        "id": 3,
+        "name": "dbname",
+        "value": "ANSAP01",
+      },
+      Object {
+        "id": 4,
+        "name": "upassword",
+        "value": "Bond@007",
+      },
+      Object {
+        "id": 5,
+        "name": "masterpassword",
+        "value": "MySQL@007",
+      },
+    ],
+    "description": "",
+    "foremanParameters": Array [],
+    "hostgroup": "1",
+    "id": 2,
+    "maxCount": "",
+    "minCount": "1",
+    "name": "db",
+  },
+]
+`;

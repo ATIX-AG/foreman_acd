@@ -1,0 +1,81 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EditTableEntry should render disabled button 1`] = `
+<span>
+  <Button
+    active={false}
+    block={false}
+    bsClass="btn"
+    bsStyle="default"
+    disabled={true}
+    onClick={[Function]}
+  >
+    <Icon
+      name="edit"
+      title="edit this entry"
+      type="pf"
+    />
+  </Button>
+</span>
+`;
+
+exports[`EditTableEntry should render edit table entry 1`] = `
+<span>
+  <Button
+    active={false}
+    block={false}
+    bsClass="btn"
+    bsStyle="default"
+    disabled={false}
+    onClick={[Function]}
+  >
+    <Icon
+      name="edit"
+      title="edit this entry"
+      type="pf"
+    />
+  </Button>
+</span>
+`;
+
+exports[`EditTableEntry should render hidde, locked and disabled button 1`] = `""`;
+
+exports[`EditTableEntry should render hidden button 1`] = `""`;
+
+exports[`EditTableEntry should render locked and disabled button 1`] = `
+<span>
+  <Button
+    active={false}
+    block={false}
+    bsClass="btn"
+    bsStyle="default"
+    disabled={true}
+    onClick={[Function]}
+  >
+    <Icon
+      name="edit"
+      title="This entry is locked and can not be changed."
+      type="pf"
+    />
+  </Button>
+</span>
+`;
+
+exports[`EditTableEntry should render locked button 1`] = `
+<span>
+  <Button
+    active={false}
+    block={false}
+    bsClass="btn"
+    bsStyle="default"
+    disabled={true}
+    onClick={[Function]}
+  >
+    <Icon
+      name="edit"
+      title="This entry is locked and can not be changed."
+      type="pf"
+    />
+  </Button>
+</span>
+`;

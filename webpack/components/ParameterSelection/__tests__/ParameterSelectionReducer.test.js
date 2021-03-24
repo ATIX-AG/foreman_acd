@@ -6,22 +6,21 @@ import {
   editState,
   initParameterSelectionPayload,
   addParameterPayload,
+  lockParameterPayload,
   deleteParameterPayload,
   activateEditParameterPayload,
   confirmEditParameterPayload,
   cancelEditParameterPayload,
   changeEditParameterPayload,
   sortParameterPayload,
-  loadForemanDataRequestPayload,
-  loadForemanDataSuccessPayload,
-  loadForemanDataFailurePayload,
-  loadParameterSelectionRequestPayload,
-  loadParameterSelectionSuccessPayload,
-  loadParameterSelectionFailurePayload,
+  loadParamDataRequestPayload,
+  loadParamDataSuccessPayload,
+  loadParamDataFailurePayload,
 } from '../__fixtures__/parameterSelectionReducer.fixtures';
 
 import {
   PARAMETER_SELECTION_INIT,
+  PARAMETER_SELECTION_LOCK,
   PARAMETER_SELECTION_DELETE,
   PARAMETER_SELECTION_ADD,
   PARAMETER_SELECTION_EDIT_ACTIVATE,
@@ -29,9 +28,9 @@ import {
   PARAMETER_SELECTION_EDIT_CHANGE,
   PARAMETER_SELECTION_EDIT_CANCEL,
   PARAMETER_SELECTION_SORT,
-  PARAMETER_SELECTION_LOAD_FOREMAN_DATA_REQUEST,
-  PARAMETER_SELECTION_LOAD_FOREMAN_DATA_SUCCESS,
-  PARAMETER_SELECTION_LOAD_FOREMAN_DATA_FAILURE,
+  PARAMETER_SELECTION_LOAD_PARAM_DATA_REQUEST,
+  PARAMETER_SELECTION_LOAD_PARAM_DATA_SUCCESS,
+  PARAMETER_SELECTION_LOAD_PARAM_DATA_FAILURE,
 } from '../ParameterSelectionConstants';
 
 const fixtures = {
@@ -57,6 +56,13 @@ const fixtures = {
       payload: addParameterPayload,
     },
   },
+  'should lock a parameter': {
+    state: successState,
+    action: {
+      type: PARAMETER_SELECTION_LOCK,
+      payload: lockParameterPayload,
+    },
+  },
   'should delete a parameter': {
     state: successState,
     action: {
@@ -69,6 +75,13 @@ const fixtures = {
     action: {
       type: PARAMETER_SELECTION_EDIT_ACTIVATE,
       payload: activateEditParameterPayload,
+    },
+  },
+  'should change edit parameter': {
+    state: editState,
+    action: {
+      type: PARAMETER_SELECTION_EDIT_CHANGE,
+      payload: changeEditParameterPayload,
     },
   },
   'should confirm edit parameter': {
@@ -85,13 +98,6 @@ const fixtures = {
       payload: cancelEditParameterPayload,
     },
   },
-  'should change edit parameter': {
-    state: editState,
-    action: {
-      type: PARAMETER_SELECTION_EDIT_CHANGE,
-      payload: changeEditParameterPayload,
-    },
-  },
   'should sort parameter': {
     state: successState,
     action: {
@@ -99,25 +105,25 @@ const fixtures = {
       payload: sortParameterPayload,
     },
   },
-  'should request load foreman data': {
+  'should request load param data': {
     state: successState,
     action: {
-      type: PARAMETER_SELECTION_LOAD_FOREMAN_DATA_REQUEST,
-      payload: loadForemanDataRequestPayload,
+      type: PARAMETER_SELECTION_LOAD_PARAM_DATA_REQUEST,
+      payload: loadParamDataRequestPayload,
     },
   },
-  'should load foreman data be successful': {
+  'should load param data be successful': {
     state: successState,
     action: {
-      type: PARAMETER_SELECTION_LOAD_FOREMAN_DATA_SUCCESS,
-      payload: loadForemanDataSuccessPayload,
+      type: PARAMETER_SELECTION_LOAD_PARAM_DATA_SUCCESS,
+      payload: loadParamDataSuccessPayload,
     },
   },
-  'should load foreman data be erroneous': {
+  'should load param data be erroneous': {
     state: successState,
     action: {
-      type: PARAMETER_SELECTION_LOAD_FOREMAN_DATA_FAILURE,
-      payload: loadForemanDataFailurePayload,
+      type: PARAMETER_SELECTION_LOAD_PARAM_DATA_FAILURE,
+      payload: loadParamDataFailurePayload,
     },
   },
 };

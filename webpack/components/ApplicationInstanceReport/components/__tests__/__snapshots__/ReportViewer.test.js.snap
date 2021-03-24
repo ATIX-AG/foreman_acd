@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ReportViewer should render the hidden report viewer 1`] = `""`;
+
+exports[`ReportViewer should render the report viewer 1`] = `
+Array [
+  <div
+    className="report_task"
+    key="report_task_0"
+  >
+    report 1
+     -- 
+    done
+  </div>,
+  <div
+    className="report_task"
+    key="report_task_1"
+  >
+    report 2
+     -- 
+    pending
+  </div>,
+]
+`;

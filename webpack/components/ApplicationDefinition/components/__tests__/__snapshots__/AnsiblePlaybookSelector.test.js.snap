@@ -1,0 +1,121 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AnsiblePlaybookSelector should render ansible playbook selector 1`] = `
+<div
+  className="form-group"
+>
+  <label
+    className="col-md-2 control-label"
+  >
+    myLabel
+  </label>
+  <div
+    className="col-md-4"
+  >
+    <ExtSelect
+      additionalData={
+        Object {
+          "moreData": "moooore",
+        }
+      }
+      editable={true}
+      hidden={false}
+      onChange={[Function]}
+      options={
+        Object {
+          "first": "first",
+          "second": "second",
+        }
+      }
+      selectValue="1"
+      viewText="myText"
+    />
+    <RailsData
+      key="ansible_playbook_id"
+      parameter="acd_ansible_playbook_id"
+      value="1"
+      view="app_definition"
+    />
+  </div>
+</div>
+`;
+
+exports[`AnsiblePlaybookSelector should render hidden ansible playbook selector 1`] = `
+<div
+  className="form-group"
+>
+  <label
+    className="col-md-2 control-label"
+  >
+    myLabel
+  </label>
+  <div
+    className="col-md-4"
+  >
+    <ExtSelect
+      additionalData={
+        Object {
+          "moreData": "moooore",
+        }
+      }
+      editable={true}
+      hidden={true}
+      onChange={[Function]}
+      options={
+        Object {
+          "first": "first",
+          "second": "second",
+        }
+      }
+      selectValue="1"
+      viewText="myText"
+    />
+    <RailsData
+      key="ansible_playbook_id"
+      parameter="acd_ansible_playbook_id"
+      value="1"
+      view="app_definition"
+    />
+  </div>
+</div>
+`;
+
+exports[`AnsiblePlaybookSelector should render not editable ansible playbook selector 1`] = `
+<div
+  className="form-group"
+>
+  <label
+    className="col-md-2 control-label"
+  >
+    myLabel
+  </label>
+  <div
+    className="col-md-4"
+  >
+    <ExtSelect
+      additionalData={
+        Object {
+          "moreData": "moooore",
+        }
+      }
+      editable={false}
+      hidden={false}
+      onChange={[Function]}
+      options={
+        Object {
+          "first": "first",
+          "second": "second",
+        }
+      }
+      selectValue="1"
+      viewText="myText"
+    />
+    <RailsData
+      key="ansible_playbook_id"
+      parameter="acd_ansible_playbook_id"
+      value="1"
+      view="app_definition"
+    />
+  </div>
+</div>
+`;

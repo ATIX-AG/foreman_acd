@@ -5,31 +5,51 @@ export const parameterSelectionData_1 = {
     status: '',
     statusText: ''
   },
-  foremanData: {
+  paramData: {
     hostgroup_id: 1,
     environments: [
       {
         id: 1,
         name: 'production'
+      }
+    ],
+    lifecycle_environments: [
+      {
+        id: 1,
+        name: 'Library'
+      }
+    ],
+    domains: [
+      {
+        id: 1,
+        name: 'deploy3.dev.atix'
+      }
+    ],
+    computeprofiles: [
+      {
+        id: 1,
+        name: '1-Small'
       },
       {
         id: 2,
-        name: 'test'
-      }
-    ],
-    lifecycle_environments: [],
-    domains: [],
-    computeprofiles: [],
-    ptables: [
-      {
-        id: 105,
-        name: 'Kickstart default'
+        name: '2-Medium'
       },
       {
-        id: 104,
-        name: 'Kickstart default thin'
+        id: 3,
+        name: '3-Large'
+      },
+      {
+        id: 4,
+        name: 'Orchahosts-VM'
       }
-    ]
+    ],
+    ptables: [
+      {
+        id: 125,
+        name: 'Kickstart default'
+      }
+    ],
+    dataType: 'PARAMETER_SELECTION_PARAM_TYPE_FOREMAN'
   },
   hostgroupId: 1,
   loading: false,
@@ -39,10 +59,10 @@ export const parameterSelectionData_1 = {
       position: 0
     }
   },
-  appDefinition: {
+  paramDefinition: {
     id: 1,
-    name: 'Test123',
-    hostgroup_id: 1
+    name: 'web',
+    dataId: '1'
   },
   columns: [
     {
@@ -50,30 +70,56 @@ export const parameterSelectionData_1 = {
       header: {
         label: 'Name',
         props: {
-          index: 0,
           sort: true,
           style: {
-            width: '20%'
-          }
+            width: '25%'
+          },
+          index: 0
         },
+        transforms: [
+          null
+        ],
+        formatters: [
+          null
+        ],
+        customFormatters: [
+          null
+        ]
       },
+      cell: {
+        formatters: [
+          null
+        ]
+      }
     },
     {
       property: 'description',
       header: {
         label: 'Description',
         props: {
-          index: 1,
           sort: true,
           style: {
             width: '25%'
-          }
+          },
+          index: 1
         },
+        transforms: [
+          null
+        ],
+        formatters: [
+          null
+        ],
+        customFormatters: [
+          null
+        ]
       },
       cell: {
         props: {
           index: 1
         },
+        formatters: [
+          null
+        ]
       }
     },
     {
@@ -81,17 +127,26 @@ export const parameterSelectionData_1 = {
       header: {
         label: 'Type',
         props: {
-          index: 2,
           sort: true,
           style: {
             width: '20%'
-          }
-        },
-      },
-      cell: {
-        props: {
+          },
           index: 2
         },
+        transforms: [
+          null
+        ],
+        formatters: [
+          null
+        ],
+        customFormatters: [
+          null
+        ]
+      },
+      cell: {
+        formatters: [
+          null
+        ]
       }
     },
     {
@@ -99,17 +154,26 @@ export const parameterSelectionData_1 = {
       header: {
         label: 'Default value',
         props: {
-          index: 3,
           sort: true,
           style: {
-            width: '25%'
-          }
-        },
-      },
-      cell: {
-        props: {
+            width: '20%'
+          },
           index: 3
         },
+        transforms: [
+          null
+        ],
+        formatters: [
+          null
+        ],
+        customFormatters: [
+          null
+        ]
+      },
+      cell: {
+        formatters: [
+          null
+        ]
       }
     },
     {
@@ -117,78 +181,46 @@ export const parameterSelectionData_1 = {
       header: {
         label: 'Actions',
         props: {
+          style: {
+            width: '10%'
+          },
           index: 4
         },
+        formatters: [
+          null
+        ]
       },
       cell: {
-        props: {
-          index: 4
-        },
+        formatters: [
+          null
+        ]
       }
     }
   ],
   parameters: [
     {
       id: 1,
-      name: 'PuppetEnv',
+      locked: false,
+      name: 'CP',
       description: '',
-      type: 'puppetenv',
-      value: '2'
+      type: 'computeprofile',
+      value: '1'
     },
     {
       id: 2,
-      name: 'PW',
+      locked: true,
+      name: 'LE',
       description: '',
-      type: 'password',
-      value: 'rooot'
-    },
-    {
-      id: 3,
-      name: 'Blub',
-      description: '',
-      type: 'hostparam',
-      value: 'awesome'
-    },
-    {
-      id: 4,
-      name: '111allo',
-      description: '',
-      type: 'ip',
-      value: '1.1.1.1'
-    },
-    {
-      id: 5,
-      name: '1111aasdfasf',
-      description: '',
-      type: 'hostname',
-      value: 'dername'
-    },
-    {
-      id: 6,
-      name: '222nocheiner',
-      description: '',
-      type: 'hostparam',
-      value: ''
-    },
-    {
-      id: 7,
-      name: 'aaaaa',
-      description: 'aa',
-      type: 'ptable',
-      value: ''
-    },
-    {
-      id: 8,
-      name: 'aaa',
-      description: '',
-      type: 'hostparam',
-      value: '2134234'
+      type: 'lifecycleenv',
+      value: '1'
     }
   ],
   parameterTypes: {
-    computeprofile: 'Compute profile',
     domain: 'Domain',
     hostparam: 'Host parameter',
-    lifecycleenv: 'Lifecycle environment'
+    ip: 'IP',
+    ptable: 'Partition table',
+    puppetenv: 'Puppet environment',
+    password: 'Root password'
   }
-};
+}
