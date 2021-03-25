@@ -19,7 +19,7 @@ module ForemanAcd
 
       begin
         proxy_hosts = {}
-        jobs = []
+        job = nil
         result = OpenStruct.new
 
         hosts = @app_instance.foreman_hosts
@@ -40,14 +40,14 @@ module ForemanAcd
             unless h.host
               result.success = false
               result.error = 'App Instance is not deployed'
-              return [result, jobs]
+              return [result, job]
             end
             proxy = proxy_selector.determine_proxy(h.host, 'ACD')
             result.success = true
           rescue NoMethodError => e
             result.success = false
             result.error = "#{e}, Install/Update smart-proxies for ACD"
-            return [result, jobs]
+            return [result, job]
           end
           proxy_hosts[proxy.name] = [] unless proxy_hosts.key?(proxy.name)
           proxy_hosts[proxy.name] << h
@@ -56,23 +56,24 @@ module ForemanAcd
         # TODO: just for testing...
         # proxy_hosts = { Host.first.name => [ Host.first.id] }
 
-        # we need to compose multiple jobs. for each proxy one job.
+        proxy_inventories = {}
+        proxy_host_ids =  []
         proxy_hosts.each do |proxy_name, foreman_hosts|
-          # create the inventory file
-          inventory = ForemanAcd::InventoryCreator.new(@app_instance, foreman_hosts).create_inventory
-          job_input['inventory'] = YAML.dump(inventory)
-
-          composer = JobInvocationComposer.for_feature(
-            :run_acd_ansible_playbook,
-            [Host.find_by(:name => proxy_name).id],
-            job_input.to_hash
-          )
-          jobs << composer
+          proxy_inventories[proxy_name] = ForemanAcd::InventoryCreator.new(@app_instance, foreman_hosts).create_inventory
+          proxy_host_ids << Host.find_by(:name => proxy_name).id
         end
+
+        job_input['inventory'] = YAML.dump(proxy_inventories)
+        composer = JobInvocationComposer.for_feature(
+          :run_acd_ansible_playbook,
+          proxy_host_ids,
+          job_input.to_hash
+        )
+        job = composer
       rescue StandardError => e
         logger.error("Failed to configure hosts: #{e.class}: #{e.message}\n#{e.backtrace.join($INPUT_RECORD_SEPARATOR)}")
       end
-      [result, jobs]
+      [result, job]
     end
   end
 end
