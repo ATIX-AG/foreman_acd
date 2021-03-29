@@ -18,6 +18,7 @@ Rails.application.routes.draw do
       collection do
         get 'auto_complete_search'
         get 'import'
+        post 'handle_file_upload'
       end
 
       member do

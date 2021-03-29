@@ -1,3 +1,22 @@
+<%= javascript_include_tag *webpack_asset_paths('foreman_acd', extension: 'js') %>
+<%
+  json = {
+    "organization": current_organization,
+    "location": current_location,
+    "hostgroups": @hostgroups,
+    "foremanDataUrl": ui_acd_foreman_data_path("__id__"),
+    "ansibleDataUrl": ui_acd_ansible_data_path("__id__"),
+    "services": [],
+    "ansibleVarsAll": [],
+  }
+
+  if @app_definition.new_record?
+    json["mode"] = "newDefinition"
+  else
+    json["mode"] = "editDefinition"
+  end
+%>
+
 <% title _('Import Application Definition') %>
 
 <%= form_for @app_definition, :url => (app_definitions_path), :html => { :multipart => true } do |f| %>
@@ -10,7 +29,7 @@
     <div class="tab-pane active" id="primary">
       <%= text_f f, :name %>
       <%= text_f f, :description %>
-      <%= file_field_f f, :app_definition_file, :label_help => _("Application Definition file") %>
+      <%= react_component('ApplicationDefinitionImport', json,)  %>
     </div>
   </div>
 
