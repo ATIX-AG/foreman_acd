@@ -38,7 +38,7 @@
       <%= text_f f, :description %>
 
       <div id='app_instance'></div>
-        <%=  mount_react_component('ApplicationInstance', "#app_instance", json.to_json) %>
+        <%=  react_component('ApplicationInstance', :data => json) %>
       </div>
     </div>
   </div>

@@ -18,5 +18,5 @@
 %>
 
 <div id='report'></div>
-  <%=  mount_react_component('ApplicationInstanceReport', "#report", json.to_json) %>
+  <%=  react_component('ApplicationInstanceReport', :data => json) %>
 </div

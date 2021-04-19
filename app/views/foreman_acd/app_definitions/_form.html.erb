@@ -44,7 +44,7 @@
       <%= text_f f, :description %>
 
       <div id='app_definition'></div>
-      <%=  mount_react_component('ApplicationDefinition', "#app_definition", json.to_json) %>
+      <%=  react_component('ApplicationDefinition', :data => json) %>
     </div>
 
     <%= render 'taxonomies/loc_org_tabs', :f => f, :obj => @app_definition %>
