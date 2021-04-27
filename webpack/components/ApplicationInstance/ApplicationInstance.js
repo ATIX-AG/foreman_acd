@@ -15,10 +15,10 @@ import ParameterSelection from '../ParameterSelection';
 import AddTableEntry from '../common/AddTableEntry';
 import DeleteTableEntry from '../common/DeleteTableEntry';
 import RailsData from '../common/RailsData';
-import EasyHeaderFormatter from '../common/EasyHeaderFormatter';
 import AppDefinitionSelector from './components/AppDefinitionSelector';
 import ServiceCounter from './components/ServiceCounter';
 import { arrayToObject } from '../../helper';
+import { EasyHeaderFormatter } from '../../helper';
 
 import {
   Table,

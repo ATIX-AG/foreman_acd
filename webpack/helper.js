@@ -1,3 +1,8 @@
+import React from 'react';
+import {
+  Table,
+} from 'patternfly-react';
+
 // Some small helper methods
 
 function arrayToObject(arr, id, value) {
@@ -14,7 +19,16 @@ function arrayToObjectObj(arr, id) {
   return rv;
 }
 
+function EasyHeaderFormatter(value, { column }) {
+  return (
+    <Table.Heading aria-label={column.header.label} {...column.header.props}>
+    {value}
+    </Table.Heading>
+  );
+}
+
 export {
   arrayToObject,
-  arrayToObjectObj
+  arrayToObjectObj,
+  EasyHeaderFormatter
 };
