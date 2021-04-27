@@ -12,9 +12,9 @@ import ParameterSelection from '../ParameterSelection';
 import AddTableEntry from '../common/AddTableEntry';
 import DeleteTableEntry from '../common/DeleteTableEntry';
 import RailsData from '../common/RailsData';
-import EasyHeaderFormatter from '../common/EasyHeaderFormatter';
 import AnsiblePlaybookSelector from './components/AnsiblePlaybookSelector';
 import { translate as __ } from 'foremanReact/common/I18n';
+import { EasyHeaderFormatter } from '../../helper';
 
 import {
   Table,

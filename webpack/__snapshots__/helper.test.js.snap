@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`helper creates a object from an array 1`] = `
+<TableHeading
+  align=""
+  aria-label="TheLabel"
+  className=""
+  p1="1"
+  sort={false}
+  sortDirection=""
+>
+  MyValue
+</TableHeading>
+`;
