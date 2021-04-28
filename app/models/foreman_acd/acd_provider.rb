@@ -26,9 +26,11 @@ module ForemanAcd
 
       def sudo_password(_host); end
 
-      def required_proxy_selector_for(_template)
-        AcdProxyProxySelector.new
-      end
+      # Workaround till infrastructure jobs on proxies are possible. See
+      # configure in services/foreman_acd/app_configurator.rb for more details.
+      # def required_proxy_selector_for(_template)
+      #   AcdProxyProxySelector.new
+      # end
     end
   end
 end
