@@ -2,7 +2,7 @@
 
 module ForemanAcd
   # Implement a RemoteExecutionProvider
-  class AcdProvider < RemoteExecutionProvider
+  class AcdProvider < ::RemoteExecutionProvider
     class << self
       def supports_effective_user?
         true
@@ -25,6 +25,12 @@ module ForemanAcd
       def ssh_key_passphrase(_host); end
 
       def sudo_password(_host); end
+
+      # Workaround till infrastructure jobs on proxies are possible. See
+      # configure in services/foreman_acd/app_configurator.rb for more details.
+      # def required_proxy_selector_for(_template)
+      #   AcdProxyProxySelector.new
+      # end
     end
   end
 end
