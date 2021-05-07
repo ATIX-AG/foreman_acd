@@ -1,0 +1,137 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SyncGitRepoReducer should handle git repo sync be erroneous 1`] = `
+Object {
+  "error": "Something really bad happend",
+  "gitCommit": "master",
+  "gitUrl": "https://github.com/alpha.git",
+  "loading": false,
+  "path": "https://example.com",
+  "scmType": Object {
+    "git": "git",
+  },
+  "scmTypes": Object {
+    "dictionary": "dictionary",
+    "git": "git",
+  },
+}
+`;
+
+exports[`SyncGitRepoReducer should handle git repo sync be successful 1`] = `
+Object {
+  "gitCommit": "master",
+  "gitUrl": "https://github.com/alpha.git",
+  "path": "https://example.com",
+  "scmType": Object {
+    "git": "git",
+  },
+  "scmTypes": Object {
+    "dictionary": "dictionary",
+    "git": "git",
+  },
+}
+`;
+
+exports[`SyncGitRepoReducer should initialize component 1`] = `
+Object {
+  "gitCommit": "master",
+  "gitUrl": "https://github.com/alpha.git",
+  "loading": false,
+  "path": "https://example.com",
+  "scmType": Object {
+    "git": "git",
+  },
+  "scmTypes": Object {
+    "dictionary": "dictionary",
+    "git": "git",
+  },
+}
+`;
+
+exports[`SyncGitRepoReducer should load git commit 1`] = `
+Object {
+  "gitCommit": Object {
+    "gitCommit": "master",
+  },
+  "gitUrl": "https://github.com/alpha.git",
+  "path": "https://example.com",
+  "scmType": Object {
+    "git": "git",
+  },
+  "scmTypes": Object {
+    "dictionary": "dictionary",
+    "git": "git",
+  },
+}
+`;
+
+exports[`SyncGitRepoReducer should load git url 1`] = `
+Object {
+  "gitCommit": "master",
+  "gitUrl": undefined,
+  "path": "https://example.com",
+  "scmType": Object {
+    "git": "git",
+  },
+  "scmTypes": Object {
+    "dictionary": "dictionary",
+    "git": "git",
+  },
+}
+`;
+
+exports[`SyncGitRepoReducer should load path 1`] = `
+Object {
+  "gitCommit": "master",
+  "gitUrl": "https://github.com/alpha.git",
+  "path": Object {
+    "path": "https://example.com",
+  },
+  "scmType": Object {
+    "git": "git",
+  },
+  "scmTypes": Object {
+    "dictionary": "dictionary",
+    "git": "git",
+  },
+}
+`;
+
+exports[`SyncGitRepoReducer should load scm_type 1`] = `
+Object {
+  "gitCommit": "master",
+  "gitUrl": "https://github.com/alpha.git",
+  "path": "https://example.com",
+  "scmType": Object {
+    "scmType": Object {
+      "git": "git",
+    },
+  },
+  "scmTypes": Object {
+    "dictionary": "dictionary",
+    "git": "git",
+  },
+}
+`;
+
+exports[`SyncGitRepoReducer should request handle git repo sync 1`] = `
+Object {
+  "gitCommit": "master",
+  "gitUrl": "https://github.com/alpha.git",
+  "loading": true,
+  "path": "https://example.com",
+  "scmType": Object {
+    "git": "git",
+  },
+  "scmTypes": Object {
+    "dictionary": "dictionary",
+    "git": "git",
+  },
+}
+`;
+
+exports[`SyncGitRepoReducer should return initial state 1`] = `
+Object {
+  "loading": false,
+}
+`;

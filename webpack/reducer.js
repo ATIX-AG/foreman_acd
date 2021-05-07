@@ -4,6 +4,7 @@ import parameterSelectionParameters from './components/ParameterSelection/Parame
 import applicationDefinitionConf from './components/ApplicationDefinition/ApplicationDefinitionReducer';
 import applicationInstanceConf from './components/ApplicationInstance/ApplicationInstanceReducer';
 import applicationInstanceReport from './components/ApplicationInstanceReport/ApplicationInstanceReportReducer';
+import syncGitRepoConf from './components/SyncGitRepo/SyncGitRepoReducer';
 
 import {
   APPLICATION_DEFINITION_FOREMAN_PARAMETER_SELECTION_MODAL_CLOSE,
@@ -36,11 +37,14 @@ const rootReducer = (state = {}, action) => {
   }
   const app_ins_state = applicationInstanceConf(state.applicationInstanceConf, action);
 
+  const sync_git_repo_state = syncGitRepoConf(state.syncGitRepoConf, action);
+
   return {
     applicationDefinitionConf: app_def_state,
     applicationInstanceConf: app_ins_state,
     parameterSelectionParameters: param_state,
     applicationInstanceReport: app_ins_report_state,
+    syncGitRepoConf: sync_git_repo_state,
   };
 };
 

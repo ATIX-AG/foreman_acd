@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SyncGitRepo should render ansible playbook 1`] = `
+<span>
+  <div>
+    <ScmTypeSelector
+      editable={true}
+      label="SCM Type"
+      onChange={[Function]}
+      options={Object {}}
+      selectValue=""
+    />
+    <div />
+    <div />
+  </div>
+</span>
+`;

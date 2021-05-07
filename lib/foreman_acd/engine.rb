@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'foreman_remote_execution'
+require 'git'
 
 # The ForemanAcd module
 module ForemanAcd
