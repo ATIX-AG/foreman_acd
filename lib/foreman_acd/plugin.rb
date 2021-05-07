@@ -111,13 +111,13 @@ Foreman::Plugin.register :foreman_acd do
                  :'foreman_acd/api/v2/app_instances' => [:report] },
                :resource_type => 'ForemanAcd::AppInstance'
 
-    permission :new_remote_execution,
+    permission :new_acd_configure_job,
                { :'foreman_acd/remote_execution' => [:new] },
-               :resource_type => 'ForemanAcd::RemoteExecution'
+               :resource_type => 'ForemanAcd::AppInstance'
 
-    permission :create_remote_execution,
+    permission :create_acd_configure_job,
                { :'foreman_acd/remote_execution' => [:create] },
-               :resource_type => 'ForemanAcd::RemoteExecution'
+               :resource_type => 'ForemanAcd::AppInstance'
 
     permission :view_ui_acd,
                { :ui_acd => [:app, :foreman_data, :ansible_data] }
@@ -137,7 +137,7 @@ Foreman::Plugin.register :foreman_acd do
                                                   :create_app_instances, :view_app_instances, :edit_app_instances,
                                                   :destroy_app_instances,
                                                   :deploy_app_instances,
-                                                  :new_remote_execution, :create_remote_execution,
+                                                  :new_acd_configure_job, :create_acd_configure_job,
                                                   :report_app_instances,
                                                   :view_ui_acd,
                                                   :view_hosts, :build_hosts, :power_hosts, :create_hosts, :edit_hosts, :destroy_hosts, :console_hosts,
@@ -150,7 +150,7 @@ Foreman::Plugin.register :foreman_acd do
   role 'Application Centric Deployment User', [:create_app_instances, :view_app_instances, :edit_app_instances,
                                                :destroy_app_instances,
                                                :deploy_app_instances,
-                                               :new_remote_execution, :create_remote_execution,
+                                               :new_acd_configure_job, :create_acd_configure_job,
                                                :report_app_instances,
                                                :view_ui_acd,
                                                :view_hosts, :build_hosts, :power_hosts, :create_hosts, :edit_hosts, :destroy_hosts, :console_hosts,
