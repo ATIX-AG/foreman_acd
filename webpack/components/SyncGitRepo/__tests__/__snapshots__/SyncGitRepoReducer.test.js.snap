@@ -11,7 +11,7 @@ Object {
     "git": "git",
   },
   "scmTypes": Object {
-    "dictionary": "dictionary",
+    "directory": "directory",
     "git": "git",
   },
 }
@@ -26,7 +26,7 @@ Object {
     "git": "git",
   },
   "scmTypes": Object {
-    "dictionary": "dictionary",
+    "directory": "directory",
     "git": "git",
   },
 }
@@ -42,7 +42,7 @@ Object {
     "git": "git",
   },
   "scmTypes": Object {
-    "dictionary": "dictionary",
+    "directory": "directory",
     "git": "git",
   },
 }
@@ -59,7 +59,7 @@ Object {
     "git": "git",
   },
   "scmTypes": Object {
-    "dictionary": "dictionary",
+    "directory": "directory",
     "git": "git",
   },
 }
@@ -74,7 +74,7 @@ Object {
     "git": "git",
   },
   "scmTypes": Object {
-    "dictionary": "dictionary",
+    "directory": "directory",
     "git": "git",
   },
 }
@@ -91,7 +91,7 @@ Object {
     "git": "git",
   },
   "scmTypes": Object {
-    "dictionary": "dictionary",
+    "directory": "directory",
     "git": "git",
   },
 }
@@ -108,7 +108,7 @@ Object {
     },
   },
   "scmTypes": Object {
-    "dictionary": "dictionary",
+    "directory": "directory",
     "git": "git",
   },
 }
@@ -124,7 +124,7 @@ Object {
     "git": "git",
   },
   "scmTypes": Object {
-    "dictionary": "dictionary",
+    "directory": "directory",
     "git": "git",
   },
 }

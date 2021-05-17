@@ -30,7 +30,7 @@ class SyncGitRepo extends React.Component {
     let result = true;
     let msg = "";
 
-    if (this.props.path == '' && this.props.scmType == 'directory') {
+    if (this.props.path === "" && this.props.scmType === 'directory') {
       result = false;
 
       if (msg == "") {
@@ -38,11 +38,19 @@ class SyncGitRepo extends React.Component {
       }
     }
 
-    if (this.props.gitUrl == '' && this.props.scmType == 'git') {
+    if (this.props.gitUrl === "" && this.props.scmType === 'git') {
       result = false;
 
       if (msg == "") {
         msg += __("Git URL cannot be blank");
+      }
+    }
+
+    if (this.props.scmType !== "git" && this.props.scmType !== "directory" ) {
+      result = false;
+
+      if (msg == "") {
+        msg += __("SCM Type cannot be blank");
       }
     }
 
@@ -97,7 +105,7 @@ class SyncGitRepo extends React.Component {
 
     let { validateResult, validateMsg } = this.validateParameters();
 
-    if (validateResult == false) {
+    if (validateResult === false) {
       $('input[type="submit"][name="commit"]').attr("disabled", true);
     } else {
       $('input[type="submit"][name="commit"]').attr("disabled", false);
@@ -107,7 +115,7 @@ class SyncGitRepo extends React.Component {
       <span>
         <div>
           <ScmTypeSelector
-            label="SCM Type"
+            label="SCM Type *"
             editable={ appDefinitions.length == 0 }
             viewText={ scmTypes[scmType] }
             options={ scmTypes }
