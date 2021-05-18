@@ -47,6 +47,9 @@ Style/SymbolArray:
 Style/FormatStringToken:
   EnforcedStyle: template
 
+Style/FormatString:
+  EnforcedStyle: percent
+
 Rails/SkipsModelValidations:
   Enabled: false
 
