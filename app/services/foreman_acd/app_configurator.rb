@@ -87,7 +87,10 @@ module ForemanAcd
         )
         job = composer
       rescue StandardError => e
-        logger.error("Failed to configure hosts: #{e.class}: #{e.message}\n#{e.backtrace.join($INPUT_RECORD_SEPARATOR)}")
+        result.success = false
+        result.error = _('Failed to configure hosts: %{err_msg}' % { :err_msg => e.message })
+        logger.error('Failed to configure hosts: %{err_class}: %{err_msg}' % { :err_class => e.class, :err_msg => e.message })
+        job = nil
       end
       [result, job]
     end
