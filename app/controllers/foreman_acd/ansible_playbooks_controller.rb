@@ -36,17 +36,17 @@ module ForemanAcd
 
     def update
       # Move synced repo to new path if ansible_playbook name is changed
-      if session[:git_path] != '' && ansible_playbook_params[:name] != @ansible_playbook[:name]
+      if !session[:git_path].nil? && ansible_playbook_params[:name] != @ansible_playbook[:name]
         FileUtils.mv(@ansible_playbook[:path], ansible_playbook_full_path(ansible_playbook_rename(ansible_playbook_params[:name])))
         @ansible_playbook.update(:path => ansible_playbook_full_path(ansible_playbook_rename(ansible_playbook_params[:name])))
-        session[:git_path] = ''
+        session[:git_path] = nil
 
       # Remove old version and copy new version of synced repository
-      elsif session[:git_path] != '' && ansible_playbook_params[:name] == @ansible_playbook.name
+      elsif !session[:git_path].nil? && ansible_playbook_params[:name] == @ansible_playbook.name
         remove_ansible_dir(@ansible_playbook[:path]) if @ansible_playbook.path
         @ansible_playbook.update(:path => ansible_playbook_full_path(ansible_playbook_rename(@ansible_playbook[:name])))
         FileUtils.mv(session[:git_path], @ansible_playbook[:path])
-        session[:git_path] = ''
+        session[:git_path] = nil
       end
 
       if @ansible_playbook.update(ansible_playbook_params)

@@ -5,13 +5,26 @@ exports[`SyncGitRepo should render ansible playbook 1`] = `
   <div>
     <ScmTypeSelector
       editable={true}
-      label="SCM Type"
+      label="SCM Type *"
       onChange={[Function]}
       options={Object {}}
       selectValue=""
     />
     <div />
-    <div />
+    <div
+      className="form-group"
+    >
+      <div
+        className="col-md-2"
+      />
+      <div
+        className="col-md-4"
+      >
+        <pre>
+          SCM Type cannot be blank
+        </pre>
+      </div>
+    </div>
   </div>
 </span>
 `;
