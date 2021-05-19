@@ -15,11 +15,13 @@ module Actions
           app_instance = ::ForemanAcd::AppInstance.find(input.fetch(:id))
           app_configurator = ::ForemanAcd::AppConfigurator.new(app_instance)
 
-          jobs = app_configurator.configure
-          ::Foreman::Logging.logger('foreman_acd').info "Creating #{jobs.count} job(s) to configure the app #{app_instance}"
-
-          # TODO: would it be better to create a sub task for each job we need to run?
-          jobs.each(&:trigger)
+          result, job = app_configurator.configure
+          if result.success
+            ::Foreman::Logging.logger('foreman_acd').info "Creating job to configure the app #{app_instance}"
+            job.trigger!
+          else
+            ::Foreman::Logging.logger('foreman_acd').error "Could not create the job to configure the app #{app_instance}: #{result.error}"
+          end
         rescue StandardError => e
           ::Foreman::Logging.logger('foreman_acd').error "Error while configuring application instance: #{e}"
           output[:error] = e.to_s

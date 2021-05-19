@@ -4,13 +4,30 @@ module ForemanAcd
   # Class to run remote execution jobs
   class RemoteExecutionController < JobInvocationsController
     def new
-      @composer = init_configuration
+      set_app_instance
+      result, job = init_configuration
+
+      if result.success == true
+        @composer = job
+      else
+        redirect_to(app_instances_path, :error => _("Coult not create remote execution job to configure the app '%{app_instance}': %{msg}") % {
+          :app_instance => @app_instance, :msg => result.error
+        })
+      end
     end
 
     def create
       customize_first = params[:customize] || false
       begin
-        job = init_configuration
+        set_app_instance
+        result, job = init_configuration
+
+        unless result.success == true
+          return redirect_to(app_instances_path, :error => _("Coult not create remote execution job to configure the app '%{app_instance}': %{msg}") % {
+            :app_instance => @app_instance, :msg => result.error
+          })
+        end
+
         @composer = job
         if customize_first == false
           @composer.trigger!
@@ -32,16 +49,14 @@ module ForemanAcd
 
     private
 
+    def set_app_instance
+      @app_instance = ForemanAcd::AppInstance.find_by(:id => params[:id])
+    end
+
     def init_configuration
-      app_instance = ForemanAcd::AppInstance.find_by(:id => params[:id])
-      app_configurator = ForemanAcd::AppConfigurator.new(app_instance)
-      result, job = app_configurator.configure
-      if result.success
-        logger.debug("Creating job to configure the app #{app_instance}. Customize first: #{params[:customize]}")
-        job
-      else
-        result.error
-      end
+      logger.debug("Creating job to configure the app #{@app_instance}. Customize first: #{params[:customize]}")
+      app_configurator = ForemanAcd::AppConfigurator.new(@app_instance)
+      app_configurator.configure
     end
   end
 end
