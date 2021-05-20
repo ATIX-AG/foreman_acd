@@ -11,4 +11,9 @@ module ForemanAcd
   def self.ansible_playbook_path
     File.join(acd_base_path, 'ansible-playbooks')
   end
+
+  def self.proxy_setting
+    HttpProxy.default_global_content_proxy&.full_url ||
+      Setting[:http_proxy]
+  end
 end

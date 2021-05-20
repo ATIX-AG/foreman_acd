@@ -22,7 +22,7 @@ module ForemanAcd
       if session[:git_path]
         @ansible_playbook.update(:path => ansible_playbook_full_path(ansible_playbook_rename(@ansible_playbook[:name])))
         FileUtils.mv(session[:git_path], @ansible_playbook[:path])
-        session[:git_path] = ''
+        session[:git_path] = nil
       end
       if @ansible_playbook.save
         process_success :success_msg => _("Successfully created %s. You need to press the \"Import groups\" button
@@ -77,6 +77,10 @@ module ForemanAcd
         remove_ansible_dir(dir)
         git_repo = FileUtils.mkdir_p(dir)[0] unless Dir.exist?(dir)
         git = Git.clone(sync_params[:git_url], git_repo)
+        if ForemanAcd.proxy_setting.present?
+          git.config('http.proxy', ForemanAcd.proxy_setting)
+          logger.info("HTTP Proxy used: #{git.config['http.proxy']}")
+        end
         git.checkout(sync_params[:git_commit]) if sync_params[:git_commit]
 
         # Fetch latest version of repository
