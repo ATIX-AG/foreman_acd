@@ -67,26 +67,23 @@ module ForemanAcd
     def sync_git_repo
       @ansible_playbook = AnsiblePlaybook.new
       sync_params = params[:ansible_playbook]
-      dir = File.join(ForemanAcd.acd_base_path, 'temp_dir')
+      dir = Dir.mktmpdir
 
       begin
-        # Create path for storing synced repository
-        FileUtils.mkdir_p(ForemanAcd.ansible_playbook_path) unless Dir.exist?(ForemanAcd.ansible_playbook_path)
+        git = Git.init(dir)
 
-        # Clear temporary directory before re-syncing the git repository
-        remove_ansible_dir(dir)
-        git_repo = FileUtils.mkdir_p(dir)[0] unless Dir.exist?(dir)
-        git = Git.clone(sync_params[:git_url], git_repo)
         if ForemanAcd.proxy_setting.present?
           git.config('http.proxy', ForemanAcd.proxy_setting)
           logger.info("HTTP Proxy used: #{git.config['http.proxy']}")
         end
-        git.checkout(sync_params[:git_commit]) if sync_params[:git_commit]
 
-        # Fetch latest version of repository
-        git.reset_hard
+        git.add_remote('origin', sync_params[:git_url])
+        git.fetch
+        git.checkout(sync_params[:git_commit])
+
         session[:git_path] = git.dir.path
       rescue StandardError => e
+        logger.error("Failed to sync git repository: #{e}")
         render :json => { :status => 'error', :message => e }, :status => :internal_server_error
       end
     end
@@ -104,7 +101,6 @@ module ForemanAcd
         remove_ansible_dir(ansible_playbook_full_path(dirname))
         logger.info("Successfully removed #{dirname}")
       end
-      remove_ansible_dir(File.join(ForemanAcd.acd_base_path, 'temp_dir'))
     end
 
     def action_permission
