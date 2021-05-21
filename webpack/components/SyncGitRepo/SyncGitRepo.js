@@ -38,11 +38,21 @@ class SyncGitRepo extends React.Component {
       }
     }
 
-    if (this.props.gitUrl === "" && this.props.scmType === 'git') {
-      result = false;
+    if (this.props.scmType === 'git') {
+      if (this.props.gitUrl === "") {
+        result = false;
 
-      if (msg == "") {
-        msg += __("Git URL cannot be blank");
+        if (msg == "") {
+          msg += __("Git URL cannot be blank");
+        }
+      }
+
+      if (this.props.gitCommit === "") {
+        result = false;
+
+        if (msg == "") {
+          msg += __("Git Branch/Commit/Tag cannot be blank");
+        }
       }
     }
 
@@ -152,7 +162,7 @@ class SyncGitRepo extends React.Component {
         ) : (<div></div>)}
           {(scmType === "git") ? (
           <FormTextInput
-            label="Git Branch/Commit/Tag"
+            label="Git Branch/Commit/Tag *"
             editable= { appDefinitions.length == 0 }
             viewText={ gitCommit }
             onChange={ loadGitCommit }
