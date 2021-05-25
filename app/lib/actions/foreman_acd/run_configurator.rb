@@ -23,9 +23,10 @@ module Actions
             ::Foreman::Logging.logger('foreman_acd').error "Could not create the job to configure the app #{app_instance}: #{result.error}"
           end
         rescue StandardError => e
-          ::Foreman::Logging.logger('foreman_acd').error "Error while configuring application instance: #{e}"
-          output[:error] = e.to_s
+          ::Foreman::Logging.logger('foreman_acd').error "Error while configuring application instance '#{app_instance.name}': #{e}"
+
           output[:status] = 'FAILURE'
+          raise "Error while configuring hosts via ansible playbook for application instance '#{app_instance.name}': (#{e.message})"
         end
       end
 
