@@ -25,11 +25,11 @@ module Actions
           output[:data] = app_deployer.deploy(safe_deploy)
           output[:status] = 'SUCCESS'
         rescue StandardError => e
-          ::Foreman::Logging.logger('foreman_acd').error "Error while deploying hosts for application instance. Clean up all other hosts: #{e}"
+          ::Foreman::Logging.logger('foreman_acd').error "Error while deploying hosts for application instance '#{app_instance.name}'. Clean up all other hosts: #{e}"
           app_instance.clean_all_hosts
 
-          output[:error] = e.to_s
           output[:status] = 'FAILURE'
+          raise "Error while deploying hosts for application instance '#{app_instance.name}': (#{e.message})"
         end
       end
 
