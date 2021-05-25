@@ -63,8 +63,6 @@ class ApplicationInstance extends React.Component {
     const invalidMinServices = this.props.services.filter(s => (Number(s.minCount) != 0) && (s.currentCount < s.minCount));
     const invalidMaxServices = this.props.services.filter(s => (Number(s.maxCount) != 0) && (s.currentCount > s.maxCount));
 
-    console.log(invalidMinServices);
-
     if (invalidMinServices.length > 0 || invalidMaxServices.length > 0) {
       result = false;
 
