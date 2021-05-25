@@ -16,9 +16,13 @@ class UiAcdController < ::Api::V2::BaseController
     @ansible_data = collect_ansible_data(params['id'])
   end
 
+  def validate_hostname
+    @host_validation = hostname_duplicate?(params['appDefId'].to_i, params['serviceId'].to_i, params['hostname'])
+  end
+
   def action_permission
     case params[:action]
-    when 'app', 'foreman_data', 'ansible_data'
+    when 'app', 'foreman_data', 'ansible_data', 'validate_hostname'
       :view
     else
       super
@@ -42,5 +46,19 @@ class UiAcdController < ::Api::V2::BaseController
 
   def collect_ansible_data(playbook_id)
     ForemanAcd::AnsiblePlaybook.find(playbook_id).as_unified_structobj
+  end
+
+  def hostname_duplicate?(app_def_id, service_id, hostname)
+    app_definition = ForemanAcd::AppDefinition.find(app_def_id)
+    service_data = JSON.parse(app_definition.services).select { |k| k['id'] == service_id }.first
+    domain_name = Hostgroup.find(service_data['hostgroup']).domain.name
+    validation_hostname = "#{hostname}.#{domain_name}"
+
+    vdata = OpenStruct.new(
+      :hostname => hostname,
+      :fqdn => validation_hostname,
+      :result => Host.find_by(:name => validation_hostname).nil?
+    )
+    vdata
   end
 end

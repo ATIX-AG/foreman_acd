@@ -309,7 +309,7 @@ class ApplicationInstance extends React.Component {
                 role: 'row',
                 isEditing: () => this.isEditing({ rowData }),
                 onCancel: () => cancelEditApplicationInstanceHost({ rowData, rowIndex }),
-                onConfirm: () => confirmEditApplicationInstanceHost({ rowData, rowIndex }),
+                onConfirm: () => confirmEditApplicationInstanceHost({ rowData, rowIndex, appDefinition }),
                 last: rowIndex === services.length - 1
               })}
             />

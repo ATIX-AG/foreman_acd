@@ -167,12 +167,46 @@ export const activateEditApplicationInstanceHost = (additionalData) => ({
   },
 });
 
-export const confirmEditApplicationInstanceHost = (rowData) => ({
-  type: APPLICATION_INSTANCE_HOST_EDIT_CONFIRM,
-  payload: {
-    ...rowData,
-  },
-});
+export const confirmEditApplicationInstanceHost = (
+  allData
+) => async(dispatch) => {
+
+  const url = '/acd/ui_acd_validate_hostname'
+  const validationData = {};
+
+  validationData['appDefId'] = allData.appDefinition.id;
+  validationData['serviceId'] = allData.rowData.service;
+  validationData['hostname'] = allData.rowData.hostname;
+
+  if (allData.rowData.newEntry === true) {
+    try {
+      const response = await api.get(url, {}, validationData);
+
+      if (response.data.result === true) {
+        dispatch({
+          type: APPLICATION_INSTANCE_HOST_EDIT_CONFIRM,
+          payload: {
+            ...allData,
+          }
+        });
+      } else {
+        window.alert(_('Hostname \''+ allData.rowData.hostname +'\' is already used. This check also includes hosts outside this application instance.'));
+      }
+    } catch (error) {
+      console.log('Error while validation if hostname is already used.');
+      console.log(error);
+      window.alert(_('Error while validation if hostname is already used. Cancel transaction.'));
+      dispatch({ type: APPLICATION_INSTANCE_HOST_EDIT_CANCEL });
+    }
+  } else {
+    dispatch({
+      type: APPLICATION_INSTANCE_HOST_EDIT_CONFIRM,
+      payload: {
+        ...allData,
+      }
+    });
+  }
+};
 
 export const cancelEditApplicationInstanceHost = (rowData) => ({
   type: APPLICATION_INSTANCE_HOST_EDIT_CANCEL,

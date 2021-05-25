@@ -42,6 +42,7 @@ Rails.application.routes.draw do
     get 'ui_acd_app/:id', :to => 'ui_acd#app', :constraints => { :id => /[\w\.-]+/ }, :as => :ui_acd_app
     get 'ui_acd_foreman_data/:id', :to => 'ui_acd#foreman_data', :constraints => { :id => /[\w\.-]+/ }, :as => :ui_acd_foreman_data
     get 'ui_acd_ansible_data/:id', :to => 'ui_acd#ansible_data', :constraints => { :id => /[\w\.-]+/ }, :as => :ui_acd_ansible_data
+    get 'ui_acd_validate_hostname', :to => 'ui_acd#validate_hostname', :as => :ui_acd_validate_hostname
 
     scope :api, :path => '/api', :defaults => { :format => 'json' } do
       scope '(:apiv)', :defaults => { :apiv => 'v2' },
