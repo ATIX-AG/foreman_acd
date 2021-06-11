@@ -9,7 +9,6 @@ import AddTableEntry from '../common/AddTableEntry';
 import EditTableEntry from '../common/EditTableEntry';
 import DeleteTableEntry from '../common/DeleteTableEntry';
 import LockTableEntry from '../common/LockTableEntry';
-import ExtSelect from '../common/ExtSelect';
 
 import {
   transformForemanData,

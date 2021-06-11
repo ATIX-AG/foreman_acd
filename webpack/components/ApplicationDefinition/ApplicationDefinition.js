@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import {
   Icon,
   Button,
+  MessageDialog,
 } from 'patternfly-react';
 import * as resolve from 'table-resolver';
 import ForemanModal from 'foremanReact/components/ForemanModal';
@@ -202,6 +203,7 @@ class ApplicationDefinition extends React.Component {
   render() {
     const {
       data: { organization, location, mode, ansiblePlaybooks, foremanDataUrl, ansibleDataUrl },
+      showAlertModal, alertModalText, alertModalTitle, closeAlertModal,
       ansiblePlaybook,
       services,
       columns,
@@ -216,12 +218,22 @@ class ApplicationDefinition extends React.Component {
       loadAnsibleData,
     } = this.props;
 
-
     return (
       <span>
+        <MessageDialog
+          show={showAlertModal}
+          onHide={closeAlertModal}
+          primaryAction={closeAlertModal}
+          primaryActionButtonContent={__('OK')}
+          primaryActionButtonBsStyle={"danger"}
+          icon={<Icon type="pf" name="error-circle-o" />}
+          title={alertModalTitle}
+          primaryContent={alertModalText}
+        />
         <div>
           <AnsiblePlaybookSelector
             label="Ansible Playbook"
+            hidden={ false }
             editable={ mode == 'newDefinition' }
             viewText={ ansiblePlaybook.name }
             options={ ansiblePlaybooks }
@@ -230,9 +242,9 @@ class ApplicationDefinition extends React.Component {
             additionalData={{url: ansibleDataUrl }}
           />
           {ansiblePlaybook.id == '' ? (
-          <p style={{ paddingTop: 25 }}>
+          <div style={{ paddingTop: 25 }}>
             <pre>{ "Ansible Playbook can't be blank" }</pre>
-          </p>
+          </div>
         ) : (<div></div>)}
 
         </div>
@@ -339,13 +351,13 @@ class ApplicationDefinition extends React.Component {
           </ForemanModal>
         </div>
         <RailsData
-          key='applications_definition'
+          key='application_definition_services_data'
           view='app_definition'
           parameter='services'
           value={JSON.stringify(this.props.services)}
         />
         <RailsData
-          key='applications_definition'
+          key='application_definition_ansible_data'
           view='app_definition'
           parameter='ansible_vars_all'
           value={JSON.stringify(this.props.ansibleVarsAll)}
@@ -356,6 +368,9 @@ class ApplicationDefinition extends React.Component {
 
 ApplicationDefinition.defaultProps = {
   error: {},
+  showAlertModal: false,
+  alertModalText: '',
+  alertModalTitle: '',
   editMode: false,
   ansiblePlaybook: { "id": '', "name": '' },
   services: [],
@@ -368,11 +383,15 @@ ApplicationDefinition.defaultProps = {
 
 ApplicationDefinition.propTypes = {
   initApplicationDefinition: PropTypes.func,
+  showAlertModal: PropTypes.bool,
+  alertModalText: PropTypes.string,
+  alertModalTitle: PropTypes.string,
   editMode: PropTypes.bool.isRequired,
   ansiblePlaybook: PropTypes.object,
   services: PropTypes.array,
   ansibleVarsAll: PropTypes.array,
   columns: PropTypes.array,
+  closeAlertModal: PropTypes.func,
   addApplicationDefinitionService: PropTypes.func,
   deleteApplicationDefinitionService: PropTypes.func,
   activateEditApplicationDefinitionService: PropTypes.func,

@@ -9,7 +9,6 @@ import {
   translate as __
 } from 'foremanReact/common/I18n';
 import {Select, TextInput} from 'foremanReact/components/common/forms/Select';
-import RailsData from '../common/RailsData';
 import ScmTypeSelector from './components/ScmTypeSelector';
 import FormTextInput from './components/FormTextInput'
 import { arrayToObject } from '../../helper';
@@ -126,6 +125,7 @@ class SyncGitRepo extends React.Component {
         <div>
           <ScmTypeSelector
             label="SCM Type *"
+            hidden={ false }
             editable={ appDefinitions.length == 0 }
             viewText={ scmTypes[scmType] }
             options={ scmTypes }

@@ -13,6 +13,7 @@ const fixtures = {
       hosts: [],
       ansibleVarsAll: [],
     },
+    closeAlertModal: noop,
     loadApplicationDefinition: noop,
     initApplicationInstance: noop,
     addApplicationInstanceHost: noop,

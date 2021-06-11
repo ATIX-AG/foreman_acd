@@ -17,6 +17,7 @@ import {
 
 import {
   APPLICATION_DEFINITION_INIT,
+  APPLICATION_DEFINITION_CLOSE_ALERT_MODAL,
   APPLICATION_DEFINITION_LOAD_ANSIBLE_DATA_REQUEST,
   APPLICATION_DEFINITION_LOAD_ANSIBLE_DATA_SUCCESS,
   APPLICATION_DEFINITION_LOAD_ANSIBLE_DATA_FAILURE,
@@ -181,6 +182,11 @@ const errorHandler = (msg, err) => {
   };
   return { type: msg, payload: { error } };
 };
+
+export const closeAlertModal = () => ({
+  type: APPLICATION_DEFINITION_CLOSE_ALERT_MODAL,
+  payload: {}
+});
 
 export const loadAnsibleData = (
   ansiblePlaybookId,

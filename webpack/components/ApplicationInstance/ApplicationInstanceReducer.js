@@ -1,4 +1,5 @@
 import Immutable from 'seamless-immutable';
+import { translate as __ } from 'foremanReact/common/I18n';
 
 import {
   cloneDeep,
@@ -8,6 +9,7 @@ import {
 
 import {
   APPLICATION_INSTANCE_INIT,
+  APPLICATION_INSTANCE_CLOSE_ALERT_MODAL,
   APPLICATION_INSTANCE_LOAD_APPLICATION_DEFINITION_FAILURE,
   APPLICATION_INSTANCE_LOAD_APPLICATION_DEFINITION_REQUEST,
   APPLICATION_INSTANCE_LOAD_APPLICATION_DEFINITION_SUCCESS,
@@ -17,6 +19,7 @@ import {
   APPLICATION_INSTANCE_HOST_EDIT_CONFIRM,
   APPLICATION_INSTANCE_HOST_EDIT_CHANGE,
   APPLICATION_INSTANCE_HOST_EDIT_CANCEL,
+  APPLICATION_INSTANCE_HOST_EDIT_ERROR,
   APPLICATION_INSTANCE_FOREMAN_PARAMETER_SELECTION_MODAL_OPEN,
   APPLICATION_INSTANCE_FOREMAN_PARAMETER_SELECTION_MODAL_CLOSE,
   APPLICATION_INSTANCE_ANSIBLE_PARAMETER_SELECTION_MODAL_OPEN,
@@ -40,6 +43,13 @@ const applicationInstanceConf = (state = initialState, action) => {
   switch (action.type) {
     case APPLICATION_INSTANCE_INIT: {
       return state.merge(payload);
+    }
+    case APPLICATION_INSTANCE_CLOSE_ALERT_MODAL: {
+      return state.merge({
+        showAlertModal: false,
+        alertModalTitle: '',
+        alertModalText: '',
+      });
     }
    case APPLICATION_INSTANCE_LOAD_APPLICATION_DEFINITION_FAILURE: {
       return state.merge({ error: payload.error, loading: false });
@@ -129,29 +139,15 @@ const applicationInstanceConf = (state = initialState, action) => {
 
       const thisHost = hosts[index];
 
-      if (thisHost.hostname == '') {
-        window.alert("Every host needs to have a valid name");
-        return state;
-      }
-
       // hostnames are lower case
       thisHost.hostname = thisHost.hostname.toLowerCase();
 
-      const hostnameRegex = /^[0-9a-z]([0-9a-z\-]{0,61}[0-9a-z])$/;
-
-      if (thisHost.hostname.match(hostnameRegex) == undefined) {
-        window.alert("The hostname uses not allowed characters. See https://en.wikipedia.org/wiki/Hostname#Syntax for more details.")
-        return state;
-      }
-
-      if (thisHost.service == '') {
-        window.alert("Every host needs to be assigned to a service.");
-        return state;
-      }
-
       if (state.hosts.filter(v => v.hostname === thisHost.hostname && v.id != thisHost.id).length > 0) {
-        window.alert("Host name already used in this Application Instance. Please make sure that every host name is unique.");
-        return state;
+        return state.merge({
+          showAlertModal: true,
+          alertModalTitle: __("Error"),
+          alertModalText: __("Host name already used in this Application Instance. Please make sure that every host name is unique."),
+        });
       }
 
       // Initialize the new Instance with the parameters of the Application Definition.
@@ -200,6 +196,13 @@ const applicationInstanceConf = (state = initialState, action) => {
       return state.merge({
         editMode: false,
         hosts: hosts
+      });
+    }
+    case APPLICATION_INSTANCE_HOST_EDIT_ERROR: {
+      return state.merge({
+        showAlertModal: true,
+        alertModalTitle: __("Error"),
+        alertModalText: payload,
       });
     }
     case APPLICATION_INSTANCE_FOREMAN_PARAMETER_SELECTION_MODAL_OPEN: {
