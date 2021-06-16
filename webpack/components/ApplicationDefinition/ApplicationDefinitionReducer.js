@@ -1,4 +1,5 @@
 import Immutable from 'seamless-immutable';
+import { translate as __ } from 'foremanReact/common/I18n';
 
 import {
   cloneDeep,
@@ -8,6 +9,7 @@ import {
 
 import {
   APPLICATION_DEFINITION_INIT,
+  APPLICATION_DEFINITION_CLOSE_ALERT_MODAL,
   APPLICATION_DEFINITION_LOAD_ANSIBLE_DATA_REQUEST,
   APPLICATION_DEFINITION_LOAD_ANSIBLE_DATA_SUCCESS,
   APPLICATION_DEFINITION_LOAD_ANSIBLE_DATA_FAILURE,
@@ -45,7 +47,13 @@ const applicationDefinitionConf = (state = initialState, action) => {
     case APPLICATION_DEFINITION_INIT: {
       return state.merge(payload);
     }
-
+    case APPLICATION_DEFINITION_CLOSE_ALERT_MODAL: {
+      return state.merge({
+        showAlertModal: false,
+        alertModalTitle: '',
+        alertModalText: '',
+      });
+    }
    case APPLICATION_DEFINITION_LOAD_ANSIBLE_DATA_FAILURE: {
       return state.merge({ error: payload.error, loading: false });
     }
@@ -113,23 +121,35 @@ const applicationDefinitionConf = (state = initialState, action) => {
       const thisService = services[index];
 
       if (thisService.name == '') {
-        window.alert("Every service needs to have a valid name.");
-        return state;
+        return state.merge({
+          showAlertModal: true,
+          alertModalTitle: __("Error"),
+          alertModalText: __("Every service needs to have a valid name."),
+        });
       }
 
       if (thisService.hostgroup == '') {
-        window.alert("Every service needs to be assigned to a hostgroup.");
-        return state;
+        return state.merge({
+          showAlertModal: true,
+          alertModalTitle: __("Error"),
+          alertModalText: __("Every service needs to be assigned to a hostgroup."),
+        });
       }
 
       if (thisService.ansibleGroup == '') {
-        window.alert("Every service needs to be assigned to a ansible group.");
-        return state;
+        return state.merge({
+          showAlertModal: true,
+          alertModalTitle: __("Error"),
+          alertModalText: __("Every service needs to be assigned to an ansible group."),
+        });
       }
 
       if (state.services.filter(v => v.name === thisService.name && v.id != thisService.id).length > 0) {
-        window.alert("Service name already used in this Application Definition. Please make sure that every service name is unique.");
-        return state;
+        return state.merge({
+          showAlertModal: true,
+          alertModalTitle: __("Error"),
+          alertModalText: __("Service name already used in this Application Definition. Please make sure that every service name is unique."),
+        });
       }
 
       delete services[index].backup;

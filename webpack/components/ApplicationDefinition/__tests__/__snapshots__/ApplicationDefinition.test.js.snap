@@ -2,6 +2,30 @@
 
 exports[`ApplicationDefinition should render application definition 1`] = `
 <span>
+  <MessageDialog
+    accessibleDescription=""
+    accessibleName=""
+    className=""
+    enforceFocus={true}
+    footer={null}
+    icon={
+      <Icon
+        name="error-circle-o"
+        type="pf"
+      />
+    }
+    onHide={[Function]}
+    primaryAction={[Function]}
+    primaryActionButtonBsStyle="danger"
+    primaryActionButtonContent="OK"
+    primaryContent=""
+    secondaryAction={[Function]}
+    secondaryActionButtonBsStyle="default"
+    secondaryActionButtonContent={null}
+    secondaryContent={null}
+    show={false}
+    title=""
+  />
   <div>
     <AnsiblePlaybookSelector
       additionalData={
@@ -10,12 +34,13 @@ exports[`ApplicationDefinition should render application definition 1`] = `
         }
       }
       editable={false}
+      hidden={false}
       label="Ansible Playbook"
       onChange={[Function]}
       selectValue=""
       viewText=""
     />
-    <p
+    <div
       style={
         Object {
           "paddingTop": 25,
@@ -25,7 +50,7 @@ exports[`ApplicationDefinition should render application definition 1`] = `
       <pre>
         Ansible Playbook can't be blank
       </pre>
-    </p>
+    </div>
   </div>
   <div
     className="form-group"
@@ -185,13 +210,13 @@ exports[`ApplicationDefinition should render application definition 1`] = `
     </ForemanModal>
   </div>
   <RailsData
-    key="applications_definition"
+    key="application_definition_services_data"
     parameter="services"
     value="[]"
     view="app_definition"
   />
   <RailsData
-    key="applications_definition"
+    key="application_definition_ansible_data"
     parameter="ansible_vars_all"
     value="[]"
     view="app_definition"

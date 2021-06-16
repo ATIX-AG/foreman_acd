@@ -6,6 +6,9 @@ import ApplicationInstance from './ApplicationInstance';
 import * as ApplicationInstanceActions from './ApplicationInstanceActions';
 
 import {
+  selectShowAlertModal,
+  selectAlertModalText,
+  selectAlertModalTitle,
   selectEditMode,
   selectAppDefinition,
   selectHosts,
@@ -17,6 +20,9 @@ import {
 } from './ApplicationInstanceSelectors';
 
 const mapStateToProps = state => ({
+  showAlertModal: selectShowAlertModal(state),
+  alertModalText: selectAlertModalText(state),
+  alertModalTitle: selectAlertModalTitle(state),
   editMode: selectEditMode(state),
   appDefinition: selectAppDefinition(state),
   hosts: selectHosts(state),

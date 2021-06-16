@@ -6,6 +6,9 @@ import ApplicationDefinition from './ApplicationDefinition';
 import * as ApplicationDefinitionActions from './ApplicationDefinitionActions';
 
 import {
+  selectShowAlertModal,
+  selectAlertModalText,
+  selectAlertModalTitle,
   selectEditMode,
   selectAnsiblePlaybook,
   selectServices,
@@ -16,6 +19,9 @@ import {
 } from './ApplicationDefinitionSelectors';
 
 const mapStateToProps = state => ({
+  showAlertModal: selectShowAlertModal(state),
+  alertModalText: selectAlertModalText(state),
+  alertModalTitle: selectAlertModalTitle(state),
   editMode: selectEditMode(state),
   ansiblePlaybook: selectAnsiblePlaybook(state),
   services: selectServices(state),

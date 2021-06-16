@@ -21,7 +21,7 @@ const FormTextInput= ({
           onChange={onChange}
         />
         <RailsData
-          key='ansible_playbook_id'
+          key='ansible_playbook_form_data'
           view='ansible_playbook'
           parameter={parameter}
           value={viewText}

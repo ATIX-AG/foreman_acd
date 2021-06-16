@@ -2,8 +2,32 @@
 
 exports[`ApplicationInstance should render application instance 1`] = `
 <span>
+  <MessageDialog
+    accessibleDescription=""
+    accessibleName=""
+    className=""
+    enforceFocus={true}
+    footer={null}
+    icon={
+      <Icon
+        name="error-circle-o"
+        type="pf"
+      />
+    }
+    onHide={[Function]}
+    primaryAction={[Function]}
+    primaryActionButtonBsStyle="danger"
+    primaryActionButtonContent="OK"
+    primaryContent=""
+    secondaryAction={[Function]}
+    secondaryActionButtonBsStyle="default"
+    secondaryActionButtonContent={null}
+    secondaryContent={null}
+    show={false}
+    title=""
+  />
   <div
-    class="service-counter"
+    className="service-counter"
   >
     <ServiceCounter
       hostList={Array []}
@@ -19,12 +43,13 @@ exports[`ApplicationInstance should render application instance 1`] = `
         }
       }
       editable={false}
+      hidden={false}
       label="Application Definition"
       onChange={[Function]}
       selectValue=""
       viewText=""
     />
-    <p
+    <div
       style={
         Object {
           "paddingTop": 25,
@@ -34,7 +59,7 @@ exports[`ApplicationInstance should render application instance 1`] = `
       <pre>
         App Definition can't be blank
       </pre>
-    </p>
+    </div>
   </div>
   <div
     className="form-group"
@@ -194,13 +219,13 @@ exports[`ApplicationInstance should render application instance 1`] = `
   </div>
   <div />
   <RailsData
-    key="applications_instance"
+    key="application_instance_hosts_data"
     parameter="hosts"
     value="[]"
     view="app_instance"
   />
   <RailsData
-    key="applications_instance"
+    key="application_instance_ansible_data"
     parameter="ansible_vars_all"
     value="[]"
     view="app_instance"

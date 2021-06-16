@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {
   Icon,
   Button,
+  MessageDialog,
 } from 'patternfly-react';
 import * as resolve from 'table-resolver';
 import ForemanModal from 'foremanReact/components/ForemanModal';
@@ -239,6 +240,7 @@ class ApplicationInstance extends React.Component {
   render() {
     const {
       data: { mode, applications, organization, location, foremanDataUrl, appDefinitionUrl },
+      showAlertModal, alertModalText, alertModalTitle, closeAlertModal,
       appDefinition,
       services,
       hosts,
@@ -263,7 +265,17 @@ class ApplicationInstance extends React.Component {
 
     return (
       <span>
-        <div class="service-counter">
+        <MessageDialog
+          show={showAlertModal}
+          onHide={closeAlertModal}
+          primaryAction={closeAlertModal}
+          primaryActionButtonContent={__('OK')}
+          primaryActionButtonBsStyle={"danger"}
+          icon={<Icon type="pf" name="error-circle-o" />}
+          title={alertModalTitle}
+          primaryContent={alertModalText}
+        />
+        <div className="service-counter">
           <ServiceCounter
             title="Service counts"
             serviceList={ services }
@@ -273,6 +285,7 @@ class ApplicationInstance extends React.Component {
         <div>
           <AppDefinitionSelector
             label="Application Definition"
+            hidden={ false }
             editable={ mode == 'newInstance' }
             viewText={ appDefinition.name }
             options={ applications }
@@ -281,9 +294,9 @@ class ApplicationInstance extends React.Component {
             additionalData={{url: appDefinitionUrl}}
           />
           {appDefinition.id == '' ? (
-          <p style={{ paddingTop: 25 }}>
+          <div style={{ paddingTop: 25 }}>
             <pre>{ "App Definition can't be blank" }</pre>
-          </p>
+          </div>
         ) : (<div></div>)}
         </div>
         <div className="form-group">
@@ -389,18 +402,18 @@ class ApplicationInstance extends React.Component {
           </ForemanModal>
         </div>
         {validateResult == false ? (
-          <p style={{ paddingTop: 25 }}>
+          <div style={{ paddingTop: 25 }}>
             <pre>{ validateMsg }</pre>
-          </p>
+          </div>
         ) : (<div></div>)}
         <RailsData
-          key='applications_instance'
+          key='application_instance_hosts_data'
           view='app_instance'
           parameter='hosts'
           value={JSON.stringify(this.props.hosts)}
         />
         <RailsData
-          key='applications_instance'
+          key='application_instance_ansible_data'
           view='app_instance'
           parameter='ansible_vars_all'
           value={JSON.stringify(this.props.ansibleVarsAll)}
@@ -411,6 +424,9 @@ class ApplicationInstance extends React.Component {
 
 ApplicationInstance.defaultProps = {
   error: {},
+  showAlertModal: false,
+  alertModalText: '',
+  alertModalTitle: '',
   appDefinition: { "id": '', "name": '' },
   editMode: false,
   services: [],
@@ -424,12 +440,16 @@ ApplicationInstance.defaultProps = {
 
 ApplicationInstance.propTypes = {
   initApplicationInstance: PropTypes.func,
+  showAlertModal: PropTypes.bool,
+  alertModalText: PropTypes.string,
+  alertModalTitle: PropTypes.string,
   editMode: PropTypes.bool.isRequired,
   services: PropTypes.array,
   appDefinition: PropTypes.object,
   columns: PropTypes.array,
   hosts: PropTypes.array,
   ansibleVarsAll: PropTypes.array,
+  closeAlertModal: PropTypes.func,
   loadApplicationDefinition: PropTypes.func,
   addApplicationInstanceHost: PropTypes.func,
   deleteApplicationInstanceHost: PropTypes.func,

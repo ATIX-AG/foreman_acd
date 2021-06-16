@@ -16,12 +16,14 @@ import {
 
 import {
   APPLICATION_INSTANCE_INIT,
+  APPLICATION_INSTANCE_CLOSE_ALERT_MODAL,
   APPLICATION_INSTANCE_HOST_DELETE,
   APPLICATION_INSTANCE_HOST_ADD,
   APPLICATION_INSTANCE_HOST_EDIT_ACTIVATE,
   APPLICATION_INSTANCE_HOST_EDIT_CONFIRM,
   APPLICATION_INSTANCE_HOST_EDIT_CHANGE,
   APPLICATION_INSTANCE_HOST_EDIT_CANCEL,
+  APPLICATION_INSTANCE_HOST_EDIT_ERROR,
   APPLICATION_INSTANCE_FOREMAN_PARAMETER_SELECTION_MODAL_OPEN,
   APPLICATION_INSTANCE_FOREMAN_PARAMETER_SELECTION_MODAL_CLOSE,
   APPLICATION_INSTANCE_ANSIBLE_PARAMETER_SELECTION_MODAL_OPEN,
@@ -127,6 +129,11 @@ const errorHandler = (msg, err) => {
   return { type: msg, payload: { error } };
 };
 
+export const closeAlertModal = () => ({
+  type: APPLICATION_INSTANCE_CLOSE_ALERT_MODAL,
+  payload: {}
+});
+
 export const loadApplicationDefinition = (
   applicationDefinitionId,
   additionalData,
@@ -171,6 +178,41 @@ export const confirmEditApplicationInstanceHost = (
   allData
 ) => async(dispatch) => {
 
+  // Host name can not be empty
+
+  if (allData.rowData.hostname == '') {
+    dispatch({
+      type: APPLICATION_INSTANCE_HOST_EDIT_ERROR,
+      payload: __("Every host needs to have a valid name"),
+    });
+    return;
+  }
+
+  // Host name can only have specific characters
+
+  const hostname = allData.rowData.hostname.toLowerCase();
+  const hostnameRegex = /^[0-9a-z]([0-9a-z\-]{0,61}[0-9a-z])$/;
+
+  if (hostname.match(hostnameRegex) == undefined) {
+    dispatch({
+      type: APPLICATION_INSTANCE_HOST_EDIT_ERROR,
+      payload: __("The hostname uses not allowed characters. See https://en.wikipedia.org/wiki/Hostname#Syntax for more details."),
+    });
+    return;
+  }
+
+  // Service can not be empty
+
+  if (allData.rowData.service == '') {
+    dispatch({
+      type: APPLICATION_INSTANCE_HOST_EDIT_ERROR,
+      payload: __("Every host needs to be assigned to a service."),
+    });
+    return;
+  }
+
+  // Validation if host name is already used (only for new host entrys)
+
   const url = '/acd/ui_acd_validate_hostname'
   const validationData = {};
 
@@ -190,13 +232,16 @@ export const confirmEditApplicationInstanceHost = (
           }
         });
       } else {
-        window.alert(_('Hostname \''+ allData.rowData.hostname +'\' is already used. This check also includes hosts outside this application instance.'));
+        dispatch({
+          type: APPLICATION_INSTANCE_HOST_EDIT_ERROR,
+          payload: __('Hostname \''+ allData.rowData.hostname +'\' is already used. This check also includes hosts outside this application instance.'),
+        });
       }
     } catch (error) {
-      console.log('Error while validation if hostname is already used.');
-      console.log(error);
-      window.alert(_('Error while validation if hostname is already used. Cancel transaction.'));
-      dispatch({ type: APPLICATION_INSTANCE_HOST_EDIT_CANCEL });
+      dispatch({
+        type: APPLICATION_INSTANCE_HOST_EDIT_ERROR,
+        payload: __('Error during validation if hostname is already used.'),
+      });
     }
   } else {
     dispatch({

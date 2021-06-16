@@ -15,7 +15,7 @@ const ServiceCounter= ({
 
   return (
     <div>
-      <label class="service-counter-title">{title}</label>
+      <label className="service-counter-title">{title}</label>
     {Object.keys(services).map(key => (
       <Service
         key={services[key].id}

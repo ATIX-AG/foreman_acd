@@ -27,7 +27,7 @@ const AnsiblePlaybookSelector= ({
           additionalData={additionalData}
         />
         <RailsData
-          key='ansible_playbook_id'
+          key='ansible_playbook_data'
           view='app_definition'
           parameter='acd_ansible_playbook_id'
           value={selectValue}

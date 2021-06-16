@@ -5,6 +5,7 @@ exports[`SyncGitRepo should render ansible playbook 1`] = `
   <div>
     <ScmTypeSelector
       editable={true}
+      hidden={false}
       label="SCM Type *"
       onChange={[Function]}
       options={Object {}}

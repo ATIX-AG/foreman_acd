@@ -2,6 +2,25 @@
 
 exports[`DeleteTableEntry should render delete parameter 1`] = `
 <span>
+  <MessageDialog
+    accessibleDescription=""
+    accessibleName=""
+    className=""
+    enforceFocus={true}
+    footer={null}
+    icon={null}
+    onHide={[Function]}
+    primaryAction={[Function]}
+    primaryActionButtonBsStyle="primary"
+    primaryActionButtonContent="Confirm"
+    primaryContent="Are you sure you wish to delete this item?"
+    secondaryAction={[Function]}
+    secondaryActionButtonBsStyle="default"
+    secondaryActionButtonContent="Cancel"
+    secondaryContent={null}
+    show={false}
+    title="Confirm action"
+  />
   <Button
     active={false}
     block={false}
@@ -21,6 +40,25 @@ exports[`DeleteTableEntry should render delete parameter 1`] = `
 
 exports[`DeleteTableEntry should render disabled button 1`] = `
 <span>
+  <MessageDialog
+    accessibleDescription=""
+    accessibleName=""
+    className=""
+    enforceFocus={true}
+    footer={null}
+    icon={null}
+    onHide={[Function]}
+    primaryAction={[Function]}
+    primaryActionButtonBsStyle="primary"
+    primaryActionButtonContent="Confirm"
+    primaryContent="Are you sure you wish to delete this item?"
+    secondaryAction={[Function]}
+    secondaryActionButtonBsStyle="default"
+    secondaryActionButtonContent="Cancel"
+    secondaryContent={null}
+    show={false}
+    title="Confirm action"
+  />
   <Button
     active={false}
     block={false}

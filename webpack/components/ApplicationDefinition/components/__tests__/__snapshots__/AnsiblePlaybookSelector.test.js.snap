@@ -31,7 +31,7 @@ exports[`AnsiblePlaybookSelector should render ansible playbook selector 1`] = `
       viewText="myText"
     />
     <RailsData
-      key="ansible_playbook_id"
+      key="ansible_playbook_data"
       parameter="acd_ansible_playbook_id"
       value="1"
       view="app_definition"
@@ -71,7 +71,7 @@ exports[`AnsiblePlaybookSelector should render hidden ansible playbook selector 
       viewText="myText"
     />
     <RailsData
-      key="ansible_playbook_id"
+      key="ansible_playbook_data"
       parameter="acd_ansible_playbook_id"
       value="1"
       view="app_definition"
@@ -111,7 +111,7 @@ exports[`AnsiblePlaybookSelector should render not editable ansible playbook sel
       viewText="myText"
     />
     <RailsData
-      key="ansible_playbook_id"
+      key="ansible_playbook_data"
       parameter="acd_ansible_playbook_id"
       value="1"
       view="app_definition"

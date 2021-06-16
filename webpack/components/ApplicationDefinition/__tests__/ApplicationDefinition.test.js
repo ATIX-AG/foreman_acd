@@ -15,6 +15,7 @@ const fixtures = {
       services: [],
       ansibleVarsAll: [],
     },
+    closeAlertModal: noop,
     loadAnsibleData: noop,
     initApplicationDefinition: noop,
     addApplicationDefinitionService: noop,
