@@ -10,6 +10,7 @@ module ForemanAcd
     def self.prepended(base)
       base.instance_eval do
         before_provision :initiate_acd_app_configurator, :if => :deployed_via_acd?
+        before_destroy :check_deletable, :prepend => true
       end
     end
 
@@ -19,6 +20,16 @@ module ForemanAcd
     end
 
     private
+
+    def check_deletable
+      app_instance_host = ForemanAcd::ForemanHost.find_by(:host_id => id)
+      return if app_instance_host.nil?
+
+      ::Foreman::Logging.logger('foreman_acd').warn "Could not delete host '#{name}' because it is used in Applications > App Instances '#{app_instance_host.app_instance.name}'"
+      raise _("Could not delete host '%{host_name}' because it is used in Applications > App Instances '%{app_instance_name}'") % {
+        :host_name => name, :app_instance_name => app_instance_host.app_instance.name
+      }
+    end
 
     def find_app_instance_host
       @app_instance_host = ForemanAcd::ForemanHost.find_by(:host_id => id)
