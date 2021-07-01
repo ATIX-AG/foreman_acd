@@ -1,0 +1,62 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ApplicationDefinitionImport should render application definition import 1`] = `
+<span>
+  <Component />
+  <Component />
+  <MessageDialog
+    accessibleDescription=""
+    accessibleName=""
+    className=""
+    enforceFocus={true}
+    footer={null}
+    icon={
+      <Icon
+        name="error-circle-o"
+        type="pf"
+      />
+    }
+    onHide={[Function]}
+    primaryAction={[Function]}
+    primaryActionButtonBsStyle="danger"
+    primaryActionButtonContent="OK"
+    primaryContent=""
+    secondaryAction={[Function]}
+    secondaryActionButtonBsStyle="default"
+    secondaryActionButtonContent={null}
+    secondaryContent={null}
+    show={false}
+    title=""
+  />
+  <div>
+    <CommonForm
+      className="custom-file-upload"
+      label="Application Definition file"
+    >
+      <input
+        onChange={[Function]}
+        type="file"
+      />
+    </CommonForm>
+    <CommonForm>
+      <Button
+        active={false}
+        block={false}
+        bsClass="btn"
+        bsStyle="default"
+        disabled={false}
+        onClick={[Function]}
+      >
+        Import
+         
+      </Button>
+    </CommonForm>
+  </div>
+  <RailsData
+    key="applications_definition_import"
+    parameter="services"
+    value="[]"
+    view="app_definition_import"
+  />
+</span>
+`;

@@ -1,0 +1,130 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ApplicationDefinitionImportSelectors should return columns from applicationDefinitionImportConfData_1 fixtures 1`] = `
+Array [
+  Object {
+    "cell": Object {
+      "formatters": Array [
+        null,
+      ],
+    },
+    "header": Object {
+      "formatters": Array [
+        null,
+      ],
+      "label": "Service name",
+      "props": Object {
+        "index": 3,
+        "style": Object {
+          "width": "20%",
+        },
+      },
+    },
+    "property": "name",
+  },
+  Object {
+    "cell": Object {
+      "formatters": Array [
+        null,
+      ],
+    },
+    "header": Object {
+      "formatters": Array [
+        null,
+      ],
+      "label": "Hostgroup",
+      "props": Object {
+        "index": 2,
+        "style": Object {
+          "width": "20%",
+        },
+      },
+    },
+    "property": "hostgroup",
+  },
+]
+`;
+
+exports[`ApplicationDefinitionImportSelectors should return editMode from applicationDefinitionImportConfData_1 fixtures 1`] = `undefined`;
+
+exports[`ApplicationDefinitionImportSelectors should return services from applicationDefinitionImportConfData_1 fixtures 1`] = `
+Array [
+  Object {
+    "ansibleGroup": "webservers",
+    "ansibleParameters": Array [
+      Object {
+        "id": 0,
+        "name": "dummy_var",
+        "value": "0",
+      },
+    ],
+    "description": "",
+    "foremanParameters": Array [
+      Object {
+        "description": "",
+        "id": 1,
+        "locked": false,
+        "name": "CP",
+        "type": "computeprofile",
+        "value": "1",
+      },
+      Object {
+        "description": "",
+        "id": 2,
+        "locked": true,
+        "name": "LE",
+        "type": "lifecycleenv",
+        "value": "1",
+      },
+    ],
+    "hostgroup": "1",
+    "id": 1,
+    "maxCount": "",
+    "minCount": "2",
+    "name": "web",
+  },
+  Object {
+    "ansibleGroup": "dbservers",
+    "ansibleParameters": Array [
+      Object {
+        "id": 0,
+        "name": "mysqlservice",
+        "value": "mysqld",
+      },
+      Object {
+        "id": 1,
+        "locked": true,
+        "name": "mysql_port",
+        "value": "3306",
+      },
+      Object {
+        "id": 2,
+        "name": "dbuser",
+        "value": "webapp",
+      },
+      Object {
+        "id": 3,
+        "name": "dbname",
+        "value": "ANSAP01",
+      },
+      Object {
+        "id": 4,
+        "name": "upassword",
+        "value": "Bond@007",
+      },
+      Object {
+        "id": 5,
+        "name": "masterpassword",
+        "value": "MySQL@007",
+      },
+    ],
+    "description": "",
+    "foremanParameters": Array [],
+    "hostgroup": "1",
+    "id": 2,
+    "maxCount": "",
+    "minCount": "1",
+    "name": "db",
+  },
+]
+`;
