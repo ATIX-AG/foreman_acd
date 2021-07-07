@@ -136,6 +136,7 @@ Object {
     },
   ],
   "editMode": true,
+  "editParamsRowIndex": 1,
   "error": Object {
     "errorMsg": "",
     "status": "",
@@ -373,6 +374,7 @@ Object {
     },
   ],
   "editMode": true,
+  "editParamsRowIndex": 3,
   "error": Object {
     "errorMsg": "",
     "status": "",
@@ -460,6 +462,7 @@ Object {
       "backup": Object {
         "description": "",
         "id": 3,
+        "isYaml": false,
         "locked": false,
         "name": "",
         "newEntry": true,
@@ -468,6 +471,7 @@ Object {
       },
       "description": "",
       "id": 3,
+      "isYaml": false,
       "locked": false,
       "name": "",
       "newEntry": true,
@@ -849,6 +853,7 @@ Object {
     },
   ],
   "editMode": false,
+  "editParamsRowIndex": 1,
   "error": Object {
     "errorMsg": "",
     "status": "",

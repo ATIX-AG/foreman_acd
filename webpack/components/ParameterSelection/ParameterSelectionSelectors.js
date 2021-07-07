@@ -9,3 +9,4 @@ export const selectSortingColumns = state => parameterState(state).sortingColumn
 export const selectColumns = state => parameterState(state).columns;
 export const selectParamDefinition = state => parameterState(state).paramDefinition;
 export const selectHostgroupId = state => parameterState(state).hostgroupId;
+export const selectEditParamsRowIndex = state => parameterState(state).editParamsRowIndex;

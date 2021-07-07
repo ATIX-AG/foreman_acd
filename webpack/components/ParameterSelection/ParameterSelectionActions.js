@@ -21,6 +21,11 @@ import {
 } from './ParameterSelectionHelper';
 
 import {
+  setModalOpen,
+  setModalClosed,
+} from 'foremanReact/components/ForemanModal/ForemanModalActions';
+
+import {
   PARAMETER_SELECTION_INIT,
   PARAMETER_SELECTION_TYPES,
   PARAMETER_SELECTION_LOCK,
@@ -36,6 +41,8 @@ import {
   PARAMETER_SELECTION_LOAD_PARAM_DATA_REQUEST,
   PARAMETER_SELECTION_LOAD_PARAM_DATA_SUCCESS,
   PARAMETER_SELECTION_LOAD_PARAM_DATA_FAILURE,
+  PARAMETER_SELECTION_COMPLEX_DATA_MODAL_OPEN,
+  PARAMETER_SELECTION_COMPLEX_DATA_MODAL_CLOSE,
 } from './ParameterSelectionConstants';
 
 export const initParameterSelection = (
@@ -177,6 +184,8 @@ export const initParameterSelection = (
     initialState.parameterTypes = filterUsedParameterTypes(PARAMETER_SELECTION_TYPES, parameters);
   }
 
+  initialState.paramType = paramType;
+
   dispatch({
     type: PARAMETER_SELECTION_INIT,
     payload: initialState,
@@ -198,7 +207,33 @@ export const lockParameter = (additionalData) => ({
   },
 });
 
-export const addParameter = (additionalData) => ({
+export const openParameterSelectionDialogBox = (additionalData) => dispatch => {
+  dispatch({
+    type: PARAMETER_SELECTION_COMPLEX_DATA_MODAL_OPEN,
+    payload: {
+      ...additionalData,
+    }
+  });
+  dispatch(
+    setModalOpen({ id: 'ParameterSelectionComplexDataModal' })
+  );
+};
+
+export const closeParameterSelectionDialogBox = (additionalData) => dispatch => {
+  dispatch({
+    type: PARAMETER_SELECTION_COMPLEX_DATA_MODAL_CLOSE,
+    payload: {
+      ...additionalData,
+    }
+  });
+
+  dispatch(
+    setModalClosed({ id: 'ParameterSelectionComplexDataModal' })
+  );
+};
+
+export const addParameter = (additionalData) => (
+  {
   type: PARAMETER_SELECTION_ADD,
   payload: {
     ...additionalData,
@@ -268,4 +303,3 @@ export const loadParamData = (attr) => dispatch => {
     )
     .catch(error => dispatch(errorHandler(PARAMETER_SELECTION_LOAD_PARAM_DATA_FAILURE, error)));
 };
-

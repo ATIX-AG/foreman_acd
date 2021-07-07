@@ -9,6 +9,8 @@ import AddTableEntry from '../common/AddTableEntry';
 import EditTableEntry from '../common/EditTableEntry';
 import DeleteTableEntry from '../common/DeleteTableEntry';
 import LockTableEntry from '../common/LockTableEntry';
+import ForemanModal from 'foremanReact/components/ForemanModal';
+import * as YamlValidator from '../../js-yaml';
 
 import {
   transformForemanData,
@@ -31,6 +33,7 @@ import {
   Button,
   Table,
   FormControl,
+  InputGroup,
   defaultSortingOrder,
   customHeaderFormattersDefinition,
   inlineEditFormatterFactory,
@@ -46,10 +49,40 @@ class ParameterSelection extends React.Component {
 
   constructor(props) {
     super(props);
+    this.state = {textValue: ''};
   }
+
+  handleChange = event => {
+    this.setState({textValue: event.target.value});
+  };
 
   isEditing({rowData}) {
     return (rowData.backup !== undefined);
+  }
+
+  yamlValidator() {
+    let result = true;
+    let msg = "";
+    try {
+      const doc = YamlValidator.load(this.state.textValue);
+    } catch (e) {
+      result = false;
+      msg = "Invalid Yaml: " + e.name + ": " + e.message;
+    }
+    return {
+      validateResult: result,
+      validateMsg: msg
+    }
+  }
+
+  yamlValue() {
+    if (this.props.editParamsRowIndex != undefined) {
+      let id = this.props.editParamsRowIndex;
+      if (this.props.parameters[id] != undefined) {
+        return this.props.parameters[id]['value'];
+      }
+    }
+    return '';
   }
 
   // enables our custom header formatters extensions to reactabular
@@ -68,6 +101,8 @@ class ParameterSelection extends React.Component {
       lockParameter,
       activateEditParameter,
       changeEditParameter,
+      openParameterSelectionDialogBox,
+      closeParameterSelectionDialogBox,
       loadParamData,
     } = this.props;
 
@@ -164,6 +199,22 @@ class ParameterSelection extends React.Component {
           />
         </td>
       ),
+      renderEditComplexText: (value, additionalData, subtype='text') => (
+        <td className="editing">
+        <InputGroup>
+          <FormControl
+            type={subtype}
+            defaultValue={additionalData.rowData.isYaml == true ? '' : value}
+            onBlur={e => changeEditParameter(e.target.value, additionalData) }
+            readOnly={additionalData.rowData.isYaml}
+            placeholder={'Press YAML button for Yaml Data'}
+          />
+          <InputGroup.Button>
+            <Button onClick= {e => openParameterSelectionDialogBox(e)}> YAML </Button>
+          </InputGroup.Button>
+        </InputGroup>
+        </td>
+      ),
       renderEditSelect: (value, additionalData, options) => (
         <td className="editing">
           <Select
@@ -208,6 +259,10 @@ class ParameterSelection extends React.Component {
             case 'text':
               prettyValue = value
               break;
+            case 'complex':
+              prettyValue = additionalData.rowData.isYaml ? 'YAML value' : value;
+              break;
+
           }
         }
         return inlineEditFormatterImpl.renderValue(prettyValue, additionalData)
@@ -234,6 +289,8 @@ class ParameterSelection extends React.Component {
               case 'password':
                 return inlineEditFormatterImpl.renderEditText(value, additionalData, 'password');
               case 'text':
+              case 'complex':
+                return inlineEditFormatterImpl.renderEditComplexText(value, additionalData);
               default:
                 return inlineEditFormatterImpl.renderEditText(value, additionalData);
             }
@@ -242,6 +299,7 @@ class ParameterSelection extends React.Component {
         }
       }
     });
+
     this.inlineEditFormatter = inlineEditFormatter;
 
     initParameterSelection(
@@ -273,6 +331,7 @@ class ParameterSelection extends React.Component {
       addParameter,
       confirmEditParameter,
       cancelEditParameter,
+      closeParameterSelectionDialogBox,
       editModeCallback,
     } = this.props;
 
@@ -281,6 +340,7 @@ class ParameterSelection extends React.Component {
 
     if (newEntryIndex >= 0) {
       const newEntry = parameters[newEntryIndex];
+
       // sort all elements, besides the newEntry which will be
       // added to the end of the Array
       const tmpParameters = cloneDeep(parameters);
@@ -310,6 +370,8 @@ class ParameterSelection extends React.Component {
     if (editModeCallback !== undefined) {
       editModeCallback(this.props.editMode);
     }
+
+    let { validateResult, validateMsg } = this.yamlValidator();
 
     return(
       <div>
@@ -357,6 +419,38 @@ class ParameterSelection extends React.Component {
             />
           </div>
         </div>
+        <div>
+        <ForemanModal
+          id="ParameterSelectionComplexDataModal"
+          dialogClassName="complex_data_modal"
+          title={__("YAML Data Input")}
+
+        >
+          <ForemanModal.Header closeButton={false}>
+          </ForemanModal.Header>
+          <textarea id='yamlData'
+            defaultValue= {this.yamlValue()}
+            onChange={this.handleChange}
+            style={{width: "550px", height: "350px"}}  />
+          <ForemanModal.Footer>
+            <div>
+            {validateResult == false ? (
+                <div className="form-group">
+                <div class="alert alert-danger alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span class="pficon pficon-close"></span>
+                </button>
+                <span class="pficon pficon-error-circle-o"></span>
+                  {validateMsg}
+                </div>
+                </div>
+            ) : (<div></div>)}
+              <Button bsStyle="primary" onClick ={() => closeParameterSelectionDialogBox({ mode: 'save' })}>{__("Save")}</Button>
+              <Button bsStyle="default" onClick={() => closeParameterSelectionDialogBox({ mode: 'cancel' })}>{__("Cancel")}</Button>
+            </div>
+          </ForemanModal.Footer>
+        </ForemanModal>
+        </div>
       </div>
     );
   }
@@ -370,6 +464,7 @@ ParameterSelection.defaultProps = {
   parameters: [],
   columns: [],
   sortingColumns: {},
+  editParamsRowIndex: [],
   editModeCallback: undefined,
 };
 
@@ -399,8 +494,11 @@ ParameterSelection.propTypes = {
   confirmEditParameter: PropTypes.func,
   cancelEditParameter: PropTypes.func,
   changeEditParameter: PropTypes.func,
+  openParameterSelectionDialogBox: PropTypes.func,
+  closeParameterSelectionDialogBox: PropTypes.func,
   loadParamData: PropTypes.func,
   paramDefinition: PropTypes.object,
+  editParamsRowIndex: PropTypes.array,
 };
 
 export default ParameterSelection;

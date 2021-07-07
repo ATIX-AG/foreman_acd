@@ -28,6 +28,8 @@ import {
   PARAMETER_SELECTION_LOAD_PARAM_DATA_FAILURE,
   PARAMETER_SELECTION_PARAM_TYPE_FOREMAN,
   PARAMETER_SELECTION_PARAM_TYPE_ANSIBLE,
+  PARAMETER_SELECTION_COMPLEX_DATA_MODAL_OPEN,
+  PARAMETER_SELECTION_COMPLEX_DATA_MODAL_CLOSE,
 } from './ParameterSelectionConstants';
 
 export const initialState = Immutable({
@@ -51,13 +53,16 @@ const parameterSelectionParameters = (state = initialState, action) => {
         index = Math.max(...parameters.map(e => e.id)) + 1;
       }
 
-      const newRow = {id: index, locked: false, name: "", description: '', type: '', value: '', newEntry: true };
+      const newRow = {id: index, locked: false, name: "", description: '', type: '', value: '', isYaml: false, newEntry: true };
+      if (state.paramType == 'PARAMETER_SELECTION_PARAM_TYPE_ANSIBLE') {
+        newRow['type'] = 'complex';
+      }
       newRow.backup = cloneDeep(newRow)
       parameters.push(newRow);
-
       return state.merge({
         editMode: true,
-        parameters: parameters
+        parameters: parameters,
+        editParamsRowIndex: index,
       });
     }
     case PARAMETER_SELECTION_LOCK: {
@@ -86,10 +91,10 @@ const parameterSelectionParameters = (state = initialState, action) => {
       const index = findIndex(parameters, { id: payload.rowData.id });
 
       parameters[index].backup = cloneDeep(parameters[index]);
-
       return state.merge({
         editMode: true,
-        parameters: parameters
+        parameters: parameters,
+        editParamsRowIndex: index,
       });
     }
     case PARAMETER_SELECTION_EDIT_CONFIRM: {
@@ -109,9 +114,15 @@ const parameterSelectionParameters = (state = initialState, action) => {
       const parameters = cloneDeep(state.parameters);
       const index = findIndex(parameters, { id: payload.rowData.id });
 
-      parameters[index][payload.property] = payload.value;
-
-      return state.set('parameters', parameters);
+      if (!parameters[index]['isYaml'] && payload.property == 'value') {
+        parameters[index]['value'] = payload.value;
+      } else if (payload.property != 'value') {
+        parameters[index][payload.property] = payload.value;
+      }
+      return state.merge({
+        parameters: parameters,
+        editParamsRowIndex: index
+      });
     }
     case PARAMETER_SELECTION_EDIT_CANCEL: {
       const parameters = cloneDeep(state.parameters);
@@ -178,6 +189,36 @@ const parameterSelectionParameters = (state = initialState, action) => {
         };
       }
 
+      return state.merge(newState);
+    }
+    case PARAMETER_SELECTION_COMPLEX_DATA_MODAL_OPEN: {
+      return state;
+    }
+    case PARAMETER_SELECTION_COMPLEX_DATA_MODAL_CLOSE: {
+      let str;
+      let element = document.getElementById('yamlData');
+      if (element != null) {
+        str = element.value;
+      }
+      else {
+        str = '';
+      }
+      let newState = {};
+      let index = state.editParamsRowIndex;
+      const parameters = cloneDeep(state.parameters);
+      if (payload.mode == 'save') {
+        parameters[index]['value'] = str;
+        if (str == '') {
+          parameters[index]['isYaml'] = false;
+        } else {
+          parameters[index]['isYaml'] = true;
+        }
+        newState = {
+          parameters: parameters,
+        };
+      } else {
+        newState = {};
+      }
       return state.merge(newState);
     }
     default:

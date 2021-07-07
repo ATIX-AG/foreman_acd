@@ -49,6 +49,53 @@ exports[`ParameterSelection should render ansible parameter selection 1`] = `
       />
     </div>
   </div>
+  <div>
+    <ForemanModal
+      dialogClassName="complex_data_modal"
+      id="ParameterSelectionComplexDataModal"
+      title="YAML Data Input"
+    >
+      <Header
+        closeButton={false}
+      />
+      <textarea
+        defaultValue=""
+        id="yamlData"
+        onChange={[Function]}
+        style={
+          Object {
+            "height": "350px",
+            "width": "550px",
+          }
+        }
+      />
+      <Footer>
+        <div>
+          <div />
+          <Button
+            active={false}
+            block={false}
+            bsClass="btn"
+            bsStyle="primary"
+            disabled={false}
+            onClick={[Function]}
+          >
+            Save
+          </Button>
+          <Button
+            active={false}
+            block={false}
+            bsClass="btn"
+            bsStyle="default"
+            disabled={false}
+            onClick={[Function]}
+          >
+            Cancel
+          </Button>
+        </div>
+      </Footer>
+    </ForemanModal>
+  </div>
 </div>
 `;
 
@@ -100,6 +147,53 @@ exports[`ParameterSelection should render foreman parameter selection 1`] = `
         onAddTableEntry={[Function]}
       />
     </div>
+  </div>
+  <div>
+    <ForemanModal
+      dialogClassName="complex_data_modal"
+      id="ParameterSelectionComplexDataModal"
+      title="YAML Data Input"
+    >
+      <Header
+        closeButton={false}
+      />
+      <textarea
+        defaultValue=""
+        id="yamlData"
+        onChange={[Function]}
+        style={
+          Object {
+            "height": "350px",
+            "width": "550px",
+          }
+        }
+      />
+      <Footer>
+        <div>
+          <div />
+          <Button
+            active={false}
+            block={false}
+            bsClass="btn"
+            bsStyle="primary"
+            disabled={false}
+            onClick={[Function]}
+          >
+            Save
+          </Button>
+          <Button
+            active={false}
+            block={false}
+            bsClass="btn"
+            bsStyle="default"
+            disabled={false}
+            onClick={[Function]}
+          >
+            Cancel
+          </Button>
+        </div>
+      </Footer>
+    </ForemanModal>
   </div>
 </div>
 `;
