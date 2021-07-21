@@ -14,6 +14,7 @@ import {
   selectSortingColumns,
   selectColumns,
   selectParamDefinition,
+  selectEditParamsRowIndex,
 } from './ParameterSelectionSelectors';
 
 const mapStateToProps = state => ({
@@ -25,6 +26,7 @@ const mapStateToProps = state => ({
   sortingColumns: selectSortingColumns(state),
   columns: selectColumns(state),
   paramDefinition: selectParamDefinition(state),
+  editParamsRowIndex: selectEditParamsRowIndex(state),
 });
 
 const mapDispatchToProps = dispatch =>
@@ -34,4 +36,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(ParameterSelection);
-
