@@ -78,8 +78,9 @@ module ForemanAcd
         end
 
         git.add_remote('origin', sync_params[:git_url])
+        commit = Git.ls_remote(sync_params[:git_url])['head'][:sha]
         git.fetch
-        git.checkout(sync_params[:git_commit])
+        git.checkout(sync_params[:git_commit] != '' ? sync_params['git_commit'] : commit)
 
         session[:git_path] = git.dir.path
       rescue StandardError => e
