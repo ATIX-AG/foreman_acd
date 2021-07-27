@@ -175,10 +175,10 @@ module ForemanAcd
         end
         params[:foreman_acd_app_definition][:services] = session[:data_services].to_json
       rescue StandardError => e
-        ansible_playbook.destroy
+        ansible_playbook&.destroy
         redirect_to({ :action => 'import' }, :error => _("Hostgroups are not configured properly: #{e}"))
       else
-        ansible_playbook.destroy
+        ansible_playbook&.destroy
         redirect_to({ :action => 'import' }, :error => _('Some services are not assigned Hostgroups')) if flag.positive?
       end
       session[:data_services] = nil
