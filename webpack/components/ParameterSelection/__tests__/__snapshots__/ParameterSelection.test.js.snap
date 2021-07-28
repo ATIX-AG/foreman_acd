@@ -64,6 +64,7 @@ exports[`ParameterSelection should render ansible parameter selection 1`] = `
         onChange={[Function]}
         style={
           Object {
+            "fontFamily": "Courier",
             "height": "350px",
             "width": "550px",
           }
@@ -163,6 +164,7 @@ exports[`ParameterSelection should render foreman parameter selection 1`] = `
         onChange={[Function]}
         style={
           Object {
+            "fontFamily": "Courier",
             "height": "350px",
             "width": "550px",
           }
