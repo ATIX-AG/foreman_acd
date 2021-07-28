@@ -12,7 +12,6 @@ import {
   SYNC_GIT_REPO_REQUEST,
   SYNC_GIT_REPO_FAILURE,
   SYNC_GIT_REPO_SUCCESS,
-  SYNC_GIT_REPOSITORY,
 } from './SyncGitRepoConstants';
 
 export const initSyncGitRepo = (
@@ -36,7 +35,7 @@ export const initSyncGitRepo = (
 
 const errorHandler = (msg, err) => {
   const error = {
-    errorMsg: 'Failed to fetch data from server.',
+    errorMsg: __('Failed to fetch data from server.'),
     statusText: err,
   };
   return { type: msg, payload: { error } };

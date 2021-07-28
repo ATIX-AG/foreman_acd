@@ -130,7 +130,7 @@ export const handleImportAnsiblePlaybook = (
         addToast({
           type: 'success',
           message: sprintf(
-            __('Sucessfully synced git repository ')
+            __('Sucessfully synced imported app template')
           ),
           key: APPLICATION_DEFINITION_IMPORT_FILE_SUCCESS,
         })
@@ -146,7 +146,7 @@ export const handleImportAnsiblePlaybook = (
       dispatch(
         addToast({
           type: 'error',
-          message: sprintf(__('Error occurred while syncing git repository: %s'), error.response.data.message),
+          message: sprintf(__('Error occurred while importing app template: %s'), error.response.data.message),
           key: APPLICATION_DEFINITION_IMPORT_FILE_FAILURE,
         })
       );

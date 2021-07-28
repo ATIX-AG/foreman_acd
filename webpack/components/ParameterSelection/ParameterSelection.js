@@ -431,7 +431,7 @@ class ParameterSelection extends React.Component {
           <textarea id='yamlData'
             defaultValue= {this.yamlValue()}
             onChange={this.handleChange}
-            style={{width: "550px", height: "350px"}}  />
+            style={{width: "550px", height: "350px", fontFamily: "Courier"}}  />
           <ForemanModal.Footer>
             <div>
             {validateResult == false ? (
