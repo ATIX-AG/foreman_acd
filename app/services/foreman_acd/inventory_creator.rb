@@ -32,7 +32,7 @@ module ForemanAcd
 
         children[ansible_group] = { 'hosts' => {} } unless children.key?(host_service['ansibleGroup'])
 
-        ansible_vars = JSON.parse(foreman_host.ansibleParameters).map { |v| { v['name'] => v['value'] } }.reduce({}, :merge!)
+        ansible_vars = JSON.parse(foreman_host.ansibleParameters).map { |v| { v['name'] => get_param_value(foreman_host.host, v['value']) } }.reduce({}, :merge!)
 
         # in case there is no ansible_user defined, set "root" as default.
         ansible_vars['ansible_user'] = 'root' unless ansible_vars.key?('ansible_user')
@@ -45,6 +45,17 @@ module ForemanAcd
     end
 
     private
+
+    def get_param_value(host, value)
+      search_param = value.match(/PARAM\[([a-zA-Z0-9]*)\]/)
+      return value if search_param.nil?
+
+      search_param = search_param[1]
+      resolved_value = host.host_param(search_param)
+      logger.warn "Could not resolve ansible host parm value #{value} for host #{host}" if resolved_value.nil?
+
+      resolved_value
+    end
 
     def ansible_or_rex_ssh_private_key(host)
       ansible_private_file = host_setting(host, 'ansible_ssh_private_key_file')
