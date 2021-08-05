@@ -52,7 +52,7 @@ module ForemanAcd
 
       search_param = search_param[1]
       resolved_value = host.host_param(search_param)
-      logger.warn "Could not resolve ansible host parm value #{value} for host #{host}" if resolved_value.nil?
+      logger.warn "Could not resolve ansible host param value #{value} for host #{host}" if resolved_value.nil?
 
       resolved_value
     end
