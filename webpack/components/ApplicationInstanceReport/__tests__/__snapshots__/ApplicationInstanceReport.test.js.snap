@@ -117,6 +117,7 @@ exports[`ApplicationInstanceReport should render application instance report 1`]
           key="power_status_8"
         />
       </span>
+      <span />
     </div>
   </div>
   <div

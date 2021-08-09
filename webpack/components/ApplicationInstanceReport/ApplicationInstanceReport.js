@@ -2,6 +2,10 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types';
 
 import {
+  Icon,
+} from 'patternfly-react';
+
+import {
   VerticalTabs,
 } from 'patternfly-react-extensions';
 
@@ -66,6 +70,7 @@ class ApplicationInstanceReport extends React.Component {
         </div>
       )
     } else {
+      const already_deployed_msg = __("Already existing host which was added to the application instance");
       return (
         <div>
           <span>Host: <a href={ host['hostUrl'] }>{ host['name'] }</a></span>
@@ -73,6 +78,12 @@ class ApplicationInstanceReport extends React.Component {
           <span>State: { host['build'] == true ? "in Build" : "Deployed" }</span>
           <span>&nbsp;|&nbsp;</span>
           <span>Power Status: <PowerStatus key={ "power_status_"+ host['id'] } data={{ id: host['id'], url: host['powerStatusUrl'] }} /></span>
+          {host['isExistingHost'] ? (
+            <span>
+              &nbsp;|&nbsp; Existing host &nbsp;
+              <Icon style={{marginRight: 8, marginLeft: 2}} type="pf" name="info" title={already_deployed_msg} />
+            </span>
+          ) : (<span></span>)}
         </div>
       )
     }

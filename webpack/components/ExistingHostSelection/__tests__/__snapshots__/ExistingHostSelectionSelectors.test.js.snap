@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ExistingHostSelectionSelectors should return alreadyUsedHosts from existingHostSelectionConfData_1 fixtures 1`] = `
+Array [
+  Object {
+    "disabled": true,
+    "label": "isaac-anselm",
+    "tooltipText": "Host already used for this application instance",
+    "value": "isaac-anselm",
+  },
+]
+`;
+
+exports[`ExistingHostSelectionSelectors should return availableHosts from existingHostSelectionConfData_1 fixtures 1`] = `
+Array [
+  Object {
+    "label": "lllllll",
+    "value": "lllllll",
+  },
+]
+`;
+
+exports[`ExistingHostSelectionSelectors should return hostsInHostgroup from existingHostSelectionConfData_1 fixtures 1`] = `undefined`;
+
+exports[`ExistingHostSelectionSelectors should return selectedHosts from existingHostSelectionConfData_1 fixtures 1`] = `Array []`;
+
+exports[`ExistingHostSelectionSelectors should return serviceId from existingHostSelectionConfData_1 fixtures 1`] = `2`;

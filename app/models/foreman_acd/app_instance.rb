@@ -32,7 +32,7 @@ module ForemanAcd
     end
 
     def clean_all_hosts
-      remember_host_ids = foreman_hosts.map(&:host_id)
+      remember_host_ids = foreman_hosts.select(&:fresh_host?).map(&:host_id)
 
       # Clean the app instance association first
       foreman_hosts.update_all(:host_id => nil)
@@ -43,11 +43,13 @@ module ForemanAcd
 
     def clean_hosts_by_id(ids = [])
       # Clean the app instance association first
-      foreman_hosts.where(:host_id => ids).update_all(:host_id => nil)
+      foreman_hosts.where(:host_id => ids, :is_existing_host => false).update_all(:host_id => nil)
 
       # Remove all hosts afterwards
       delete_hosts(ids)
     end
+
+    private
 
     def delete_hosts(ids = [])
       return if ids.empty?

@@ -19,6 +19,10 @@ function arrayToObjectObj(arr, id) {
   return rv;
 }
 
+function shortHostname(fqdn) {
+  return fqdn.split('.')[0];
+}
+
 function EasyHeaderFormatter(value, { column }) {
   return (
     <Table.Heading aria-label={column.header.label} {...column.header.props}>
@@ -30,5 +34,6 @@ function EasyHeaderFormatter(value, { column }) {
 export {
   arrayToObject,
   arrayToObjectObj,
+  shortHostname,
   EasyHeaderFormatter
 };

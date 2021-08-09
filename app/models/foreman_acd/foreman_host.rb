@@ -16,6 +16,14 @@ module ForemanAcd
       _('Foreman Host')
     end
 
+    def fresh_host?
+      !is_existing_host
+    end
+
+    def existing_host?
+      is_existing_host
+    end
+
     def self.permission_name
       'foreman_hosts'
     end

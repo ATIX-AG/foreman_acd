@@ -56,20 +56,22 @@
               <h4 class="modal-title"><%= _('Confirmation')%></h4>
             </div>
             <div class="modal-body">
-              <p> <%= _("Confirm to delete ") %> <%= app_instance %></p>
+              <p> <%= _("Confirm to delete application instance: ") %> <%= app_instance %></p>
               <%= form_tag destroy_with_hosts_app_instance_path(:id => app_instance.id), :method => :delete do %>
-                <% if app_instance.foreman_hosts.where.not(:host_id => [nil, false]).any? %>
-                  <p><%= _("Select the hosts to delete along with ") %> <%= app_instance %>: </p>
-                <% end %>
-                <% app_instance.foreman_hosts.each do |foreman_host|%>
+                <% showSelectHostsNote = true %>
+                <% app_instance.foreman_hosts.select(&:fresh_host?).each do |foreman_host|%>
                   <% if foreman_host.host_id? %>
-                    <%= check_box_tag 'foreman_host_ids[]', foreman_host.host_id, false, class: 'acd_host' -%>
-                    <%= h foreman_host.host.name -%>
-                    </br>
+                    <% if showSelectHostsNote %>
+                      <p><%= _("Select the hosts to delete along with ") %> <%= app_instance %>: </p>
+                      <% showSelectHostsNote = false %>
+                    <% end %>
+                      <%= check_box_tag 'foreman_host_ids[]', foreman_host.host_id, false, class: 'acd_host' -%> <%= h foreman_host.host.name -%>
+                      </br>
                   <% end %>
                 <% end %>
                 <hr width="90%">
                 <p> <%= check_box_tag "check_all", "", false, { :onchange => "toggleCheckboxesBySelector('.acd_host')" } %> Select / unselect all hosts</p>
+                <br /><p><%= _("Note: Hosts which already existed and were added to the application instance are not shown in this dialog!") %></p> 
             </div>
             <div class="modal-footer">
                <button type="button" class="btn btn-primary" data-dismiss="modal"><%= _('Cancel') %></button>
@@ -93,8 +95,8 @@
               <%= form_tag deploy_app_instance_path(:id => app_instance.id), :method => :post do %>
                 <% if app_instance.foreman_hosts.where.not(:host_id => [nil, false]).any? %>
                   <ul>
-                  <li><%= check_box_tag 'delete_hosts'-%><%= _('Delete all hosts before deploying ') %><%= app_instance%></li>
-                  <li><%= check_box_tag 'safe_deploy' -%><%= _('Deploy only new and changed hosts for ') %><%= app_instance%></li>
+                  <li><%= check_box_tag 'delete_hosts'-%> <%= _('Delete all hosts before deploying ') %><%= app_instance%></li>
+                  <li><%= check_box_tag 'safe_deploy' -%> <%= _('Deploy only new and changed hosts for ') %><%= app_instance%></li>
                   </ul>
                 <% end %>
             </div>
