@@ -50,8 +50,7 @@ module ForemanAcd
       search_param = value.match(/PARAM\[([a-zA-Z0-9]*)\]/)
       return value if search_param.nil?
 
-      search_param = search_param[1]
-      resolved_value = host.host_param(search_param)
+      resolved_value = host.host_param(search_param[1])
       logger.warn "Could not resolve ansible host param value #{value} for host #{host}" if resolved_value.nil?
 
       resolved_value
