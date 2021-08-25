@@ -53,7 +53,7 @@
           <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-              <h4 class="modal-title"><%= _('Confirmation Box')%></h4>
+              <h4 class="modal-title"><%= _('Confirmation')%></h4>
             </div>
             <div class="modal-body">
               <p> <%= _("Confirm to delete ") %> <%= app_instance %></p>
@@ -63,11 +63,13 @@
                 <% end %>
                 <% app_instance.foreman_hosts.each do |foreman_host|%>
                   <% if foreman_host.host_id? %>
-                    <%= check_box_tag 'foreman_host_ids[]', foreman_host.host_id -%>
+                    <%= check_box_tag 'foreman_host_ids[]', foreman_host.host_id, false, class: 'acd_host' -%>
                     <%= h foreman_host.host.name -%>
                     </br>
                   <% end %>
                 <% end %>
+                <hr width="90%">
+                <p> <%= check_box_tag "check_all", "", false, { :onchange => "toggleCheckboxesBySelector('.acd_host')" } %> Select / unselect all hosts</p>
             </div>
             <div class="modal-footer">
                <button type="button" class="btn btn-primary" data-dismiss="modal"><%= _('Cancel') %></button>
