@@ -117,7 +117,7 @@ exports[`ApplicationInstance should render application instance 1`] = `
       >
         <Icon
           name="server"
-          title="add existing hosts"
+          title="Add existing hosts"
           type="pf"
         />
       </Button>
@@ -144,7 +144,7 @@ exports[`ApplicationInstance should render application instance 1`] = `
         }
       >
         <span
-          title="change ansible variables for 'all'"
+          title="Change ansible variables for 'all'"
         >
           A
         </span>

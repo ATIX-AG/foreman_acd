@@ -113,7 +113,7 @@ exports[`ApplicationDefinition should render application definition 1`] = `
         }
       >
         <span
-          title="change ansible variables for 'all'"
+          title="Change ansible variables for 'all'"
         >
           A
         </span>

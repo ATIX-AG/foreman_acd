@@ -120,7 +120,7 @@ class ApplicationInstance extends React.Component {
             bsStyle="default"
             onClick={() => activateEditApplicationInstanceHost(additionalData)}
           >
-            <Icon type="pf" name="edit" title={__("edit entry")} />
+            <Icon type="pf" name="edit" title={__("Edit entry")} />
           </Button>
           &nbsp;
           { additionalData.rowData.isExistingHost == false ? (
@@ -128,7 +128,7 @@ class ApplicationInstance extends React.Component {
               bsStyle="default"
               onClick={() => openForemanParameterSelectionModal(additionalData)}
             >
-              <Icon type="pf" name="settings" title={__("change parameters")} />
+              <Icon type="pf" name="settings" title={__("Change parameters")} />
             </Button>
           ) : (<span></span>)}
           &nbsp;
@@ -136,7 +136,7 @@ class ApplicationInstance extends React.Component {
             bsStyle="default"
             onClick={() => openAnsibleParameterSelectionModal(additionalData)}
           >
-            <span title={__("change ansible variables")}>A</span>
+            <span title={__("Change ansible variables")}>A</span>
           </Button>
           &nbsp;
           <DeleteTableEntry
@@ -355,7 +355,7 @@ class ApplicationInstance extends React.Component {
                 isAllGroup: true
               })}
             >
-              <Icon title={__("add existing hosts")} type="pf" name="server" />
+              <Icon title={__("Add existing hosts")} type="pf" name="server" />
             </Button>
           </span>
           <span style={{ marginLeft: 30 }}>
@@ -368,7 +368,7 @@ class ApplicationInstance extends React.Component {
                 isAllGroup: true
               })}
             >
-              <span title={__("change ansible variables for 'all'")}>A</span>
+              <span title={__("Change ansible variables for 'all'")}>A</span>
             </Button>
           </span>
         </div>

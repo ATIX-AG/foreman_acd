@@ -76,21 +76,21 @@ class ApplicationDefinition extends React.Component {
             bsStyle="default"
             onClick={() => activateEditApplicationDefinitionService(additionalData)}
           >
-            <Icon type="pf" name="edit" title={__("edit entry")} />
+            <Icon type="pf" name="edit" title={__("Edit entry")} />
           </Button>
           &nbsp;
           <Button
             bsStyle="default"
             onClick={() => openForemanParameterSelectionModal(additionalData)}
           >
-            <Icon type="pf" name="settings" title={__("change parameters")} />
+            <Icon type="pf" name="settings" title={__("Change parameters")} />
           </Button>
           &nbsp;
           <Button
             bsStyle="default"
             onClick={() => openAnsibleParameterSelectionModal(additionalData)}
           >
-            <span title={__("change ansible variables")}>A</span>
+            <span title={__("Change ansible variables")}>A</span>
           </Button>
           &nbsp;
           <DeleteTableEntry
@@ -291,7 +291,7 @@ class ApplicationDefinition extends React.Component {
                 isAllGroup: true
               })}
             >
-              <span title={__("change ansible variables for 'all'")}>A</span>
+              <span title={__("Change ansible variables for 'all'")}>A</span>
             </Button>
           </span>
         </div>
