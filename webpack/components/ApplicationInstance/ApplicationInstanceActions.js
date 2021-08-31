@@ -28,6 +28,8 @@ import {
   APPLICATION_INSTANCE_FOREMAN_PARAMETER_SELECTION_MODAL_CLOSE,
   APPLICATION_INSTANCE_ANSIBLE_PARAMETER_SELECTION_MODAL_OPEN,
   APPLICATION_INSTANCE_ANSIBLE_PARAMETER_SELECTION_MODAL_CLOSE,
+  APPLICATION_INSTANCE_ADD_EXISTING_HOSTS_MODAL_OPEN,
+  APPLICATION_INSTANCE_ADD_EXISTING_HOSTS_MODAL_CLOSE,
   APPLICATION_INSTANCE_LOAD_APPLICATION_DEFINITION_REQUEST,
   APPLICATION_INSTANCE_LOAD_APPLICATION_DEFINITION_SUCCESS,
   APPLICATION_INSTANCE_LOAD_APPLICATION_DEFINITION_FAILURE,
@@ -315,6 +317,31 @@ export const closeAnsibleParameterSelectionModal = (additionalData) => dispatch 
 
   dispatch(
     setModalClosed({ id: 'AppInstanceAnsibleParamSelection' })
+  );
+}
+
+export const openAddExistingHostsModal = (additionalData) => dispatch => {
+  dispatch({
+    type: APPLICATION_INSTANCE_ADD_EXISTING_HOSTS_MODAL_OPEN,
+    payload: {
+      ...additionalData,
+    }
+  });
+  dispatch(
+    setModalOpen({ id: 'AppInstanceAddExistingHosts' })
+  );
+}
+
+export const closeAddExistingHostsModal = (additionalData) => dispatch => {
+  dispatch({
+    type: APPLICATION_INSTANCE_ADD_EXISTING_HOSTS_MODAL_CLOSE,
+    payload: {
+      ...additionalData,
+    }
+  });
+
+  dispatch(
+    setModalClosed({ id: 'AppInstanceAddExistingHosts' })
   );
 }
 

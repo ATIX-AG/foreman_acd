@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ExistingHostSelection should render existing host selection 1`] = `
+<div>
+  <div
+    className="row"
+  >
+    <ServiceSelector
+      additionalData={
+        Object {
+          "services": Array [],
+          "url": "/api/v2/hostgroups/__hostgroup_id__/hosts",
+        }
+      }
+      hidden={false}
+      label="Service"
+      onChange={[Function]}
+      options={Object {}}
+      selectValue="0"
+    />
+  </div>
+  <div
+    className="row"
+  >
+    <label
+      className="col-md-2 control-label"
+    >
+      Hosts
+    </label>
+    <span>
+      Please select service first.
+    </span>
+  </div>
+</div>
+`;

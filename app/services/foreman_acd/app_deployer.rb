@@ -22,8 +22,17 @@ module ForemanAcd
 
       foreman_hosts.each do |foreman_host|
         service_data = services.select { |k| k['id'] == foreman_host.service.to_i }.first
-        host_params = set_host_params(foreman_host, service_data)
 
+        # Handle already deployed hosts
+        if foreman_host.existing_host?
+          domain = Hostgroup.find(service_data['hostgroup']).domain.name
+          fqdn = "#{foreman_host.hostname}.#{domain}"
+          h =  Host.find_by(:name => fqdn)
+          foreman_host.update!(:host_id => h.id)
+          next
+        end
+
+        host_params = set_host_params(foreman_host, service_data)
         host = foreman_host.host.presence
 
         is_rebuild = false
@@ -45,7 +54,10 @@ module ForemanAcd
         end
 
         # REMOVE ME (but very nice for testing)
-        # host.mac = "00:11:22:33:44:55"
+        # prng = Random.new
+        # x = prng.rand(100)
+        # y = prng.rand(100)
+        # host.mac = "00:11:22:33:#{x}:#{y}"
 
         apply_compute_profile(host)
         host.suggest_default_pxe_loader

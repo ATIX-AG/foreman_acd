@@ -1,0 +1,77 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ServiceSelector should render the hidden service selector 1`] = `
+<div
+  className="form-group"
+>
+  <label
+    className="col-md-2 control-label"
+  >
+    Test Label
+  </label>
+  <div
+    className="col-md-4"
+  >
+    <ExtSelect
+      additionalData={Object {}}
+      editable={true}
+      hidden={true}
+      onChange={[Function]}
+      options={
+        Object {
+          "first": "first",
+          "second": "second",
+        }
+      }
+      selectValue="1"
+      viewText="view service"
+    />
+    <RailsData
+      key="service_id"
+      parameter="service_id"
+      value="1"
+      view="existing_host_selection"
+    />
+  </div>
+</div>
+`;
+
+exports[`ServiceSelector should render the service selector 1`] = `
+<div
+  className="form-group"
+>
+  <label
+    className="col-md-2 control-label"
+  >
+    Test Label
+  </label>
+  <div
+    className="col-md-4"
+  >
+    <ExtSelect
+      additionalData={
+        Object {
+          "moreData": "moooore",
+        }
+      }
+      editable={true}
+      hidden={false}
+      onChange={[Function]}
+      options={
+        Object {
+          "first": "first",
+          "second": "second",
+        }
+      }
+      selectValue="1"
+      viewText="view service"
+    />
+    <RailsData
+      key="service_id"
+      parameter="service_id"
+      value="1"
+      view="existing_host_selection"
+    />
+  </div>
+</div>
+`;

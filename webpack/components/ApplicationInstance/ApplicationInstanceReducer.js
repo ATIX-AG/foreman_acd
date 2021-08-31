@@ -1,5 +1,6 @@
 import Immutable from 'seamless-immutable';
 import { translate as __ } from 'foremanReact/common/I18n';
+import { calculateServiceUsage } from './ApplicationInstanceHelper';
 
 import {
   cloneDeep,
@@ -24,6 +25,8 @@ import {
   APPLICATION_INSTANCE_FOREMAN_PARAMETER_SELECTION_MODAL_CLOSE,
   APPLICATION_INSTANCE_ANSIBLE_PARAMETER_SELECTION_MODAL_OPEN,
   APPLICATION_INSTANCE_ANSIBLE_PARAMETER_SELECTION_MODAL_CLOSE,
+  APPLICATION_INSTANCE_ADD_EXISTING_HOSTS_MODAL_OPEN,
+  APPLICATION_INSTANCE_ADD_EXISTING_HOSTS_MODAL_CLOSE,
   APPLICATION_INSTANCE_CHANGE_PARAMETER_SELECTION_MODE,
 } from './ApplicationInstanceConstants';
 
@@ -97,7 +100,7 @@ const applicationInstanceConf = (state = initialState, action) => {
         index = Math.max(...hosts.map(e => e.id)) + 1;
       }
 
-      const newRow = {id: index, hostname: "", description: '', service: '', foremanParameters: [], ansibleParameters: [], newEntry: true };
+      const newRow = {id: index, hostname: "", description: '', service: '', isExistingHost: false, foremanParameters: [], ansibleParameters: [], newEntry: true };
       newRow.backup = cloneDeep(newRow)
       hosts.push(newRow);
 
@@ -135,7 +138,7 @@ const applicationInstanceConf = (state = initialState, action) => {
     case APPLICATION_INSTANCE_HOST_EDIT_CONFIRM: {
       const hosts = cloneDeep(state.hosts);
       const index = findIndex(hosts, { id: payload.rowData.id });
-      const services = cloneDeep(state.services);
+      let services = cloneDeep(state.services);
 
       const thisHost = hosts[index];
 
@@ -152,17 +155,11 @@ const applicationInstanceConf = (state = initialState, action) => {
 
       // Initialize the new Instance with the parameters of the Application Definition.
       if (thisHost.newEntry === true) {
-          const selectedService = state.services.filter(entry => entry.id == payload.rowData.service)[0];
+          const hostServiceId = Number(thisHost.service);
+          const selectedService = services.filter(entry => entry.id == hostServiceId)[0];
           hosts[index].foremanParameters = selectedService.foremanParameters;
           hosts[index].ansibleParameters = selectedService.ansibleParameters;
-
-          const hostServiceId = Number(thisHost.service);
-          const service = services.find(serv => serv['id'] == hostServiceId);
-          if ('currentCount' in service) {
-            service['currentCount'] += 1;
-          } else {
-            service['currentCount'] = 1;
-          }
+          services = calculateServiceUsage(hostServiceId, services);
       }
 
       delete hosts[index].backup;
@@ -300,6 +297,46 @@ const applicationInstanceConf = (state = initialState, action) => {
         };
       }
       return state.merge(newState);
+    }
+    case APPLICATION_INSTANCE_ADD_EXISTING_HOSTS_MODAL_OPEN: {
+    }
+    case APPLICATION_INSTANCE_ADD_EXISTING_HOSTS_MODAL_CLOSE: {
+      if (payload.mode == 'save') {
+        let newState;
+        let hosts = [];
+        let index = 1;
+        let services = cloneDeep(state.services);
+
+        if ('hosts' in state && state.hosts !== undefined && state.hosts.length > 0) {
+          hosts = cloneDeep(state.hosts);
+          index = Math.max(...hosts.map(e => e.id));
+        }
+
+        payload.selectedHosts.forEach(host => {
+          if ((state.hosts == undefined) || (state.hosts.find(h => h.hostname == host.hostname) == undefined)) {
+            index += 1;
+            const selectedService = services.filter(entry => entry.id == host.serviceId)[0];
+            const newRow = {
+              id: index,
+              hostname: host.hostname,
+              description: '',
+              service: host.serviceId,
+              isExistingHost: true,
+              foremanParameters: [], // we will never set this because we don't want to change a already existing host.
+              ansibleParameters: selectedService.ansibleParameters,
+            }
+            hosts.push(newRow);
+            services = calculateServiceUsage(host.serviceId, services);
+          }
+        });
+
+        return state.merge({
+          hosts: hosts,
+          services, services
+        });
+      } else {
+        return state;
+      }
     }
     case APPLICATION_INSTANCE_CHANGE_PARAMETER_SELECTION_MODE: {
       return state.merge({ paramEditMode: payload.mode });

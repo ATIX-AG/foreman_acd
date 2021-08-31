@@ -469,6 +469,7 @@ Object {
         "foremanParameters": Array [],
         "hostname": "",
         "id": 5,
+        "isExistingHost": false,
         "newEntry": true,
         "service": "",
       },
@@ -476,6 +477,7 @@ Object {
       "foremanParameters": Array [],
       "hostname": "",
       "id": 5,
+      "isExistingHost": false,
       "newEntry": true,
       "service": "",
     },
@@ -1111,6 +1113,275 @@ Object {
       "name": "db",
     },
   ],
+}
+`;
+
+exports[`ApplicationInstanceReducer should close alert modal 1`] = `
+Object {
+  "alertModalText": "",
+  "alertModalTitle": "",
+  "ansibleVarsAll": Array [
+    Object {
+      "id": 0,
+      "name": "repository",
+      "value": "https://github.com/bennojoy/mywebapp.git",
+    },
+  ],
+  "appDefinition": Object {
+    "ansible_vars_all": "[{\\"id\\":0,\\"name\\":\\"repository\\",\\"value\\":\\"https://github.com/bennojoy/mywebapp.git\\"}]",
+    "created_at": "2021-03-11 12:51:34 +0100",
+    "description": "",
+    "id": 1,
+    "location_ids": Array [
+      2,
+    ],
+    "name": "LAMP",
+    "organization_ids": Array [
+      1,
+    ],
+    "services": "[{\\"id\\":1,\\"name\\":\\"web\\",\\"description\\":\\"\\",\\"hostgroup\\":\\"1\\",\\"ansibleGroup\\":\\"webservers\\",\\"minCount\\":\\"2\\",\\"maxCount\\":\\"\\",\\"foremanParameters\\":[{\\"id\\":1,\\"locked\\":false,\\"name\\":\\"CP\\",\\"description\\":\\"\\",\\"type\\":\\"computeprofile\\",\\"value\\":\\"1\\"},{\\"id\\":2,\\"locked\\":true,\\"name\\":\\"LE\\",\\"description\\":\\"\\",\\"type\\":\\"lifecycleenv\\",\\"value\\":\\"1\\"}],\\"ansibleParameters\\":[{\\"id\\":0,\\"name\\":\\"dummy_var\\",\\"value\\":\\"0\\"}]},{\\"id\\":2,\\"name\\":\\"db\\",\\"description\\":\\"\\",\\"hostgroup\\":\\"1\\",\\"ansibleGroup\\":\\"dbservers\\",\\"minCount\\":\\"1\\",\\"maxCount\\":\\"\\",\\"foremanParameters\\":[],\\"ansibleParameters\\":[{\\"id\\":0,\\"name\\":\\"mysqlservice\\",\\"value\\":\\"mysqld\\"},{\\"id\\":1,\\"name\\":\\"mysql_port\\",\\"value\\":\\"3306\\",\\"locked\\":true},{\\"id\\":2,\\"name\\":\\"dbuser\\",\\"value\\":\\"webapp\\"},{\\"id\\":3,\\"name\\":\\"dbname\\",\\"value\\":\\"ANSAP01\\"},{\\"id\\":4,\\"name\\":\\"upassword\\",\\"value\\":\\"Bond@007\\"},{\\"id\\":5,\\"name\\":\\"masterpassword\\",\\"value\\":\\"MySQL@007\\"}]}]",
+    "updated_at": "2021-03-13 00:06:12 +0100",
+  },
+  "columns": Array [
+    Object {
+      "cell": Object {
+        "formatters": Array [
+          null,
+        ],
+      },
+      "header": Object {
+        "formatters": Array [
+          null,
+        ],
+        "label": "Hostname",
+        "props": Object {
+          "index": 0,
+          "style": Object {
+            "width": "30%",
+          },
+        },
+      },
+      "property": "hostname",
+    },
+    Object {
+      "cell": Object {
+        "formatters": Array [
+          null,
+        ],
+      },
+      "header": Object {
+        "formatters": Array [
+          null,
+        ],
+        "label": "Description",
+        "props": Object {
+          "index": 1,
+          "style": Object {
+            "width": "30%",
+          },
+        },
+      },
+      "property": "description",
+    },
+    Object {
+      "cell": Object {
+        "formatters": Array [
+          null,
+        ],
+      },
+      "header": Object {
+        "formatters": Array [
+          null,
+        ],
+        "label": "Service",
+        "props": Object {
+          "index": 2,
+          "style": Object {
+            "width": "20%",
+          },
+        },
+      },
+      "property": "service",
+    },
+    Object {
+      "cell": Object {
+        "formatters": Array [
+          null,
+        ],
+      },
+      "header": Object {
+        "formatters": Array [
+          null,
+        ],
+        "label": "Actions",
+        "props": Object {
+          "index": 4,
+          "style": Object {
+            "width": "20%",
+          },
+        },
+      },
+      "property": "actions",
+    },
+  ],
+  "error": Object {
+    "errorMsg": "",
+    "status": "",
+    "statusText": "",
+  },
+  "hosts": Array [
+    Object {
+      "ansibleParameters": Array [
+        Object {
+          "id": 0,
+          "name": "mysqlservice",
+          "value": "mysqld",
+        },
+        Object {
+          "id": 1,
+          "name": "mysql_port",
+          "value": "3306",
+        },
+        Object {
+          "id": 2,
+          "name": "dbuser",
+          "value": "webapp",
+        },
+        Object {
+          "id": 3,
+          "name": "dbname",
+          "value": "ANSAP01",
+        },
+        Object {
+          "id": 4,
+          "name": "upassword",
+          "value": "Bond@007",
+        },
+        Object {
+          "id": 5,
+          "name": "masterpassword",
+          "value": "MySQL@007",
+        },
+      ],
+      "description": "",
+      "foremanParameters": Array [],
+      "hostname": "great-web-app-db-1",
+      "id": 4,
+      "service": "2",
+    },
+    Object {
+      "ansibleParameters": Array [
+        Object {
+          "id": 0,
+          "name": "dummy_var",
+          "value": "0",
+        },
+      ],
+      "description": "",
+      "foremanParameters": Array [],
+      "hostname": "great-web-app-web-1",
+      "id": 1,
+      "service": "1",
+    },
+    Object {
+      "ansibleParameters": Array [
+        Object {
+          "id": 0,
+          "name": "dummy_var",
+          "value": "0",
+        },
+      ],
+      "description": "",
+      "foremanParameters": Array [],
+      "hostname": "great-web-app-web-2",
+      "id": 2,
+      "service": "1",
+    },
+  ],
+  "loading": false,
+  "name": false,
+  "services": Array [
+    Object {
+      "ansibleGroup": "webservers",
+      "ansibleParameters": Array [
+        Object {
+          "id": 0,
+          "name": "dummy_var",
+          "value": "0",
+        },
+      ],
+      "currentCount": 2,
+      "description": "",
+      "foremanParameters": Array [
+        Object {
+          "description": "",
+          "id": 1,
+          "locked": false,
+          "name": "CP",
+          "type": "computeprofile",
+          "value": "1",
+        },
+        Object {
+          "description": "",
+          "id": 2,
+          "locked": true,
+          "name": "LE",
+          "type": "lifecycleenv",
+          "value": "1",
+        },
+      ],
+      "hostgroup": "1",
+      "id": 1,
+      "maxCount": "",
+      "minCount": "2",
+      "name": "web",
+    },
+    Object {
+      "ansibleGroup": "dbservers",
+      "ansibleParameters": Array [
+        Object {
+          "id": 0,
+          "name": "mysqlservice",
+          "value": "mysqld",
+        },
+        Object {
+          "id": 1,
+          "locked": true,
+          "name": "mysql_port",
+          "value": "3306",
+        },
+        Object {
+          "id": 2,
+          "name": "dbuser",
+          "value": "webapp",
+        },
+        Object {
+          "id": 3,
+          "name": "dbname",
+          "value": "ANSAP01",
+        },
+        Object {
+          "id": 4,
+          "name": "upassword",
+          "value": "Bond@007",
+        },
+        Object {
+          "id": 5,
+          "name": "masterpassword",
+          "value": "MySQL@007",
+        },
+      ],
+      "currentCount": 1,
+      "description": "",
+      "foremanParameters": Array [],
+      "hostgroup": "1",
+      "id": 2,
+      "maxCount": "",
+      "minCount": "1",
+      "name": "db",
+    },
+  ],
+  "showAlertModal": false,
 }
 `;
 

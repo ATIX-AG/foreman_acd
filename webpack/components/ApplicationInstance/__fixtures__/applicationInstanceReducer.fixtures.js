@@ -20,6 +20,8 @@ export const editState = Immutable(editClone);
 
 // Payload Data
 export const initApplicationInstancePayload = applicationInstanceConfData_1;
+
+export const closeAlertModalPayload = { };
 export const addHostPayload = { };
 export const deleteHostPayload = {
   rowData: {

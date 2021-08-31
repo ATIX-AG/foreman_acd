@@ -1,0 +1,15 @@
+@import '~@theforeman/vendor/scss/variables';
+
+.add_existing_hosts_modal {
+    margin-top: 0;
+    margin-bottom: 0;
+    height: 100%;
+    width: 80%;
+    max-width: none !important;
+}
+
+.row {
+  margin-left: 0;
+  margin-right: 0;
+  margin-bottom: 20px;
+}

@@ -103,6 +103,28 @@ exports[`ApplicationInstance should render application instance 1`] = `
     <span
       style={
         Object {
+          "marginLeft": 10,
+        }
+      }
+    >
+      <Button
+        active={false}
+        block={false}
+        bsClass="btn"
+        bsStyle="default"
+        disabled={true}
+        onClick={[Function]}
+      >
+        <Icon
+          name="server"
+          title="Add existing hosts"
+          type="pf"
+        />
+      </Button>
+    </span>
+    <span
+      style={
+        Object {
           "marginLeft": 30,
         }
       }
@@ -113,7 +135,7 @@ exports[`ApplicationInstance should render application instance 1`] = `
         block={false}
         bsClass="btn"
         bsStyle="default"
-        disabled={false}
+        disabled={true}
         onClick={[Function]}
         style={
           Object {
@@ -122,7 +144,7 @@ exports[`ApplicationInstance should render application instance 1`] = `
         }
       >
         <span
-          title="change ansible variables for 'all'"
+          title="Change ansible variables for 'all'"
         >
           A
         </span>
@@ -190,6 +212,49 @@ exports[`ApplicationInstance should render application instance 1`] = `
         location="Default Location"
         organization="Default Organization"
         paramType="PARAMETER_SELECTION_PARAM_TYPE_ANSIBLE"
+      />
+      <Footer>
+        <div>
+          <Button
+            active={false}
+            block={false}
+            bsClass="btn"
+            bsStyle="primary"
+            disabled={false}
+            onClick={[Function]}
+          >
+            Save
+          </Button>
+          <Button
+            active={false}
+            block={false}
+            bsClass="btn"
+            bsStyle="default"
+            disabled={false}
+            onClick={[Function]}
+          >
+            Cancel
+          </Button>
+        </div>
+      </Footer>
+    </ForemanModal>
+  </div>
+  <div>
+    <ForemanModal
+      dialogClassName="add_existing_hosts_modal"
+      id="AppInstanceAddExistingHosts"
+      title="Add existing hosts to an Application Instance"
+    >
+      <Header
+        closeButton={false}
+      >
+        Existing hosts selection
+      </Header>
+      <Connect(ExistingHostSelection)
+        allHosts={Array []}
+        location="Default Location"
+        organization="Default Organization"
+        services={Array []}
       />
       <Footer>
         <div>

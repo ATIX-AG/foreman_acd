@@ -13,6 +13,7 @@ import {
 } from 'foremanReact/common/I18n';
 import Select from 'foremanReact/components/common/forms/Select';
 import ParameterSelection from '../ParameterSelection';
+import ExistingHostSelection from '../ExistingHostSelection';
 import AddTableEntry from '../common/AddTableEntry';
 import DeleteTableEntry from '../common/DeleteTableEntry';
 import RailsData from '../common/RailsData';
@@ -42,7 +43,7 @@ class ApplicationInstance extends React.Component {
     return (rowData.backup !== undefined);
   }
 
-  addTableEntryAllowed() {
+  changeDataAllowed() {
     return this.props.editMode || this.props.appDefinition.id == ''
   }
 
@@ -106,29 +107,36 @@ class ApplicationInstance extends React.Component {
       loadApplicationDefinition(appDefinition.id, { url: appDefinitionUrl });
     }
 
+    const already_deployed_msg = __("This is an already deployed host. Changing the parameters is not possible!");
+
     const inlineEditButtonsFormatter = inlineEditFormatterFactory({
       isEditing: additionalData => this.props.editMode,
       renderValue: (value, additionalData) => (
         <td style={{ padding: '2px' }}>
+          { additionalData.rowData.isExistingHost == true ? (
+            <Icon style={{marginRight: 8, marginLeft: 2}} type="pf" name="info" title={already_deployed_msg} />
+          ) : (<span></span>)}
           <Button
             bsStyle="default"
             onClick={() => activateEditApplicationInstanceHost(additionalData)}
           >
-            <Icon type="pf" name="edit" title={__("edit entry")} />
+            <Icon type="pf" name="edit" title={__("Edit entry")} />
           </Button>
           &nbsp;
-          <Button
-            bsStyle="default"
-            onClick={() => openForemanParameterSelectionModal(additionalData)}
-          >
-            <Icon type="pf" name="settings" title={__("change parameters")} />
-          </Button>
+          { additionalData.rowData.isExistingHost == false ? (
+            <Button
+              bsStyle="default"
+              onClick={() => openForemanParameterSelectionModal(additionalData)}
+            >
+              <Icon type="pf" name="settings" title={__("Change parameters")} />
+            </Button>
+          ) : (<span></span>)}
           &nbsp;
           <Button
             bsStyle="default"
             onClick={() => openAnsibleParameterSelectionModal(additionalData)}
           >
-            <span title={__("change ansible variables")}>A</span>
+            <span title={__("Change ansible variables")}>A</span>
           </Button>
           &nbsp;
           <DeleteTableEntry
@@ -141,13 +149,18 @@ class ApplicationInstance extends React.Component {
       ),
       renderEdit: (value, additionalData) => (
         <td style={{ padding: '2px' }}>
+          { additionalData.rowData.isExistingHost == true ? (
+            <Icon style={{marginRight: 8, marginLeft: 2}} type="pf" name="info" title={already_deployed_msg} />
+          ) : (<span></span>)}
           <Button bsStyle="default" disabled>
             <Icon type="pf" name={__("edit")} />
           </Button>
           &nbsp;
-          <Button bsStyle="default" disabled>
-            <Icon type="pf" name={__("settings")} />
-          </Button>
+          { additionalData.rowData.isExistingHost == false ? (
+            <Button bsStyle="default" disabled>
+              <Icon type="pf" name={__("settings")} />
+            </Button>
+          ) : (<span></span>)}
           &nbsp;
           <Button bsStyle="default" disabled>
             <span>A</span>
@@ -251,6 +264,8 @@ class ApplicationInstance extends React.Component {
       closeForemanParameterSelectionModal,
       openAnsibleParameterSelectionModal,
       closeAnsibleParameterSelectionModal,
+      openAddExistingHostsModal,
+      closeAddExistingHostsModal,
       changeParameterSelectionMode,
       loadApplicationDefinition,
     } = this.props;
@@ -329,20 +344,31 @@ class ApplicationInstance extends React.Component {
           </Table.PfProvider>
           <AddTableEntry
             hidden={ false }
-            disabled={ this.addTableEntryAllowed() }
+            disabled={ this.changeDataAllowed() }
             onAddTableEntry={ addApplicationInstanceHost }
           />
+          <span style={{ marginLeft: 10 }}>
+            <Button
+              bsStyle="default"
+              disabled={ this.changeDataAllowed() }
+              onClick={() => openAddExistingHostsModal({
+                isAllGroup: true
+              })}
+            >
+              <Icon title={__("Add existing hosts")} type="pf" name="server" />
+            </Button>
+          </span>
           <span style={{ marginLeft: 30 }}>
             Ansible group vars 'all':
             <Button
               style={{ marginLeft: 10 }}
               bsStyle="default"
-              disabled={ this.props.editMode }
+              disabled={ this.changeDataAllowed() }
               onClick={() => openAnsibleParameterSelectionModal({
                 isAllGroup: true
               })}
             >
-              <span title={__("change ansible variables for 'all'")}>A</span>
+              <span title={__("Change ansible variables for 'all'")}>A</span>
             </Button>
           </span>
         </div>
@@ -353,7 +379,7 @@ class ApplicationInstance extends React.Component {
             title={__("Foreman Parameter specification for Application Instance")}
           >
             <ForemanModal.Header closeButton={false}>
-              Parameter specification
+              {__("Parameter specification")}
             </ForemanModal.Header>
             {this.props.parametersData ? (
               <ParameterSelection
@@ -381,7 +407,7 @@ class ApplicationInstance extends React.Component {
             title={__("Ansible group variables for Application Instance")}
           >
             <ForemanModal.Header closeButton={false}>
-              Parameter specification
+              {__("Parameter specification")}
             </ForemanModal.Header>
             {this.props.parametersData ? (
               <ParameterSelection
@@ -397,6 +423,29 @@ class ApplicationInstance extends React.Component {
               <div>
                 <Button bsStyle="primary" disabled={this.props.paramEditMode} onClick={() => closeAnsibleParameterSelectionModal({ mode: 'save' })}>{__("Save")}</Button>
                 <Button bsStyle="default" disabled={this.props.paramEditMode} onClick={() => closeAnsibleParameterSelectionModal({ mode: 'cancel' })}>{__("Cancel")}</Button>
+              </div>
+            </ForemanModal.Footer>
+          </ForemanModal>
+        </div>
+        <div>
+          <ForemanModal
+            id="AppInstanceAddExistingHosts"
+            dialogClassName="add_existing_hosts_modal"
+            title={__("Add existing hosts to an Application Instance")}
+          >
+            <ForemanModal.Header closeButton={false}>
+              {__("Existing hosts selection")}
+            </ForemanModal.Header>
+            <ExistingHostSelection
+              location={ location }
+              organization={ organization }
+              services={ services }
+              allHosts={ this.props.hosts }
+            />
+            <ForemanModal.Footer>
+              <div>
+                <Button bsStyle="primary" disabled={this.props.paramEditMode} onClick={() => closeAddExistingHostsModal({ mode: 'save' })}>{__("Save")}</Button>
+                <Button bsStyle="default" disabled={this.props.paramEditMode} onClick={() => closeAddExistingHostsModal({ mode: 'cancel' })}>{__("Cancel")}</Button>
               </div>
             </ForemanModal.Footer>
           </ForemanModal>
@@ -461,6 +510,8 @@ ApplicationInstance.propTypes = {
   closeForemanParameterSelectionModal: PropTypes.func,
   openAnsibleParameterSelectionModal: PropTypes.func,
   closeAnsibleParameterSelectionModal: PropTypes.func,
+  openAddExistingHostsModal: PropTypes.func,
+  closeAddExistingHostsModal: PropTypes.func,
   changeParameterSelectionMode: PropTypes.func,
   parametersData: PropTypes.object,
   paramEditMode: PropTypes.bool,
