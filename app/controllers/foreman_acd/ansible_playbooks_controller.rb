@@ -79,7 +79,7 @@ module ForemanAcd
 
         if sync_params[:git_commit].empty?
           if ForemanAcd.proxy_setting.present?
-            err_msg = _("Please set the Git Branch/Tag/Commit. This setting is necessary if a HTTP proxy is used!")
+            err_msg = _('Please set the Git Branch/Tag/Commit. This setting is necessary if a HTTP proxy is used!')
             raise StandardError.new err_msg
           else
             commit = Git.ls_remote(sync_params[:git_url])['head'][:sha]
