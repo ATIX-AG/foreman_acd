@@ -9,11 +9,13 @@
 
 <%
   json = {
-    "mode": 'lastReport',
+    "deploymentState": @app_instance.deployment_state.to_s,
     "appInstanceName": @app_instance.name,
     "hosts": @report_hosts,
     "deployTaskUrl": foreman_tasks_task_path(@app_instance.last_deploy_task),
-    "configureJobUrl": job_invocations_path(search: "description ~ \"ACD application #{@app_instance.name}\"")
+    "configureJobUrl": job_invocations_path(search: "description ~ \"ACD application #{@app_instance.name}\""),
+    "reportDataUrl": ui_acd_report_data_path("__id__"),
+    "appInstanceId": @app_instance.id,
   }
 %>
 

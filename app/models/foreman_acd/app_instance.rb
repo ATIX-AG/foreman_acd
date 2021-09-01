@@ -49,7 +49,35 @@ module ForemanAcd
       delete_hosts(ids)
     end
 
+    def hosts_deployment_finished?
+      return true if all_hosts_deployed?
+
+      ::Foreman::Logging.logger('foreman_acd').info("Another host (#{foreman_host.host.name} is still in build-phase.")
+      false
+    end
+
+    def deployment_state
+      return :new if last_deploy_task.nil?
+      return :initiated if !last_deploy_task.nil? && last_deploy_task.ended_at.nil?
+      return :started if !last_deploy_task.nil? && !last_deploy_task.ended_at.nil?
+
+      state = if all_hosts_deployed?
+                :finished
+              else
+                :pending
+              end
+
+      state
+    end
+
     private
+
+    def all_hosts_deployed?
+      foreman_hosts.each do |foreman_host|
+        return false unless foreman_host.host.build?
+      end
+      true
+    end
 
     def delete_hosts(ids = [])
       return if ids.empty?

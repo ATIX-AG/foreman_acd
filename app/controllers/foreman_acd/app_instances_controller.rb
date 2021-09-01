@@ -3,8 +3,9 @@
 module ForemanAcd
   # Application Instance Controller
   class AppInstancesController < ::ForemanAcd::ApplicationController
-    include Foreman::Controller::AutoCompleteSearch
+    include ::Foreman::Controller::AutoCompleteSearch
     include ::ForemanAcd::Concerns::AppInstanceParameters
+    include ::ForemanAcd::Concerns::AppInstanceMixins
 
     before_action :find_resource, :only => [:edit, :update, :destroy_with_hosts, :deploy, :report]
     before_action :read_applications, :only => [:new, :edit]
@@ -79,7 +80,7 @@ module ForemanAcd
       logger.info('Run async foreman task to deploy hosts')
       async_task = ForemanTasks.async_task(::Actions::ForemanAcd::DeployAllHosts, @app_instance, value)
       @app_instance.update!(:last_deploy_task => async_task)
-      process_success(:success_msg => _('Started task to deploy hosts for %s') % @app_instance)
+      redirect_to report_app_instance_path, :success => _('Started task to deploy hosts for %s') % @app_instance
     rescue StandardError => e
       error_msg = "Error happend while deploying hosts of #{@app_instance}: #{e.message}"
       logger.error("#{error_msg} - #{e.class}\n#{e.backtrace.join($INPUT_RECORD_SEPARATOR)}")
@@ -92,7 +93,7 @@ module ForemanAcd
     end
 
     def report
-      @report_hosts = collect_host_report_data
+      @report_hosts = collect_host_report_data(@app_instance)
       logger.debug("app instance host details: #{@report_hosts.inspect}")
     end
 
@@ -128,22 +129,6 @@ module ForemanAcd
       @app_instance.foreman_hosts.where(:hostname => deleted_json_hosts).destroy_all if deleted_json_hosts
     end
 
-    def collect_hosts_data
-      hosts_data = []
-      @app_instance.foreman_hosts.each do |h|
-        hosts_data << {
-          :id => h.id,
-          :hostname => h.hostname,
-          :service => h.service,
-          :description => h.description,
-          :isExistingHost => h.is_existing_host,
-          :foremanParameters => JSON.parse(h.foremanParameters),
-          :ansibleParameters => JSON.parse(h.ansibleParameters)
-        }
-      end
-      hosts_data
-    end
-
     private
 
     def find_taxonomy
@@ -156,32 +141,6 @@ module ForemanAcd
 
     def read_applications
       @applications = AppDefinition.all.map { |elem| { elem.id => elem.name } }.reduce({}) { |h, v| h.merge v }
-    end
-
-    def collect_host_report_data
-      report_data = []
-
-      @app_instance.foreman_hosts.each do |foreman_host|
-        a_host = {
-          :id => nil,
-          :name => foreman_host.hostname,
-          :build => nil,
-          :hostUrl => nil,
-          :progress_report => foreman_host.last_progress_report.empty? ? [] : JSON.parse(foreman_host.last_progress_report)
-        }
-
-        if foreman_host.host.present?
-          a_host.update({
-                          :id => foreman_host.host.id,
-                          :build => foreman_host.host.build,
-                          :hostUrl => host_path(foreman_host.host),
-                          :isExistingHost => foreman_host.is_existing_host,
-                          :powerStatusUrl => power_api_host_path(foreman_host.host)
-                        })
-        end
-        report_data << a_host
-      end
-      report_data
     end
   end
 end

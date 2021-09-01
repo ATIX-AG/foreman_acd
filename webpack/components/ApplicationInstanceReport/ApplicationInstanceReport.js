@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import {
   Icon,
+  Spinner,
 } from 'patternfly-react';
 
 import {
@@ -24,12 +25,12 @@ class ApplicationInstanceReport extends React.Component {
 
   componentDidMount() {
     const {
-      data: { hosts, mode },
+      data: { hosts, deploymentState, },
       initApplicationInstanceReport,
       setActiveHost,
     } = this.props;
 
-    initApplicationInstanceReport(hosts);
+    initApplicationInstanceReport(hosts, deploymentState);
   };
 
   isActive(id) {
@@ -91,13 +92,19 @@ class ApplicationInstanceReport extends React.Component {
 
   render() {
     const {
-      data: { hosts, mode, appInstanceName, deployTaskUrl, configureJobUrl },
-      activeHostId,
+      data: { appInstanceId, appInstanceName, deployTaskUrl, configureJobUrl, reportDataUrl },
+      activeHostId, hosts, deploymentState,
+      loadReportData,
     } = this.props;
 
     let tabs = [];
     let reportStatus = undefined;
     let report = undefined;
+
+    // This handles the first call to render() in which the state hosts is always empty
+    if (hosts.length == 0) {
+      return (<span>No host</span>);
+    }
 
     tabs = this.collectLastReportData(hosts);
     reportStatus = this.lastReportStatus(hosts[activeHostId]);
@@ -106,9 +113,22 @@ class ApplicationInstanceReport extends React.Component {
       report = hosts[activeHostId]['progress_report'];
     }
 
+    if ((deploymentState != 'new') && (deploymentState != 'finished')) {
+      setTimeout(() => {
+        loadReportData(reportDataUrl, appInstanceId);
+      }, 5000);
+    }
+
     return (
       <span>
         <div className="deploy_status">
+          <div>
+            <div className="deploy_status_head">Host deployment state</div>
+            <div className="deploy_status_content">
+              { (deploymentState != 'new' && deploymentState != 'finished') ? (<span><Spinner loading size='sm' /> &nbsp;</span>) : (<span></span>) }
+              { deploymentState }
+            </div>
+          </div>
           <div>
             <div className="deploy_status_head">Deployment task</div>
             <div className="deploy_status_content"><a href={ deployTaskUrl } >Last deployment task</a></div>
@@ -142,6 +162,7 @@ ApplicationInstanceReport.defaultProps = {
   hosts: [],
   report: [],
   activeHostId: 0,
+  deploymentState: 'unknown',
 }
 
 ApplicationInstanceReport.propTypes = {
@@ -150,10 +171,11 @@ ApplicationInstanceReport.propTypes = {
   deployTaskUrl: PropTypes.string,
   configureJobUrl: PropTypes.string,
   hosts: PropTypes.array,
+  deploymentState: PropTypes.string,
   report: PropTypes.array,
   setActiveHost: PropTypes.func,
+  loadReportData: PropTypes.func,
   activeHostId: PropTypes.number,
-
 };
 
 export default ApplicationInstanceReport;

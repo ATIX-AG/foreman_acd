@@ -9,6 +9,9 @@ import {
 import {
   APPLICATION_INSTANCE_REPORT_INIT,
   APPLICATION_INSTANCE_REPORT_SET_ACTIVE_HOST,
+  APPLICATION_INSTANCE_REPORT_LOAD_REPORT_REQUEST,
+  APPLICATION_INSTANCE_REPORT_LOAD_REPORT_SUCCESS,
+  APPLICATION_INSTANCE_REPORT_LOAD_REPORT_FAILURE,
 } from './ApplicationInstanceReportConstants';
 
 export const initialState = Immutable({
@@ -28,6 +31,20 @@ const applicationInstanceReport = (state = initialState, action) => {
         loading: true,
         activeHostId: payload.activeHostId,
       })
+    }
+    case APPLICATION_INSTANCE_REPORT_LOAD_REPORT_REQUEST: {
+      // Nothing to do
+      return state;
+    }
+    case APPLICATION_INSTANCE_REPORT_LOAD_REPORT_SUCCESS: {
+      return state.merge({
+        deploymentState: payload.deployment_state,
+        hosts: payload.hosts,
+      });
+    }
+    case APPLICATION_INSTANCE_REPORT_LOAD_REPORT_FAILURE: {
+      console.log("Error while loading report data: "+ payload.error);
+      return state.merge({ error: payload.error});
     }
     default: {
       return state;

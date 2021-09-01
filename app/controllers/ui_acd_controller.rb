@@ -2,6 +2,8 @@
 
 # Controller to create JSON data to be used in react app
 class UiAcdController < ::Api::V2::BaseController
+  include ::ForemanAcd::Concerns::AppInstanceMixins
+
   def app
     @app_data = {}
     app_definition = ForemanAcd::AppDefinition.find(params[:id])
@@ -14,6 +16,10 @@ class UiAcdController < ::Api::V2::BaseController
 
   def ansible_data
     @ansible_data = collect_ansible_data(params['id'])
+  end
+
+  def report_data
+    @report_data = collect_report_data(params['id'])
   end
 
   def validate_hostname
@@ -46,6 +52,17 @@ class UiAcdController < ::Api::V2::BaseController
 
   def collect_ansible_data(playbook_id)
     ForemanAcd::AnsiblePlaybook.find(playbook_id).as_unified_structobj
+  end
+
+  def collect_report_data(app_instance_id)
+    app_instance = ForemanAcd::AppInstance.find(app_instance_id)
+
+    report_data = OpenStruct.new(
+      :hosts => collect_host_report_data(app_instance),
+      :deployment_state => app_instance.deployment_state
+    )
+
+    report_data
   end
 
   def hostname_duplicate?(app_def_id, service_id, hostname)

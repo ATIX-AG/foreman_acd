@@ -36,18 +36,8 @@ module ForemanAcd
     end
 
     def initiate_acd_app_configurator
-      return false if @app_instance_host.blank?
-
-      run_it = true
-      @app_instance_host.app_instance.foreman_hosts.each do |foreman_host|
-        # if there is ONE host, which is still in build phase we don't let the app_configuator run
-        next unless foreman_host.host.build?
-        ::Foreman::Logging.logger('foreman_acd').info("Another host (#{foreman_host.host.name} is still in build-phase. Wait for it...")
-        run_it = false
-        break
-      end
-
-      return unless run_it
+      return if @app_instance_host.blank?
+      return unless @app_instance_host.app_instance.hosts_deployment_finished?
 
       ::Foreman::Logging.logger('foreman_acd').info("All hosts of app (#{@app_instance_host.app_instance.name}) were built. Schedule app configurator...")
       start_acd_app_configurator
