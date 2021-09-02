@@ -78,7 +78,7 @@ class ApplicationInstanceReport extends React.Component {
           <span>&nbsp;|&nbsp;</span>
           <span>State: { host['build'] == true ? "in Build" : "Deployed" }</span>
           <span>&nbsp;|&nbsp;</span>
-          <span>Power Status: <PowerStatus key={ "power_status_"+ host['id'] } data={{ id: host['id'], url: host['powerStatusUrl'] }} /></span>
+          <span>Power Status: <PowerStatus key={ "power_status_"+ host['id'] } id={ host['id'] } url={ host['powerStatusUrl'] } /></span>
           {host['isExistingHost'] ? (
             <span>
               &nbsp;|&nbsp; Existing host &nbsp;
