@@ -1,5 +1,3 @@
-[![Build Status master](https://travis-ci.org/ATIX-AG/foreman_acd.svg?branch=master)](https://travis-ci.org/ATIX-AG/foreman_acd)
-
 # Foreman Application Centric Deployment
 
 A Foreman plugin providing application centric deployment and a self-service portal.
