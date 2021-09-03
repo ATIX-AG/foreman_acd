@@ -74,12 +74,16 @@ module ForemanAcd
 
     def deploy
       value = false
+      @app_instance.update!({ :last_deploy_task_id => nil,
+                              :initial_configure_task_id => nil })
+      @app_instance.foreman_hosts.each { |f| f.update!(:last_progress_report => nil) }
       @app_instance.clean_all_hosts if params[:delete_hosts]
       value = safe_deploy? if params[:safe_deploy]
       session.delete(:remember_hosts)
       logger.info('Run async foreman task to deploy hosts')
       async_task = ForemanTasks.async_task(::Actions::ForemanAcd::DeployAllHosts, @app_instance, value)
       @app_instance.update!(:last_deploy_task => async_task)
+
       redirect_to report_app_instance_path, :success => _('Started task to deploy hosts for %s') % @app_instance
     rescue StandardError => e
       error_msg = "Error happend while deploying hosts of #{@app_instance}: #{e.message}"
@@ -127,6 +131,22 @@ module ForemanAcd
       # Delete record if json hosts are deleted
       deleted_json_hosts = @app_instance.foreman_hosts.pluck('hostname') - hosts.pluck('hostname')
       @app_instance.foreman_hosts.where(:hostname => deleted_json_hosts).destroy_all if deleted_json_hosts
+    end
+
+    def collect_hosts_data
+      hosts_data = []
+      @app_instance.foreman_hosts.each do |h|
+        hosts_data << {
+          :id => h.id,
+          :hostname => h.hostname,
+          :service => h.service,
+          :description => h.description,
+          :isExistingHost => h.is_existing_host,
+          :foremanParameters => JSON.parse(h.foremanParameters),
+          :ansibleParameters => JSON.parse(h.ansibleParameters)
+        }
+      end
+      hosts_data
     end
 
     private

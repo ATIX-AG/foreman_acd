@@ -57,12 +57,14 @@ class UiAcdController < ::Api::V2::BaseController
   def collect_report_data(app_instance_id)
     app_instance = ForemanAcd::AppInstance.find(app_instance_id)
 
-    report_data = OpenStruct.new(
+    report_data = {
       :hosts => collect_host_report_data(app_instance),
-      :deployment_state => app_instance.deployment_state
-    )
+      :deploymentState => app_instance.deployment_state.to_s,
+      :initialConfigureState => app_instance.initial_configure_state.to_s
+    }
+    report_data['initialConfigureJobUrl'] = job_invocation_path(app_instance.initial_configure_job) unless app_instance.initial_configure_job.nil?
 
-    report_data
+    OpenStruct.new(report_data)
   end
 
   def hostname_duplicate?(app_def_id, service_id, hostname)

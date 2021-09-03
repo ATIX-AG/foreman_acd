@@ -25,13 +25,41 @@ class ApplicationInstanceReport extends React.Component {
 
   componentDidMount() {
     const {
-      data: { hosts, deploymentState, },
+      data: { hosts, deploymentState, initialConfigureState, initialConfigureJobUrl },
       initApplicationInstanceReport,
       setActiveHost,
     } = this.props;
 
-    initApplicationInstanceReport(hosts, deploymentState);
+    initApplicationInstanceReport(hosts, deploymentState, initialConfigureState, initialConfigureJobUrl);
+    this.reloadReportData();
   };
+
+  reloadReportData() {
+    const {
+      data: { appInstanceId, reportDataUrl },
+      deploymentState, initialConfigureState,
+      loadReportData,
+    } = this.props;
+
+    // if both states are unknown, it means, that the component was just loaded. try again after a short timeout.
+    if (deploymentState == 'unknown' && initialConfigureState == 'unknown') {
+      setTimeout(() => {
+        this.reloadReportData();
+      }, 1000);
+
+      return;
+    }
+
+    if ((deploymentState != 'new' && deploymentState != 'finished' && deploymentState != 'failed') ||
+        (initialConfigureState == 'unconfigured' || initialConfigureState == 'scheduled' || initialConfigureState == 'pending')) {
+
+      loadReportData(reportDataUrl, appInstanceId);
+
+      setTimeout(() => {
+        this.reloadReportData();
+      }, 5000);
+    }
+  }
 
   isActive(id) {
     return (this.props.activeHostId === id);
@@ -78,7 +106,7 @@ class ApplicationInstanceReport extends React.Component {
           <span>&nbsp;|&nbsp;</span>
           <span>State: { host['build'] == true ? "in Build" : "Deployed" }</span>
           <span>&nbsp;|&nbsp;</span>
-          <span>Power Status: <PowerStatus key={ "power_status_"+ host['id'] } id={ host['id'] } url={ host['powerStatusUrl'] } /></span>
+          <span>Power Status: <PowerStatus key={ "power_status_"+ host['id'] } id={ host['id'] } url={ host['powerStatusUrl'] } data={{ id: host['id'], url: host['powerStatusUrl'] }} /></span>
           {host['isExistingHost'] ? (
             <span>
               &nbsp;|&nbsp; Existing host &nbsp;
@@ -93,7 +121,9 @@ class ApplicationInstanceReport extends React.Component {
   render() {
     const {
       data: { appInstanceId, appInstanceName, deployTaskUrl, configureJobUrl, reportDataUrl },
-      activeHostId, hosts, deploymentState,
+      activeHostId, hosts,
+      deploymentState,
+      initialConfigureState, initialConfigureJobUrl, showInitialConfigureJob,
       loadReportData,
     } = this.props;
 
@@ -113,19 +143,13 @@ class ApplicationInstanceReport extends React.Component {
       report = hosts[activeHostId]['progress_report'];
     }
 
-    if ((deploymentState != 'new') && (deploymentState != 'finished')) {
-      setTimeout(() => {
-        loadReportData(reportDataUrl, appInstanceId);
-      }, 5000);
-    }
-
     return (
       <span>
         <div className="deploy_status">
           <div>
             <div className="deploy_status_head">Host deployment state</div>
             <div className="deploy_status_content">
-              { (deploymentState != 'new' && deploymentState != 'finished') ? (<span><Spinner loading size='sm' /> &nbsp;</span>) : (<span></span>) }
+              { (deploymentState != 'new' && deploymentState != 'finished' && deploymentState != 'failed') ? (<span><Spinner loading size='sm' /> &nbsp;</span>) : (<span></span>) }
               { deploymentState }
             </div>
           </div>
@@ -133,10 +157,21 @@ class ApplicationInstanceReport extends React.Component {
             <div className="deploy_status_head">Deployment task</div>
             <div className="deploy_status_content"><a href={ deployTaskUrl } >Last deployment task</a></div>
           </div>
+          { (showInitialConfigureJob == true) ? (
+          <div>
+            <div className="deploy_status_head">Configuration job</div>
+            <div className="deploy_status_content">
+              { (initialConfigureState == 'scheduled' || initialConfigureState == 'pending') ? (<span><Spinner loading size='sm' /> &nbsp;</span>) : (<span></span>) }
+              { (initialConfigureState != 'unconfigured' && initialConfigureState != 'scheduled') ? (<a href={ initialConfigureJobUrl }>Configuration job</a>) : (<span></span>) }
+              { (initialConfigureState != 'unconfigured') ? (<span>&nbsp; State: { initialConfigureState }</span>) : (<span></span>) }
+            </div>
+          </div>
+          ) : (
           <div>
             <div className="deploy_status_head">Configuration job</div>
             <div className="deploy_status_content"><a href={ configureJobUrl }>Configuration jobs</a></div>
           </div>
+          ) }
         </div>
         <div className="deploy_report_hosts">
           Hosts
@@ -163,6 +198,9 @@ ApplicationInstanceReport.defaultProps = {
   report: [],
   activeHostId: 0,
   deploymentState: 'unknown',
+  initialConfigureState: 'unknown',
+  initialConfigureJobUrl: '',
+  showInitialConfigureJob: false,
 }
 
 ApplicationInstanceReport.propTypes = {
@@ -170,6 +208,10 @@ ApplicationInstanceReport.propTypes = {
   appInstanceName: PropTypes.string,
   deployTaskUrl: PropTypes.string,
   configureJobUrl: PropTypes.string,
+  deploymentState: PropTypes.string,
+  initialConfigureState: PropTypes.string,
+  initialConfigureJobUrl: PropTypes.string,
+  showInitialConfigureJob: PropTypes.bool,
   hosts: PropTypes.array,
   deploymentState: PropTypes.string,
   report: PropTypes.array,

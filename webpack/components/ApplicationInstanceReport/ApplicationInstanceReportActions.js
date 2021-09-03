@@ -19,12 +19,22 @@ import {
 } from './ApplicationInstanceReportConstants';
 
 export const initApplicationInstanceReport = (
-  hosts, deploymentState,
+  hosts, deploymentState, initialConfigureState, initialConfigureJobUrl,
 ) => dispatch => {
   const initialState = {};
 
   initialState.hosts = hosts;
   initialState.deploymentState = deploymentState;
+  initialState.initialConfigureState = initialConfigureState;
+  initialState.initialConfigureJobUrl = initialConfigureJobUrl;
+
+  // Decide if it should show only the initial Configure job state + URL or
+  // the URL to all configuration jobs
+  if (initialConfigureState == 'unconfigured') {
+    initialState.showInitialConfigureJob = true;
+  } else {
+    initialState.showInitialConfigureJob = false;
+  }
 
   dispatch({
     type: APPLICATION_INSTANCE_REPORT_INIT,

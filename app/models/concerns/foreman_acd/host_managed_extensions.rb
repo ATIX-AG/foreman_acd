@@ -5,48 +5,35 @@ module ForemanAcd
   module HostManagedExtensions
     extend ActiveSupport::Concern
 
-    RUN_CONFIGURATOR_DELAY = 240
-
     def self.prepended(base)
       base.instance_eval do
-        before_provision :initiate_acd_app_configurator, :if => :deployed_via_acd?
-        before_destroy :check_deletable, :prepend => true
+        before_provision :initiate_acd_app_configurator_after_host_deployment, :if => :deployed_via_acd?
+        before_destroy :check_deletable, :prepend => true, :if => :deployed_via_acd?
       end
     end
 
     def deployed_via_acd?
-      find_app_instance_host
-      @app_instance_host.present?
+      find_foreman_host
+      @foreman_host.present?
     end
 
     private
 
     def check_deletable
-      app_instance_host = ForemanAcd::ForemanHost.find_by(:host_id => id)
-      return if app_instance_host.nil?
-
-      ::Foreman::Logging.logger('foreman_acd').warn "Could not delete host '#{name}' because it is used in Applications > App Instances '#{app_instance_host.app_instance.name}'"
+      return if @foreman_host.blank?
+      ::Foreman::Logging.logger('foreman_acd').warn "Could not delete host '#{name}' because it is used in Applications > App Instances '#{@foreman_host.app_instance.name}'"
       raise _("Could not delete host '%{host_name}' because it is used in Applications > App Instances '%{app_instance_name}'") % {
-        :host_name => name, :app_instance_name => app_instance_host.app_instance.name
+        :host_name => name, :app_instance_name => @foreman_host.app_instance.name
       }
     end
 
-    def find_app_instance_host
-      @app_instance_host = ForemanAcd::ForemanHost.find_by(:host_id => id)
+    def find_foreman_host
+      @foreman_host = ForemanAcd::ForemanHost.find_by(:host_id => id)
     end
 
-    def initiate_acd_app_configurator
-      return if @app_instance_host.blank?
-      return unless @app_instance_host.app_instance.hosts_deployment_finished?
-
-      ::Foreman::Logging.logger('foreman_acd').info("All hosts of app (#{@app_instance_host.app_instance.name}) were built. Schedule app configurator...")
-      start_acd_app_configurator
-    end
-
-    def start_acd_app_configurator
-      ForemanTasks.delay(::Actions::ForemanAcd::RunConfigurator,
-                         { :start_at => Time.zone.now + RUN_CONFIGURATOR_DELAY },
-                         @app_instance_host.app_instance)
+    def initiate_acd_app_configurator_after_host_deployment
+      return if @foreman_host.blank?
+      ForemanAcd.initiate_acd_app_configurator(@foreman_host.app_instance)
     end
   end
 end

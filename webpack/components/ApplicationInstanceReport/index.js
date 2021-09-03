@@ -9,12 +9,18 @@ import {
   selectHosts,
   selectActiveHostId,
   selectDeploymentState,
+  selectInitialConfigureState,
+  selectInitialConfigureJobUrl,
+  selectShowInitialConfigureJob,
 } from './ApplicationInstanceReportSelectors';
 
 const mapStateToProps = state => ({
   hosts: selectHosts(state),
   activeHostId: selectActiveHostId(state),
   deploymentState: selectDeploymentState(state),
+  initialConfigureState: selectInitialConfigureState(state),
+  initialConfigureJobUrl: selectInitialConfigureJobUrl(state),
+  showInitialConfigureJob: selectShowInitialConfigureJob(state),
 });
 
 const mapDispatchToProps = dispatch =>
@@ -24,4 +30,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(ApplicationInstanceReport);
-

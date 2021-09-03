@@ -31,9 +31,6 @@ const existingHostSelectionConf = (state = initialState, action) => {
     case EXISTING_HOST_SELECTION_LOAD_HOSTS_SUCCESS: {
       let alreadyUsedHosts = [];
 
-      console.log(state.allHosts);
-      console.log(payload);
-
       state.allHosts.forEach(host => {
         if ((host.service == payload.serviceId) && (host.isExistingHost == true)) {
           alreadyUsedHosts.push({

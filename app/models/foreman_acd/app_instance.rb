@@ -11,6 +11,7 @@ module ForemanAcd
 
     self.table_name = 'acd_app_instances'
     belongs_to :last_deploy_task, :class_name => 'ForemanTasks::Task'
+    belongs_to :initial_configure_task, :class_name => 'ForemanTasks::Task'
     validates :name, :presence => true, :uniqueness => true
     validates :app_definition, :presence => true
     belongs_to :app_definition, :inverse_of => :app_instances
@@ -52,29 +53,43 @@ module ForemanAcd
     def hosts_deployment_finished?
       return true if all_hosts_deployed?
 
-      ::Foreman::Logging.logger('foreman_acd').info("Another host (#{foreman_host.host.name} is still in build-phase.")
+      ::Foreman::Logging.logger('foreman_acd').info('Another host is still in build-phase. Wait for it...')
       false
     end
 
     def deployment_state
       return :new if last_deploy_task.nil?
       return :initiated if !last_deploy_task.nil? && last_deploy_task.ended_at.nil?
-      return :started if !last_deploy_task.nil? && !last_deploy_task.ended_at.nil?
 
       state = if all_hosts_deployed?
                 :finished
+              elsif last_deploy_task.ended_at? && last_deploy_task.result != 'success'
+                :failed
               else
                 :pending
               end
-
       state
+    end
+
+    def initial_configure_job
+      return nil if initial_configure_task.nil?
+      return JobInvocation.find(initial_configure_task.output['configure_job_id']) if initial_configure_task.output.key?('configure_job_id') &&
+                                                                                      !initial_configure_task.output['configure_job_id'].nil?
+      nil
+    end
+
+    def initial_configure_state
+      return :unconfigured if initial_configure_job.nil? && initial_configure_task.nil?
+      return :scheduled if initial_configure_job.nil?
+      return :pending unless initial_configure_job.finished?
+      initial_configure_job.status_label.to_sym
     end
 
     private
 
     def all_hosts_deployed?
       foreman_hosts.each do |foreman_host|
-        return false unless foreman_host.host.build?
+        return false if foreman_host.host.nil? || foreman_host.host.build?
       end
       true
     end

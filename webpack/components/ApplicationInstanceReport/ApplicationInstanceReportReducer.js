@@ -38,7 +38,9 @@ const applicationInstanceReport = (state = initialState, action) => {
     }
     case APPLICATION_INSTANCE_REPORT_LOAD_REPORT_SUCCESS: {
       return state.merge({
-        deploymentState: payload.deployment_state,
+        deploymentState: payload.deploymentState,
+        initialConfigureState: payload.initialConfigureState,
+        initialConfigureJobUrl: payload.initialConfigureJobUrl,
         hosts: payload.hosts,
       });
     }

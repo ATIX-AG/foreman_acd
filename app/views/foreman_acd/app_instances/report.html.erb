@@ -10,6 +10,7 @@
 <%
   json = {
     "deploymentState": @app_instance.deployment_state.to_s,
+    "initialConfigureState": @app_instance.initial_configure_state.to_s,
     "appInstanceName": @app_instance.name,
     "hosts": @report_hosts,
     "deployTaskUrl": foreman_tasks_task_path(@app_instance.last_deploy_task),
@@ -17,6 +18,8 @@
     "reportDataUrl": ui_acd_report_data_path("__id__"),
     "appInstanceId": @app_instance.id,
   }
+
+  json["initialConfigureJobUrl"] = job_invocation_path(@app_instance.initial_configure_job) unless @app_instance.initial_configure_job.nil?
 %>
 
 <div id='report'></div>
