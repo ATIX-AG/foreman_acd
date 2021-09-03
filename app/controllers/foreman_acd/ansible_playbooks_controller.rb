@@ -77,10 +77,20 @@ module ForemanAcd
           logger.info("HTTP Proxy used: #{git.config['http.proxy']}")
         end
 
+        if sync_params[:git_commit].empty?
+          if ForemanAcd.proxy_setting.present?
+            err_msg = _('Please set the Git Branch/Tag/Commit. This setting is necessary if a HTTP proxy is used!')
+            raise StandardError.new err_msg
+          else
+            commit = Git.ls_remote(sync_params[:git_url])['head'][:sha]
+          end
+        else
+          commit = sync_params[:git_commit]
+        end
+
         git.add_remote('origin', sync_params[:git_url])
-        commit = Git.ls_remote(sync_params[:git_url])['head'][:sha]
         git.fetch
-        git.checkout(sync_params[:git_commit] != '' ? sync_params['git_commit'] : commit)
+        git.checkout(commit)
 
         session[:git_path] = git.dir.path
       rescue StandardError => e
@@ -190,7 +200,11 @@ module ForemanAcd
     end
 
     def remove_ansible_dir(dirpath)
-      FileUtils.remove_dir(dirpath) if Dir.exist?(dirpath)
+      unless dirpath.start_with? ForemanAcd.ansible_playbook_path
+        logger.error("Sorry, the directory #{dirpath} is not within #{ForemanAcd.ansible_playbook_path} and will therefore not be cleaned up!")
+        return false
+      end
+      FileUtils.rm_rf(dirpath) if Dir.exist?(dirpath)
     end
 
     def ansible_playbook_full_path(dirname)
