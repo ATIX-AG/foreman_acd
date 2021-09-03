@@ -1,5 +1,3 @@
-[![Build Status master](https://travis-ci.org/ATIX-AG/foreman_acd.svg?branch=master)](https://travis-ci.org/ATIX-AG/foreman_acd)
-
 # Foreman Application Centric Deployment
 
 A Foreman plugin providing application centric deployment and a self-service portal.
@@ -55,6 +53,10 @@ This plugin aims to setup all six hosts and to deploy the application.
 
 :warning: This plugin is still in development.
 
+## Documentation
+
+See [Application Centric Deployment Guide](https://docs.theforeman.org/nightly/Application_Centric_Deployment/index-foreman-el.html)
+
 ## Installation
 
 See the [installation](https://theforeman.org/plugins/#2.Installation) chapter of the Foreman plugins documentation on how to install Foreman plugins.
@@ -88,7 +90,7 @@ You need to refresh the smart proxy features in *Infrastructure > Smart Proxies 
 ### Ansible Playbook
 
 * Copy (or checkout a git repository) an Ansible playbook.
-Store it in `/etc/foreman/plugins/foreman_acd/ansible-playbooks/` so that SELinux is able to read it.
+Store it in `/var/lib/foreman/foreman_acd/ansible-playbooks/` so that SELinux is able to read it.
 * Add a new Ansible Playbook via *Applications > Ansible Playbooks*.
 * Specify the path to the Ansible playbook and name of the playbook file. (e.g. `site.yml`).
 * Save it and press *Import group variables* for this newly created Ansible playbook.
