@@ -55,6 +55,7 @@ const applicationDefinitionConf = (state = initialState, action) => {
       });
     }
    case APPLICATION_DEFINITION_LOAD_ANSIBLE_DATA_FAILURE: {
+      console.log("Error while loading ansible data: "+ payload.error);
       return state.merge({ error: payload.error, loading: false });
     }
     case APPLICATION_DEFINITION_LOAD_ANSIBLE_DATA_REQUEST: {

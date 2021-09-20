@@ -47,7 +47,7 @@ module ForemanAcd
     private
 
     def get_param_value(host, value)
-      search_param = value.match(/PARAM\[([a-zA-Z0-9]*)\]/)
+      search_param = value.match(/PARAM\[([^\s]*)\]/)
       return value if search_param.nil?
 
       resolved_value = host.host_param(search_param[1])

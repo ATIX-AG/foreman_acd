@@ -19,6 +19,7 @@ module Actions
           if result.success
             ::Foreman::Logging.logger('foreman_acd').info "Creating job to configure the app #{app_instance}"
             job.trigger!
+            output[:configure_job_id] = job.job_invocation.id
           else
             ::Foreman::Logging.logger('foreman_acd').error "Could not create the job to configure the app #{app_instance}: #{result.error}"
           end

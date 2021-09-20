@@ -85,6 +85,11 @@ module ForemanAcd
           output << msg
         end
       end
+
+      # Try to start the configuration, too. In case of a app instance including only already deployed hosts
+      # this would start the configuration job then.
+      ForemanAcd.initiate_acd_app_configurator(@app_instance)
+
       output
     end
 

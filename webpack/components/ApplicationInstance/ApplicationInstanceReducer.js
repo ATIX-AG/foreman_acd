@@ -55,6 +55,7 @@ const applicationInstanceConf = (state = initialState, action) => {
       });
     }
    case APPLICATION_INSTANCE_LOAD_APPLICATION_DEFINITION_FAILURE: {
+      console.log("Error while loading application definition data: "+ payload.error);
       return state.merge({ error: payload.error, loading: false });
     }
     case APPLICATION_INSTANCE_LOAD_APPLICATION_DEFINITION_REQUEST: {
