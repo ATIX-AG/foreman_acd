@@ -11,9 +11,6 @@
       }
     }],
     "transform-class-properties",
-    "transform-object-rest-spread",
-    "transform-object-assign",
-    "syntax-dynamic-import"
   ],
   "env": {
     "test": {
