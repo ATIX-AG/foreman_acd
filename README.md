@@ -119,8 +119,6 @@ All Foreman parameters require a value.
 
 ## TODO
 
-* Add `git` support for the Ansible playbooks.
-* Provide application templates which contains application definition and the required Ansible-playbook.
 * Add Saltstack support to configure the application.
 * Extend the Foreman parameter and value validation.
 
