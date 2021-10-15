@@ -1,0 +1,100 @@
+name: Unit and functional tests
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+
+env:
+  RAILS_ENV: test
+  DATABASE_URL: postgresql://postgres:@localhost/test
+  DATABASE_CLEANER_ALLOW_REMOTE_DATABASE_URL: true
+
+jobs:
+  test_ruby:
+    runs-on: ubuntu-latest
+    env:
+      BUNDLE_WITHOUT: journald:development:console:libvirt
+    services:
+      postgres:
+        image: postgres:12.1
+        ports: ['5432:5432']
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+    strategy:
+      fail-fast: false
+      matrix:
+        foreman-repo: [theforeman/foreman]
+        foreman-core-branch: [2.5-stable, develop, 2.3-stable, 3.0-stable]
+        ruby-version: [2.5]
+        node-version: [12]
+    steps:
+      - run: |
+          sudo apt-get update
+          sudo apt-get install build-essential libcurl4-openssl-dev zlib1g-dev libpq-dev
+      - uses: actions/checkout@v2
+        with:
+          repository: ${{ matrix.foreman-repo }}
+          ref: ${{ matrix.foreman-core-branch }}
+      - uses: actions/checkout@v2
+        with:
+          path: foreman_acd
+      - name: Setup Bundler
+        run: |
+          echo "gem 'foreman_acd', path: './foreman_acd'" > bundler.d/foreman_acd.local.rb
+      - name: Limit foreman-tasks version for Foreman 2.3
+        working-directory: foreman_acd
+        if: ${{ matrix.foreman-core-branch == '2.3-stable' }}
+        run: |
+          sed -i '23,24d' foreman_acd.gemspec
+          sed -i '23is.add_dependency "foreman-tasks", "~> 3.0"' foreman_acd.gemspec
+          sed -i '23is.add_dependency "smart_proxy_dynflow", "~> 0.3.0"' foreman_acd.gemspec
+          sed -i '23is.add_dependency "foreman_remote_execution", "~> 4.2.2"' foreman_acd.gemspec
+          sed -i '23is.add_dependency "foreman_remote_execution_core", "~> 1.4.0"' foreman_acd.gemspec
+      - name: Limit foreman-tasks version for Foreman 2.5
+        working-directory: foreman_acd
+        if: ${{ matrix.foreman-core-branch == '2.5-stable' }}
+        run: |
+          sed -i '24d' foreman_acd.gemspec
+          sed -i '23is.add_dependency "foreman-tasks", "~> 4.0"' foreman_acd.gemspec
+          sed -i '23is.add_dependency "smart_proxy_dynflow", "~> 0.3.0"' foreman_acd.gemspec
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby-version }}
+          bundler-cache: true
+      - name: Prepare webpack
+        run: |
+          npm install
+          bundle exec rake webpack:compile
+      - name: Update bable for Foreman 2.3
+        if: ${{ matrix.foreman-core-branch == '2.3-stable' }}
+        run: |
+          npm i -D @babel/plugin-proposal-class-properties \
+            @babel/preset-react \
+            @babel/preset-env \
+            @babel/core \
+            @babel/plugin-transform-runtime
+          cd foreman_acd
+          sed -i '3,4d' .babelrc
+          sed -i '3i    "@babel/env",' .babelrc
+          sed -i '3i    "@babel/react",' .babelrc
+      - name: Prepare test DB
+        run: |
+          bundle exec rake db:create
+          bundle exec rake db:migrate
+      - name: Run plugin tests
+        run: |
+          bundle exec rake test:foreman_acd
+      - name: Run npm tests
+        working-directory: ./foreman_acd
+        run: |
+          npm test
+      - name: Run access permission test
+        run: |
+          bundle exec rake test TEST="test/unit/foreman/access_permissions_test.rb"
+      - name: Upload test.log
+        uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: log
+          path: log/test.log
