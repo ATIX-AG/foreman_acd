@@ -33,7 +33,7 @@ Foreman::Plugin.register :foreman_acd do
                :resource_type => 'ForemanAcd::AnsiblePlaybook'
 
     permission :edit_ansible_playbooks,
-               { :'foreman_acd/ansible_playbooks' => [:update, :edit],
+               { :'foreman_acd/ansible_playbooks' => [:update, :edit, :sync_git_repo],
                  :'foreman_acd/api/v2/ansible_playbooks' => [:update] },
                :resource_type => 'ForemanAcd::AnsiblePlaybook'
 
@@ -72,7 +72,7 @@ Foreman::Plugin.register :foreman_acd do
                :resource_type => 'ForemanAcd::AppDefinition'
 
     permission :export_app_definitions,
-               { :'foreman_acd/app_definitions' => [:export],
+               { :'foreman_acd/app_definitions' => [:export, :handle_file_upload],
                  :'foreman_acd/api/v2/app_definitions' => [:export] },
                :resource_type => 'ForemanAcd::AppDefinition'
 
@@ -120,7 +120,7 @@ Foreman::Plugin.register :foreman_acd do
                :resource_type => 'ForemanAcd::AppInstance'
 
     permission :view_ui_acd,
-               { :ui_acd => [:app, :foreman_data, :ansible_data] }
+               { :ui_acd => [:app, :foreman_data, :ansible_data, :validate_hostname, :report_data] }
 
     permission :acd_foreman_hosts,
                { :'foreman_acd/app_instances' => [:create, :edit, :update, :deploy, :destroy_with_hosts, :destroy] },
