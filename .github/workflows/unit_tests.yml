@@ -57,6 +57,12 @@ jobs:
           sed -i '24d' foreman_acd.gemspec
           sed -i '23is.add_dependency "foreman-tasks", "~> 4.0"' foreman_acd.gemspec
           sed -i '23is.add_dependency "smart_proxy_dynflow", "~> 0.3.0"' foreman_acd.gemspec
+      - name: Limit foreman-remote-execution version for Foreman 3.0
+        working-directory: foreman_acd
+        if: ${{ matrix.foreman-core-branch == '3.0-stable' }}
+        run: |
+          sed -i '23d' foreman_acd.gemspec
+          sed -i '23is.add_dependency "foreman_remote_execution", "~> 4.7.0"' foreman_acd.gemspec
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
