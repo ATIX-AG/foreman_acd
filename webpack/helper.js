@@ -31,9 +31,24 @@ function EasyHeaderFormatter(value, { column }) {
   );
 }
 
+function supportedPluginsToHiddenParameterTypes(supportedPlugins) {
+  let hiddenParameterTypes = [];
+
+  if (supportedPlugins['puppet'] == false) {
+    hiddenParameterTypes.push("puppetenv");
+  }
+
+  if (supportedPlugins['katello'] == false) {
+    hiddenParameterTypes.push("lifecycleenv");
+  }
+
+  return hiddenParameterTypes;
+}
+
 export {
   arrayToObject,
   arrayToObjectObj,
   shortHostname,
-  EasyHeaderFormatter
+  EasyHeaderFormatter,
+  supportedPluginsToHiddenParameterTypes
 };

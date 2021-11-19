@@ -35,6 +35,10 @@ import {
 } from './ApplicationDefinitionConstants';
 
 import {
+  supportedPluginsToHiddenParameterTypes,
+} from '../../helper';
+
+import {
   transformAnsiblePlaybook,
 } from './ApplicationDefinitionHelper';
 
@@ -42,6 +46,7 @@ export const initApplicationDefinition = (
   ansiblePlaybook,
   services,
   ansibleVarsAll,
+  supportedPlugins,
   headerFormatter,
   inlineEditFormatter,
   inlineEditButtonsFormatter,
@@ -168,6 +173,7 @@ export const initApplicationDefinition = (
   }
   initialState.services = services;
   initialState.ansibleVarsAll = ansibleVarsAll;
+  initialState.hiddenForemanParameterTypes = supportedPluginsToHiddenParameterTypes(supportedPlugins);
 
   dispatch({
     type: APPLICATION_DEFINITION_INIT,

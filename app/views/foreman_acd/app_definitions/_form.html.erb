@@ -24,6 +24,10 @@
   if @app_definition.ansible_vars_all.present?
     json["ansibleVarsAll"] = JSON.parse(@app_definition.ansible_vars_all)
   end
+
+   json["supportedPlugins"] = {}
+   json["supportedPlugins"]["puppet"] = defined?(ForemanPuppet) != nil
+   json["supportedPlugins"]["katello"] = defined?(Katello) != nil
 %>
 
 <%= form_for @app_definition, :url => (@app_definition.new_record? ? app_definitions_path : app_definition_path(:id => @app_definition.id)) do |f| %>

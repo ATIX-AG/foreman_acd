@@ -165,6 +165,7 @@ exports[`ApplicationInstance should render application instance 1`] = `
       <Connect(ParameterSelection)
         data={Object {}}
         editModeCallback={[Function]}
+        hiddenParameterTypes={Array []}
         location="Default Location"
         organization="Default Organization"
         paramType="PARAMETER_SELECTION_PARAM_TYPE_FOREMAN"

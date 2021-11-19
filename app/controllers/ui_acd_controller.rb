@@ -40,13 +40,15 @@ class UiAcdController < ::Api::V2::BaseController
   def collect_foreman_data(hostgroup_id)
     hg = Hostgroup.find(hostgroup_id)
     fdata = OpenStruct.new(
-      :environments => Environment.all,
-      :lifecycle_environments => Katello::KTEnvironment.all,
       :domains => Domain.all,
       :computeprofiles => ComputeProfile.all,
       :hostgroup_id => hg.id,
       :ptables => hg&.operatingsystem&.ptables
     )
+
+    fdata[:environments] = Environment.all if defined?(ForemanPuppet)
+    fdata[:lifecycle_environments] = Katello::KTEnvironment.all if defined?(Katello)
+
     fdata
   end
 

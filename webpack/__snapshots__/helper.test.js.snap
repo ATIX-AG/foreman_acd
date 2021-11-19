@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`helper creates a object from an array 1`] = `
+exports[`helper formats a nice, easy header 1`] = `
 <TableHeading
   align=""
   aria-label="TheLabel"

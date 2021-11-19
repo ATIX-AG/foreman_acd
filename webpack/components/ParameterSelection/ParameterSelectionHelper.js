@@ -11,10 +11,14 @@ export const transformForemanData = (fdata) => {
   return (result);
 }
 
-export const filterUsedParameterTypes = (options, parameters) => {
+export const filterParameterTypes = (options, parameters) => {
   const newOptions = cloneDeep(options);
+
   // hostparam can be used multiple times
   const alreadyUsed = parameters.map(item => item["type"]).filter(item => item != 'hostparam');
+
+  // remove already used items
   alreadyUsed.forEach(item => delete newOptions[item])
+
   return newOptions;
 }

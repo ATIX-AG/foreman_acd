@@ -4,12 +4,14 @@ import {
   selectLoading,
   selectEditMode,
   selectParamData,
+  selectAllowedParameterTypes,
   selectParameterTypes,
   selectParameters,
   selectSortingColumns,
   selectColumns,
   selectParamDefinition,
   selectHostgroupId,
+  selectEditParamsRowIndex,
 } from '../ParameterSelectionSelectors';
 
 import {
@@ -29,6 +31,8 @@ const fixtures = {
     selectEditMode(stateFactory(parameterSelectionData_1)),
   'should return paramData from parameterSelectionData_1 fixtures': () =>
     selectParamData(stateFactory(parameterSelectionData_1)),
+  'should return allowedParameterTypes from parameterSelectionData_1 fixtures': () =>
+    selectAllowedParameterTypes(stateFactory(parameterSelectionData_1)),
   'should return parameterTypes from parameterSelectionData_1 fixtures': () =>
     selectParameterTypes(stateFactory(parameterSelectionData_1)),
   'should return parameters from parameterSelectionData_1 fixtures': () =>
@@ -41,6 +45,8 @@ const fixtures = {
     selectParamDefinition(stateFactory(parameterSelectionData_1)),
   'should return hostgroupId from parameterSelectionData_1 fixtures': () =>
     selectHostgroupId(stateFactory(parameterSelectionData_1)),
+  'should return editParamsRowIndex from parameterSelectionData_1 fixtures': () =>
+    selectEditParamsRowIndex(stateFactory(parameterSelectionData_1)),
 };
 
 describe('ParameterSelectionSelectors', () =>
