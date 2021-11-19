@@ -32,7 +32,7 @@ class UiAcdControllerTest < ActionController::TestCase
 
   test 'get foreman data json foreman <3' do
     # TODO: Get rid of the puppet dependency at all!
-    skip 'Puppet env was removed with foreman >= 3.x' if Foreman::Version.new.major.to_i >= 3
+    skip 'Puppet env was removed with foreman >= 3.x' unless defined?(ForemanPuppet)
 
     hostgroup = FactoryBot.create(:hostgroup, :with_domain, :with_os, :with_environment)
     get :foreman_data, :params => { :id => hostgroup.id }, :session => set_session_user
