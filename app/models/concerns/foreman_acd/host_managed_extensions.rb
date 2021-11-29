@@ -13,7 +13,7 @@ module ForemanAcd
         scoped_search :on => :id,
                       :rename => :acd_app_instance,
                       :only_explicit => true,
-                      :complete_value => ForemanAcd::AppInstance.all&.pluck(:name)&.map { |e| { e.to_sym => e } }&.reduce,
+                      :complete_value => :complete_acd_app_instance_name,
                       :operators => ['= '],
                       :ext_method => :find_by_acd_app_instance_name
       end
@@ -27,6 +27,11 @@ module ForemanAcd
         cond = sanitize_sql_for_conditions(["name #{operator} ?", value_to_sql(operator, acd_instance_name)])
         hosts = ForemanAcd::AppInstance.where(cond).joins(:foreman_hosts).pluck(:host_id)
         { :conditions => Host::Managed.arel_table[:id].in(hosts).to_sql }
+      end
+
+      def complete_acd_app_instance_name
+        return {} unless ActiveRecord::Base.connection.table_exists? ForemanAcd::AppInstance.table_name
+        ForemanAcd::AppInstance.all&.pluck(:name)&.map { |e| { e.to_sym => e } }&.reduce
       end
     end
 
