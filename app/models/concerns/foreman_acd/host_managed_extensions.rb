@@ -10,10 +10,13 @@ module ForemanAcd
         before_provision :initiate_acd_app_configurator_after_host_deployment, :if => :deployed_via_acd?
         before_destroy :check_deletable, :prepend => true, :if => :deployed_via_acd?
 
-        scoped_search :on => :id,
+        has_many :app_instances, :through => :foreman_hosts, :class_name => 'ForemanAcd::AppInstance'
+
+        scoped_search :relation => :app_instances,
+                      :on => :name,
                       :rename => :acd_app_instance,
                       :only_explicit => true,
-                      :complete_value => :complete_acd_app_instance_name,
+                      :complete_value => true,
                       :operators => ['= '],
                       :ext_method => :find_by_acd_app_instance_name
       end
@@ -24,14 +27,13 @@ module ForemanAcd
     # New class methods for Host::Managed
     module ClassMethods
       def find_by_acd_app_instance_name(_key, operator, acd_instance_name)
-        cond = sanitize_sql_for_conditions(["name #{operator} ?", value_to_sql(operator, acd_instance_name)])
+        cond = sanitize_sql_for_conditions(["acd_app_instances.name #{operator} ?", value_to_sql(operator, acd_instance_name)])
         hosts = ForemanAcd::AppInstance.where(cond).joins(:foreman_hosts).pluck(:host_id)
-        { :conditions => Host::Managed.arel_table[:id].in(hosts).to_sql }
-      end
-
-      def complete_acd_app_instance_name
-        return {} unless ActiveRecord::Base.connection.table_exists? ForemanAcd::AppInstance.table_name
-        ForemanAcd::AppInstance.all&.pluck(:name)&.map { |e| { e.to_sym => e } }&.reduce
+        if hosts.empty?
+          { :condition => '1=0' }
+        else
+          { :conditions => Host::Managed.arel_table[:id].in(hosts).to_sql }
+        end
       end
     end
 
