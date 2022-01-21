@@ -2,6 +2,7 @@ import {
   arrayToObject,
   arrayToObjectObj,
   EasyHeaderFormatter,
+  supportedPluginsToHiddenParameterTypes,
 } from './helper';
 
 describe('helper', () => {
@@ -30,8 +31,26 @@ describe('helper', () => {
     );
   });
 
-  it('creates a object from an array', () => {
+  it('formats a nice, easy header', () => {
     expect(EasyHeaderFormatter('MyValue', { column: { header: { label: 'TheLabel', props: { p1: '1' } } } })).toMatchSnapshot();
+  });
+
+  it('creates hidden parameter definition by supported plugins 1', () => {
+    expect(supportedPluginsToHiddenParameterTypes({ puppet: false})).toEqual(
+      ['puppetenv']
+    );
+  });
+
+  it('creates hidden parameter definition by supported plugins 2', () => {
+    expect(supportedPluginsToHiddenParameterTypes({ puppet: true})).toEqual(
+      []
+    );
+  });
+
+  it('creates hidden parameter definition by supported plugins 3', () => {
+    expect(supportedPluginsToHiddenParameterTypes({})).toEqual(
+      []
+    );
   });
 });
 

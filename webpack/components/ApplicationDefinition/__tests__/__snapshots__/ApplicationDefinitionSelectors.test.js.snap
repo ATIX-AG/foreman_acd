@@ -2,6 +2,10 @@
 
 exports[`ApplicationDefinitionSelectors should return ParamEditMode from applicationDefinitionConfData_1 fixtures 1`] = `undefined`;
 
+exports[`ApplicationDefinitionSelectors should return alertModalText from applicationDefinitionConfData_1 fixtures 1`] = `undefined`;
+
+exports[`ApplicationDefinitionSelectors should return alertModalTitle from applicationDefinitionConfData_1 fixtures 1`] = `undefined`;
+
 exports[`ApplicationDefinitionSelectors should return ansiblePlaybook from applicationDefinitionConfData_1 fixtures 1`] = `
 Object {
   "groups": Object {
@@ -214,6 +218,8 @@ Array [
 
 exports[`ApplicationDefinitionSelectors should return editMode from applicationDefinitionConfData_1 fixtures 1`] = `undefined`;
 
+exports[`ApplicationDefinitionSelectors should return hiddenForemanParameterTypes from applicationDefinitionConfData_1 fixtures 1`] = `undefined`;
+
 exports[`ApplicationDefinitionSelectors should return parametersData from applicationDefinitionConfData_1 fixtures 1`] = `undefined`;
 
 exports[`ApplicationDefinitionSelectors should return services from applicationDefinitionConfData_1 fixtures 1`] = `
@@ -297,3 +303,5 @@ Array [
   },
 ]
 `;
+
+exports[`ApplicationDefinitionSelectors should return showAlertModal from applicationDefinitionConfData_1 fixtures 1`] = `undefined`;

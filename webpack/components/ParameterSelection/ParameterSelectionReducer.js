@@ -7,7 +7,7 @@ import {
 } from 'lodash';
 
 import {
-  filterUsedParameterTypes,
+  filterParameterTypes,
 } from './ParameterSelectionHelper';
 
 import * as sort from 'sortabular';
@@ -83,7 +83,7 @@ const parameterSelectionParameters = (state = initialState, action) => {
       const parameters = state.parameters.filter(v => v.id !== payload.rowData.id);
       return state.merge({
         parameters: parameters,
-        parameterTypes: filterUsedParameterTypes(PARAMETER_SELECTION_TYPES, parameters),
+        parameterTypes: filterParameterTypes(state.allowedParameterTypes, parameters),
       })
     }
     case PARAMETER_SELECTION_EDIT_ACTIVATE: {
@@ -106,7 +106,7 @@ const parameterSelectionParameters = (state = initialState, action) => {
 
       return state.merge({
         editMode: false,
-        parameterTypes: filterUsedParameterTypes(PARAMETER_SELECTION_TYPES, parameters),
+        parameterTypes: filterParameterTypes(state.allowedParameterTypes, parameters),
         parameters: parameters
       });
     }

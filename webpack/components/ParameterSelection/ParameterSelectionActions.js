@@ -17,7 +17,7 @@ import {
 } from 'foremanReact/common/helpers';
 
 import {
-  filterUsedParameterTypes,
+  filterParameterTypes,
 } from './ParameterSelectionHelper';
 
 import {
@@ -49,6 +49,7 @@ export const initParameterSelection = (
   paramType,
   paramDefinition,
   parameters,
+  hiddenParameterTypes,
   useDefaultValue,
   allowNameAdjustment,
   allowDescriptionAdjustment,
@@ -181,7 +182,14 @@ export const initParameterSelection = (
   initialState.parameters = parameters;
 
   if ((paramType == PARAMETER_SELECTION_PARAM_TYPE_FOREMAN) && (parameters)) {
-    initialState.parameterTypes = filterUsedParameterTypes(PARAMETER_SELECTION_TYPES, parameters);
+    let pTypes = PARAMETER_SELECTION_TYPES;
+
+    // filter hidden parameters
+    hiddenParameterTypes.forEach(item => delete pTypes[item]);
+    initialState.allowedParameterTypes = pTypes;
+
+    // filter already used parameter types
+    initialState.parameterTypes = filterParameterTypes(pTypes, parameters);
   }
 
   initialState.paramType = paramType;

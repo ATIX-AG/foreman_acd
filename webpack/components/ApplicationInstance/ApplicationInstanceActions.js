@@ -36,10 +36,15 @@ import {
   APPLICATION_INSTANCE_CHANGE_PARAMETER_SELECTION_MODE,
 } from './ApplicationInstanceConstants';
 
+import {
+  supportedPluginsToHiddenParameterTypes,
+} from '../../helper';
+
 export const initApplicationInstance = (
   appDefinition,
   hosts,
   ansibleVarsAll,
+  supportedPlugins,
   headerFormatter,
   inlineEditFormatter,
   inlineEditButtonsFormatter,
@@ -116,6 +121,7 @@ export const initApplicationInstance = (
   initialState.appDefinition = appDefinition;
   initialState.hosts = hosts;
   initialState.ansibleVarsAll = ansibleVarsAll;
+  initialState.hiddenForemanParameterTypes = supportedPluginsToHiddenParameterTypes(supportedPlugins);
 
   dispatch({
     type: APPLICATION_INSTANCE_INIT,

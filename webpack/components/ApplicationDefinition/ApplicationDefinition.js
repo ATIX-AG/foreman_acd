@@ -57,7 +57,7 @@ class ApplicationDefinition extends React.Component {
 
   componentDidMount() {
     const {
-      data: { mode, ansiblePlaybook, ansibleDataUrl, services, ansibleVarsAll, hostgroups },
+      data: { mode, ansiblePlaybook, ansibleDataUrl, services, ansibleVarsAll, hostgroups, supportedPlugins },
       initApplicationDefinition,
       addApplicationDefinitionService,
       deleteApplicationDefinitionService,
@@ -194,6 +194,7 @@ class ApplicationDefinition extends React.Component {
       ansiblePlaybook,
       services,
       ansibleVarsAll,
+      supportedPlugins,
       this.headerFormatter,
       this.inlineEditFormatter,
       this.inlineEditButtonsFormatter,
@@ -207,6 +208,7 @@ class ApplicationDefinition extends React.Component {
       ansiblePlaybook,
       services,
       columns,
+      hiddenForemanParameterTypes,
       addApplicationDefinitionService,
       confirmEditApplicationDefinitionService,
       cancelEditApplicationDefinitionService,
@@ -308,6 +310,7 @@ class ApplicationDefinition extends React.Component {
               <ParameterSelection
                 editModeCallback={ (hide) => changeParameterSelectionMode({ mode: hide })}
                 paramType={ PARAMETER_SELECTION_PARAM_TYPE_FOREMAN }
+                hiddenParameterTypes={ hiddenForemanParameterTypes }
                 location={ location }
                 organization={ organization }
                 paramDataUrl= { foremanDataUrl }
@@ -377,6 +380,7 @@ ApplicationDefinition.defaultProps = {
   ansibleVarsAll: [],
   parametersData: {},
   columns: [],
+  hiddenForemanParameterTypes: [],
   editParamsOfRowId: null,
   paramEditMode: false,
 }
@@ -391,6 +395,7 @@ ApplicationDefinition.propTypes = {
   services: PropTypes.array,
   ansibleVarsAll: PropTypes.array,
   columns: PropTypes.array,
+  hiddenForemanParameterTypes: PropTypes.array,
   closeAlertModal: PropTypes.func,
   addApplicationDefinitionService: PropTypes.func,
   deleteApplicationDefinitionService: PropTypes.func,

@@ -92,7 +92,7 @@ class ApplicationInstance extends React.Component {
 
   componentDidMount() {
     const {
-      data: { mode, appDefinition, hosts, ansibleVarsAll, appDefinitionUrl },
+      data: { mode, appDefinition, hosts, ansibleVarsAll, appDefinitionUrl, supportedPlugins },
       initApplicationInstance,
       addApplicationInstanceHost,
       deleteApplicationInstanceHost,
@@ -244,6 +244,7 @@ class ApplicationInstance extends React.Component {
       appDefinition,
       hosts,
       ansibleVarsAll,
+      supportedPlugins,
       this.headerFormatter,
       this.inlineEditFormatter,
       this.inlineEditButtonsFormatter,
@@ -258,6 +259,7 @@ class ApplicationInstance extends React.Component {
       services,
       hosts,
       columns,
+      hiddenForemanParameterTypes,
       addApplicationInstanceHost,
       confirmEditApplicationInstanceHost,
       cancelEditApplicationInstanceHost,
@@ -385,6 +387,7 @@ class ApplicationInstance extends React.Component {
               <ParameterSelection
                 editModeCallback={ (hide) => changeParameterSelectionMode({ mode: hide })}
                 paramType={ PARAMETER_SELECTION_PARAM_TYPE_FOREMAN }
+                hiddenParameterTypes={ hiddenForemanParameterTypes }
                 location={ location }
                 organization={ organization }
                 paramDataUrl= { foremanDataUrl }
@@ -483,6 +486,7 @@ ApplicationInstance.defaultProps = {
   ansibleVarsAll: [],
   parametersData: {},
   columns: [],
+  hiddenForemanParameterTypes: [],
   editParamsOfRowId: null,
   paramEditMode: false,
 }
@@ -496,6 +500,7 @@ ApplicationInstance.propTypes = {
   services: PropTypes.array,
   appDefinition: PropTypes.object,
   columns: PropTypes.array,
+  hiddenForemanParameterTypes: PropTypes.array,
   hosts: PropTypes.array,
   ansibleVarsAll: PropTypes.array,
   closeAlertModal: PropTypes.func,

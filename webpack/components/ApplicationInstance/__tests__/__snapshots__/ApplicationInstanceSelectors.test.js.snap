@@ -2,6 +2,10 @@
 
 exports[`ApplicationInstanceSelectors should return ParamEditMode from applicationInstanceConfData_1 fixtures 1`] = `undefined`;
 
+exports[`ApplicationInstanceSelectors should return alertModalText from applicationInstanceConfData_1 fixtures 1`] = `undefined`;
+
+exports[`ApplicationInstanceSelectors should return alertModalTitle from applicationInstanceConfData_1 fixtures 1`] = `undefined`;
+
 exports[`ApplicationInstanceSelectors should return ansibleVarsAll from applicationInstanceConfData_1 fixtures 1`] = `
 Array [
   Object {
@@ -116,6 +120,8 @@ Array [
 `;
 
 exports[`ApplicationInstanceSelectors should return editMode from applicationInstanceConfData_1 fixtures 1`] = `undefined`;
+
+exports[`ApplicationInstanceSelectors should return hiddenForemanParameterTypes from applicationInstanceConfData_1 fixtures 1`] = `undefined`;
 
 exports[`ApplicationInstanceSelectors should return hosts from applicationInstanceConfData_1 fixtures 1`] = `
 Array [
@@ -274,3 +280,5 @@ Array [
   },
 ]
 `;
+
+exports[`ApplicationInstanceSelectors should return showAlertModal from applicationInstanceConfData_1 fixtures 1`] = `undefined`;
