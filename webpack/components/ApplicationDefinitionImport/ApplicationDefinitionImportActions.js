@@ -1,6 +1,6 @@
 import React from 'react';
 import { API, actionTypeGenerator } from 'foremanReact/redux/API';
-import { addToast } from 'foremanReact/redux/actions/toasts';
+import { addToast } from 'foremanReact/components/ToastsList';
 import { sprintf, translate as __ } from 'foremanReact/common/I18n';
 
 
