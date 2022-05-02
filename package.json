@@ -1,25 +1,22 @@
 {
   "name": "foreman_acd",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "description": "foreman application centric deployment",
   "main": "index.js",
   "directories": {
     "test": "test"
   },
-  "dependencies": {
-    "@theforeman/vendor": "^4.14.0",
-    "react-intl": "^2.8.0"
+  "peerDependencies": {
+    "@theforeman/vendor": ">= 10.1.0"
   },
   "devDependencies": {
-    "@theforeman/builder": "^4.14.0",
-    "@theforeman/vendor-dev": "^4.14.0",
+    "@theforeman/builder": "^10.1.0",
+    "@theforeman/eslint-plugin-foreman": "^10.1.0",
+    "@theforeman/test": "^10.1.0",
+    "@theforeman/vendor-dev": "^10.1.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-preset-env": "^1.6.0",
     "babel-preset-react": "^6.24.1",
-    "enzyme": "^3.11.0",
-    "enzyme-adapter-react-16": "^1.15.6",
-    "enzyme-to-json": "^3.6.1",
-    "identity-obj-proxy": "^3.0.0",
     "jest": "^23.6.0",
     "jest-prop-type-error": "^1.1.0",
     "react-redux-test-utils": "^0.1.1"
