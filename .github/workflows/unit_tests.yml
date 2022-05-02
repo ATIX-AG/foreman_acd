@@ -24,9 +24,9 @@ jobs:
       fail-fast: false
       matrix:
         foreman-repo: [theforeman/foreman]
-        foreman-core-branch: [2.5-stable, develop, 2.3-stable, 3.0-stable, 3.1-stable]
+        foreman-core-branch: [develop, 3.1-stable, 3.2-stable]
         ruby-version: [2.5]
-        node-version: [12]
+        node: [14]
     steps:
       - run: |
           sudo apt-get update
@@ -41,53 +41,31 @@ jobs:
       - name: Setup Bundler
         run: |
           echo "gem 'foreman_acd', path: './foreman_acd'" > bundler.d/foreman_acd.local.rb
-      - name: Limit foreman-tasks version for Foreman 2.3
+      - name: Limit foreman-tasks version for Foreman 3.1
         working-directory: foreman_acd
-        if: ${{ matrix.foreman-core-branch == '2.3-stable' }}
+        if: ${{ matrix.foreman-core-branch == '3.1-stable' }}
         run: |
           sed -i '23,24d' foreman_acd.gemspec
-          sed -i '23is.add_dependency "foreman-tasks", "~> 3.0"' foreman_acd.gemspec
-          sed -i '23is.add_dependency "smart_proxy_dynflow", "~> 0.3.0"' foreman_acd.gemspec
-          sed -i '23is.add_dependency "foreman_remote_execution", "~> 4.2.2"' foreman_acd.gemspec
-          sed -i '23is.add_dependency "foreman_remote_execution_core", "~> 1.4.0"' foreman_acd.gemspec
-      - name: Limit foreman-tasks version for Foreman 2.5
-        working-directory: foreman_acd
-        if: ${{ matrix.foreman-core-branch == '2.5-stable' }}
-        run: |
-          sed -i '24d' foreman_acd.gemspec
-          sed -i '23is.add_dependency "foreman-tasks", "~> 4.0"' foreman_acd.gemspec
-          sed -i '23is.add_dependency "smart_proxy_dynflow", "~> 0.3.0"' foreman_acd.gemspec
-      - name: Limit foreman-remote-execution version for Foreman 3.0
-        working-directory: foreman_acd
-        if: ${{ matrix.foreman-core-branch == '3.0-stable' }}
-        run: |
-          sed -i '23d' foreman_acd.gemspec
-          sed -i '23is.add_dependency "foreman_remote_execution", "~> 4.7.0"' foreman_acd.gemspec
+          sed -i '23is.add_dependency "foreman-tasks", "~> 5.2"' foreman_acd.gemspec
+          sed -i '23is.add_dependency "foreman_remote_execution", "~> 5.0"' foreman_acd.gemspec
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby-version }}
           bundler-cache: true
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Prepare test env
+        run: |
+          bundle exec rake db:create
+          bundle exec rake db:migrate
+          bundle exec rake db:test:prepare
       - name: Prepare webpack
         run: |
           npm install
           bundle exec rake webpack:compile
-      - name: Update bable for Foreman 2.3
-        if: ${{ matrix.foreman-core-branch == '2.3-stable' }}
-        run: |
-          npm i -D @babel/plugin-proposal-class-properties \
-            @babel/preset-react \
-            @babel/preset-env \
-            @babel/core \
-            @babel/plugin-transform-runtime
-          cd foreman_acd
-          sed -i '3,4d' .babelrc
-          sed -i '3i    "@babel/env",' .babelrc
-          sed -i '3i    "@babel/react",' .babelrc
-      - name: Prepare test DB
-        run: |
-          bundle exec rake db:create
-          bundle exec rake db:migrate
       - name: Run plugin tests
         run: |
           bundle exec rake test:foreman_acd
