@@ -10,7 +10,7 @@ module ForemanAcd
       if result.success == true
         @composer = job
       else
-        redirect_to(app_instances_path, :error => _("Coult not create remote execution job to configure the app '%{app_instance}': %{msg}") % {
+        redirect_to(app_instances_path, :error => _("Could not create remote execution job to configure the app '%{app_instance}': %{msg}") % {
           :app_instance => @app_instance, :msg => result.error
         })
       end
@@ -23,7 +23,7 @@ module ForemanAcd
         result, job = init_configuration
 
         unless result.success == true
-          return redirect_to(app_instances_path, :error => _("Coult not create remote execution job to configure the app '%{app_instance}': %{msg}") % {
+          return redirect_to(app_instances_path, :error => _("Could not create remote execution job to configure the app '%{app_instance}': %{msg}") % {
             :app_instance => @app_instance, :msg => result.error
           })
         end
