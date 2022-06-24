@@ -36,7 +36,7 @@ module ForemanAcd
 
         # in case there is no ansible_user defined, set "root" as default.
         ansible_vars['ansible_user'] = 'root' unless ansible_vars.key?('ansible_user')
-        ansible_vars['ansible_ssh_private_key_file'] = ansible_or_rex_ssh_private_key(foreman_host.host)
+        ansible_vars['ansible_ssh_private_key_file'] = ansible_ssh_private_key(foreman_host.host)
 
         children[ansible_group]['hosts'][foreman_host.host.name] = ansible_vars
       end
@@ -56,13 +56,9 @@ module ForemanAcd
       resolved_value
     end
 
-    def ansible_or_rex_ssh_private_key(host)
+    def ansible_ssh_private_key(host)
       ansible_private_file = host_setting(host, 'ansible_ssh_private_key_file')
-      if !ansible_private_file.empty?
-        ansible_private_file
-      else
-        ForemanRemoteExecutionCore.settings[:ssh_identity_key_file]
-      end
+      ansible_private_file unless ansible_private_file.empty?
     end
 
     def host_setting(host, setting)

@@ -36,21 +36,20 @@ module ForemanAcd
         #  proxy which is necessary to connect to the proxy
         proxy_selector = RemoteExecutionProxySelector.new
         hosts.each do |h|
-          begin
-            unless h.host
-              result.success = false
-              result.error = 'App Instance is not deployed'
-              return [result, job]
-            end
-            proxy = proxy_selector.determine_proxy(h.host, 'ACD')
-            result.success = true
-          rescue NoMethodError => e
+          unless h.host
             result.success = false
-            result.error = "#{e}, Install/Update smart-proxies for ACD"
+            result.error = 'App Instance is not deployed'
             return [result, job]
           end
+          proxy = proxy_selector.determine_proxy(h.host, 'ACD')
+          raise StandardError.new('Proxy without ACD feature') if proxy.nil? || [:not_available, :not_defined].include?(proxy)
           proxy_hosts[proxy.name] = [] unless proxy_hosts.key?(proxy.name)
           proxy_hosts[proxy.name] << h
+          result.success = true
+        rescue StandardError => e
+          result.success = false
+          result.error = "#{e}, Install/Update smart-proxies for ACD"
+          return [result, job]
         end
 
         # TODO: just for testing...
@@ -90,6 +89,7 @@ module ForemanAcd
         result.success = false
         result.error = _('Failed to configure hosts: %{err_msg}' % { :err_msg => e.message })
         logger.error('Failed to configure hosts: %{err_class}: %{err_msg}' % { :err_class => e.class, :err_msg => e.message })
+        logger.error(e.backtrace.join("\n"))
         job = nil
       end
       [result, job]
