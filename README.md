@@ -55,7 +55,7 @@ This plugin aims to setup all six hosts and to deploy the application.
 
 ## Documentation
 
-See [Application Centric Deployment Guide](https://docs.theforeman.org/nightly/Application_Centric_Deployment/index-foreman-el.html)
+See [Deploying Hosts using Application Centric Deployment](https://docs.theforeman.org/nightly/Deploying_Hosts_AppCentric/index-katello.html)
 
 ## Installation
 
