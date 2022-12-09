@@ -24,8 +24,8 @@ jobs:
       fail-fast: false
       matrix:
         foreman-repo: [theforeman/foreman]
-        foreman-core-branch: [develop, 3.1-stable, 3.2-stable]
-        ruby-version: [2.5]
+        foreman-core-branch: [3.3-stable, 3.4-stable]
+        ruby-version: [2.7]
         node: [14]
     steps:
       - run: |
@@ -41,20 +41,27 @@ jobs:
       - name: Setup Bundler
         run: |
           echo "gem 'foreman_acd', path: './foreman_acd'" > bundler.d/foreman_acd.local.rb
-      - name: Limit foreman-tasks version for Foreman 3.1
+      - name: Limit REX and tasks version for Foreman 3.3-stable
         working-directory: foreman_acd
-        if: ${{ matrix.foreman-core-branch == '3.1-stable' }}
-        run: |
-          sed -i '23,24d' foreman_acd.gemspec
-          sed -i '23is.add_dependency "foreman-tasks", "~> 5.2"' foreman_acd.gemspec
-          sed -i '23is.add_dependency "foreman_remote_execution", "~> 5.0"' foreman_acd.gemspec
-      - name: Limit foreman-remote-execution version for Foreman 3.2
-        working-directory: foreman_acd
-        if: ${{ matrix.foreman-core-branch == '3.2-stable' }}
+        if: ${{ matrix.foreman-core-branch == '3.3-stable' }}
         run: |
           sed -i '23,24d' foreman_acd.gemspec
           sed -i '23is.add_dependency "foreman-tasks", "~> 6.0"' foreman_acd.gemspec
-          sed -i '23is.add_dependency "foreman_remote_execution", "~> 6.0"' foreman_acd.gemspec
+          sed -i '23is.add_dependency "foreman_remote_execution", "~> 7.2"' foreman_acd.gemspec
+      - name: Limit REX and tasks version for Foreman 3.4-stable
+        working-directory: foreman_acd
+        if: ${{ matrix.foreman-core-branch == '3.4-stable' }}
+        run: |
+          sed -i '23,24d' foreman_acd.gemspec
+          sed -i '23is.add_dependency "foreman-tasks", "~> 7.0"' foreman_acd.gemspec
+          sed -i '23is.add_dependency "foreman_remote_execution", "~> 8.0"' foreman_acd.gemspec
+      - name: Limit REX and tasks version for Foreman develop
+        working-directory: foreman_acd
+        if: ${{ matrix.foreman-core-branch == 'develop' }}
+        run: |
+          sed -i '23,24d' foreman_acd.gemspec
+          sed -i '23is.add_dependency "foreman-tasks", "~> 7.0"' foreman_acd.gemspec
+          sed -i '23is.add_dependency "foreman_remote_execution", "~> 7.1"' foreman_acd.gemspec
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
