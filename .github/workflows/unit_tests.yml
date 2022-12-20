@@ -24,7 +24,7 @@ jobs:
       fail-fast: false
       matrix:
         foreman-repo: [theforeman/foreman]
-        foreman-core-branch: [3.3-stable, 3.4-stable]
+        foreman-core-branch: [3.3-stable, 3.4-stable, develop]
         ruby-version: [2.7]
         node: [14]
     steps:
@@ -61,7 +61,7 @@ jobs:
         run: |
           sed -i '23,24d' foreman_acd.gemspec
           sed -i '23is.add_dependency "foreman-tasks", "~> 7.0"' foreman_acd.gemspec
-          sed -i '23is.add_dependency "foreman_remote_execution", "~> 7.1"' foreman_acd.gemspec
+          sed -i '23is.add_dependency "foreman_remote_execution", "~> 9.0"' foreman_acd.gemspec
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
