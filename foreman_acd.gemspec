@@ -13,14 +13,14 @@ Gem::Specification.new do |s|
   s.summary     = 'Foreman plugin to provide application centric deployment and self service portal'
   # also update locale/gemspec.rb
   s.description = 'Foreman plugin to provide application centric deployment and self service portal'
-  s.required_ruby_version = '~> 2.5'
+  s.required_ruby_version = '~> 2.7'
 
   s.files = Dir['{app,config,db,lib,locale,webpack}/**/*'] + ['LICENSE', 'Rakefile', 'README.md', 'package.json']
   s.test_files = Dir['test/**/*']
 
   s.add_development_dependency 'rubocop', '~> 0.89.0'
   s.add_development_dependency 'rubocop-rails', '~> 2.8.1'
-  s.add_dependency 'foreman_remote_execution', '>= 3.3.0'
-  s.add_dependency 'foreman-tasks', '>= 0.10'
+  s.add_dependency 'foreman_remote_execution', '>= 8.0'
+  s.add_dependency 'foreman-tasks', '>= 7.0'
   s.add_dependency 'git'
 end
