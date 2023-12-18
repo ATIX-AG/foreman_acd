@@ -5,8 +5,7 @@ module Actions
     # DeployAllHosts implements a Foreman Task EntryAction
     class DeployAllHosts < Actions::EntryAction
       def plan(app_instance, safe_deploy)
-        action_subject(app_instance, :safe_deploy => safe_deploy)
-        plan_self(:id => app_instance.id)
+        plan_self(:id => app_instance.id, :safe_deploy => safe_deploy)
       end
 
       def run
