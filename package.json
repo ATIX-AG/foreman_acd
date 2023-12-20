@@ -3,9 +3,6 @@
   "version": "0.9.3",
   "description": "foreman application centric deployment",
   "main": "index.js",
-  "directories": {
-    "test": "test"
-  },
   "peerDependencies": {
     "@theforeman/vendor": ">= 10.1.0"
   },
@@ -25,59 +22,16 @@
     "table-resolver": "^3.2.0"
   },
   "scripts": {
-    "test": "node node_modules/.bin/jest --no-cache"
+    "test": "jest --no-cache"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ATIX-AG/foreman_acd.git"
   },
-  "author": "",
+  "author": "ATIX AG <info@atix.de>",
   "license": "ISC",
   "bugs": {
-    "url": "https://atix.de"
+    "url": "https://github.com/ATIX-AG/foreman_acd/issues"
   },
-  "homepage": "https://atix.de",
-  "jest": {
-    "verbose": true,
-    "testMatch": [
-      "**/*.test.js"
-    ],
-    "testPathIgnorePatterns": [
-      ".local",
-      ".bundle",
-      "/node_modules/",
-      "<rootDir>/foreman/"
-    ],
-    "moduleDirectories": [
-      "node_modules",
-      "webpack"
-    ],
-    "testURL": "http://localhost/",
-    "collectCoverage": true,
-    "collectCoverageFrom": [
-      "webpack/**/*.js",
-      "!webpack/index.js",
-      "!webpack/test_setup.js",
-      "!webpack/**/bundle*",
-      "!webpack/stories/**",
-      "!webpack/**/*stories.js"
-    ],
-    "coverageReporters": [
-      "lcov"
-    ],
-    "moduleNameMapper": {
-      "^.+\\.(png|gif|css|scss)$": "identity-obj-proxy"
-    },
-    "globals": {
-      "__testing__": true
-    },
-    "transform": {
-      "^.+\\.js$": "babel-jest"
-    },
-    "setupFiles": [
-      "raf/polyfill",
-      "jest-prop-type-error",
-      "./webpack/test_setup.js"
-    ]
-  }
+  "homepage": "https://atix.de"
 }

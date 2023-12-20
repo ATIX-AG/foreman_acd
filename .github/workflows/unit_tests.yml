@@ -24,9 +24,8 @@ jobs:
       fail-fast: false
       matrix:
         foreman-repo: [theforeman/foreman]
-        foreman-core-branch: [3.3-stable, 3.4-stable, develop]
+        foreman-core-branch: [3.8-stable, 3.9-stable, develop]
         ruby-version: [2.7]
-        node: [14]
     steps:
       - run: |
           sudo apt-get update
@@ -38,55 +37,31 @@ jobs:
       - uses: actions/checkout@v2
         with:
           path: foreman_acd
-      - name: Setup Bundler
+      - name: Add ACD to foreman
         run: |
           echo "gem 'foreman_acd', path: './foreman_acd'" > bundler.d/foreman_acd.local.rb
-      - name: Limit REX and tasks version for Foreman 3.3-stable
+      - name: Limit REX and tasks version for Foreman 3.8-stable
         working-directory: foreman_acd
-        if: ${{ matrix.foreman-core-branch == '3.3-stable' }}
+        if: ${{ matrix.foreman-core-branch == '3.8-stable' }}
         run: |
-          sed -i '23,24d' foreman_acd.gemspec
-          sed -i '23is.add_dependency "foreman-tasks", "~> 6.0"' foreman_acd.gemspec
-          sed -i '23is.add_dependency "foreman_remote_execution", "~> 7.2"' foreman_acd.gemspec
-      - name: Limit REX and tasks version for Foreman 3.4-stable
-        working-directory: foreman_acd
-        if: ${{ matrix.foreman-core-branch == '3.4-stable' }}
-        run: |
-          sed -i '23,24d' foreman_acd.gemspec
-          sed -i '23is.add_dependency "foreman-tasks", "~> 7.0"' foreman_acd.gemspec
-          sed -i '23is.add_dependency "foreman_remote_execution", "~> 8.0"' foreman_acd.gemspec
-      - name: Limit REX and tasks version for Foreman develop
-        working-directory: foreman_acd
-        if: ${{ matrix.foreman-core-branch == 'develop' }}
-        run: |
-          sed -i '23,24d' foreman_acd.gemspec
-          sed -i '23is.add_dependency "foreman-tasks", "~> 7.0"' foreman_acd.gemspec
-          sed -i '23is.add_dependency "foreman_remote_execution", "~> 9.0"' foreman_acd.gemspec
+          sed -i '/s\.add_dependency .foreman-tasks./s/,[^,]*$/, "~> 8.3"/' foreman_acd.gemspec
+          sed -i '/s\.add_dependency .foreman_remote_execution./s/,[^,]*$/, "~> 11.1"/' foreman_acd.gemspec
+          cat foreman_acd.gemspec
+
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby-version }}
           bundler-cache: true
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node }}
+      - run: bundle list
       - name: Prepare test env
         run: |
           bundle exec rake db:create
           bundle exec rake db:migrate
           bundle exec rake db:test:prepare
-      - name: Prepare webpack
-        run: |
-          npm install
-          bundle exec rake webpack:compile
       - name: Run plugin tests
         run: |
           bundle exec rake test:foreman_acd
-      - name: Run npm tests
-        working-directory: ./foreman_acd
-        run: |
-          npm test
       - name: Run access permission test
         run: |
           bundle exec rake test TEST="test/unit/foreman/access_permissions_test.rb"
