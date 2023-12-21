@@ -14,14 +14,18 @@
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-preset-env": "^1.6.0",
     "babel-preset-react": "^6.24.1",
+    "eslint": "^6.7.2",
     "jest": "^23.6.0",
     "jest-prop-type-error": "^1.1.0",
     "lodash": "^4.17.11",
+    "prettier": "^1.19.1",
     "react-redux-test-utils": "^0.1.1",
     "sortabular": "^1.5.1",
     "table-resolver": "^3.2.0"
   },
   "scripts": {
+    "lint": "tfm-lint --plugin -d *.js,webpack",
+    "lint-fix": "tfm-lint --plugin -d *.js,webpack --fix",
     "test": "jest --no-cache"
   },
   "repository": {

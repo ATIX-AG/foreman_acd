@@ -20,6 +20,10 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
       - run: npm install
+      - name: Linting
+        run: |
+          # FIXME: we need to fix the findings, first
+          #npm run lint
       - name: Testing
         run: npm run test
 ...
