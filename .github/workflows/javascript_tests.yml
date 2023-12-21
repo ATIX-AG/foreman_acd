@@ -24,6 +24,7 @@ jobs:
         run: |
           # FIXME: we need to fix the findings, first
           #npm run lint
+          npm run stylelint
       - name: Testing
         run: npm run test
 ...
