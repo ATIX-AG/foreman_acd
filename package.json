@@ -3,9 +3,6 @@
   "version": "0.9.3",
   "description": "foreman application centric deployment",
   "main": "index.js",
-  "directories": {
-    "test": "test"
-  },
   "peerDependencies": {
     "@theforeman/vendor": ">= 10.1.0"
   },
@@ -17,67 +14,32 @@
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-preset-env": "^1.6.0",
     "babel-preset-react": "^6.24.1",
+    "eslint": "^6.7.2",
     "jest": "^23.6.0",
     "jest-prop-type-error": "^1.1.0",
     "lodash": "^4.17.11",
+    "prettier": "^1.19.1",
     "react-redux-test-utils": "^0.1.1",
     "sortabular": "^1.5.1",
+    "stylelint": "^9.3.0",
+    "stylelint-config-standard": "^18.0.0",
     "table-resolver": "^3.2.0"
   },
   "scripts": {
-    "test": "node node_modules/.bin/jest --no-cache"
+    "lint": "tfm-lint --plugin -d *.js,webpack",
+    "lint-fix": "tfm-lint --plugin -d *.js,webpack --fix",
+    "stylelint": "stylelint webpack/**/*.scss",
+    "stylelint-fix": "stylelint webpack/**/*.scss --fix",
+    "test": "jest --no-cache"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ATIX-AG/foreman_acd.git"
   },
-  "author": "",
+  "author": "ATIX AG <info@atix.de>",
   "license": "ISC",
   "bugs": {
-    "url": "https://atix.de"
+    "url": "https://github.com/ATIX-AG/foreman_acd/issues"
   },
-  "homepage": "https://atix.de",
-  "jest": {
-    "verbose": true,
-    "testMatch": [
-      "**/*.test.js"
-    ],
-    "testPathIgnorePatterns": [
-      ".local",
-      ".bundle",
-      "/node_modules/",
-      "<rootDir>/foreman/"
-    ],
-    "moduleDirectories": [
-      "node_modules",
-      "webpack"
-    ],
-    "testURL": "http://localhost/",
-    "collectCoverage": true,
-    "collectCoverageFrom": [
-      "webpack/**/*.js",
-      "!webpack/index.js",
-      "!webpack/test_setup.js",
-      "!webpack/**/bundle*",
-      "!webpack/stories/**",
-      "!webpack/**/*stories.js"
-    ],
-    "coverageReporters": [
-      "lcov"
-    ],
-    "moduleNameMapper": {
-      "^.+\\.(png|gif|css|scss)$": "identity-obj-proxy"
-    },
-    "globals": {
-      "__testing__": true
-    },
-    "transform": {
-      "^.+\\.js$": "babel-jest"
-    },
-    "setupFiles": [
-      "raf/polyfill",
-      "jest-prop-type-error",
-      "./webpack/test_setup.js"
-    ]
-  }
+  "homepage": "https://atix.de"
 }

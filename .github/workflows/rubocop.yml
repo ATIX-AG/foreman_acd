@@ -14,9 +14,6 @@ jobs:
         with:
           ruby-version: 2.7
           bundler-cache: true
-      - name: Setup rubocop
-        run: |
-          gem install bundler
       - name: Execute rubocop
         run: |
-          bundle exec rubocop
+          bundle exec rake rubocop

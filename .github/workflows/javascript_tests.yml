@@ -1,0 +1,30 @@
+---
+name: React and Javascript tests
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+
+jobs:
+  test_js:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [14]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node }}
+      - run: npm install
+      - name: Linting
+        run: |
+          # FIXME: we need to fix the findings, first
+          #npm run lint
+          npm run stylelint
+      - name: Testing
+        run: npm run test
+...
