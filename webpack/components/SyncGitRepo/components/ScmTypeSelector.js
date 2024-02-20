@@ -35,11 +35,18 @@ const ScmTypeSelector = ({
 
 ScmTypeSelector.propTypes = {
   label: PropTypes.string.isRequired,
+  hidden: PropTypes.bool,
   editable: PropTypes.bool.isRequired,
   viewText: PropTypes.string,
   selectValue: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   options: PropTypes.object,
+};
+ScmTypeSelector.defaultProps = {
+  hidden: false,
+  viewText: '',
+  selectValue: '',
+  options: {},
 };
 
 export default ScmTypeSelector;

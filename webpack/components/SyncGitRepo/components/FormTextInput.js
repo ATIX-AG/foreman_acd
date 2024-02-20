@@ -31,10 +31,16 @@ const FormTextInput = ({
 
 FormTextInput.propTypes = {
   label: PropTypes.string.isRequired,
+  hidden: PropTypes.bool,
   editable: PropTypes.bool.isRequired,
   viewText: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   parameter: PropTypes.string,
+};
+FormTextInput.defaultProps = {
+  hidden: false,
+  viewText: '',
+  parameter: '',
 };
 
 export default FormTextInput;

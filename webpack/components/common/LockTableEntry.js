@@ -53,5 +53,8 @@ LockTableEntry.propTypes = {
   onLockTableEntry: PropTypes.func.isRequired,
   additionalData: PropTypes.object.isRequired,
 };
+LockTableEntry.defaultProps = {
+  hidden: false,
+};
 
 export default LockTableEntry;

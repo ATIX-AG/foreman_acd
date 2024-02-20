@@ -193,16 +193,28 @@ SyncGitRepo.defaultProps = {
 };
 
 SyncGitRepo.propTypes = {
-  initSyncGitRepo: PropTypes.func,
-  loadScmType: PropTypes.func,
-  loadGitCommit: PropTypes.func,
-  loadPath: PropTypes.func,
-  loadGitUrl: PropTypes.func,
-  handleGitRepoSync: PropTypes.func,
-  scmType: PropTypes.string.isRequired,
-  path: PropTypes.string.isRequired,
+  data: PropTypes.shape({
+    appDefinitions: PropTypes.string.isRequired,
+    gitCommit: PropTypes.string.isRequired,
+    gitUrl: PropTypes.string.isRequired,
+    location: PropTypes.string,
+    mode: PropTypes.string,
+    organization: PropTypes.string,
+    path: PropTypes.string.isRequired,
+    scmType: PropTypes.string.isRequired,
+    scmTypes: PropTypes.object.isRequired,
+  }).isRequired,
+  error: PropTypes.object,
   gitCommit: PropTypes.string,
   gitUrl: PropTypes.string,
+  handleGitRepoSync: PropTypes.func.isRequired,
+  initSyncGitRepo: PropTypes.func.isRequired,
+  loadScmType: PropTypes.func.isRequired,
+  loadGitCommit: PropTypes.func.isRequired,
+  loadPath: PropTypes.func.isRequired,
+  loadGitUrl: PropTypes.func.isRequired,
+  path: PropTypes.string,
+  scmType: PropTypes.string,
 };
 
 export default SyncGitRepo;

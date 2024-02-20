@@ -558,7 +558,9 @@ ParameterSelection.defaultProps = {
 };
 
 ParameterSelection.propTypes = {
+  error: PropTypes.object,
   data: PropTypes.shape({
+    allowRowAdjustment: PropTypes.bool,
     parameters: PropTypes.array,
     paramDefinition: PropTypes.object,
     applications: PropTypes.object,

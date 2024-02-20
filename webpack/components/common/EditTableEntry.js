@@ -43,5 +43,8 @@ EditTableEntry.propTypes = {
   onEditTableEntry: PropTypes.func.isRequired,
   additionalData: PropTypes.object.isRequired,
 };
+EditTableEntry.defaultProps = {
+  hidden: false,
+};
 
 export default EditTableEntry;

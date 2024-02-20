@@ -201,11 +201,13 @@ ApplicationDefinitionImport.defaultProps = {
   alertModalTitle: '',
   editMode: false,
   columns: [],
-  ansiblePlaybookServices: {},
+  ansiblePlaybookServices: [],
   editParamsOfRowId: null,
 };
 
 ApplicationDefinitionImport.propTypes = {
+  error: PropTypes.object,
+  ansiblePlaybookServices: PropTypes.array,
   initApplicationDefinitionImport: PropTypes.func,
   editMode: PropTypes.bool.isRequired,
   columns: PropTypes.array,
