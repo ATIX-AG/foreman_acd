@@ -1,5 +1,5 @@
 import Immutable from 'seamless-immutable';
-import { cloneDeep, findIndex, findLastIndex } from 'lodash';
+import { cloneDeep, findIndex } from 'lodash';
 
 import { applicationDefinitionConfData1 } from '../__fixtures__/applicationDefinitionConfData1.fixtures';
 

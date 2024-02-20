@@ -1,13 +1,13 @@
 import Immutable from 'seamless-immutable';
-import { cloneDeep, findIndex, findLastIndex } from 'lodash';
+import { cloneDeep, findIndex } from 'lodash';
 
-import { parameterSelectionData_1 } from '../__fixtures__/parameterSelectionData_1.fixtures';
+import { parameterSelectionData1 } from '../__fixtures__/parameterSelectionData1.fixtures';
 
-export const successState = Immutable(parameterSelectionData_1);
+export const successState = Immutable(parameterSelectionData1);
 
 const EDIT_ROW_ID = 2;
 
-const editClone = parameterSelectionData_1;
+const editClone = parameterSelectionData1;
 const editIndex = findIndex(editClone.parameters, { id: EDIT_ROW_ID });
 editClone.parameters[editIndex].backup = cloneDeep(
   editClone.parameters[editIndex]
@@ -15,7 +15,7 @@ editClone.parameters[editIndex].backup = cloneDeep(
 export const editState = Immutable(editClone);
 
 // Payload Data
-export const initParameterSelectionPayload = parameterSelectionData_1;
+export const initParameterSelectionPayload = parameterSelectionData1;
 export const addParameterPayload = {};
 export const lockParameterPayload = {
   rowData: {

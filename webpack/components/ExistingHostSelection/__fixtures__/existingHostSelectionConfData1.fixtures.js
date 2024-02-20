@@ -1,4 +1,4 @@
-export const existingHostSelectionConfData_1 = {
+export const existingHostSelectionConfData1 = {
   serviceId: 2,
   error: {
     errorMsg: '',

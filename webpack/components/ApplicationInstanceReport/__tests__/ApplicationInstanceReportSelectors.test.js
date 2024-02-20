@@ -5,7 +5,7 @@ import {
   selectActiveHostId,
 } from '../ApplicationInstanceReportSelectors';
 
-import { applicationInstanceReportData_1 } from '../__fixtures__/applicationInstanceReportData_1.fixtures';
+import { applicationInstanceReportData1 } from '../__fixtures__/applicationInstanceReportData1.fixtures';
 
 const stateFactory = obj => ({
   foremanAcd: {
@@ -14,10 +14,10 @@ const stateFactory = obj => ({
 });
 
 const fixtures = {
-  'should return hosts from applicationInstanceReportData_1 fixtures': () =>
-    selectHosts(stateFactory(applicationInstanceReportData_1)),
-  'should return activeHostId from applicationInstanceReportData_1 fixtures': () =>
-    selectActiveHostId(stateFactory(applicationInstanceReportData_1)),
+  'should return hosts from applicationInstanceReportData1 fixtures': () =>
+    selectHosts(stateFactory(applicationInstanceReportData1)),
+  'should return activeHostId from applicationInstanceReportData1 fixtures': () =>
+    selectActiveHostId(stateFactory(applicationInstanceReportData1)),
 };
 
 describe('ApplicationInstanceSelectors', () =>

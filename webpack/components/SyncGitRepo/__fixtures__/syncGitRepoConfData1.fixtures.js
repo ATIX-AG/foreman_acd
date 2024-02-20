@@ -1,4 +1,4 @@
-export const syncGitRepoConfData_1 = {
+export const syncGitRepoConfData1 = {
   path: 'https://example.com',
   gitCommit: 'master',
   scmType: { git: 'git' },
