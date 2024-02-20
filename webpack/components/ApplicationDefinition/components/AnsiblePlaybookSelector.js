@@ -44,5 +44,11 @@ AnsiblePlaybookSelector.propTypes = {
   options: PropTypes.object,
   additionalData: PropTypes.object,
 };
+AnsiblePlaybookSelector.defaultProps = {
+  viewText: '',
+  selectValue: '',
+  options: undefined,
+  additionalData: undefined,
+};
 
 export default AnsiblePlaybookSelector;

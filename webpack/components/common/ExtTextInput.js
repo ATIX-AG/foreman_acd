@@ -36,8 +36,13 @@ ExtTextInput.propTypes = {
   hidden: PropTypes.bool.isRequired,
   editable: PropTypes.bool.isRequired,
   viewText: PropTypes.string,
+  label: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   additionalData: PropTypes.object,
+};
+ExtTextInput.defaultProps = {
+  viewText: '',
+  additionalData: {},
 };
 
 export default ExtTextInput;

@@ -11,6 +11,7 @@ const RailsData = ({ view, parameter, value }) => {
 RailsData.propTypes = {
   view: PropTypes.string.isRequired,
   parameter: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
 };
 
 export default RailsData;

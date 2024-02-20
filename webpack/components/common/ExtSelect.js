@@ -37,5 +37,11 @@ ExtSelect.propTypes = {
   options: PropTypes.object,
   additionalData: PropTypes.object,
 };
+ExtSelect.defaultProps = {
+  viewText: '',
+  selectValue: '',
+  options: {},
+  additionalData: {},
+};
 
 export default ExtSelect;
