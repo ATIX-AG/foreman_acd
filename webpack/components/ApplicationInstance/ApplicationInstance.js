@@ -1,16 +1,16 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   Icon,
   Button,
   MessageDialog,
+  Table,
+  FormControl,
+  inlineEditFormatterFactory,
 } from 'patternfly-react';
 import * as resolve from 'table-resolver';
 import ForemanModal from 'foremanReact/components/ForemanModal';
-import {
-  sprintf,
-  translate as __
-} from 'foremanReact/common/I18n';
+import { sprintf, translate as __ } from 'foremanReact/common/I18n';
 import Select from 'foremanReact/components/common/forms/Select';
 import ParameterSelection from '../ParameterSelection';
 import ExistingHostSelection from '../ExistingHostSelection';
@@ -19,14 +19,7 @@ import DeleteTableEntry from '../common/DeleteTableEntry';
 import RailsData from '../common/RailsData';
 import AppDefinitionSelector from './components/AppDefinitionSelector';
 import ServiceCounter from './components/ServiceCounter';
-import { arrayToObject } from '../../helper';
-import { EasyHeaderFormatter } from '../../helper';
-
-import {
-  Table,
-  FormControl,
-  inlineEditFormatterFactory,
-} from 'patternfly-react';
+import { arrayToObject, EasyHeaderFormatter } from '../../helper';
 
 import {
   PARAMETER_SELECTION_PARAM_TYPE_FOREMAN,
@@ -34,65 +27,87 @@ import {
 } from '../ParameterSelection/ParameterSelectionConstants';
 
 class ApplicationInstance extends React.Component {
-
   constructor(props) {
     super(props);
   }
 
-  isEditing({rowData}) {
-    return (rowData.backup !== undefined);
+  isEditing({ rowData }) {
+    return rowData.backup !== undefined;
   }
 
   changeDataAllowed() {
-    return this.props.editMode || this.props.appDefinition.id == ''
+    return this.props.editMode || this.props.appDefinition.id == '';
   }
 
   validateParameters() {
     let result = true;
-    let msg = "";
+    let msg = '';
 
     this.props.hosts.forEach(h => {
-      if (h.foremanParameters.map(e => e.value).filter(i => i == "").length > 0) {
+      if (
+        h.foremanParameters.map(e => e.value).filter(i => i == '').length > 0
+      ) {
         result = false;
 
-        if (msg == "") {
-          msg += __("For some hosts the values for some parameters are missing. Check the values for these hosts:\n");
+        if (msg == '') {
+          msg += __(
+            'For some hosts the values for some parameters are missing. Check the values for these hosts:\n'
+          );
         }
-        msg += "- "+ h.hostname +"\n";
+        msg += `- ${h.hostname}\n`;
       }
     });
 
-    const invalidMinServices = this.props.services.filter(s => (Number(s.minCount) != 0) && (s.currentCount < s.minCount));
-    const invalidMaxServices = this.props.services.filter(s => (Number(s.maxCount) != 0) && (s.currentCount > s.maxCount));
+    const invalidMinServices = this.props.services.filter(
+      s => Number(s.minCount) != 0 && s.currentCount < s.minCount
+    );
+    const invalidMaxServices = this.props.services.filter(
+      s => Number(s.maxCount) != 0 && s.currentCount > s.maxCount
+    );
 
     if (invalidMinServices.length > 0 || invalidMaxServices.length > 0) {
       result = false;
 
-      if (msg != "") {
-        msg += "\n";
+      if (msg != '') {
+        msg += '\n';
       }
 
-      msg += __("Unachieved service counts:");
-      msg += "\n";
+      msg += __('Unachieved service counts:');
+      msg += '\n';
 
-      invalidMinServices.map(s => { msg += sprintf(
-        __(`- service ${s.name} expects at ${s.minCount} least configured hosts\n`)
-      )});
+      invalidMinServices.map(s => {
+        msg += sprintf(
+          __(
+            `- service ${s.name} expects at ${s.minCount} least configured hosts\n`
+          )
+        );
+      });
 
-      invalidMaxServices.map(s => { msg += sprintf(
-        __(`- service ${s.name} expects no more than ${s.axCount} configured hosts\n`)
-      )});
+      invalidMaxServices.map(s => {
+        msg += sprintf(
+          __(
+            `- service ${s.name} expects no more than ${s.axCount} configured hosts\n`
+          )
+        );
+      });
     }
 
     return {
       validateResult: result,
-      validateMsg: msg
-    }
+      validateMsg: msg,
+    };
   }
 
   componentDidMount() {
     const {
-      data: { mode, appDefinition, hosts, ansibleVarsAll, appDefinitionUrl, supportedPlugins },
+      data: {
+        mode,
+        appDefinition,
+        hosts,
+        ansibleVarsAll,
+        appDefinitionUrl,
+        supportedPlugins,
+      },
       initApplicationInstance,
       addApplicationInstanceHost,
       deleteApplicationInstanceHost,
@@ -107,36 +122,47 @@ class ApplicationInstance extends React.Component {
       loadApplicationDefinition(appDefinition.id, { url: appDefinitionUrl });
     }
 
-    const already_deployed_msg = __("This is an already deployed host. Changing the parameters is not possible!");
+    const already_deployed_msg = __(
+      'This is an already deployed host. Changing the parameters is not possible!'
+    );
 
     const inlineEditButtonsFormatter = inlineEditFormatterFactory({
       isEditing: additionalData => this.props.editMode,
       renderValue: (value, additionalData) => (
         <td style={{ padding: '2px' }}>
-          { additionalData.rowData.isExistingHost == true ? (
-            <Icon style={{marginRight: 8, marginLeft: 2}} type="pf" name="info" title={already_deployed_msg} />
-          ) : (<span></span>)}
+          {additionalData.rowData.isExistingHost == true ? (
+            <Icon
+              style={{ marginRight: 8, marginLeft: 2 }}
+              type="pf"
+              name="info"
+              title={already_deployed_msg}
+            />
+          ) : (
+            <span />
+          )}
           <Button
             bsStyle="default"
             onClick={() => activateEditApplicationInstanceHost(additionalData)}
           >
-            <Icon type="pf" name="edit" title={__("Edit entry")} />
+            <Icon type="pf" name="edit" title={__('Edit entry')} />
           </Button>
           &nbsp;
-          { additionalData.rowData.isExistingHost == false ? (
+          {additionalData.rowData.isExistingHost == false ? (
             <Button
               bsStyle="default"
               onClick={() => openForemanParameterSelectionModal(additionalData)}
             >
-              <Icon type="pf" name="settings" title={__("Change parameters")} />
+              <Icon type="pf" name="settings" title={__('Change parameters')} />
             </Button>
-          ) : (<span></span>)}
+          ) : (
+            <span />
+          )}
           &nbsp;
           <Button
             bsStyle="default"
             onClick={() => openAnsibleParameterSelectionModal(additionalData)}
           >
-            <span title={__("Change ansible variables")}>A</span>
+            <span title={__('Change ansible variables')}>A</span>
           </Button>
           &nbsp;
           <DeleteTableEntry
@@ -149,18 +175,27 @@ class ApplicationInstance extends React.Component {
       ),
       renderEdit: (value, additionalData) => (
         <td style={{ padding: '2px' }}>
-          { additionalData.rowData.isExistingHost == true ? (
-            <Icon style={{marginRight: 8, marginLeft: 2}} type="pf" name="info" title={already_deployed_msg} />
-          ) : (<span></span>)}
+          {additionalData.rowData.isExistingHost == true ? (
+            <Icon
+              style={{ marginRight: 8, marginLeft: 2 }}
+              type="pf"
+              name="info"
+              title={already_deployed_msg}
+            />
+          ) : (
+            <span />
+          )}
           <Button bsStyle="default" disabled>
-            <Icon type="pf" name={__("edit")} />
+            <Icon type="pf" name={__('edit')} />
           </Button>
           &nbsp;
-          { additionalData.rowData.isExistingHost == false ? (
+          {additionalData.rowData.isExistingHost == false ? (
             <Button bsStyle="default" disabled>
-              <Icon type="pf" name={__("settings")} />
+              <Icon type="pf" name={__('settings')} />
             </Button>
-          ) : (<span></span>)}
+          ) : (
+            <span />
+          )}
           &nbsp;
           <Button bsStyle="default" disabled>
             <span>A</span>
@@ -168,12 +203,12 @@ class ApplicationInstance extends React.Component {
           &nbsp;
           <DeleteTableEntry
             hidden={false}
-            disabled={true}
+            disabled
             onDeleteTableEntry={deleteApplicationInstanceHost}
             additionalData={additionalData}
           />
         </td>
-      )
+      ),
     });
     this.inlineEditButtonsFormatter = inlineEditButtonsFormatter;
 
@@ -185,12 +220,14 @@ class ApplicationInstance extends React.Component {
           <span className="static">{value}</span>
         </td>
       ),
-      renderEditText: (value, additionalData, subtype='text') => (
+      renderEditText: (value, additionalData, subtype = 'text') => (
         <td className="editing">
           <FormControl
             type={subtype}
             defaultValue={value}
-            onBlur={e => changeEditApplicationInstanceHost(e.target.value, additionalData) }
+            onBlur={e =>
+              changeEditApplicationInstanceHost(e.target.value, additionalData)
+            }
           />
         </td>
       ),
@@ -198,13 +235,15 @@ class ApplicationInstance extends React.Component {
         <td className="editing">
           <Select
             value={value.toString()}
-            onChange={e => changeEditApplicationInstanceHost(e.target.value, additionalData) }
+            onChange={e =>
+              changeEditApplicationInstanceHost(e.target.value, additionalData)
+            }
             options={options}
             allowClear
             key="key"
           />
         </td>
-      )
+      ),
     };
 
     const inlineEditFormatter = inlineEditFormatterFactory({
@@ -212,31 +251,51 @@ class ApplicationInstance extends React.Component {
       renderValue: (value, additionalData) => {
         let prettyValue = value;
         if (additionalData.property == 'service') {
-          const serviceList = arrayToObject(this.props.services, "id", "name");
+          const serviceList = arrayToObject(this.props.services, 'id', 'name');
           prettyValue = serviceList[value];
         }
-        return inlineEditFormatterImpl.renderValue(prettyValue, additionalData)
+        return inlineEditFormatterImpl.renderValue(prettyValue, additionalData);
       },
       renderEdit: (value, additionalData) => {
         let prettyValue = value;
         if (additionalData.property == 'service') {
-          const availableServices = this.props.services.filter(service => ((Number(service['maxCount']) == 0) || (service['currentCount'] < service['maxCount'])));
-          const serviceList = arrayToObject(availableServices, "id", "name");
+          const availableServices = this.props.services.filter(
+            service =>
+              Number(service.maxCount) == 0 ||
+              service.currentCount < service.maxCount
+          );
+          const serviceList = arrayToObject(availableServices, 'id', 'name');
 
           if (additionalData.rowData.newEntry === true) {
-            return inlineEditFormatterImpl.renderEditSelect(value, additionalData, serviceList);
+            return inlineEditFormatterImpl.renderEditSelect(
+              value,
+              additionalData,
+              serviceList
+            );
           }
           prettyValue = serviceList[value];
-          return inlineEditFormatterImpl.renderValue(prettyValue, additionalData)
+          return inlineEditFormatterImpl.renderValue(
+            prettyValue,
+            additionalData
+          );
         }
         if (additionalData.property == 'hostname') {
           if (additionalData.rowData.newEntry === true) {
-            return inlineEditFormatterImpl.renderEditText(value, additionalData);
+            return inlineEditFormatterImpl.renderEditText(
+              value,
+              additionalData
+            );
           }
-          return inlineEditFormatterImpl.renderValue(prettyValue, additionalData)
+          return inlineEditFormatterImpl.renderValue(
+            prettyValue,
+            additionalData
+          );
         }
-        return inlineEditFormatterImpl.renderEditText(prettyValue, additionalData);
-      }
+        return inlineEditFormatterImpl.renderEditText(
+          prettyValue,
+          additionalData
+        );
+      },
     });
     this.inlineEditFormatter = inlineEditFormatter;
 
@@ -247,14 +306,24 @@ class ApplicationInstance extends React.Component {
       supportedPlugins,
       this.headerFormatter,
       this.inlineEditFormatter,
-      this.inlineEditButtonsFormatter,
+      this.inlineEditButtonsFormatter
     );
-  };
+  }
 
   render() {
     const {
-      data: { mode, applications, organization, location, foremanDataUrl, appDefinitionUrl },
-      showAlertModal, alertModalText, alertModalTitle, closeAlertModal,
+      data: {
+        mode,
+        applications,
+        organization,
+        location,
+        foremanDataUrl,
+        appDefinitionUrl,
+      },
+      showAlertModal,
+      alertModalText,
+      alertModalTitle,
+      closeAlertModal,
       appDefinition,
       services,
       hosts,
@@ -272,12 +341,12 @@ class ApplicationInstance extends React.Component {
       loadApplicationDefinition,
     } = this.props;
 
-    let { validateResult, validateMsg } = this.validateParameters();
+    const { validateResult, validateMsg } = this.validateParameters();
 
     if (validateResult == false) {
-      $('input[type="submit"][name="commit"]').attr("disabled", true);
+      $('input[type="submit"][name="commit"]').attr('disabled', true);
     } else {
-      $('input[type="submit"][name="commit"]').attr("disabled", false);
+      $('input[type="submit"][name="commit"]').attr('disabled', false);
     }
 
     return (
@@ -287,7 +356,7 @@ class ApplicationInstance extends React.Component {
           onHide={closeAlertModal}
           primaryAction={closeAlertModal}
           primaryActionButtonContent={__('OK')}
-          primaryActionButtonBsStyle={"danger"}
+          primaryActionButtonBsStyle="danger"
           icon={<Icon type="pf" name="error-circle-o" />}
           title={alertModalTitle}
           primaryContent={alertModalText}
@@ -295,26 +364,28 @@ class ApplicationInstance extends React.Component {
         <div className="service-counter">
           <ServiceCounter
             title="Service counts"
-            serviceList={ services }
-            hostList={ hosts }
+            serviceList={services}
+            hostList={hosts}
           />
         </div>
         <div>
           <AppDefinitionSelector
             label="Application Definition"
-            hidden={ false }
-            editable={ mode == 'newInstance' }
-            viewText={ appDefinition.name }
-            options={ applications }
-            onChange={ loadApplicationDefinition }
-            selectValue={ appDefinition.id.toString() }
-            additionalData={{url: appDefinitionUrl}}
+            hidden={false}
+            editable={mode == 'newInstance'}
+            viewText={appDefinition.name}
+            options={applications}
+            onChange={loadApplicationDefinition}
+            selectValue={appDefinition.id.toString()}
+            additionalData={{ url: appDefinitionUrl }}
           />
           {appDefinition.id == '' ? (
-          <div style={{ paddingTop: 25 }}>
-            <pre>{ "App Definition can't be blank" }</pre>
-          </div>
-        ) : (<div></div>)}
+            <div style={{ paddingTop: 25 }}>
+              <pre>App Definition can't be blank</pre>
+            </div>
+          ) : (
+            <div />
+          )}
         </div>
         <div className="form-group">
           <Table.PfProvider
@@ -327,8 +398,8 @@ class ApplicationInstance extends React.Component {
             components={{
               body: {
                 row: Table.InlineEditRow,
-                cell: cellProps => cellProps.children
-              }
+                cell: cellProps => cellProps.children,
+              },
             }}
           >
             <Table.Header headerRows={resolve.headerRows({ columns })} />
@@ -338,26 +409,34 @@ class ApplicationInstance extends React.Component {
               onRow={(rowData, { rowIndex }) => ({
                 role: 'row',
                 isEditing: () => this.isEditing({ rowData }),
-                onCancel: () => cancelEditApplicationInstanceHost({ rowData, rowIndex }),
-                onConfirm: () => confirmEditApplicationInstanceHost({ rowData, rowIndex, appDefinition }),
-                last: rowIndex === services.length - 1
+                onCancel: () =>
+                  cancelEditApplicationInstanceHost({ rowData, rowIndex }),
+                onConfirm: () =>
+                  confirmEditApplicationInstanceHost({
+                    rowData,
+                    rowIndex,
+                    appDefinition,
+                  }),
+                last: rowIndex === services.length - 1,
               })}
             />
           </Table.PfProvider>
           <AddTableEntry
-            hidden={ false }
-            disabled={ this.changeDataAllowed() }
-            onAddTableEntry={ addApplicationInstanceHost }
+            hidden={false}
+            disabled={this.changeDataAllowed()}
+            onAddTableEntry={addApplicationInstanceHost}
           />
           <span style={{ marginLeft: 10 }}>
             <Button
               bsStyle="default"
-              disabled={ this.changeDataAllowed() }
-              onClick={() => openAddExistingHostsModal({
-                isAllGroup: true
-              })}
+              disabled={this.changeDataAllowed()}
+              onClick={() =>
+                openAddExistingHostsModal({
+                  isAllGroup: true,
+                })
+              }
             >
-              <Icon title={__("Add existing hosts")} type="pf" name="server" />
+              <Icon title={__('Add existing hosts')} type="pf" name="server" />
             </Button>
           </span>
           <span style={{ marginLeft: 30 }}>
@@ -365,10 +444,12 @@ class ApplicationInstance extends React.Component {
             <Button
               style={{ marginLeft: 10 }}
               bsStyle="default"
-              disabled={ this.changeDataAllowed() }
-              onClick={() => openAnsibleParameterSelectionModal({
-                isAllGroup: true
-              })}
+              disabled={this.changeDataAllowed()}
+              onClick={() =>
+                openAnsibleParameterSelectionModal({
+                  isAllGroup: true,
+                })
+              }
             >
               <span title={__("Change ansible variables for 'all'")}>A</span>
             </Button>
@@ -378,27 +459,48 @@ class ApplicationInstance extends React.Component {
           <ForemanModal
             id="AppInstanceForemanParamSelection"
             dialogClassName="param_selection_modal"
-            title={__("Foreman Parameter specification for Application Instance")}
+            title={__(
+              'Foreman Parameter specification for Application Instance'
+            )}
           >
             <ForemanModal.Header closeButton={false}>
-              {__("Parameter specification")}
+              {__('Parameter specification')}
             </ForemanModal.Header>
             {this.props.parametersData ? (
               <ParameterSelection
-                editModeCallback={ (hide) => changeParameterSelectionMode({ mode: hide })}
-                paramType={ PARAMETER_SELECTION_PARAM_TYPE_FOREMAN }
-                hiddenParameterTypes={ hiddenForemanParameterTypes }
-                location={ location }
-                organization={ organization }
-                paramDataUrl= { foremanDataUrl }
-                data={ this.props.parametersData }
+                editModeCallback={hide =>
+                  changeParameterSelectionMode({ mode: hide })
+                }
+                paramType={PARAMETER_SELECTION_PARAM_TYPE_FOREMAN}
+                hiddenParameterTypes={hiddenForemanParameterTypes}
+                location={location}
+                organization={organization}
+                paramDataUrl={foremanDataUrl}
+                data={this.props.parametersData}
               />
-            ) : (<span>Empty</span>)
-            }
+            ) : (
+              <span>Empty</span>
+            )}
             <ForemanModal.Footer>
               <div>
-                <Button bsStyle="primary" disabled={this.props.paramEditMode} onClick={() => closeForemanParameterSelectionModal({ mode: 'save' })}>{__("Save")}</Button>
-                <Button bsStyle="default" disabled={this.props.paramEditMode} onClick={() => closeForemanParameterSelectionModal({ mode: 'cancel' })}>{__("Cancel")}</Button>
+                <Button
+                  bsStyle="primary"
+                  disabled={this.props.paramEditMode}
+                  onClick={() =>
+                    closeForemanParameterSelectionModal({ mode: 'save' })
+                  }
+                >
+                  {__('Save')}
+                </Button>
+                <Button
+                  bsStyle="default"
+                  disabled={this.props.paramEditMode}
+                  onClick={() =>
+                    closeForemanParameterSelectionModal({ mode: 'cancel' })
+                  }
+                >
+                  {__('Cancel')}
+                </Button>
               </div>
             </ForemanModal.Footer>
           </ForemanModal>
@@ -407,25 +509,44 @@ class ApplicationInstance extends React.Component {
           <ForemanModal
             id="AppInstanceAnsibleParamSelection"
             dialogClassName="param_selection_modal"
-            title={__("Ansible group variables for Application Instance")}
+            title={__('Ansible group variables for Application Instance')}
           >
             <ForemanModal.Header closeButton={false}>
-              {__("Parameter specification")}
+              {__('Parameter specification')}
             </ForemanModal.Header>
             {this.props.parametersData ? (
               <ParameterSelection
-                editModeCallback={ (hide) => changeParameterSelectionMode({ mode: hide })}
-                paramType={ PARAMETER_SELECTION_PARAM_TYPE_ANSIBLE }
-                location={ location }
-                organization={ organization }
-                data={ this.props.parametersData }
+                editModeCallback={hide =>
+                  changeParameterSelectionMode({ mode: hide })
+                }
+                paramType={PARAMETER_SELECTION_PARAM_TYPE_ANSIBLE}
+                location={location}
+                organization={organization}
+                data={this.props.parametersData}
               />
-            ) : (<span>Empty</span>)
-            }
+            ) : (
+              <span>Empty</span>
+            )}
             <ForemanModal.Footer>
               <div>
-                <Button bsStyle="primary" disabled={this.props.paramEditMode} onClick={() => closeAnsibleParameterSelectionModal({ mode: 'save' })}>{__("Save")}</Button>
-                <Button bsStyle="default" disabled={this.props.paramEditMode} onClick={() => closeAnsibleParameterSelectionModal({ mode: 'cancel' })}>{__("Cancel")}</Button>
+                <Button
+                  bsStyle="primary"
+                  disabled={this.props.paramEditMode}
+                  onClick={() =>
+                    closeAnsibleParameterSelectionModal({ mode: 'save' })
+                  }
+                >
+                  {__('Save')}
+                </Button>
+                <Button
+                  bsStyle="default"
+                  disabled={this.props.paramEditMode}
+                  onClick={() =>
+                    closeAnsibleParameterSelectionModal({ mode: 'cancel' })
+                  }
+                >
+                  {__('Cancel')}
+                </Button>
               </div>
             </ForemanModal.Footer>
           </ForemanModal>
@@ -434,44 +555,59 @@ class ApplicationInstance extends React.Component {
           <ForemanModal
             id="AppInstanceAddExistingHosts"
             dialogClassName="add_existing_hosts_modal"
-            title={__("Add existing hosts to an Application Instance")}
+            title={__('Add existing hosts to an Application Instance')}
           >
             <ForemanModal.Header closeButton={false}>
-              {__("Existing hosts selection")}
+              {__('Existing hosts selection')}
             </ForemanModal.Header>
             <ExistingHostSelection
-              location={ location }
-              organization={ organization }
-              services={ services }
-              allHosts={ this.props.hosts }
+              location={location}
+              organization={organization}
+              services={services}
+              allHosts={this.props.hosts}
             />
             <ForemanModal.Footer>
               <div>
-                <Button bsStyle="primary" disabled={this.props.paramEditMode} onClick={() => closeAddExistingHostsModal({ mode: 'save' })}>{__("Save")}</Button>
-                <Button bsStyle="default" disabled={this.props.paramEditMode} onClick={() => closeAddExistingHostsModal({ mode: 'cancel' })}>{__("Cancel")}</Button>
+                <Button
+                  bsStyle="primary"
+                  disabled={this.props.paramEditMode}
+                  onClick={() => closeAddExistingHostsModal({ mode: 'save' })}
+                >
+                  {__('Save')}
+                </Button>
+                <Button
+                  bsStyle="default"
+                  disabled={this.props.paramEditMode}
+                  onClick={() => closeAddExistingHostsModal({ mode: 'cancel' })}
+                >
+                  {__('Cancel')}
+                </Button>
               </div>
             </ForemanModal.Footer>
           </ForemanModal>
         </div>
         {validateResult == false ? (
           <div style={{ paddingTop: 25 }}>
-            <pre>{ validateMsg }</pre>
+            <pre>{validateMsg}</pre>
           </div>
-        ) : (<div></div>)}
+        ) : (
+          <div />
+        )}
         <RailsData
-          key='application_instance_hosts_data'
-          view='app_instance'
-          parameter='hosts'
+          key="application_instance_hosts_data"
+          view="app_instance"
+          parameter="hosts"
           value={JSON.stringify(this.props.hosts)}
         />
         <RailsData
-          key='application_instance_ansible_data'
-          view='app_instance'
-          parameter='ansible_vars_all'
+          key="application_instance_ansible_data"
+          view="app_instance"
+          parameter="ansible_vars_all"
           value={JSON.stringify(this.props.ansibleVarsAll)}
         />
       </span>
-    )};
+    );
+  }
 }
 
 ApplicationInstance.defaultProps = {
@@ -479,7 +615,7 @@ ApplicationInstance.defaultProps = {
   showAlertModal: false,
   alertModalText: '',
   alertModalTitle: '',
-  appDefinition: { "id": '', "name": '' },
+  appDefinition: { id: '', name: '' },
   editMode: false,
   services: [],
   hosts: [],
@@ -489,7 +625,7 @@ ApplicationInstance.defaultProps = {
   hiddenForemanParameterTypes: [],
   editParamsOfRowId: null,
   paramEditMode: false,
-}
+};
 
 ApplicationInstance.propTypes = {
   initApplicationInstance: PropTypes.func,

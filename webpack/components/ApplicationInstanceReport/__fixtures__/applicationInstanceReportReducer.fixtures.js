@@ -1,13 +1,7 @@
 import Immutable from 'seamless-immutable';
-import {
-   cloneDeep,
-   findIndex,
-   findLastIndex,
-} from 'lodash';
+import { cloneDeep, findIndex, findLastIndex } from 'lodash';
 
-import {
-  applicationInstanceReportData_1,
-} from '../__fixtures__/applicationInstanceReportData_1.fixtures';
+import { applicationInstanceReportData_1 } from '../__fixtures__/applicationInstanceReportData_1.fixtures';
 
 export const successState = Immutable(applicationInstanceReportData_1);
 

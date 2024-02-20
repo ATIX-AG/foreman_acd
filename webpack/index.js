@@ -12,10 +12,28 @@ import reducer from './reducer';
 
 injectReducer('foremanAcd', reducer);
 
-componentRegistry.register({ name: 'ParameterSelection', type: ParameterSelection, });
-componentRegistry.register({ name: 'SyncGitRepo', type: SyncGitRepo, });
-componentRegistry.register({ name: 'ApplicationDefinition', type: ApplicationDefinition, });
-componentRegistry.register({ name: 'ApplicationDefinitionImport', type: ApplicationDefinitionImport, });
-componentRegistry.register({ name: 'ApplicationInstance', type: ApplicationInstance, });
-componentRegistry.register({ name: 'ApplicationInstanceReport', type: ApplicationInstanceReport, });
-componentRegistry.register({ name: 'ExistingHostSelection', type: ExistingHostSelection, });
+componentRegistry.register({
+  name: 'ParameterSelection',
+  type: ParameterSelection,
+});
+componentRegistry.register({ name: 'SyncGitRepo', type: SyncGitRepo });
+componentRegistry.register({
+  name: 'ApplicationDefinition',
+  type: ApplicationDefinition,
+});
+componentRegistry.register({
+  name: 'ApplicationDefinitionImport',
+  type: ApplicationDefinitionImport,
+});
+componentRegistry.register({
+  name: 'ApplicationInstance',
+  type: ApplicationInstance,
+});
+componentRegistry.register({
+  name: 'ApplicationInstanceReport',
+  type: ApplicationInstanceReport,
+});
+componentRegistry.register({
+  name: 'ExistingHostSelection',
+  type: ExistingHostSelection,
+});

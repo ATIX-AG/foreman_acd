@@ -20,32 +20,59 @@ import {
 } from './components/ApplicationInstance/ApplicationInstanceConstants';
 
 const rootReducer = (state = {}, action) => {
+  const param_state = parameterSelectionParameters(
+    state.parameterSelectionParameters,
+    action
+  );
+  const app_ins_report_state = applicationInstanceReport(
+    state.applicationInstanceReport,
+    action
+  );
 
-  const param_state = parameterSelectionParameters(state.parameterSelectionParameters, action);
-  const app_ins_report_state = applicationInstanceReport(state.applicationInstanceReport, action);
-
-  if (action.type == APPLICATION_DEFINITION_FOREMAN_PARAMETER_SELECTION_MODAL_CLOSE) {
+  if (
+    action.type ==
+    APPLICATION_DEFINITION_FOREMAN_PARAMETER_SELECTION_MODAL_CLOSE
+  ) {
     action.payload.parameterSelection = param_state.parameters;
   }
-  if (action.type == APPLICATION_DEFINITION_ANSIBLE_PARAMETER_SELECTION_MODAL_CLOSE) {
+  if (
+    action.type ==
+    APPLICATION_DEFINITION_ANSIBLE_PARAMETER_SELECTION_MODAL_CLOSE
+  ) {
     action.payload.parameterSelection = param_state.parameters;
   }
-  const app_def_state = applicationDefinitionConf(state.applicationDefinitionConf, action);
-  const app_def_import_state = applicationDefinitionImportConf(state.applicationDefinitionImportConf, action);
+  const app_def_state = applicationDefinitionConf(
+    state.applicationDefinitionConf,
+    action
+  );
+  const app_def_import_state = applicationDefinitionImportConf(
+    state.applicationDefinitionImportConf,
+    action
+  );
 
-  if (action.type == APPLICATION_INSTANCE_FOREMAN_PARAMETER_SELECTION_MODAL_CLOSE) {
+  if (
+    action.type == APPLICATION_INSTANCE_FOREMAN_PARAMETER_SELECTION_MODAL_CLOSE
+  ) {
     action.payload.parameterSelection = param_state.parameters;
   }
-  if (action.type == APPLICATION_INSTANCE_ANSIBLE_PARAMETER_SELECTION_MODAL_CLOSE) {
+  if (
+    action.type == APPLICATION_INSTANCE_ANSIBLE_PARAMETER_SELECTION_MODAL_CLOSE
+  ) {
     action.payload.parameterSelection = param_state.parameters;
   }
 
-  const ex_host_state = existingHostSelectionConf(state.existingHostSelectionConf, action);
+  const ex_host_state = existingHostSelectionConf(
+    state.existingHostSelectionConf,
+    action
+  );
   if (action.type == APPLICATION_INSTANCE_ADD_EXISTING_HOSTS_MODAL_CLOSE) {
     action.payload.selectedHosts = ex_host_state.selectedHosts;
   }
 
-  const app_ins_state = applicationInstanceConf(state.applicationInstanceConf, action);
+  const app_ins_state = applicationInstanceConf(
+    state.applicationInstanceConf,
+    action
+  );
   const sync_git_repo_state = syncGitRepoConf(state.syncGitRepoConf, action);
 
   return {

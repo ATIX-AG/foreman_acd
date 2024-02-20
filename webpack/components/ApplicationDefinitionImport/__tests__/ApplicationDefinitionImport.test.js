@@ -6,10 +6,10 @@ const noop = () => {};
 
 const fixtures = {
   'should render application definition import': {
-      location: "Default Location",
-      organization: "Default Organization",
-      hostgroups: [],
-      ansiblePlaybookServices: [],
+    location: 'Default Location',
+    organization: 'Default Organization',
+    hostgroups: [],
+    ansiblePlaybookServices: [],
     initApplicationDefinitionImport: noop,
     addApplicationDefinitionImportService: noop,
     closeAlertModal: noop,

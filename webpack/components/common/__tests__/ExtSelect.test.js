@@ -11,7 +11,7 @@ const fixtures = {
     viewText: '',
     selectValue: '1',
     onChange: noop,
-    options: { first: 'first', second: 'second'},
+    options: { first: 'first', second: 'second' },
     additionalData: { moreData: 'moooore' },
   },
   'should render hidden selection field': {
@@ -29,7 +29,7 @@ const fixtures = {
     viewText: 'Awesome Text',
     selectValue: '0',
     onChange: noop,
-    options: { first: 'first', second: 'second'},
+    options: { first: 'first', second: 'second' },
     additionalData: {},
   },
 };

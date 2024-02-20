@@ -1,18 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Service= ({
-  name,
-  currentCount,
-  minCount,
-  maxCount,
-}) =>{
-  return (
-    <div>
-      <label>{name}:</label> {currentCount} ({__("Min/Max")}: {minCount}/{maxCount})
-    </div>
-  );
-};
+const Service = ({ name, currentCount, minCount, maxCount }) => (
+  <div>
+    <label>{name}:</label> {currentCount} ({__('Min/Max')}: {minCount}/
+    {maxCount})
+  </div>
+);
 
 Service.defaultProps = {
   minCount: 0,

@@ -6,8 +6,8 @@ const noop = () => {};
 
 const fixtures = {
   'should render existing host selection': {
-    location: "Default Location",
-    organization: "Default Organization",
+    location: 'Default Location',
+    organization: 'Default Organization',
     services: [],
     allHosts: [],
     initExistingHostSelection: noop,

@@ -1,21 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { orderBy } from 'lodash';
+import { orderBy, cloneDeep } from 'lodash';
 import ServiceSelector from './components/ServiceSelector';
 import { arrayToObject } from '../../helper';
 
-import {
-  cloneDeep,
-} from 'lodash';
-
-import {
-  Icon,
-  Button,
-  DualListControlled,
-} from 'patternfly-react';
+import { Icon, Button, DualListControlled } from 'patternfly-react';
 
 class ExistingHostSelection extends React.Component {
-
   constructor(props) {
     super(props);
   }
@@ -44,35 +35,41 @@ class ExistingHostSelection extends React.Component {
       hostSelectionChanged,
     } = this.props;
 
-    const serviceList = arrayToObject(services, "id", "name");
-    const load_hostgroup_url = "/api/v2/hostgroups/__hostgroup_id__/hosts"
+    const serviceList = arrayToObject(services, 'id', 'name');
+    const load_hostgroup_url = '/api/v2/hostgroups/__hostgroup_id__/hosts';
 
-    return(
+    return (
       <div>
         <div className="row">
           <ServiceSelector
             label="Service"
-            hidden={ false }
-            selectValue={ this.props.serviceId ? this.props.serviceId.toString() : '0'}
-            options={ serviceList }
-            onChange={ loadHostsOfHostgroup }
-            additionalData={{ url: load_hostgroup_url, services: services }} />
+            hidden={false}
+            selectValue={
+              this.props.serviceId ? this.props.serviceId.toString() : '0'
+            }
+            options={serviceList}
+            onChange={loadHostsOfHostgroup}
+            additionalData={{ url: load_hostgroup_url, services }}
+          />
         </div>
         <div className="row">
-          <label className="col-md-2 control-label">{ __("Hosts") }</label>
+          <label className="col-md-2 control-label">{__('Hosts')}</label>
           {this.props.serviceId != undefined ? (
-          <div className="col-md-6">
-            <DualListControlled
-              onChange={ hostSelectionChanged }
-              left={{
-                items: cloneDeep(availableHosts),
-              }}
-              right={{
-                items: cloneDeep(alreadyUsedHosts),
-              }}
-              allowHiddenInputs={false}
-            />
-          </div>) : (<span>{ __("Please select service first.") }</span>)}
+            <div className="col-md-6">
+              <DualListControlled
+                onChange={hostSelectionChanged}
+                left={{
+                  items: cloneDeep(availableHosts),
+                }}
+                right={{
+                  items: cloneDeep(alreadyUsedHosts),
+                }}
+                allowHiddenInputs={false}
+              />
+            </div>
+          ) : (
+            <span>{__('Please select service first.')}</span>
+          )}
         </div>
       </div>
     );

@@ -1,13 +1,7 @@
 import Immutable from 'seamless-immutable';
-import {
-   cloneDeep,
-   findIndex,
-   findLastIndex,
-} from 'lodash';
+import { cloneDeep, findIndex, findLastIndex } from 'lodash';
 
-import {
-  existingHostSelectionConfData_1,
-} from '../__fixtures__/existingHostSelectionConfData_1.fixtures';
+import { existingHostSelectionConfData_1 } from '../__fixtures__/existingHostSelectionConfData_1.fixtures';
 
 export const successState = Immutable(existingHostSelectionConfData_1);
 
@@ -19,12 +13,12 @@ export const initExistingHostSelectionPayload = {
         value: 5,
         label: 'isaac-anselm',
         disabled: true,
-        tooltipText: 'Host already used for this application instance'
-      }
+        tooltipText: 'Host already used for this application instance',
+      },
     ],
     selectedHosts: [],
     hostsInHostgroup: {},
-  }
+  },
 };
 
 export const existingHostSelectionSelectionChangedPayload = {
@@ -33,7 +27,7 @@ export const existingHostSelectionSelectionChangedPayload = {
       label: 'isaar-anselm',
       value: 3,
     },
-  ]
+  ],
 };
 
 export const loadExistingHostSelectionSuccessPayload = {
@@ -84,9 +78,7 @@ export const loadExistingHostSelectionSuccessPayload = {
       compute_resource_name: null,
       compute_profile_id: null,
       compute_profile_name: null,
-      capabilities: [
-        'build'
-      ],
+      capabilities: ['build'],
       provision_method: 'build',
       certname: 'isaac-anselm.mylocal',
       image_id: null,
@@ -114,7 +106,7 @@ export const loadExistingHostSelectionSuccessPayload = {
       puppet_proxy: null,
       puppet_ca_proxy: null,
       hostgroup_name: 'base',
-      hostgroup_title: 'base'
+      hostgroup_title: 'base',
     },
     {
       ip: null,
@@ -162,9 +154,7 @@ export const loadExistingHostSelectionSuccessPayload = {
       compute_resource_name: null,
       compute_profile_id: null,
       compute_profile_name: null,
-      capabilities: [
-        'build'
-      ],
+      capabilities: ['build'],
       provision_method: 'build',
       certname: 'lllllll.mylocal',
       image_id: null,
@@ -192,12 +182,12 @@ export const loadExistingHostSelectionSuccessPayload = {
       puppet_proxy: null,
       puppet_ca_proxy: null,
       hostgroup_name: 'base',
-      hostgroup_title: 'base'
-    }
+      hostgroup_title: 'base',
+    },
   ],
-  serviceId: 1
+  serviceId: 1,
 };
 
 export const loadExistingHostSelectionFailurePayload = {
-  error: "Something really bad happend",
+  error: 'Something really bad happend',
 };

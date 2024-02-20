@@ -7,8 +7,8 @@ const noop = () => {};
 const fixtures = {
   'should render application instance': {
     data: {
-      location: "Default Location",
-      organization: "Default Organization",
+      location: 'Default Location',
+      organization: 'Default Organization',
       appDefinition: {},
       hosts: [],
       ansibleVarsAll: [],
