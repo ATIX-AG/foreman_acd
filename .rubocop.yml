@@ -9,7 +9,7 @@ AllCops:
     - 'extras/**/*'
     - 'locale/**/*'
     - 'node_modules/**/*'
-    - 'vendor/bundle/**/*'
+    - 'vendor/**/*'
 
 Metrics/BlockLength:
   Exclude:
