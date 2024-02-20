@@ -30,11 +30,11 @@ function EasyHeaderFormatter(value, { column }) {
 function supportedPluginsToHiddenParameterTypes(supportedPlugins) {
   const hiddenParameterTypes = [];
 
-  if (supportedPlugins.puppet == false) {
+  if (supportedPlugins.puppet === false) {
     hiddenParameterTypes.push('puppetenv');
   }
 
-  if (supportedPlugins.katello == false) {
+  if (supportedPlugins.katello === false) {
     hiddenParameterTypes.push('lifecycleenv');
   }
 

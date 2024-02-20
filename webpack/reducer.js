@@ -1,5 +1,3 @@
-import { combineReducers } from 'redux';
-
 import parameterSelectionParameters from './components/ParameterSelection/ParameterSelectionReducer';
 import applicationDefinitionConf from './components/ApplicationDefinition/ApplicationDefinitionReducer';
 import applicationDefinitionImportConf from './components/ApplicationDefinitionImport/ApplicationDefinitionImportReducer';
@@ -20,69 +18,69 @@ import {
 } from './components/ApplicationInstance/ApplicationInstanceConstants';
 
 const rootReducer = (state = {}, action) => {
-  const param_state = parameterSelectionParameters(
+  const paramState = parameterSelectionParameters(
     state.parameterSelectionParameters,
     action
   );
-  const app_ins_report_state = applicationInstanceReport(
+  const appInsReportState = applicationInstanceReport(
     state.applicationInstanceReport,
     action
   );
 
   if (
-    action.type ==
+    action.type ===
     APPLICATION_DEFINITION_FOREMAN_PARAMETER_SELECTION_MODAL_CLOSE
   ) {
-    action.payload.parameterSelection = param_state.parameters;
+    action.payload.parameterSelection = paramState.parameters;
   }
   if (
-    action.type ==
+    action.type ===
     APPLICATION_DEFINITION_ANSIBLE_PARAMETER_SELECTION_MODAL_CLOSE
   ) {
-    action.payload.parameterSelection = param_state.parameters;
+    action.payload.parameterSelection = paramState.parameters;
   }
-  const app_def_state = applicationDefinitionConf(
+  const appDefState = applicationDefinitionConf(
     state.applicationDefinitionConf,
     action
   );
-  const app_def_import_state = applicationDefinitionImportConf(
+  const appDefImportState = applicationDefinitionImportConf(
     state.applicationDefinitionImportConf,
     action
   );
 
   if (
-    action.type == APPLICATION_INSTANCE_FOREMAN_PARAMETER_SELECTION_MODAL_CLOSE
+    action.type === APPLICATION_INSTANCE_FOREMAN_PARAMETER_SELECTION_MODAL_CLOSE
   ) {
-    action.payload.parameterSelection = param_state.parameters;
+    action.payload.parameterSelection = paramState.parameters;
   }
   if (
-    action.type == APPLICATION_INSTANCE_ANSIBLE_PARAMETER_SELECTION_MODAL_CLOSE
+    action.type === APPLICATION_INSTANCE_ANSIBLE_PARAMETER_SELECTION_MODAL_CLOSE
   ) {
-    action.payload.parameterSelection = param_state.parameters;
+    action.payload.parameterSelection = paramState.parameters;
   }
 
-  const ex_host_state = existingHostSelectionConf(
+  const exHostState = existingHostSelectionConf(
     state.existingHostSelectionConf,
     action
   );
-  if (action.type == APPLICATION_INSTANCE_ADD_EXISTING_HOSTS_MODAL_CLOSE) {
-    action.payload.selectedHosts = ex_host_state.selectedHosts;
+  if (action.type === APPLICATION_INSTANCE_ADD_EXISTING_HOSTS_MODAL_CLOSE) {
+    action.payload.selectedHosts = exHostState.selectedHosts;
   }
 
-  const app_ins_state = applicationInstanceConf(
+  const appInsState = applicationInstanceConf(
     state.applicationInstanceConf,
     action
   );
-  const sync_git_repo_state = syncGitRepoConf(state.syncGitRepoConf, action);
+  const syncGitRepoState = syncGitRepoConf(state.syncGitRepoConf, action);
 
   return {
-    applicationDefinitionConf: app_def_state,
-    applicationDefinitionImportConf: app_def_import_state,
-    applicationInstanceConf: app_ins_state,
-    applicationInstanceReport: app_ins_report_state,
-    existingHostSelectionConf: ex_host_state,
-    parameterSelectionParameters: param_state,
-    syncGitRepoConf: sync_git_repo_state,
+    applicationDefinitionConf: appDefState,
+    applicationDefinitionImportConf: appDefImportState,
+    applicationInstanceConf: appInsState,
+    applicationInstanceReport: appInsReportState,
+    existingHostSelectionConf: exHostState,
+    parameterSelectionParameters: paramState,
+    syncGitRepoConf: syncGitRepoState,
   };
 };
 
