@@ -1,19 +1,19 @@
 import Immutable from 'seamless-immutable';
-import { cloneDeep, findIndex, findLastIndex } from 'lodash';
+import { cloneDeep, findIndex } from 'lodash';
 
-import { applicationInstanceConfData_1 } from '../__fixtures__/applicationInstanceConfData_1.fixtures';
+import { applicationInstanceConfData1 } from '../__fixtures__/applicationInstanceConfData1.fixtures';
 
-export const successState = Immutable(applicationInstanceConfData_1);
+export const successState = Immutable(applicationInstanceConfData1);
 
 const EDIT_ROW_ID = 2;
 
-const editClone = applicationInstanceConfData_1;
+const editClone = applicationInstanceConfData1;
 const editIndex = findIndex(editClone.hosts, { id: EDIT_ROW_ID });
 editClone.hosts[editIndex].backup = cloneDeep(editClone.hosts[editIndex]);
 export const editState = Immutable(editClone);
 
 // Payload Data
-export const initApplicationInstancePayload = applicationInstanceConfData_1;
+export const initApplicationInstancePayload = applicationInstanceConfData1;
 
 export const closeAlertModalPayload = {};
 export const addHostPayload = {};

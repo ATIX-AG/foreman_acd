@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ExistingHostSelectionSelectors should return alreadyUsedHosts from existingHostSelectionConfData_1 fixtures 1`] = `
+exports[`ExistingHostSelectionSelectors should return alreadyUsedHosts from existingHostSelectionConfData1 fixtures 1`] = `
 Array [
   Object {
     "disabled": true,
@@ -11,7 +11,7 @@ Array [
 ]
 `;
 
-exports[`ExistingHostSelectionSelectors should return availableHosts from existingHostSelectionConfData_1 fixtures 1`] = `
+exports[`ExistingHostSelectionSelectors should return availableHosts from existingHostSelectionConfData1 fixtures 1`] = `
 Array [
   Object {
     "label": "lllllll",
@@ -20,8 +20,8 @@ Array [
 ]
 `;
 
-exports[`ExistingHostSelectionSelectors should return hostsInHostgroup from existingHostSelectionConfData_1 fixtures 1`] = `undefined`;
+exports[`ExistingHostSelectionSelectors should return hostsInHostgroup from existingHostSelectionConfData1 fixtures 1`] = `undefined`;
 
-exports[`ExistingHostSelectionSelectors should return selectedHosts from existingHostSelectionConfData_1 fixtures 1`] = `Array []`;
+exports[`ExistingHostSelectionSelectors should return selectedHosts from existingHostSelectionConfData1 fixtures 1`] = `Array []`;
 
-exports[`ExistingHostSelectionSelectors should return serviceId from existingHostSelectionConfData_1 fixtures 1`] = `2`;
+exports[`ExistingHostSelectionSelectors should return serviceId from existingHostSelectionConfData1 fixtures 1`] = `2`;

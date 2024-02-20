@@ -1,9 +1,8 @@
 import Immutable from 'seamless-immutable';
-import { cloneDeep, findIndex, findLastIndex } from 'lodash';
 
-import { existingHostSelectionConfData_1 } from '../__fixtures__/existingHostSelectionConfData_1.fixtures';
+import { existingHostSelectionConfData1 } from '../__fixtures__/existingHostSelectionConfData1.fixtures';
 
-export const successState = Immutable(existingHostSelectionConfData_1);
+export const successState = Immutable(existingHostSelectionConfData1);
 
 export const initExistingHostSelectionPayload = {
   payload: {

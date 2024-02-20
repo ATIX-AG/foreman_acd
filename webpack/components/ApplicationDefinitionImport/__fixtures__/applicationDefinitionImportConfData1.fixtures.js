@@ -1,4 +1,4 @@
-export const applicationDefinitionImportConfData_1 = {
+export const applicationDefinitionImportConfData1 = {
   name: false,
   error: {
     errorMsg: '',

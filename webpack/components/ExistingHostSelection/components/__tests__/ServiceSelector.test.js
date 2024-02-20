@@ -4,11 +4,6 @@ import ServiceSelector from '../ServiceSelector';
 
 const noop = () => {};
 
-const data = [
-  { name: 'report 1', status: 'done' },
-  { name: 'report 2', status: 'pending' },
-];
-
 const fixtures = {
   'should render the service selector': {
     hidden: false,

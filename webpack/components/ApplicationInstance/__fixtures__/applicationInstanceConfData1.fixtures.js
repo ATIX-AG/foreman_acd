@@ -1,4 +1,4 @@
-export const applicationInstanceConfData_1 = {
+export const applicationInstanceConfData1 = {
   name: false,
   error: {
     errorMsg: '',

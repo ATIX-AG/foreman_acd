@@ -1,4 +1,4 @@
-export const parameterSelectionData_1 = {
+export const parameterSelectionData1 = {
   editMode: false,
   error: {
     errorMsg: '',

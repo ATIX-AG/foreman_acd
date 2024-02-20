@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ApplicationInstanceSelectors should return activeHostId from applicationInstanceReportData_1 fixtures 1`] = `undefined`;
+exports[`ApplicationInstanceSelectors should return activeHostId from applicationInstanceReportData1 fixtures 1`] = `undefined`;
 
-exports[`ApplicationInstanceSelectors should return hosts from applicationInstanceReportData_1 fixtures 1`] = `
+exports[`ApplicationInstanceSelectors should return hosts from applicationInstanceReportData1 fixtures 1`] = `
 Array [
   Object {
     "build": false,

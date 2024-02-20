@@ -1,4 +1,4 @@
-export const applicationInstanceReportData_1 = {
+export const applicationInstanceReportData1 = {
   name: false,
   error: {
     errorMsg: '',
