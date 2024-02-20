@@ -15,6 +15,7 @@
     "babel-preset-env": "^1.6.0",
     "babel-preset-react": "^6.24.1",
     "eslint": "^6.7.2",
+    "eslint-plugin-react": "^7.34.1",
     "jest": "^23.6.0",
     "jest-prop-type-error": "^1.1.0",
     "lodash": "^4.17.11",
@@ -26,8 +27,8 @@
     "table-resolver": "^3.2.0"
   },
   "scripts": {
-    "lint": "tfm-lint --plugin -d *.js,webpack",
-    "lint-fix": "tfm-lint --plugin -d *.js,webpack --fix",
+    "lint": "eslint *.js webpack",
+    "lint-fix": "eslint --fix *.js webpack",
     "stylelint": "stylelint webpack/**/*.scss",
     "stylelint-fix": "stylelint webpack/**/*.scss --fix",
     "test": "jest --no-cache"

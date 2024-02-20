@@ -1,0 +1,13 @@
+{
+  "plugins": ["@theforeman/foreman"],
+  "extends": [
+    "plugin:@theforeman/foreman/core",
+    "plugin:@theforeman/foreman/plugins",
+  ],
+  "rules": {
+    // avoid https://github.com/prettier/eslint-config-prettier/issues/29
+    "standard/computed-property-even-spacing": 0,
+    //"eqeqeq": "warn",
+    "max-lines": ["error", {"max": 550, "skipBlankLines": true, "skipComments": true}],
+  },
+}
