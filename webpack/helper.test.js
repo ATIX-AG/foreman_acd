@@ -6,51 +6,48 @@ import {
 } from './helper';
 
 describe('helper', () => {
-  const testArray = []
+  const testArray = [];
   testArray[0] = { id: 'i1', value: 'v1' };
   testArray[1] = { id: 'i2', value: 'v2' };
   testArray[2] = { id: 'i3', value: 'v3' };
 
   it('creates a object from an array', () => {
-    expect(arrayToObject(testArray, 'id', 'value')).toEqual(
-      {
-        i1: 'v1',
-        i2: 'v2',
-        i3: 'v3'
-      }
-    );
+    expect(arrayToObject(testArray, 'id', 'value')).toEqual({
+      i1: 'v1',
+      i2: 'v2',
+      i3: 'v3',
+    });
   });
 
   it('creates a object from an array', () => {
-    expect(arrayToObjectObj(testArray, 'id')).toEqual(
-      {
-        i1: { id: 'i1', value: 'v1' },
-        i2: { id: 'i2', value: 'v2' },
-        i3: { id: 'i3', value: 'v3' },
-      }
-    );
+    expect(arrayToObjectObj(testArray, 'id')).toEqual({
+      i1: { id: 'i1', value: 'v1' },
+      i2: { id: 'i2', value: 'v2' },
+      i3: { id: 'i3', value: 'v3' },
+    });
   });
 
   it('formats a nice, easy header', () => {
-    expect(EasyHeaderFormatter('MyValue', { column: { header: { label: 'TheLabel', props: { p1: '1' } } } })).toMatchSnapshot();
+    expect(
+      EasyHeaderFormatter('MyValue', {
+        column: { header: { label: 'TheLabel', props: { p1: '1' } } },
+      })
+    ).toMatchSnapshot();
   });
 
   it('creates hidden parameter definition by supported plugins 1', () => {
-    expect(supportedPluginsToHiddenParameterTypes({ puppet: false})).toEqual(
-      ['puppetenv']
-    );
+    expect(supportedPluginsToHiddenParameterTypes({ puppet: false })).toEqual([
+      'puppetenv',
+    ]);
   });
 
   it('creates hidden parameter definition by supported plugins 2', () => {
-    expect(supportedPluginsToHiddenParameterTypes({ puppet: true})).toEqual(
+    expect(supportedPluginsToHiddenParameterTypes({ puppet: true })).toEqual(
       []
     );
   });
 
   it('creates hidden parameter definition by supported plugins 3', () => {
-    expect(supportedPluginsToHiddenParameterTypes({})).toEqual(
-      []
-    );
+    expect(supportedPluginsToHiddenParameterTypes({})).toEqual([]);
   });
 });
-

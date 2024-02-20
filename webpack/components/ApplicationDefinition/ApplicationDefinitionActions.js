@@ -6,9 +6,7 @@ import {
   setModalClosed,
 } from 'foremanReact/components/ForemanModal/ForemanModalActions';
 
-import {
-  actionHeaderCellFormatter,
-} from 'patternfly-react';
+import { actionHeaderCellFormatter } from 'patternfly-react';
 
 import {
   propsToSnakeCase,
@@ -34,13 +32,9 @@ import {
   APPLICATION_DEFINITION_CHANGE_PARAMETER_SELECTION_MODE,
 } from './ApplicationDefinitionConstants';
 
-import {
-  supportedPluginsToHiddenParameterTypes,
-} from '../../helper';
+import { supportedPluginsToHiddenParameterTypes } from '../../helper';
 
-import {
-  transformAnsiblePlaybook,
-} from './ApplicationDefinitionHelper';
+import { transformAnsiblePlaybook } from './ApplicationDefinitionHelper';
 
 export const initApplicationDefinition = (
   ansiblePlaybook,
@@ -49,7 +43,7 @@ export const initApplicationDefinition = (
   supportedPlugins,
   headerFormatter,
   inlineEditFormatter,
-  inlineEditButtonsFormatter,
+  inlineEditButtonsFormatter
 ) => dispatch => {
   const initialState = {};
 
@@ -62,13 +56,13 @@ export const initApplicationDefinition = (
         props: {
           index: 0,
           style: {
-            width: '15%'
-          }
+            width: '15%',
+          },
         },
       },
       cell: {
-        formatters: [inlineEditFormatter]
-      }
+        formatters: [inlineEditFormatter],
+      },
     },
     {
       property: 'description',
@@ -78,13 +72,13 @@ export const initApplicationDefinition = (
         props: {
           index: 1,
           style: {
-            width: '10%'
-          }
+            width: '10%',
+          },
         },
       },
       cell: {
-        formatters: [inlineEditFormatter]
-      }
+        formatters: [inlineEditFormatter],
+      },
     },
     {
       property: 'hostgroup',
@@ -94,13 +88,13 @@ export const initApplicationDefinition = (
         props: {
           index: 2,
           style: {
-            width: '20%'
-          }
+            width: '20%',
+          },
         },
       },
       cell: {
-        formatters: [inlineEditFormatter]
-      }
+        formatters: [inlineEditFormatter],
+      },
     },
     {
       property: 'ansibleGroup',
@@ -110,13 +104,13 @@ export const initApplicationDefinition = (
         props: {
           index: 3,
           style: {
-            width: '20%'
-          }
+            width: '20%',
+          },
         },
       },
       cell: {
-        formatters: [inlineEditFormatter]
-      }
+        formatters: [inlineEditFormatter],
+      },
     },
     {
       property: 'minCount',
@@ -126,13 +120,13 @@ export const initApplicationDefinition = (
         props: {
           index: 4,
           style: {
-            width: '10%'
-          }
+            width: '10%',
+          },
         },
       },
       cell: {
-        formatters: [inlineEditFormatter]
-      }
+        formatters: [inlineEditFormatter],
+      },
     },
     {
       property: 'maxCount',
@@ -142,13 +136,13 @@ export const initApplicationDefinition = (
         props: {
           index: 5,
           style: {
-            width: '10%'
-          }
+            width: '10%',
+          },
         },
       },
       cell: {
-        formatters: [inlineEditFormatter]
-      }
+        formatters: [inlineEditFormatter],
+      },
     },
     {
       property: 'actions',
@@ -158,14 +152,14 @@ export const initApplicationDefinition = (
         props: {
           index: 6,
           style: {
-            width: '15%'
-          }
+            width: '15%',
+          },
         },
       },
       cell: {
-        formatters: [inlineEditButtonsFormatter]
-      }
-    }
+        formatters: [inlineEditButtonsFormatter],
+      },
+    },
   ];
 
   if (ansiblePlaybook !== undefined) {
@@ -173,7 +167,9 @@ export const initApplicationDefinition = (
   }
   initialState.services = services;
   initialState.ansibleVarsAll = ansibleVarsAll;
-  initialState.hiddenForemanParameterTypes = supportedPluginsToHiddenParameterTypes(supportedPlugins);
+  initialState.hiddenForemanParameterTypes = supportedPluginsToHiddenParameterTypes(
+    supportedPlugins
+  );
 
   dispatch({
     type: APPLICATION_DEFINITION_INIT,
@@ -191,7 +187,7 @@ const errorHandler = (msg, err) => {
 
 export const closeAlertModal = () => ({
   type: APPLICATION_DEFINITION_CLOSE_ALERT_MODAL,
-  payload: {}
+  payload: {},
 });
 
 export const loadAnsibleData = (
@@ -201,55 +197,62 @@ export const loadAnsibleData = (
   dispatch({ type: APPLICATION_DEFINITION_LOAD_ANSIBLE_DATA_REQUEST });
 
   const baseUrl = additionalData.url;
-  const realUrl = baseUrl.replace("__id__", ansiblePlaybookId);
+  const realUrl = baseUrl.replace('__id__', ansiblePlaybookId);
 
   return api
     .get(realUrl, {}, {})
     .then(({ data }) =>
       dispatch({
         type: APPLICATION_DEFINITION_LOAD_ANSIBLE_DATA_SUCCESS,
-        payload: { ...data }
+        payload: { ...data },
       })
     )
-    .catch(error => dispatch(errorHandler(APPLICATION_DEFINITION_LOAD_ANSIBLE_DATA_FAILURE, error)));
+    .catch(error =>
+      dispatch(
+        errorHandler(APPLICATION_DEFINITION_LOAD_ANSIBLE_DATA_FAILURE, error)
+      )
+    );
 };
 
-export const addApplicationDefinitionService = (additionalData) => ({
+export const addApplicationDefinitionService = additionalData => ({
   type: APPLICATION_DEFINITION_SERVICE_ADD,
   payload: {
     ...additionalData,
   },
 });
 
-export const deleteApplicationDefinitionService = (additionalData) => ({
+export const deleteApplicationDefinitionService = additionalData => ({
   type: APPLICATION_DEFINITION_SERVICE_DELETE,
   payload: {
     ...additionalData,
   },
 });
 
-export const activateEditApplicationDefinitionService = (additionalData) => ({
+export const activateEditApplicationDefinitionService = additionalData => ({
   type: APPLICATION_DEFINITION_SERVICE_EDIT_ACTIVATE,
   payload: {
     ...additionalData,
   },
 });
 
-export const confirmEditApplicationDefinitionService = (rowData) => ({
+export const confirmEditApplicationDefinitionService = rowData => ({
   type: APPLICATION_DEFINITION_SERVICE_EDIT_CONFIRM,
   payload: {
     ...rowData,
   },
 });
 
-export const cancelEditApplicationDefinitionService = (rowData) => ({
+export const cancelEditApplicationDefinitionService = rowData => ({
   type: APPLICATION_DEFINITION_SERVICE_EDIT_CANCEL,
   payload: {
     ...rowData,
   },
 });
 
-export const changeEditApplicationDefinitionService = (value, additionalData) => ({
+export const changeEditApplicationDefinitionService = (
+  value,
+  additionalData
+) => ({
   type: APPLICATION_DEFINITION_SERVICE_EDIT_CHANGE,
   payload: {
     value,
@@ -257,59 +260,51 @@ export const changeEditApplicationDefinitionService = (value, additionalData) =>
   },
 });
 
-export const openForemanParameterSelectionModal = (additionalData) => dispatch => {
+export const openForemanParameterSelectionModal = additionalData => dispatch => {
   dispatch({
     type: APPLICATION_DEFINITION_FOREMAN_PARAMETER_SELECTION_MODAL_OPEN,
     payload: {
       ...additionalData,
-    }
+    },
   });
-  dispatch(
-    setModalOpen({ id: 'AppDefinitionForemanParamSelection' })
-  );
-}
+  dispatch(setModalOpen({ id: 'AppDefinitionForemanParamSelection' }));
+};
 
-export const closeForemanParameterSelectionModal = (additionalData) => dispatch => {
+export const closeForemanParameterSelectionModal = additionalData => dispatch => {
   dispatch({
     type: APPLICATION_DEFINITION_FOREMAN_PARAMETER_SELECTION_MODAL_CLOSE,
     payload: {
       ...additionalData,
-    }
+    },
   });
 
-  dispatch(
-    setModalClosed({ id: 'AppDefinitionForemanParamSelection' })
-  );
-}
+  dispatch(setModalClosed({ id: 'AppDefinitionForemanParamSelection' }));
+};
 
-export const openAnsibleParameterSelectionModal = (additionalData) => dispatch => {
+export const openAnsibleParameterSelectionModal = additionalData => dispatch => {
   dispatch({
     type: APPLICATION_DEFINITION_ANSIBLE_PARAMETER_SELECTION_MODAL_OPEN,
     payload: {
       ...additionalData,
-    }
+    },
   });
-  dispatch(
-    setModalOpen({ id: 'AppDefinitionAnsibleParamSelection' })
-  );
-}
+  dispatch(setModalOpen({ id: 'AppDefinitionAnsibleParamSelection' }));
+};
 
-export const closeAnsibleParameterSelectionModal = (additionalData) => dispatch => {
+export const closeAnsibleParameterSelectionModal = additionalData => dispatch => {
   dispatch({
     type: APPLICATION_DEFINITION_ANSIBLE_PARAMETER_SELECTION_MODAL_CLOSE,
     payload: {
       ...additionalData,
-    }
+    },
   });
 
-  dispatch(
-    setModalClosed({ id: 'AppDefinitionAnsibleParamSelection' })
-  );
-}
+  dispatch(setModalClosed({ id: 'AppDefinitionAnsibleParamSelection' }));
+};
 
-export const changeParameterSelectionMode = (additionalData) => ({
+export const changeParameterSelectionMode = additionalData => ({
   type: APPLICATION_DEFINITION_CHANGE_PARAMETER_SELECTION_MODE,
   payload: {
     ...additionalData,
   },
-})
+});

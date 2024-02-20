@@ -6,7 +6,7 @@ import {
   actionHeaderCellFormatter,
   sortableHeaderCellFormatter,
   tableCellFormatter,
-  TABLE_SORT_DIRECTION
+  TABLE_SORT_DIRECTION,
 } from 'patternfly-react';
 
 import api from 'foremanReact/API';
@@ -16,9 +16,7 @@ import {
   propsToCamelCase,
 } from 'foremanReact/common/helpers';
 
-import {
-  filterParameterTypes,
-} from './ParameterSelectionHelper';
+import { filterParameterTypes } from './ParameterSelectionHelper';
 
 import {
   setModalOpen,
@@ -56,15 +54,15 @@ export const initParameterSelection = (
   sortingFormatter,
   sortableTransform,
   inlineEditFormatter,
-  inlineEditButtonsFormatter,
+  inlineEditButtonsFormatter
 ) => dispatch => {
   const initialState = {};
 
   initialState.sortingColumns = {
     name: {
       direction: TABLE_SORT_DIRECTION.ASC,
-        position: 0
-    }
+      position: 0,
+    },
   };
   initialState.paramDefinition = paramDefinition;
 
@@ -73,117 +71,136 @@ export const initParameterSelection = (
     valueLabel = __('Default value');
   }
 
-  initialState.columns = []
+  initialState.columns = [];
   const addToColumns = (obj, idx) => {
     obj.header.props.index = idx;
     initialState.columns.push(obj);
-  }
+  };
 
   let idx = 0;
-  addToColumns( {
+  addToColumns(
+    {
       property: 'name',
       header: {
         label: __('Name'),
         props: {
           sort: true,
           style: {
-            width: '25%'
-          }
+            width: '25%',
+          },
         },
         transforms: [sortableTransform],
         formatters: [sortingFormatter],
-        customFormatters: [sortableHeaderCellFormatter]
+        customFormatters: [sortableHeaderCellFormatter],
       },
       cell: {
-        formatters: [allowNameAdjustment ? inlineEditFormatter : tableCellFormatter]
-      }
-    }, idx++);
+        formatters: [
+          allowNameAdjustment ? inlineEditFormatter : tableCellFormatter,
+        ],
+      },
+    },
+    idx++
+  );
 
-  addToColumns( {
+  addToColumns(
+    {
       property: 'description',
       header: {
         label: __('Description'),
         props: {
           sort: true,
           style: {
-            width: '25%'
-          }
+            width: '25%',
+          },
         },
         transforms: [sortableTransform],
         formatters: [sortingFormatter],
-        customFormatters: [sortableHeaderCellFormatter]
+        customFormatters: [sortableHeaderCellFormatter],
       },
       cell: {
         props: {
-          index: 1
+          index: 1,
         },
-        formatters: [allowDescriptionAdjustment ? inlineEditFormatter : tableCellFormatter]
-      }
-    }, idx++);
+        formatters: [
+          allowDescriptionAdjustment ? inlineEditFormatter : tableCellFormatter,
+        ],
+      },
+    },
+    idx++
+  );
 
   if (paramType == PARAMETER_SELECTION_PARAM_TYPE_FOREMAN) {
-    addToColumns( {
-      property: 'type',
-      header: {
-        label: __('Type'),
-        props: {
-          sort: true,
-          style: {
-            width: '20%'
-          }
+    addToColumns(
+      {
+        property: 'type',
+        header: {
+          label: __('Type'),
+          props: {
+            sort: true,
+            style: {
+              width: '20%',
+            },
+          },
+          transforms: [sortableTransform],
+          formatters: [sortingFormatter],
+          customFormatters: [sortableHeaderCellFormatter],
         },
-        transforms: [sortableTransform],
-        formatters: [sortingFormatter],
-        customFormatters: [sortableHeaderCellFormatter]
+        cell: {
+          // we are always using the inlineEditFormatter so that
+          // the well formatted type name is shown
+          formatters: [inlineEditFormatter],
+        },
       },
-      cell: {
-        // we are always using the inlineEditFormatter so that
-        // the well formatted type name is shown
-        formatters: [inlineEditFormatter]
-      }
-    }, idx++);
+      idx++
+    );
   }
 
-  addToColumns( {
+  addToColumns(
+    {
       property: 'value',
       header: {
         label: valueLabel,
         props: {
           sort: true,
           style: {
-            width: '20%'
-          }
+            width: '20%',
+          },
         },
         transforms: [sortableTransform],
         formatters: [sortingFormatter],
-        customFormatters: [sortableHeaderCellFormatter]
+        customFormatters: [sortableHeaderCellFormatter],
       },
       cell: {
-        formatters: [inlineEditFormatter]
-      }
-    }, idx++);
+        formatters: [inlineEditFormatter],
+      },
+    },
+    idx++
+  );
 
-  addToColumns( {
+  addToColumns(
+    {
       property: 'actions',
       header: {
         label: __('Actions'),
         props: {
           style: {
-            width: '10%'
-          }
+            width: '10%',
+          },
         },
-        formatters: [actionHeaderCellFormatter]
+        formatters: [actionHeaderCellFormatter],
       },
       cell: {
-        formatters: [inlineEditButtonsFormatter]
-      }
-    }, idx++);
+        formatters: [inlineEditButtonsFormatter],
+      },
+    },
+    idx++
+  );
 
   initialState.parameters = parameters;
   initialState.allowedParameterTypes = {};
 
-  if ((paramType == PARAMETER_SELECTION_PARAM_TYPE_FOREMAN) && (parameters)) {
-    let pTypes = PARAMETER_SELECTION_TYPES;
+  if (paramType == PARAMETER_SELECTION_PARAM_TYPE_FOREMAN && parameters) {
+    const pTypes = PARAMETER_SELECTION_TYPES;
 
     // filter hidden parameters
     hiddenParameterTypes.forEach(item => delete pTypes[item]);
@@ -199,7 +216,7 @@ export const initParameterSelection = (
     type: PARAMETER_SELECTION_INIT,
     payload: initialState,
   });
-}
+};
 
 const errorHandler = (msg, err) => {
   const error = {
@@ -209,68 +226,63 @@ const errorHandler = (msg, err) => {
   return { type: msg, payload: { error } };
 };
 
-export const lockParameter = (additionalData) => ({
+export const lockParameter = additionalData => ({
   type: PARAMETER_SELECTION_LOCK,
   payload: {
     ...additionalData,
   },
 });
 
-export const openParameterSelectionDialogBox = (additionalData) => dispatch => {
+export const openParameterSelectionDialogBox = additionalData => dispatch => {
   dispatch({
     type: PARAMETER_SELECTION_COMPLEX_DATA_MODAL_OPEN,
     payload: {
       ...additionalData,
-    }
+    },
   });
-  dispatch(
-    setModalOpen({ id: 'ParameterSelectionComplexDataModal' })
-  );
+  dispatch(setModalOpen({ id: 'ParameterSelectionComplexDataModal' }));
 };
 
-export const closeParameterSelectionDialogBox = (additionalData) => dispatch => {
+export const closeParameterSelectionDialogBox = additionalData => dispatch => {
   dispatch({
     type: PARAMETER_SELECTION_COMPLEX_DATA_MODAL_CLOSE,
     payload: {
       ...additionalData,
-    }
+    },
   });
 
-  dispatch(
-    setModalClosed({ id: 'ParameterSelectionComplexDataModal' })
-  );
+  dispatch(setModalClosed({ id: 'ParameterSelectionComplexDataModal' }));
 };
 
-export const addParameter = (additionalData) => (
-  {
+export const addParameter = additionalData => ({
   type: PARAMETER_SELECTION_ADD,
   payload: {
     ...additionalData,
   },
 });
 
-export const deleteParameter = (additionalData) => ({
+export const deleteParameter = additionalData => ({
   type: PARAMETER_SELECTION_DELETE,
   payload: {
     ...additionalData,
   },
 });
 
-export const activateEditParameter = (additionalData) => ({
+export const activateEditParameter = additionalData => ({
   type: PARAMETER_SELECTION_EDIT_ACTIVATE,
   payload: {
     ...additionalData,
   },
 });
 
-export const confirmEditParameter = (rowData) => ({
+export const confirmEditParameter = rowData => ({
   type: PARAMETER_SELECTION_EDIT_CONFIRM,
   payload: {
     ...rowData,
   },
 });
 
-export const cancelEditParameter = (rowData) => ({
+export const cancelEditParameter = rowData => ({
   type: PARAMETER_SELECTION_EDIT_CANCEL,
   payload: {
     ...rowData,
@@ -293,13 +305,16 @@ export const sortParameter = (selectedColumn, defaultSortingOrder) => ({
   },
 });
 
-export const loadParamData = (attr) => dispatch => {
-  dispatch( { type: PARAMETER_SELECTION_LOAD_PARAM_DATA_REQUEST, payload: { dataType: attr.dataType, clearParameters: attr.clearParameters } });
+export const loadParamData = attr => dispatch => {
+  dispatch({
+    type: PARAMETER_SELECTION_LOAD_PARAM_DATA_REQUEST,
+    payload: { dataType: attr.dataType, clearParameters: attr.clearParameters },
+  });
 
-  let realUrl = attr.url.replace("__id__", attr.paramDefinition.dataId);
+  let realUrl = attr.url.replace('__id__', attr.paramDefinition.dataId);
 
   if (attr.paramDefinition.hasOwnProperty('dataSubId')) {
-    realUrl = realUrl.replace("__subid__", attr.paramDefinition.dataSubId);
+    realUrl = realUrl.replace('__subid__', attr.paramDefinition.dataSubId);
   }
 
   return api
@@ -307,8 +322,10 @@ export const loadParamData = (attr) => dispatch => {
     .then(({ data }) =>
       dispatch({
         type: PARAMETER_SELECTION_LOAD_PARAM_DATA_SUCCESS,
-        payload: { ...data, dataType: attr.dataType }
+        payload: { ...data, dataType: attr.dataType },
       })
     )
-    .catch(error => dispatch(errorHandler(PARAMETER_SELECTION_LOAD_PARAM_DATA_FAILURE, error)));
+    .catch(error =>
+      dispatch(errorHandler(PARAMETER_SELECTION_LOAD_PARAM_DATA_FAILURE, error))
+    );
 };

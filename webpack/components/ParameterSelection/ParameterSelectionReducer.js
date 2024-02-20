@@ -1,14 +1,8 @@
 import Immutable from 'seamless-immutable';
 
-import {
-  cloneDeep,
-  findIndex,
-  findLastIndex,
-} from 'lodash';
+import { cloneDeep, findIndex, findLastIndex } from 'lodash';
 
-import {
-  filterParameterTypes,
-} from './ParameterSelectionHelper';
+import { filterParameterTypes } from './ParameterSelectionHelper';
 
 import * as sort from 'sortabular';
 
@@ -48,20 +42,33 @@ const parameterSelectionParameters = (state = initialState, action) => {
       let parameters = [];
       let index = 1;
 
-      if ('parameters' in state && state.parameters !== undefined && state.parameters.length > 0) {
+      if (
+        'parameters' in state &&
+        state.parameters !== undefined &&
+        state.parameters.length > 0
+      ) {
         parameters = cloneDeep(state.parameters);
         index = Math.max(...parameters.map(e => e.id)) + 1;
       }
 
-      const newRow = {id: index, locked: false, name: "", description: '', type: '', value: '', isYaml: false, newEntry: true };
+      const newRow = {
+        id: index,
+        locked: false,
+        name: '',
+        description: '',
+        type: '',
+        value: '',
+        isYaml: false,
+        newEntry: true,
+      };
       if (state.paramType == 'PARAMETER_SELECTION_PARAM_TYPE_ANSIBLE') {
-        newRow['type'] = 'complex';
+        newRow.type = 'complex';
       }
-      newRow.backup = cloneDeep(newRow)
+      newRow.backup = cloneDeep(newRow);
       parameters.push(newRow);
       return state.merge({
         editMode: true,
-        parameters: parameters,
+        parameters,
         editParamsRowIndex: index,
       });
     }
@@ -76,15 +83,20 @@ const parameterSelectionParameters = (state = initialState, action) => {
       }
 
       return state.merge({
-        parameters: parameters
+        parameters,
       });
     }
     case PARAMETER_SELECTION_DELETE: {
-      const parameters = state.parameters.filter(v => v.id !== payload.rowData.id);
+      const parameters = state.parameters.filter(
+        v => v.id !== payload.rowData.id
+      );
       return state.merge({
-        parameters: parameters,
-        parameterTypes: filterParameterTypes(state.allowedParameterTypes, parameters),
-      })
+        parameters,
+        parameterTypes: filterParameterTypes(
+          state.allowedParameterTypes,
+          parameters
+        ),
+      });
     }
     case PARAMETER_SELECTION_EDIT_ACTIVATE: {
       const parameters = cloneDeep(state.parameters);
@@ -93,7 +105,7 @@ const parameterSelectionParameters = (state = initialState, action) => {
       parameters[index].backup = cloneDeep(parameters[index]);
       return state.merge({
         editMode: true,
-        parameters: parameters,
+        parameters,
         editParamsRowIndex: index,
       });
     }
@@ -106,22 +118,25 @@ const parameterSelectionParameters = (state = initialState, action) => {
 
       return state.merge({
         editMode: false,
-        parameterTypes: filterParameterTypes(state.allowedParameterTypes, parameters),
-        parameters: parameters
+        parameterTypes: filterParameterTypes(
+          state.allowedParameterTypes,
+          parameters
+        ),
+        parameters,
       });
     }
     case PARAMETER_SELECTION_EDIT_CHANGE: {
       const parameters = cloneDeep(state.parameters);
       const index = findIndex(parameters, { id: payload.rowData.id });
 
-      if (!parameters[index]['isYaml'] && payload.property == 'value') {
-        parameters[index]['value'] = payload.value;
+      if (!parameters[index].isYaml && payload.property == 'value') {
+        parameters[index].value = payload.value;
       } else if (payload.property != 'value') {
         parameters[index][payload.property] = payload.value;
       }
       return state.merge({
-        parameters: parameters,
-        editParamsRowIndex: index
+        parameters,
+        editParamsRowIndex: index,
       });
     }
     case PARAMETER_SELECTION_EDIT_CANCEL: {
@@ -137,24 +152,24 @@ const parameterSelectionParameters = (state = initialState, action) => {
 
       return state.merge({
         editMode: false,
-        parameters: parameters
+        parameters,
       });
     }
     case PARAMETER_SELECTION_SORT: {
-      const selectedColumn = payload.selectedColumn;
+      const { selectedColumn } = payload;
       return state.set(
         'sortingColumns',
         sort.byColumn({
           sortingColumns: state.sortingColumns,
           sortingOrder: payload.defaultSortingOrder,
-          selectedColumn
+          selectedColumn,
         })
       );
     }
     case PARAMETER_SELECTION_LOAD_PARAM_DATA_FAILURE: {
       return state.merge({
         error: payload.error,
-        loading: false
+        loading: false,
       });
     }
     case PARAMETER_SELECTION_LOAD_PARAM_DATA_REQUEST: {
@@ -164,11 +179,11 @@ const parameterSelectionParameters = (state = initialState, action) => {
         newState = {
           paramData: {},
           hostgroupId: -1,
-          loading: true
+          loading: true,
         };
       } else if (payload.dataType == PARAMETER_SELECTION_PARAM_TYPE_ANSIBLE) {
         newState = {
-          loading: true
+          loading: true,
         };
       }
 
@@ -196,25 +211,24 @@ const parameterSelectionParameters = (state = initialState, action) => {
     }
     case PARAMETER_SELECTION_COMPLEX_DATA_MODAL_CLOSE: {
       let str;
-      let element = document.getElementById('yamlData');
+      const element = document.getElementById('yamlData');
       if (element != null) {
         str = element.value;
-      }
-      else {
+      } else {
         str = '';
       }
       let newState = {};
-      let index = state.editParamsRowIndex;
+      const index = state.editParamsRowIndex;
       const parameters = cloneDeep(state.parameters);
       if (payload.mode == 'save') {
-        parameters[index]['value'] = str;
+        parameters[index].value = str;
         if (str == '') {
-          parameters[index]['isYaml'] = false;
+          parameters[index].isYaml = false;
         } else {
-          parameters[index]['isYaml'] = true;
+          parameters[index].isYaml = true;
         }
         newState = {
-          parameters: parameters,
+          parameters,
         };
       } else {
         newState = {};

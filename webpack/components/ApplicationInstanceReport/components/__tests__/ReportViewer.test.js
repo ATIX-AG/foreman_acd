@@ -6,7 +6,7 @@ const noop = () => {};
 
 const data = [
   { name: 'report 1', status: 'done' },
-  { name: 'report 2', status: 'pending' }
+  { name: 'report 2', status: 'pending' },
 ];
 
 const fixtures = {

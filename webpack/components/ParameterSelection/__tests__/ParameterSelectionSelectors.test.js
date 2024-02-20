@@ -14,9 +14,7 @@ import {
   selectEditParamsRowIndex,
 } from '../ParameterSelectionSelectors';
 
-import {
-  parameterSelectionData_1,
-} from '../__fixtures__/parameterSelectionData_1.fixtures';
+import { parameterSelectionData_1 } from '../__fixtures__/parameterSelectionData_1.fixtures';
 
 const stateFactory = obj => ({
   foremanAcd: {

@@ -34,7 +34,4 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch =>
   bindActionCreators(ParameterSelectionActions, dispatch);
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ParameterSelection);
+export default connect(mapStateToProps, mapDispatchToProps)(ParameterSelection);

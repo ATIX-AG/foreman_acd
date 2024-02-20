@@ -1,10 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Icon,
-  Button,
-  MessageDialog,
-} from 'patternfly-react';
+import { Icon, Button, MessageDialog } from 'patternfly-react';
 import { translate as __ } from 'foremanReact/common/I18n';
 
 const DeleteTableEntry = ({
@@ -12,7 +8,7 @@ const DeleteTableEntry = ({
   disabled,
   onDeleteTableEntry,
   additionalData,
-}) =>{
+}) => {
   if (hidden) {
     return null;
   }
@@ -32,12 +28,8 @@ const DeleteTableEntry = ({
         title={__('Confirm action')}
         primaryContent={__('Are you sure you wish to delete this item?')}
       />
-      <Button
-        bsStyle="default"
-        disabled={disabled}
-        onClick={toggleModal}
-      >
-        <Icon type="pf" name="delete" title={__("Delete entry")} />
+      <Button bsStyle="default" disabled={disabled} onClick={toggleModal}>
+        <Icon type="pf" name="delete" title={__('Delete entry')} />
       </Button>
     </span>
   );

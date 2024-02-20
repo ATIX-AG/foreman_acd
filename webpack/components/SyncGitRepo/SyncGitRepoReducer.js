@@ -24,54 +24,54 @@ const syncGitRepoConf = (state = initialState, action) => {
     }
     case SYNC_GIT_REPO_LOAD_SCM_TYPE: {
       let newState = {};
-      const scmType = action.scmType;
+      const { scmType } = action;
 
       newState = {
-        scmType: scmType,
+        scmType,
       };
 
       return state.merge(newState);
     }
     case SYNC_GIT_REPO_LOAD_PATH: {
       let newState = {};
-      const path = action.path;
+      const { path } = action;
 
       newState = {
-        path: path,
+        path,
       };
 
       return state.merge(newState);
     }
     case SYNC_GIT_REPO_LOAD_GIT_COMMIT: {
       let newState = {};
-      const gitCommit = action.gitCommit;
+      const { gitCommit } = action;
 
       newState = {
-        gitCommit: gitCommit,
+        gitCommit,
       };
 
       return state.merge(newState);
     }
     case SYNC_GIT_REPO_LOAD_GIT_URL: {
       let newState = {};
-      const gitUrl = action.gitUrl;
+      const { gitUrl } = action;
 
       newState = {
-        gitUrl: gitUrl,
+        gitUrl,
       };
 
       return state.merge(newState);
     }
     case SYNC_GIT_REPO_FAILURE: {
-       return state.merge({ error: payload.error, loading: false });
-     }
-     case SYNC_GIT_REPO_REQUEST: {
-       return state.set('loading', true);
-     }
-     case SYNC_GIT_REPO_SUCCESS: {
-       let newState = {};
-       return state.merge(newState);
-     }
+      return state.merge({ error: payload.error, loading: false });
+    }
+    case SYNC_GIT_REPO_REQUEST: {
+      return state.set('loading', true);
+    }
+    case SYNC_GIT_REPO_SUCCESS: {
+      const newState = {};
+      return state.merge(newState);
+    }
     default:
       return state;
   }

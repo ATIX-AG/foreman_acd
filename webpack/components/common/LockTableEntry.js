@@ -1,9 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  Icon,
-  Button,
-} from 'patternfly-react';
+import { Icon, Button } from 'patternfly-react';
 import { translate as __ } from 'foremanReact/common/I18n';
 
 const LockTableEntry = ({
@@ -11,7 +8,7 @@ const LockTableEntry = ({
   disabled,
   onLockTableEntry,
   additionalData,
-}) =>{
+}) => {
   if (hidden) {
     return null;
   }
@@ -42,7 +39,7 @@ const LockTableEntry = ({
       <Button
         bsStyle="default"
         disabled={disabled}
-        onClick={() => onLockTableEntry(additionalData) }
+        onClick={() => onLockTableEntry(additionalData)}
       >
         <Icon type="pf" name={lockButton} title={__(lockButtonTitle)} />
       </Button>

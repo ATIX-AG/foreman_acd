@@ -7,9 +7,7 @@ import {
   selectGitUrl,
 } from '../SyncGitRepoSelectors';
 
-import {
-  syncGitRepoConfData_1,
-} from '../__fixtures__/syncGitRepoConfData_1.fixtures';
+import { syncGitRepoConfData_1 } from '../__fixtures__/syncGitRepoConfData_1.fixtures';
 
 const stateFactory = obj => ({
   foremanAcd: {

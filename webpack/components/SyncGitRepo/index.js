@@ -16,13 +16,10 @@ const mapStateToProps = state => ({
   scmType: selectScmType(state),
   gitCommit: selectGitCommit(state),
   path: selectPath(state),
-  gitUrl: selectGitUrl(state)
+  gitUrl: selectGitUrl(state),
 });
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators(SyncGitRepoActions, dispatch);
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SyncGitRepo);
+export default connect(mapStateToProps, mapDispatchToProps)(SyncGitRepo);

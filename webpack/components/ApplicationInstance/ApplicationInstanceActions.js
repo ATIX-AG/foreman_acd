@@ -5,9 +5,7 @@ import {
   setModalClosed,
 } from 'foremanReact/components/ForemanModal/ForemanModalActions';
 
-import {
-  actionHeaderCellFormatter,
-} from 'patternfly-react';
+import { actionHeaderCellFormatter } from 'patternfly-react';
 
 import {
   propsToSnakeCase,
@@ -36,9 +34,7 @@ import {
   APPLICATION_INSTANCE_CHANGE_PARAMETER_SELECTION_MODE,
 } from './ApplicationInstanceConstants';
 
-import {
-  supportedPluginsToHiddenParameterTypes,
-} from '../../helper';
+import { supportedPluginsToHiddenParameterTypes } from '../../helper';
 
 export const initApplicationInstance = (
   appDefinition,
@@ -47,7 +43,7 @@ export const initApplicationInstance = (
   supportedPlugins,
   headerFormatter,
   inlineEditFormatter,
-  inlineEditButtonsFormatter,
+  inlineEditButtonsFormatter
 ) => dispatch => {
   const initialState = {};
 
@@ -60,13 +56,13 @@ export const initApplicationInstance = (
         props: {
           index: 0,
           style: {
-            width: '30%'
-          }
+            width: '30%',
+          },
         },
       },
       cell: {
-        formatters: [inlineEditFormatter]
-      }
+        formatters: [inlineEditFormatter],
+      },
     },
     {
       property: 'description',
@@ -76,13 +72,13 @@ export const initApplicationInstance = (
         props: {
           index: 1,
           style: {
-            width: '30%'
-          }
+            width: '30%',
+          },
         },
       },
       cell: {
-        formatters: [inlineEditFormatter]
-      }
+        formatters: [inlineEditFormatter],
+      },
     },
     {
       property: 'service',
@@ -92,13 +88,13 @@ export const initApplicationInstance = (
         props: {
           index: 2,
           style: {
-            width: '20%'
-          }
+            width: '20%',
+          },
         },
       },
       cell: {
-        formatters: [inlineEditFormatter]
-      }
+        formatters: [inlineEditFormatter],
+      },
     },
     {
       property: 'actions',
@@ -108,20 +104,22 @@ export const initApplicationInstance = (
         props: {
           index: 4,
           style: {
-            width: '20%'
-          }
+            width: '20%',
+          },
         },
       },
       cell: {
-        formatters: [inlineEditButtonsFormatter]
-      }
-    }
+        formatters: [inlineEditButtonsFormatter],
+      },
+    },
   ];
 
   initialState.appDefinition = appDefinition;
   initialState.hosts = hosts;
   initialState.ansibleVarsAll = ansibleVarsAll;
-  initialState.hiddenForemanParameterTypes = supportedPluginsToHiddenParameterTypes(supportedPlugins);
+  initialState.hiddenForemanParameterTypes = supportedPluginsToHiddenParameterTypes(
+    supportedPlugins
+  );
 
   dispatch({
     type: APPLICATION_INSTANCE_INIT,
@@ -139,16 +137,16 @@ const errorHandler = (msg, err) => {
 
 export const closeAlertModal = () => ({
   type: APPLICATION_INSTANCE_CLOSE_ALERT_MODAL,
-  payload: {}
+  payload: {},
 });
 
 export const loadApplicationDefinition = (
   applicationDefinitionId,
-  additionalData,
+  additionalData
 ) => dispatch => {
   dispatch({ type: APPLICATION_INSTANCE_LOAD_APPLICATION_DEFINITION_REQUEST });
 
-  const realUrl = additionalData.url.replace("__id__", applicationDefinitionId);
+  const realUrl = additionalData.url.replace('__id__', applicationDefinitionId);
 
   return api
     .get(realUrl, {}, {})
@@ -158,40 +156,44 @@ export const loadApplicationDefinition = (
         payload: data,
       })
     )
-    .catch(error => dispatch(errorHandler(APPLICATION_INSTANCE_LOAD_APPLICATION_DEFINITION_FAILURE, error)));
+    .catch(error =>
+      dispatch(
+        errorHandler(
+          APPLICATION_INSTANCE_LOAD_APPLICATION_DEFINITION_FAILURE,
+          error
+        )
+      )
+    );
 };
 
-export const addApplicationInstanceHost = (additionalData) => ({
+export const addApplicationInstanceHost = additionalData => ({
   type: APPLICATION_INSTANCE_HOST_ADD,
   payload: {
     ...additionalData,
   },
 });
 
-export const deleteApplicationInstanceHost = (additionalData) => ({
+export const deleteApplicationInstanceHost = additionalData => ({
   type: APPLICATION_INSTANCE_HOST_DELETE,
   payload: {
     ...additionalData,
   },
 });
 
-export const activateEditApplicationInstanceHost = (additionalData) => ({
+export const activateEditApplicationInstanceHost = additionalData => ({
   type: APPLICATION_INSTANCE_HOST_EDIT_ACTIVATE,
   payload: {
     ...additionalData,
   },
 });
 
-export const confirmEditApplicationInstanceHost = (
-  allData
-) => async(dispatch) => {
-
+export const confirmEditApplicationInstanceHost = allData => async dispatch => {
   // Host name can not be empty
 
   if (allData.rowData.hostname == '') {
     dispatch({
       type: APPLICATION_INSTANCE_HOST_EDIT_ERROR,
-      payload: __("Every host needs to have a valid name"),
+      payload: __('Every host needs to have a valid name'),
     });
     return;
   }
@@ -204,7 +206,9 @@ export const confirmEditApplicationInstanceHost = (
   if (hostname.match(hostnameRegex) == undefined) {
     dispatch({
       type: APPLICATION_INSTANCE_HOST_EDIT_ERROR,
-      payload: __("The hostname uses not allowed characters. See https://en.wikipedia.org/wiki/Hostname#Syntax for more details."),
+      payload: __(
+        'The hostname uses not allowed characters. See https://en.wikipedia.org/wiki/Hostname#Syntax for more details.'
+      ),
     });
     return;
   }
@@ -214,19 +218,19 @@ export const confirmEditApplicationInstanceHost = (
   if (allData.rowData.service == '') {
     dispatch({
       type: APPLICATION_INSTANCE_HOST_EDIT_ERROR,
-      payload: __("Every host needs to be assigned to a service."),
+      payload: __('Every host needs to be assigned to a service.'),
     });
     return;
   }
 
   // Validation if host name is already used (only for new host entrys)
 
-  const url = '/acd/ui_acd_validate_hostname'
+  const url = '/acd/ui_acd_validate_hostname';
   const validationData = {};
 
-  validationData['appDefId'] = allData.appDefinition.id;
-  validationData['serviceId'] = allData.rowData.service;
-  validationData['hostname'] = allData.rowData.hostname;
+  validationData.appDefId = allData.appDefinition.id;
+  validationData.serviceId = allData.rowData.service;
+  validationData.hostname = allData.rowData.hostname;
 
   if (allData.rowData.newEntry === true) {
     try {
@@ -237,12 +241,14 @@ export const confirmEditApplicationInstanceHost = (
           type: APPLICATION_INSTANCE_HOST_EDIT_CONFIRM,
           payload: {
             ...allData,
-          }
+          },
         });
       } else {
         dispatch({
           type: APPLICATION_INSTANCE_HOST_EDIT_ERROR,
-          payload: __('Hostname \''+ allData.rowData.hostname +'\' is already used. This check also includes hosts outside this application instance.'),
+          payload: __(
+            `Hostname '${allData.rowData.hostname}' is already used. This check also includes hosts outside this application instance.`
+          ),
         });
       }
     } catch (error) {
@@ -256,12 +262,12 @@ export const confirmEditApplicationInstanceHost = (
       type: APPLICATION_INSTANCE_HOST_EDIT_CONFIRM,
       payload: {
         ...allData,
-      }
+      },
     });
   }
 };
 
-export const cancelEditApplicationInstanceHost = (rowData) => ({
+export const cancelEditApplicationInstanceHost = rowData => ({
   type: APPLICATION_INSTANCE_HOST_EDIT_CANCEL,
   payload: {
     ...rowData,
@@ -276,84 +282,72 @@ export const changeEditApplicationInstanceHost = (value, additionalData) => ({
   },
 });
 
-export const openForemanParameterSelectionModal = (additionalData) => dispatch => {
+export const openForemanParameterSelectionModal = additionalData => dispatch => {
   dispatch({
     type: APPLICATION_INSTANCE_FOREMAN_PARAMETER_SELECTION_MODAL_OPEN,
     payload: {
       ...additionalData,
-    }
+    },
   });
-  dispatch(
-    setModalOpen({ id: 'AppInstanceForemanParamSelection' })
-  );
-}
+  dispatch(setModalOpen({ id: 'AppInstanceForemanParamSelection' }));
+};
 
-export const closeForemanParameterSelectionModal = (additionalData) => dispatch => {
+export const closeForemanParameterSelectionModal = additionalData => dispatch => {
   dispatch({
     type: APPLICATION_INSTANCE_FOREMAN_PARAMETER_SELECTION_MODAL_CLOSE,
     payload: {
       ...additionalData,
-    }
+    },
   });
 
-  dispatch(
-    setModalClosed({ id: 'AppInstanceForemanParamSelection' })
-  );
-}
+  dispatch(setModalClosed({ id: 'AppInstanceForemanParamSelection' }));
+};
 
-export const openAnsibleParameterSelectionModal = (additionalData) => dispatch => {
+export const openAnsibleParameterSelectionModal = additionalData => dispatch => {
   dispatch({
     type: APPLICATION_INSTANCE_ANSIBLE_PARAMETER_SELECTION_MODAL_OPEN,
     payload: {
       ...additionalData,
-    }
+    },
   });
-  dispatch(
-    setModalOpen({ id: 'AppInstanceAnsibleParamSelection' })
-  );
-}
+  dispatch(setModalOpen({ id: 'AppInstanceAnsibleParamSelection' }));
+};
 
-export const closeAnsibleParameterSelectionModal = (additionalData) => dispatch => {
+export const closeAnsibleParameterSelectionModal = additionalData => dispatch => {
   dispatch({
     type: APPLICATION_INSTANCE_ANSIBLE_PARAMETER_SELECTION_MODAL_CLOSE,
     payload: {
       ...additionalData,
-    }
+    },
   });
 
-  dispatch(
-    setModalClosed({ id: 'AppInstanceAnsibleParamSelection' })
-  );
-}
+  dispatch(setModalClosed({ id: 'AppInstanceAnsibleParamSelection' }));
+};
 
-export const openAddExistingHostsModal = (additionalData) => dispatch => {
+export const openAddExistingHostsModal = additionalData => dispatch => {
   dispatch({
     type: APPLICATION_INSTANCE_ADD_EXISTING_HOSTS_MODAL_OPEN,
     payload: {
       ...additionalData,
-    }
+    },
   });
-  dispatch(
-    setModalOpen({ id: 'AppInstanceAddExistingHosts' })
-  );
-}
+  dispatch(setModalOpen({ id: 'AppInstanceAddExistingHosts' }));
+};
 
-export const closeAddExistingHostsModal = (additionalData) => dispatch => {
+export const closeAddExistingHostsModal = additionalData => dispatch => {
   dispatch({
     type: APPLICATION_INSTANCE_ADD_EXISTING_HOSTS_MODAL_CLOSE,
     payload: {
       ...additionalData,
-    }
+    },
   });
 
-  dispatch(
-    setModalClosed({ id: 'AppInstanceAddExistingHosts' })
-  );
-}
+  dispatch(setModalClosed({ id: 'AppInstanceAddExistingHosts' }));
+};
 
-export const changeParameterSelectionMode = (additionalData) => ({
+export const changeParameterSelectionMode = additionalData => ({
   type: APPLICATION_INSTANCE_CHANGE_PARAMETER_SELECTION_MODE,
   payload: {
     ...additionalData,
   },
-})
+});

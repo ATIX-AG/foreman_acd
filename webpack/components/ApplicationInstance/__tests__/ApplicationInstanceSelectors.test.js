@@ -15,9 +15,7 @@ import {
   selectParamEditMode,
 } from '../ApplicationInstanceSelectors';
 
-import {
-  applicationInstanceConfData_1,
-} from '../__fixtures__/applicationInstanceConfData_1.fixtures';
+import { applicationInstanceConfData_1 } from '../__fixtures__/applicationInstanceConfData_1.fixtures';
 
 const stateFactory = obj => ({
   foremanAcd: {
@@ -41,7 +39,9 @@ const fixtures = {
   'should return columns from applicationInstanceConfData_1 fixtures': () =>
     selectColumns(stateFactory(applicationInstanceConfData_1)),
   'should return hiddenForemanParameterTypes from applicationInstanceConfData_1 fixtures': () =>
-    selectHiddenForemanParameterTypes(stateFactory(applicationInstanceConfData_1)),
+    selectHiddenForemanParameterTypes(
+      stateFactory(applicationInstanceConfData_1)
+    ),
   'should return services from applicationInstanceConfData_1 fixtures': () =>
     selectServices(stateFactory(applicationInstanceConfData_1)),
   'should return parametersData from applicationInstanceConfData_1 fixtures': () =>

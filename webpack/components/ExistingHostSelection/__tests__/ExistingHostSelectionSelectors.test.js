@@ -8,9 +8,7 @@ import {
   selectHostsInHostgroup,
 } from '../ExistingHostSelectionSelectors';
 
-import {
-  existingHostSelectionConfData_1,
-} from '../__fixtures__/existingHostSelectionConfData_1.fixtures';
+import { existingHostSelectionConfData_1 } from '../__fixtures__/existingHostSelectionConfData_1.fixtures';
 
 const stateFactory = obj => ({
   foremanAcd: {
@@ -33,4 +31,3 @@ const fixtures = {
 
 describe('ExistingHostSelectionSelectors', () =>
   testSelectorsSnapshotWithFixtures(fixtures));
-

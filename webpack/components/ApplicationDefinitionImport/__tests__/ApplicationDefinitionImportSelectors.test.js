@@ -6,9 +6,7 @@ import {
   selectColumns,
 } from '../ApplicationDefinitionImportSelectors';
 
-import {
-  applicationDefinitionImportConfData_1,
-} from '../__fixtures__/applicationDefinitionImportConfData_1.fixtures';
+import { applicationDefinitionImportConfData_1 } from '../__fixtures__/applicationDefinitionImportConfData_1.fixtures';
 
 const stateFactory = obj => ({
   foremanAcd: {
@@ -20,7 +18,9 @@ const fixtures = {
   'should return editMode from applicationDefinitionImportConfData_1 fixtures': () =>
     selectEditMode(stateFactory(applicationDefinitionImportConfData_1)),
   'should return services from applicationDefinitionImportConfData_1 fixtures': () =>
-    selectAnsiblePlaybookServices(stateFactory(applicationDefinitionImportConfData_1)),
+    selectAnsiblePlaybookServices(
+      stateFactory(applicationDefinitionImportConfData_1)
+    ),
   'should return columns from applicationDefinitionImportConfData_1 fixtures': () =>
     selectColumns(stateFactory(applicationDefinitionImportConfData_1)),
 };

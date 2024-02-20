@@ -5,9 +5,7 @@ import {
   selectActiveHostId,
 } from '../ApplicationInstanceReportSelectors';
 
-import {
-  applicationInstanceReportData_1,
-} from '../__fixtures__/applicationInstanceReportData_1.fixtures';
+import { applicationInstanceReportData_1 } from '../__fixtures__/applicationInstanceReportData_1.fixtures';
 
 const stateFactory = obj => ({
   foremanAcd: {

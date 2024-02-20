@@ -12,7 +12,7 @@ const fixtures = {
     viewText: 'myText',
     selectValue: '1',
     onChange: noop,
-    options: { first: 'first', second: 'second'},
+    options: { first: 'first', second: 'second' },
     additionalData: { moreData: 'moooore' },
   },
   'should render hidden ansible playbook selector': {
@@ -22,7 +22,7 @@ const fixtures = {
     viewText: 'myText',
     selectValue: '1',
     onChange: noop,
-    options: { first: 'first', second: 'second'},
+    options: { first: 'first', second: 'second' },
     additionalData: { moreData: 'moooore' },
   },
   'should render not editable ansible playbook selector': {
@@ -32,7 +32,7 @@ const fixtures = {
     viewText: 'myText',
     selectValue: '1',
     onChange: noop,
-    options: { first: 'first', second: 'second'},
+    options: { first: 'first', second: 'second' },
     additionalData: { moreData: 'moooore' },
   },
 };
