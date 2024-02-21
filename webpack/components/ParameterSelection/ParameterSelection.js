@@ -2,14 +2,15 @@ import $ from 'jquery';
 import React from 'react';
 import PropTypes from 'prop-types';
 import * as sort from 'sortabular';
-import { orderBy, dropRight, findIndex, cloneDeep } from 'lodash';
+import { orderBy, findIndex, cloneDeep } from 'lodash';
 import * as resolve from 'table-resolver';
 import Select from 'foremanReact/components/common/forms/Select';
+import ForemanModal from 'foremanReact/components/ForemanModal';
+import { translate as __ } from 'foremanReact/common/I18n';
 import AddTableEntry from '../common/AddTableEntry';
 import EditTableEntry from '../common/EditTableEntry';
 import DeleteTableEntry from '../common/DeleteTableEntry';
 import LockTableEntry from '../common/LockTableEntry';
-import ForemanModal from 'foremanReact/components/ForemanModal';
 import * as YamlValidator from '../../js-yaml';
 
 import { transformForemanData } from './ParameterSelectionHelper';
@@ -17,11 +18,9 @@ import { transformForemanData } from './ParameterSelectionHelper';
 import {
   PARAMETER_SELECTION_TYPES,
   PARAMETER_SELECTION_PARAM_TYPE_FOREMAN,
-  PARAMETER_SELECTION_PARAM_TYPE_ANSIBLE,
 } from './ParameterSelectionConstants';
 
 import {
-  Icon,
   Button,
   Table,
   FormControl,

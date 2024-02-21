@@ -1,7 +1,7 @@
 import Immutable from 'seamless-immutable';
 import { translate as __ } from 'foremanReact/common/I18n';
 
-import { cloneDeep, findIndex, findLastIndex } from 'lodash';
+import { cloneDeep, findIndex } from 'lodash';
 
 import {
   APPLICATION_DEFINITION_INIT,

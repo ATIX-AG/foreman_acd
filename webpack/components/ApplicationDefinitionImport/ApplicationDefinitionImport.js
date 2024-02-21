@@ -1,22 +1,18 @@
-import React, { useState } from 'react';
-import { cloneDeep } from 'lodash';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {
   Icon,
   Button,
   MessageDialog,
   Table,
-  FormControl,
   inlineEditFormatterFactory,
 } from 'patternfly-react';
 import * as resolve from 'table-resolver';
 import Select from 'foremanReact/components/common/forms/Select';
 import CommonForm from 'foremanReact/components/common/forms/CommonForm';
-import AddTableEntry from '../common/AddTableEntry';
-import DeleteTableEntry from '../common/DeleteTableEntry';
+import { translate as __ } from 'foremanReact/common/I18n';
 import RailsData from '../common/RailsData';
 import { EasyHeaderFormatter } from '../../helper';
-import { translate as __ } from 'foremanReact/common/I18n';
 
 class ApplicationDefinitionImport extends React.Component {
   constructor(props) {

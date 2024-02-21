@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {
   Icon,
@@ -12,12 +12,12 @@ import {
 import * as resolve from 'table-resolver';
 import ForemanModal from 'foremanReact/components/ForemanModal';
 import Select from 'foremanReact/components/common/forms/Select';
+import { translate as __ } from 'foremanReact/common/I18n';
 import ParameterSelection from '../ParameterSelection';
 import AddTableEntry from '../common/AddTableEntry';
 import DeleteTableEntry from '../common/DeleteTableEntry';
 import RailsData from '../common/RailsData';
 import AnsiblePlaybookSelector from './components/AnsiblePlaybookSelector';
-import { translate as __ } from 'foremanReact/common/I18n';
 import { EasyHeaderFormatter } from '../../helper';
 
 import {

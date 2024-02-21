@@ -1,8 +1,8 @@
 import Immutable from 'seamless-immutable';
 import { translate as __ } from 'foremanReact/common/I18n';
-import { calculateServiceUsage } from './ApplicationInstanceHelper';
+import { cloneDeep, findIndex } from 'lodash';
 
-import { cloneDeep, findIndex, findLastIndex } from 'lodash';
+import { calculateServiceUsage } from './ApplicationInstanceHelper';
 
 import {
   APPLICATION_INSTANCE_INIT,

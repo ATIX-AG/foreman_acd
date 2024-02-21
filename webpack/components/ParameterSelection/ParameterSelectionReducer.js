@@ -1,14 +1,13 @@
 import Immutable from 'seamless-immutable';
 
-import { cloneDeep, findIndex, findLastIndex } from 'lodash';
-
-import { filterParameterTypes } from './ParameterSelectionHelper';
+import { cloneDeep, findIndex } from 'lodash';
 
 import * as sort from 'sortabular';
 
+import { filterParameterTypes } from './ParameterSelectionHelper';
+
 import {
   PARAMETER_SELECTION_INIT,
-  PARAMETER_SELECTION_TYPES,
   PARAMETER_SELECTION_LOCK,
   PARAMETER_SELECTION_DELETE,
   PARAMETER_SELECTION_ADD,

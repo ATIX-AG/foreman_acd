@@ -1,7 +1,3 @@
-import React from 'react';
-import * as sort from 'sortabular';
-import { translate as __ } from 'foremanReact/common/I18n';
-
 import {
   actionHeaderCellFormatter,
   sortableHeaderCellFormatter,
@@ -9,19 +5,14 @@ import {
   TABLE_SORT_DIRECTION,
 } from 'patternfly-react';
 
+import { translate as __ } from 'foremanReact/common/I18n';
 import api from 'foremanReact/API';
-
-import {
-  propsToSnakeCase,
-  propsToCamelCase,
-} from 'foremanReact/common/helpers';
-
-import { filterParameterTypes } from './ParameterSelectionHelper';
-
 import {
   setModalOpen,
   setModalClosed,
 } from 'foremanReact/components/ForemanModal/ForemanModalActions';
+
+import { filterParameterTypes } from './ParameterSelectionHelper';
 
 import {
   PARAMETER_SELECTION_INIT,
@@ -35,7 +26,6 @@ import {
   PARAMETER_SELECTION_EDIT_CANCEL,
   PARAMETER_SELECTION_SORT,
   PARAMETER_SELECTION_PARAM_TYPE_FOREMAN,
-  PARAMETER_SELECTION_PARAM_TYPE_ANSIBLE,
   PARAMETER_SELECTION_LOAD_PARAM_DATA_REQUEST,
   PARAMETER_SELECTION_LOAD_PARAM_DATA_SUCCESS,
   PARAMETER_SELECTION_LOAD_PARAM_DATA_FAILURE,

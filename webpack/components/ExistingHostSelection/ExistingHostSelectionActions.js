@@ -1,13 +1,6 @@
-import React from 'react';
-import * as sort from 'sortabular';
 import { translate as __ } from 'foremanReact/common/I18n';
 
 import api from 'foremanReact/API';
-
-import {
-  propsToSnakeCase,
-  propsToCamelCase,
-} from 'foremanReact/common/helpers';
 
 import {
   EXISTING_HOST_SELECTION_INIT,

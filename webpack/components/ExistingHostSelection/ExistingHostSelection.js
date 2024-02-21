@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { orderBy, cloneDeep } from 'lodash';
+import { cloneDeep } from 'lodash';
+import { DualListControlled } from 'patternfly-react';
+import { translate as __ } from 'foremanReact/common/I18n';
 import ServiceSelector from './components/ServiceSelector';
 import { arrayToObject } from '../../helper';
-
-import { Icon, Button, DualListControlled } from 'patternfly-react';
 
 class ExistingHostSelection extends React.Component {
   constructor(props) {

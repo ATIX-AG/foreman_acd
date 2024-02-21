@@ -1,8 +1,7 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import { cloneDeep } from 'lodash';
 import Service from './Service';
 import { arrayToObjectObj } from '../../../helper';
-import { cloneDeep } from 'lodash';
 
 const ServiceCounter = ({ title, serviceList }) => {
   if (serviceList == undefined || serviceList.length == 0) {

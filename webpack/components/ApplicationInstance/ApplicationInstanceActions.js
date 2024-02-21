@@ -1,16 +1,11 @@
-import React from 'react';
 import api from 'foremanReact/API';
+import { translate as __ } from 'foremanReact/common/I18n';
 import {
   setModalOpen,
   setModalClosed,
 } from 'foremanReact/components/ForemanModal/ForemanModalActions';
 
 import { actionHeaderCellFormatter } from 'patternfly-react';
-
-import {
-  propsToSnakeCase,
-  propsToCamelCase,
-} from 'foremanReact/common/helpers';
 
 import {
   APPLICATION_INSTANCE_INIT,

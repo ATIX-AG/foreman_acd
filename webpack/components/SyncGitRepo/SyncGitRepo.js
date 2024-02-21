@@ -1,18 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  Icon,
-  Button,
-  FormControl,
-  inlineEditFormatterFactory,
-} from 'patternfly-react';
-import { sprintf, translate as __ } from 'foremanReact/common/I18n';
-import { Select, TextInput } from 'foremanReact/components/common/forms/Select';
+import Button from 'patternfly-react';
+import $ from 'jquery';
+import CommonForm from 'foremanReact/components/common/forms/CommonForm';
+import { translate as __ } from 'foremanReact/common/I18n';
 import ScmTypeSelector from './components/ScmTypeSelector';
 import FormTextInput from './components/FormTextInput';
-import { arrayToObject } from '../../helper';
-import CommonForm from 'foremanReact/components/common/forms/CommonForm';
-import $ from 'jquery';
 
 class SyncGitRepo extends React.Component {
   constructor(props) {
