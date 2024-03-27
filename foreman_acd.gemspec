@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   s.summary     = 'Foreman plugin to provide application centric deployment and self service portal'
   # also update locale/gemspec.rb
   s.description = 'Foreman plugin to provide application centric deployment and self service portal'
-  s.required_ruby_version = '~> 2.7'
+  s.required_ruby_version = '>= 2.7', '< 4'
 
   s.files = Dir['{app,config,db,lib,locale,webpack}/**/*'] + ['LICENSE', 'Rakefile', 'README.md', 'package.json']
   s.test_files = Dir['test/**/*']
