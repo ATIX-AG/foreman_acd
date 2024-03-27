@@ -14,6 +14,13 @@ jobs:
   rubocop:
     uses: theforeman/actions/.github/workflows/rubocop.yml@v0
 
+  debug:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Print
+        run: env | sort
+
   test:
     name: Ruby
     needs: rubocop
