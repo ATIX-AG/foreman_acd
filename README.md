@@ -124,8 +124,7 @@ All Foreman parameters require a value.
 
 ## Contributing
 
-Fork and send a Pull Request.
-Thanks!
+Fork and send a Pull Request. Thank you.
 
 ## Copyright
 
