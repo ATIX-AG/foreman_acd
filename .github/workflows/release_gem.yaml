@@ -9,6 +9,6 @@ jobs:
     name: Release gem
     uses: theforeman/actions/.github/workflows/release-gem.yml@v0
     with:
-      allowed_owner: atix-dev
+      allowed_owner: ATIX-AG
     secrets:
       api_key: ${{ secrets.RUBYGEM_API_KEY }}
