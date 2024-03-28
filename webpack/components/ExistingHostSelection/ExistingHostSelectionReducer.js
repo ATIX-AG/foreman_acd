@@ -1,13 +1,8 @@
 import Immutable from 'seamless-immutable';
 
-import {
-  cloneDeep,
-  findIndex,
-  findLastIndex,
-} from 'lodash';
+import { translate as __ } from 'foremanReact/common/I18n';
 
 import { shortHostname } from '../../helper';
-import * as sort from 'sortabular';
 
 import {
   EXISTING_HOST_SELECTION_INIT,
@@ -29,10 +24,10 @@ const existingHostSelectionConf = (state = initialState, action) => {
       return state.merge(payload);
     }
     case EXISTING_HOST_SELECTION_LOAD_HOSTS_SUCCESS: {
-      let alreadyUsedHosts = [];
+      const alreadyUsedHosts = [];
 
       state.allHosts.forEach(host => {
-        if ((host.service == payload.serviceId) && (host.isExistingHost == true)) {
+        if (host.service == payload.serviceId && host.isExistingHost == true) {
           alreadyUsedHosts.push({
             value: host.hostname,
             label: host.hostname,
@@ -42,10 +37,10 @@ const existingHostSelectionConf = (state = initialState, action) => {
         }
       });
 
-      let availableHosts = [];
-      let hostsInHostgroup = {};
+      const availableHosts = [];
+      const hostsInHostgroup = {};
       payload.hosts.forEach(host => {
-        let shortName = shortHostname(host.name);
+        const shortName = shortHostname(host.name);
         if (state.allHosts.find(h => h.hostname == shortName) == undefined) {
           availableHosts.push({
             value: shortName,
@@ -56,9 +51,9 @@ const existingHostSelectionConf = (state = initialState, action) => {
       });
 
       return state.merge({
-        hostsInHostgroup: hostsInHostgroup,
-        availableHosts: availableHosts,
-        alreadyUsedHosts: alreadyUsedHosts,
+        hostsInHostgroup,
+        availableHosts,
+        alreadyUsedHosts,
         serviceId: payload.serviceId,
       });
     }
@@ -66,10 +61,10 @@ const existingHostSelectionConf = (state = initialState, action) => {
       return state.merge({ error: payload.error });
     }
     case EXISTING_HOST_SELECTION_SELECTION_CHANGED: {
-      let selectedHosts = [];
+      const selectedHosts = [];
 
       payload.selection.forEach(selHost => {
-        let hostData = state.hostsInHostgroup[selHost.value];
+        const hostData = state.hostsInHostgroup[selHost.value];
         selectedHosts.push({
           fqdn: hostData.name,
           hostname: shortHostname(hostData.name),
@@ -79,7 +74,7 @@ const existingHostSelectionConf = (state = initialState, action) => {
       });
 
       return state.merge({
-        selectedHosts: selectedHosts,
+        selectedHosts,
       });
     }
     default:

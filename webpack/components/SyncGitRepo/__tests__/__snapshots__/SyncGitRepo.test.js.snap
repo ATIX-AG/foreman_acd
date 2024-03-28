@@ -10,6 +10,7 @@ exports[`SyncGitRepo should render ansible playbook 1`] = `
       onChange={[Function]}
       options={Object {}}
       selectValue=""
+      viewText=""
     />
     <div />
     <div

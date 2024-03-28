@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Select from 'foremanReact/components/common/forms/Select';
 
-const ExtSelect= ({
+const ExtSelect = ({
   hidden,
   editable,
   viewText,
@@ -10,22 +10,20 @@ const ExtSelect= ({
   onChange,
   options,
   additionalData,
-}) =>{
+}) => {
   if (hidden) {
     return null;
   }
 
   if (!editable) {
-    return (
-     <div>{viewText}</div>
-    );
+    return <div>{viewText}</div>;
   }
 
   return (
     <Select
-       value={selectValue}
-       onChange={e => onChange(e.target.value, additionalData) }
-       options={options}
+      value={selectValue}
+      onChange={e => onChange(e.target.value, additionalData)}
+      options={options}
     />
   );
 };
@@ -38,6 +36,12 @@ ExtSelect.propTypes = {
   onChange: PropTypes.func.isRequired,
   options: PropTypes.object,
   additionalData: PropTypes.object,
+};
+ExtSelect.defaultProps = {
+  viewText: '',
+  selectValue: '',
+  options: {},
+  additionalData: {},
 };
 
 export default ExtSelect;

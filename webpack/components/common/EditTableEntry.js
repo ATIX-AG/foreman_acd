@@ -1,9 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  Icon,
-  Button,
-} from 'patternfly-react';
+import { Icon, Button } from 'patternfly-react';
 import { translate as __ } from 'foremanReact/common/I18n';
 
 const EditTableEntry = ({
@@ -12,12 +9,12 @@ const EditTableEntry = ({
   handleLocking,
   onEditTableEntry,
   additionalData,
-}) =>{
+}) => {
   if (hidden) {
     return null;
   }
 
-  let title = 'edit this entry'
+  let title = 'edit this entry';
 
   if (handleLocking === true) {
     if (additionalData.rowData.locked === true) {
@@ -31,7 +28,7 @@ const EditTableEntry = ({
       <Button
         bsStyle="default"
         disabled={disabled}
-        onClick={() => onEditTableEntry(additionalData) }
+        onClick={() => onEditTableEntry(additionalData)}
       >
         <Icon type="pf" name="edit" title={__(title)} />
       </Button>
@@ -45,6 +42,9 @@ EditTableEntry.propTypes = {
   handleLocking: PropTypes.bool.isRequired,
   onEditTableEntry: PropTypes.func.isRequired,
   additionalData: PropTypes.object.isRequired,
+};
+EditTableEntry.defaultProps = {
+  hidden: false,
 };
 
 export default EditTableEntry;

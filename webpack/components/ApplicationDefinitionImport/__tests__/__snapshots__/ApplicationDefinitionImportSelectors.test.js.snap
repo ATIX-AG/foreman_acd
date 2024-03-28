@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ApplicationDefinitionImportSelectors should return columns from applicationDefinitionImportConfData_1 fixtures 1`] = `
+exports[`ApplicationDefinitionImportSelectors should return columns from applicationDefinitionImportConfData1 fixtures 1`] = `
 Array [
   Object {
     "cell": Object {
@@ -45,9 +45,9 @@ Array [
 ]
 `;
 
-exports[`ApplicationDefinitionImportSelectors should return editMode from applicationDefinitionImportConfData_1 fixtures 1`] = `undefined`;
+exports[`ApplicationDefinitionImportSelectors should return editMode from applicationDefinitionImportConfData1 fixtures 1`] = `undefined`;
 
-exports[`ApplicationDefinitionImportSelectors should return services from applicationDefinitionImportConfData_1 fixtures 1`] = `
+exports[`ApplicationDefinitionImportSelectors should return services from applicationDefinitionImportConfData1 fixtures 1`] = `
 Array [
   Object {
     "ansibleGroup": "webservers",

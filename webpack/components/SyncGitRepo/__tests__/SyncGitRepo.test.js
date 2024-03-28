@@ -7,11 +7,11 @@ const noop = () => {};
 const fixtures = {
   'should render ansible playbook': {
     data: {
-      scmType: "",
-      path: "",
-      gitCommit: "",
-      appDefinitions: "",
-      gitUrl: "",
+      scmType: '',
+      path: '',
+      gitCommit: '',
+      appDefinitions: '',
+      gitUrl: '',
       scmTypes: {},
     },
     initSyncGitRepo: noop,

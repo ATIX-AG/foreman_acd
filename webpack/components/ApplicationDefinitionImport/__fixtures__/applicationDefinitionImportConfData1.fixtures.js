@@ -1,51 +1,43 @@
-export const applicationDefinitionImportConfData_1 = {
+export const applicationDefinitionImportConfData1 = {
   name: false,
   error: {
     errorMsg: '',
     status: '',
-    statusText: ''
+    statusText: '',
   },
   columns: [
     {
       property: 'name',
       header: {
         label: 'Service name',
-        formatters: [
-          null
-        ],
+        formatters: [null],
         props: {
           index: 3,
           style: {
-            width: '20%'
-          }
-        }
+            width: '20%',
+          },
+        },
       },
       cell: {
-        formatters: [
-          null
-        ]
-      }
+        formatters: [null],
+      },
     },
     {
       property: 'hostgroup',
       header: {
         label: 'Hostgroup',
-        formatters: [
-          null
-        ],
+        formatters: [null],
         props: {
           index: 2,
           style: {
-            width: '20%'
-          }
-        }
+            width: '20%',
+          },
+        },
       },
       cell: {
-        formatters: [
-          null
-        ]
-      }
-    }
+        formatters: [null],
+      },
+    },
   ],
   ansiblePlaybookServices: [
     {
@@ -63,7 +55,7 @@ export const applicationDefinitionImportConfData_1 = {
           name: 'CP',
           description: '',
           type: 'computeprofile',
-          value: '1'
+          value: '1',
         },
         {
           id: 2,
@@ -71,16 +63,16 @@ export const applicationDefinitionImportConfData_1 = {
           name: 'LE',
           description: '',
           type: 'lifecycleenv',
-          value: '1'
-        }
+          value: '1',
+        },
       ],
       ansibleParameters: [
         {
           id: 0,
           name: 'dummy_var',
-          value: '0'
-        }
-      ]
+          value: '0',
+        },
+      ],
     },
     {
       id: 2,
@@ -95,35 +87,35 @@ export const applicationDefinitionImportConfData_1 = {
         {
           id: 0,
           name: 'mysqlservice',
-          value: 'mysqld'
+          value: 'mysqld',
         },
         {
           id: 1,
           name: 'mysql_port',
           value: '3306',
-          locked: true
+          locked: true,
         },
         {
           id: 2,
           name: 'dbuser',
-          value: 'webapp'
+          value: 'webapp',
         },
         {
           id: 3,
           name: 'dbname',
-          value: 'ANSAP01'
+          value: 'ANSAP01',
         },
         {
           id: 4,
           name: 'upassword',
-          value: 'Bond@007'
+          value: 'Bond@007',
         },
         {
           id: 5,
           name: 'masterpassword',
-          value: 'MySQL@007'
-        }
-      ]
-    }
-  ]
-}
+          value: 'MySQL@007',
+        },
+      ],
+    },
+  ],
+};

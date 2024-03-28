@@ -2,14 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import TextInput from 'foremanReact/components/common/forms/TextInput';
 
-const ExtTextInput= ({
+const ExtTextInput = ({
   hidden,
   editable,
   viewText,
   label,
   onChange,
   additionalData,
-}) =>{
+}) => {
   if (hidden) {
     return null;
   }
@@ -17,17 +17,17 @@ const ExtTextInput= ({
   if (!editable) {
     return (
       <div className="form-group">
-       <label className="col-md-2 control-label">{label}</label>
-       <div className="col-md-4">{viewText}</div>
+        <label className="col-md-2 control-label">{label}</label>
+        <div className="col-md-4">{viewText}</div>
       </div>
     );
   }
 
   return (
     <TextInput
-       label={label}
-       value={viewText}
-       onChange={e => onChange(e.target.value, additionalData) }
+      label={label}
+      value={viewText}
+      onChange={e => onChange(e.target.value, additionalData)}
     />
   );
 };
@@ -36,8 +36,13 @@ ExtTextInput.propTypes = {
   hidden: PropTypes.bool.isRequired,
   editable: PropTypes.bool.isRequired,
   viewText: PropTypes.string,
+  label: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   additionalData: PropTypes.object,
+};
+ExtTextInput.defaultProps = {
+  viewText: '',
+  additionalData: {},
 };
 
 export default ExtTextInput;

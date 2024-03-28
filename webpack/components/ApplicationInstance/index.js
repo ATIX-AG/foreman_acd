@@ -42,4 +42,3 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(ApplicationInstance);
-
