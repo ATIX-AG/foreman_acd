@@ -215,14 +215,13 @@ export const parameterSelectionData_1 = {
       value: '1'
     }
   ],
-  allowedParameterTypes: [
-    'domain',
-    'hostparam',
-    'ip',
-    'ptable',
-    'puppetenv',
-    'password',
-  ],
+  allowedParameterTypes: {
+    domain: 'Domain',
+    hostparam: 'Host parameter',
+    ip: 'IP',
+    ptable: 'Partition table',
+    puppetenv: 'Puppet environment',
+  },
   parameterTypes: {
     domain: 'Domain',
     hostparam: 'Host parameter',

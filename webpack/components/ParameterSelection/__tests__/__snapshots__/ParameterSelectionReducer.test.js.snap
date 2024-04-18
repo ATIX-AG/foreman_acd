@@ -2,14 +2,13 @@
 
 exports[`ParameterSelectionReducer should activate edit parameter 1`] = `
 Object {
-  "allowedParameterTypes": Array [
-    "domain",
-    "hostparam",
-    "ip",
-    "ptable",
-    "puppetenv",
-    "password",
-  ],
+  "allowedParameterTypes": Object {
+    "domain": "Domain",
+    "hostparam": "Host parameter",
+    "ip": "IP",
+    "ptable": "Partition table",
+    "puppetenv": "Puppet environment",
+  },
   "columns": Array [
     Object {
       "cell": Object {
@@ -248,14 +247,13 @@ Object {
 
 exports[`ParameterSelectionReducer should add a parameter 1`] = `
 Object {
-  "allowedParameterTypes": Array [
-    "domain",
-    "hostparam",
-    "ip",
-    "ptable",
-    "puppetenv",
-    "password",
-  ],
+  "allowedParameterTypes": Object {
+    "domain": "Domain",
+    "hostparam": "Host parameter",
+    "ip": "IP",
+    "ptable": "Partition table",
+    "puppetenv": "Puppet environment",
+  },
   "columns": Array [
     Object {
       "cell": Object {
@@ -506,14 +504,13 @@ Object {
 
 exports[`ParameterSelectionReducer should cancel edit parameter 1`] = `
 Object {
-  "allowedParameterTypes": Array [
-    "domain",
-    "hostparam",
-    "ip",
-    "ptable",
-    "puppetenv",
-    "password",
-  ],
+  "allowedParameterTypes": Object {
+    "domain": "Domain",
+    "hostparam": "Host parameter",
+    "ip": "IP",
+    "ptable": "Partition table",
+    "puppetenv": "Puppet environment",
+  },
   "columns": Array [
     Object {
       "cell": Object {
@@ -743,14 +740,13 @@ Object {
 
 exports[`ParameterSelectionReducer should change edit parameter 1`] = `
 Object {
-  "allowedParameterTypes": Array [
-    "domain",
-    "hostparam",
-    "ip",
-    "ptable",
-    "puppetenv",
-    "password",
-  ],
+  "allowedParameterTypes": Object {
+    "domain": "Domain",
+    "hostparam": "Host parameter",
+    "ip": "IP",
+    "ptable": "Partition table",
+    "puppetenv": "Puppet environment",
+  },
   "columns": Array [
     Object {
       "cell": Object {
@@ -989,14 +985,13 @@ Object {
 
 exports[`ParameterSelectionReducer should confirm edit parameter 1`] = `
 Object {
-  "allowedParameterTypes": Array [
-    "domain",
-    "hostparam",
-    "ip",
-    "ptable",
-    "puppetenv",
-    "password",
-  ],
+  "allowedParameterTypes": Object {
+    "domain": "Domain",
+    "hostparam": "Host parameter",
+    "ip": "IP",
+    "ptable": "Partition table",
+    "puppetenv": "Puppet environment",
+  },
   "columns": Array [
     Object {
       "cell": Object {
@@ -1189,14 +1184,13 @@ Object {
     "id": 1,
     "name": "web",
   },
-  "parameterTypes": Array [
-    "domain",
-    "hostparam",
-    "ip",
-    "ptable",
-    "puppetenv",
-    "password",
-  ],
+  "parameterTypes": Object {
+    "domain": "Domain",
+    "hostparam": "Host parameter",
+    "ip": "IP",
+    "ptable": "Partition table",
+    "puppetenv": "Puppet environment",
+  },
   "parameters": Array [
     Object {
       "description": "",
@@ -1226,14 +1220,13 @@ Object {
 
 exports[`ParameterSelectionReducer should delete a parameter 1`] = `
 Object {
-  "allowedParameterTypes": Array [
-    "domain",
-    "hostparam",
-    "ip",
-    "ptable",
-    "puppetenv",
-    "password",
-  ],
+  "allowedParameterTypes": Object {
+    "domain": "Domain",
+    "hostparam": "Host parameter",
+    "ip": "IP",
+    "ptable": "Partition table",
+    "puppetenv": "Puppet environment",
+  },
   "columns": Array [
     Object {
       "cell": Object {
@@ -1426,14 +1419,13 @@ Object {
     "id": 1,
     "name": "web",
   },
-  "parameterTypes": Array [
-    "domain",
-    "hostparam",
-    "ip",
-    "ptable",
-    "puppetenv",
-    "password",
-  ],
+  "parameterTypes": Object {
+    "domain": "Domain",
+    "hostparam": "Host parameter",
+    "ip": "IP",
+    "ptable": "Partition table",
+    "puppetenv": "Puppet environment",
+  },
   "parameters": Array [
     Object {
       "description": "",
@@ -1455,14 +1447,13 @@ Object {
 
 exports[`ParameterSelectionReducer should initialize component 1`] = `
 Object {
-  "allowedParameterTypes": Array [
-    "domain",
-    "hostparam",
-    "ip",
-    "ptable",
-    "puppetenv",
-    "password",
-  ],
+  "allowedParameterTypes": Object {
+    "domain": "Domain",
+    "hostparam": "Host parameter",
+    "ip": "IP",
+    "ptable": "Partition table",
+    "puppetenv": "Puppet environment",
+  },
   "columns": Array [
     Object {
       "cell": Object {
@@ -1700,14 +1691,13 @@ Object {
 
 exports[`ParameterSelectionReducer should load param data be erroneous 1`] = `
 Object {
-  "allowedParameterTypes": Array [
-    "domain",
-    "hostparam",
-    "ip",
-    "ptable",
-    "puppetenv",
-    "password",
-  ],
+  "allowedParameterTypes": Object {
+    "domain": "Domain",
+    "hostparam": "Host parameter",
+    "ip": "IP",
+    "ptable": "Partition table",
+    "puppetenv": "Puppet environment",
+  },
   "columns": Array [
     Object {
       "cell": Object {
@@ -1933,14 +1923,13 @@ Object {
 
 exports[`ParameterSelectionReducer should load param data be successful 1`] = `
 Object {
-  "allowedParameterTypes": Array [
-    "domain",
-    "hostparam",
-    "ip",
-    "ptable",
-    "puppetenv",
-    "password",
-  ],
+  "allowedParameterTypes": Object {
+    "domain": "Domain",
+    "hostparam": "Host parameter",
+    "ip": "IP",
+    "ptable": "Partition table",
+    "puppetenv": "Puppet environment",
+  },
   "columns": Array [
     Object {
       "cell": Object {
@@ -2170,14 +2159,13 @@ Object {
 
 exports[`ParameterSelectionReducer should lock a parameter 1`] = `
 Object {
-  "allowedParameterTypes": Array [
-    "domain",
-    "hostparam",
-    "ip",
-    "ptable",
-    "puppetenv",
-    "password",
-  ],
+  "allowedParameterTypes": Object {
+    "domain": "Domain",
+    "hostparam": "Host parameter",
+    "ip": "IP",
+    "ptable": "Partition table",
+    "puppetenv": "Puppet environment",
+  },
   "columns": Array [
     Object {
       "cell": Object {
@@ -2407,14 +2395,13 @@ Object {
 
 exports[`ParameterSelectionReducer should request load param data 1`] = `
 Object {
-  "allowedParameterTypes": Array [
-    "domain",
-    "hostparam",
-    "ip",
-    "ptable",
-    "puppetenv",
-    "password",
-  ],
+  "allowedParameterTypes": Object {
+    "domain": "Domain",
+    "hostparam": "Host parameter",
+    "ip": "IP",
+    "ptable": "Partition table",
+    "puppetenv": "Puppet environment",
+  },
   "columns": Array [
     Object {
       "cell": Object {
@@ -2655,14 +2642,13 @@ Object {
 
 exports[`ParameterSelectionReducer should sort parameter 1`] = `
 Object {
-  "allowedParameterTypes": Array [
-    "domain",
-    "hostparam",
-    "ip",
-    "ptable",
-    "puppetenv",
-    "password",
-  ],
+  "allowedParameterTypes": Object {
+    "domain": "Domain",
+    "hostparam": "Host parameter",
+    "ip": "IP",
+    "ptable": "Partition table",
+    "puppetenv": "Puppet environment",
+  },
   "columns": Array [
     Object {
       "cell": Object {

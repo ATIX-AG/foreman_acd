@@ -180,7 +180,7 @@ export const initParameterSelection = (
     }, idx++);
 
   initialState.parameters = parameters;
-  initialState.allowedParameterTypes = [];
+  initialState.allowedParameterTypes = {};
 
   if ((paramType == PARAMETER_SELECTION_PARAM_TYPE_FOREMAN) && (parameters)) {
     let pTypes = PARAMETER_SELECTION_TYPES;

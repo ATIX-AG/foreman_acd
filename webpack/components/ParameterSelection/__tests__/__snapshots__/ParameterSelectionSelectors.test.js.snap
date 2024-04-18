@@ -9,14 +9,13 @@ Object {
 `;
 
 exports[`ParameterSelectionSelectors should return allowedParameterTypes from parameterSelectionData_1 fixtures 1`] = `
-Array [
-  "domain",
-  "hostparam",
-  "ip",
-  "ptable",
-  "puppetenv",
-  "password",
-]
+Object {
+  "domain": "Domain",
+  "hostparam": "Host parameter",
+  "ip": "IP",
+  "ptable": "Partition table",
+  "puppetenv": "Puppet environment",
+}
 `;
 
 exports[`ParameterSelectionSelectors should return columns from parameterSelectionData_1 fixtures 1`] = `
