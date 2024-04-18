@@ -1,15 +1,25 @@
-import $ from 'jquery';
 import React from 'react';
 import PropTypes from 'prop-types';
 import * as sort from 'sortabular';
-import { orderBy, dropRight, findIndex, cloneDeep } from 'lodash';
+import { orderBy, findIndex, cloneDeep } from 'lodash';
 import * as resolve from 'table-resolver';
+import {
+  Button,
+  Table,
+  FormControl,
+  InputGroup,
+  customHeaderFormattersDefinition,
+  inlineEditFormatterFactory,
+} from 'patternfly-react';
+
 import Select from 'foremanReact/components/common/forms/Select';
+import { translate as __ } from 'foremanReact/common/I18n';
+import ForemanModal from 'foremanReact/components/ForemanModal';
+
 import AddTableEntry from '../common/AddTableEntry';
 import EditTableEntry from '../common/EditTableEntry';
 import DeleteTableEntry from '../common/DeleteTableEntry';
 import LockTableEntry from '../common/LockTableEntry';
-import ForemanModal from 'foremanReact/components/ForemanModal';
 import * as YamlValidator from '../../js-yaml';
 
 import { transformForemanData } from './ParameterSelectionHelper';
@@ -17,25 +27,7 @@ import { transformForemanData } from './ParameterSelectionHelper';
 import {
   PARAMETER_SELECTION_TYPES,
   PARAMETER_SELECTION_PARAM_TYPE_FOREMAN,
-  PARAMETER_SELECTION_PARAM_TYPE_ANSIBLE,
 } from './ParameterSelectionConstants';
-
-import {
-  Icon,
-  Button,
-  Table,
-  FormControl,
-  InputGroup,
-  defaultSortingOrder,
-  customHeaderFormattersDefinition,
-  inlineEditFormatterFactory,
-} from 'patternfly-react';
-
-const theme = {
-  scheme: 'foreman',
-  backgroundColor: 'rgba(0, 0, 0, 255)',
-  base00: 'rgba(0, 0, 0, 0)',
-};
 
 class ParameterSelection extends React.Component {
   constructor(props) {
@@ -47,7 +39,7 @@ class ParameterSelection extends React.Component {
     this.setState({ textValue: event.target.value });
   };
 
-  isEditing({ rowData }) {
+  static isEditing({ rowData }) {
     return rowData.backup !== undefined;
   }
 
@@ -55,7 +47,7 @@ class ParameterSelection extends React.Component {
     let result = true;
     let msg = '';
     try {
-      const doc = YamlValidator.load(this.state.textValue);
+      YamlValidator.load(this.state.textValue);
     } catch (e) {
       result = false;
       msg = `Invalid Yaml: ${e.name}: ${e.message}`;
@@ -67,9 +59,9 @@ class ParameterSelection extends React.Component {
   }
 
   yamlValue() {
-    if (this.props.editParamsRowIndex != undefined) {
+    if (this.props.editParamsRowIndex !== undefined) {
       const id = this.props.editParamsRowIndex;
-      if (this.props.parameters[id] != undefined) {
+      if (this.props.parameters[id] !== undefined) {
         return this.props.parameters[id].value;
       }
     }
@@ -89,8 +81,6 @@ class ParameterSelection extends React.Component {
         parameters,
         paramDefinition,
       },
-      location,
-      organization,
       paramType,
       paramDataUrl,
       hiddenParameterTypes,
@@ -101,7 +91,6 @@ class ParameterSelection extends React.Component {
       activateEditParameter,
       changeEditParameter,
       openParameterSelectionDialogBox,
-      closeParameterSelectionDialogBox,
       loadParamData,
     } = this.props;
 
@@ -116,8 +105,7 @@ class ParameterSelection extends React.Component {
           });
           break;
         }
-        default: {
-        }
+        default:
       }
     }
 
@@ -150,6 +138,8 @@ class ParameterSelection extends React.Component {
       renderEdit: (value, additionalData) => (
         <td style={{ padding: '2px' }}>
           <EditTableEntry
+            hidden={false}
+            handleLocking={false}
             disabled
             onEditTableEntry={() => activateEditParameter(additionalData)}
             additionalData={additionalData}
@@ -210,7 +200,7 @@ class ParameterSelection extends React.Component {
           <InputGroup>
             <FormControl
               type={subtype}
-              defaultValue={additionalData.rowData.isYaml == true ? '' : value}
+              defaultValue={additionalData.rowData.isYaml === true ? '' : value}
               onBlur={e => changeEditParameter(e.target.value, additionalData)}
               readOnly={additionalData.rowData.isYaml}
               placeholder="Press YAML button for Yaml Data"
@@ -240,12 +230,12 @@ class ParameterSelection extends React.Component {
     // TODO: should we differentiate between paramType FOREMAN and ANSIBLE?
 
     const inlineEditFormatter = inlineEditFormatterFactory({
-      isEditing: additionalData => this.isEditing(additionalData),
+      isEditing: additionalData => this.constructor.isEditing(additionalData),
       renderValue: (value, additionalData) => {
         let prettyValue = value;
-        if (additionalData.property == 'type') {
+        if (additionalData.property === 'type') {
           prettyValue = PARAMETER_SELECTION_TYPES[value];
-        } else if (additionalData.property == 'value') {
+        } else if (additionalData.property === 'value') {
           switch (additionalData.rowData.type) {
             case 'computeprofile':
               prettyValue = transformForemanData(
@@ -283,6 +273,7 @@ class ParameterSelection extends React.Component {
                 ? 'YAML value'
                 : value;
               break;
+            default:
           }
         }
         return inlineEditFormatterImpl.renderValue(prettyValue, additionalData);
@@ -388,13 +379,10 @@ class ParameterSelection extends React.Component {
 
   render() {
     const {
-      data: { allowRowAdjustment, applications },
-      location,
-      organization,
+      data: { allowRowAdjustment },
       parameters,
       columns,
       sortingColumns,
-      loading,
       addParameter,
       confirmEditParameter,
       cancelEditParameter,
@@ -472,7 +460,7 @@ class ParameterSelection extends React.Component {
                 rowKey="id"
                 onRow={(rowData, { rowIndex }) => ({
                   role: 'row',
-                  isEditing: () => this.isEditing({ rowData }),
+                  isEditing: () => this.constructor.isEditing({ rowData }),
                   onCancel: () => cancelEditParameter({ rowData, rowIndex }),
                   onConfirm: () => confirmEditParameter({ rowData, rowIndex }),
                   last: rowIndex === sortedParameters.length - 1,
@@ -501,7 +489,7 @@ class ParameterSelection extends React.Component {
             />
             <ForemanModal.Footer>
               <div>
-                {validateResult == false ? (
+                {validateResult === false ? (
                   <div className="form-group">
                     <div className="alert alert-danger alert-dismissable">
                       <button
@@ -545,53 +533,61 @@ class ParameterSelection extends React.Component {
 }
 
 ParameterSelection.defaultProps = {
-  error: {},
-  editMode: false,
-  loading: false,
-  paramData: {},
-  parameters: [],
+  // error: {},
   columns: [],
+  editParamsRowIndex: undefined,
   hiddenParameterTypes: [],
+  paramData: {},
+  paramDataUrl: undefined,
+  paramDefinition: undefined,
+  parameters: [],
+  parameterTypes: {},
   sortingColumns: {},
-  editParamsRowIndex: [],
-  editModeCallback: undefined,
 };
 
 ParameterSelection.propTypes = {
-  error: PropTypes.object,
+  // error: PropTypes.object,
+  paramDataUrl: PropTypes.string,
+  hiddenParameterTypes: PropTypes.array,
+
+  // from ParameterSelectionActions
+  initParameterSelection: PropTypes.func.isRequired,
+  addParameter: PropTypes.func.isRequired,
+  deleteParameter: PropTypes.func.isRequired,
+  lockParameter: PropTypes.func.isRequired,
+  activateEditParameter: PropTypes.func.isRequired,
+  confirmEditParameter: PropTypes.func.isRequired,
+  cancelEditParameter: PropTypes.func.isRequired,
+  changeEditParameter: PropTypes.func.isRequired,
+  sortParameter: PropTypes.func.isRequired,
+  openParameterSelectionDialogBox: PropTypes.func.isRequired,
+  closeParameterSelectionDialogBox: PropTypes.func.isRequired,
+  loadParamData: PropTypes.func.isRequired,
+
+  // from ApplicationInstance
+  editModeCallback: PropTypes.func.isRequired,
+  paramType: PropTypes.string.isRequired,
+  // location: PropTypes.string.isRequired,
+  // organization: PropTypes.string.isRequired,
   data: PropTypes.shape({
+    useDefaultValue: PropTypes.bool,
     allowRowAdjustment: PropTypes.bool,
+    allowNameAdjustment: PropTypes.bool,
+    allowDescriptionAdjustment: PropTypes.bool,
     parameters: PropTypes.array,
     paramDefinition: PropTypes.object,
-    applications: PropTypes.object,
   }).isRequired,
-  location: PropTypes.string.isRequired,
-  organization: PropTypes.string.isRequired,
-  paramDataUrl: PropTypes.string,
-  initParameterSelection: PropTypes.func,
+
+  // from redux-state
+  // loading: PropTypes.bool.isRequired,
   editMode: PropTypes.bool.isRequired,
-  loading: PropTypes.bool.isRequired,
-  paramData: PropTypes.object.isRequired,
-  hiddenParameterTypes: PropTypes.array.isRequired,
-  allowedParameterTypes: PropTypes.object,
+  paramData: PropTypes.object,
   parameterTypes: PropTypes.object,
   parameters: PropTypes.array,
   sortingColumns: PropTypes.object,
-  editModeCallback: PropTypes.func,
   columns: PropTypes.array,
-  sortParameter: PropTypes.func,
-  addParameter: PropTypes.func,
-  deleteParameter: PropTypes.func,
-  lockParameter: PropTypes.func,
-  activateEditParameter: PropTypes.func,
-  confirmEditParameter: PropTypes.func,
-  cancelEditParameter: PropTypes.func,
-  changeEditParameter: PropTypes.func,
-  openParameterSelectionDialogBox: PropTypes.func,
-  closeParameterSelectionDialogBox: PropTypes.func,
-  loadParamData: PropTypes.func,
   paramDefinition: PropTypes.object,
-  editParamsRowIndex: PropTypes.array,
+  editParamsRowIndex: PropTypes.number,
 };
 
 export default ParameterSelection;

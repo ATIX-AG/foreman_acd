@@ -1,5 +1,3 @@
-import React from 'react';
-import * as sort from 'sortabular';
 import { translate as __ } from 'foremanReact/common/I18n';
 
 import {
@@ -12,16 +10,11 @@ import {
 import api from 'foremanReact/API';
 
 import {
-  propsToSnakeCase,
-  propsToCamelCase,
-} from 'foremanReact/common/helpers';
-
-import { filterParameterTypes } from './ParameterSelectionHelper';
-
-import {
   setModalOpen,
   setModalClosed,
 } from 'foremanReact/components/ForemanModal/ForemanModalActions';
+
+import { filterParameterTypes } from './ParameterSelectionHelper';
 
 import {
   PARAMETER_SELECTION_INIT,
@@ -35,7 +28,6 @@ import {
   PARAMETER_SELECTION_EDIT_CANCEL,
   PARAMETER_SELECTION_SORT,
   PARAMETER_SELECTION_PARAM_TYPE_FOREMAN,
-  PARAMETER_SELECTION_PARAM_TYPE_ANSIBLE,
   PARAMETER_SELECTION_LOAD_PARAM_DATA_REQUEST,
   PARAMETER_SELECTION_LOAD_PARAM_DATA_SUCCESS,
   PARAMETER_SELECTION_LOAD_PARAM_DATA_FAILURE,
@@ -129,7 +121,7 @@ export const initParameterSelection = (
     idx++
   );
 
-  if (paramType == PARAMETER_SELECTION_PARAM_TYPE_FOREMAN) {
+  if (paramType === PARAMETER_SELECTION_PARAM_TYPE_FOREMAN) {
     addToColumns(
       {
         property: 'type',
@@ -199,7 +191,7 @@ export const initParameterSelection = (
   initialState.parameters = parameters;
   initialState.allowedParameterTypes = {};
 
-  if (paramType == PARAMETER_SELECTION_PARAM_TYPE_FOREMAN && parameters) {
+  if (paramType === PARAMETER_SELECTION_PARAM_TYPE_FOREMAN && parameters) {
     const pTypes = PARAMETER_SELECTION_TYPES;
 
     // filter hidden parameters
@@ -305,7 +297,7 @@ export const sortParameter = (selectedColumn, defaultSortingOrder) => ({
   },
 });
 
-export const loadParamData = attr => dispatch => {
+export const loadParamData = attr => async dispatch => {
   dispatch({
     type: PARAMETER_SELECTION_LOAD_PARAM_DATA_REQUEST,
     payload: { dataType: attr.dataType, clearParameters: attr.clearParameters },
@@ -317,15 +309,16 @@ export const loadParamData = attr => dispatch => {
     realUrl = realUrl.replace('__subid__', attr.paramDefinition.dataSubId);
   }
 
-  return api
-    .get(realUrl, {}, {})
-    .then(({ data }) =>
-      dispatch({
-        type: PARAMETER_SELECTION_LOAD_PARAM_DATA_SUCCESS,
-        payload: { ...data, dataType: attr.dataType },
-      })
-    )
-    .catch(error =>
-      dispatch(errorHandler(PARAMETER_SELECTION_LOAD_PARAM_DATA_FAILURE, error))
+  try {
+    const { data } = await api.get(realUrl, {}, {});
+
+    return dispatch({
+      type: PARAMETER_SELECTION_LOAD_PARAM_DATA_SUCCESS,
+      payload: { ...data, dataType: attr.dataType },
+    });
+  } catch (error) {
+    return dispatch(
+      errorHandler(PARAMETER_SELECTION_LOAD_PARAM_DATA_FAILURE, error)
     );
+  }
 };

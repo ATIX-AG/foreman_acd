@@ -1,14 +1,13 @@
 import Immutable from 'seamless-immutable';
 
-import { cloneDeep, findIndex, findLastIndex } from 'lodash';
-
-import { filterParameterTypes } from './ParameterSelectionHelper';
+import { cloneDeep, findIndex } from 'lodash';
 
 import * as sort from 'sortabular';
 
+import { filterParameterTypes } from './ParameterSelectionHelper';
+
 import {
   PARAMETER_SELECTION_INIT,
-  PARAMETER_SELECTION_TYPES,
   PARAMETER_SELECTION_LOCK,
   PARAMETER_SELECTION_DELETE,
   PARAMETER_SELECTION_ADD,
@@ -27,6 +26,7 @@ import {
 } from './ParameterSelectionConstants';
 
 export const initialState = Immutable({
+  loading: true,
   editMode: false,
   error: { errorMsg: '', status: '', statusText: '' },
 });
@@ -61,7 +61,7 @@ const parameterSelectionParameters = (state = initialState, action) => {
         isYaml: false,
         newEntry: true,
       };
-      if (state.paramType == 'PARAMETER_SELECTION_PARAM_TYPE_ANSIBLE') {
+      if (state.paramType === 'PARAMETER_SELECTION_PARAM_TYPE_ANSIBLE') {
         newRow.type = 'complex';
       }
       newRow.backup = cloneDeep(newRow);
@@ -129,9 +129,9 @@ const parameterSelectionParameters = (state = initialState, action) => {
       const parameters = cloneDeep(state.parameters);
       const index = findIndex(parameters, { id: payload.rowData.id });
 
-      if (!parameters[index].isYaml && payload.property == 'value') {
+      if (!parameters[index].isYaml && payload.property === 'value') {
         parameters[index].value = payload.value;
-      } else if (payload.property != 'value') {
+      } else if (payload.property !== 'value') {
         parameters[index][payload.property] = payload.value;
       }
       return state.merge({
@@ -175,13 +175,13 @@ const parameterSelectionParameters = (state = initialState, action) => {
     case PARAMETER_SELECTION_LOAD_PARAM_DATA_REQUEST: {
       let newState = {};
 
-      if (payload.dataType == PARAMETER_SELECTION_PARAM_TYPE_FOREMAN) {
+      if (payload.dataType === PARAMETER_SELECTION_PARAM_TYPE_FOREMAN) {
         newState = {
           paramData: {},
           hostgroupId: -1,
           loading: true,
         };
-      } else if (payload.dataType == PARAMETER_SELECTION_PARAM_TYPE_ANSIBLE) {
+      } else if (payload.dataType === PARAMETER_SELECTION_PARAM_TYPE_ANSIBLE) {
         newState = {
           loading: true,
         };
@@ -196,7 +196,7 @@ const parameterSelectionParameters = (state = initialState, action) => {
     case PARAMETER_SELECTION_LOAD_PARAM_DATA_SUCCESS: {
       let newState = {};
 
-      if (payload.dataType == PARAMETER_SELECTION_PARAM_TYPE_FOREMAN) {
+      if (payload.dataType === PARAMETER_SELECTION_PARAM_TYPE_FOREMAN) {
         newState = {
           loading: false,
           paramData: payload,
@@ -212,7 +212,7 @@ const parameterSelectionParameters = (state = initialState, action) => {
     case PARAMETER_SELECTION_COMPLEX_DATA_MODAL_CLOSE: {
       let str;
       const element = document.getElementById('yamlData');
-      if (element != null) {
+      if (element !== null) {
         str = element.value;
       } else {
         str = '';
@@ -220,9 +220,9 @@ const parameterSelectionParameters = (state = initialState, action) => {
       let newState = {};
       const index = state.editParamsRowIndex;
       const parameters = cloneDeep(state.parameters);
-      if (payload.mode == 'save') {
+      if (payload.mode === 'save') {
         parameters[index].value = str;
-        if (str == '') {
+        if (str === '') {
           parameters[index].isYaml = false;
         } else {
           parameters[index].isYaml = true;

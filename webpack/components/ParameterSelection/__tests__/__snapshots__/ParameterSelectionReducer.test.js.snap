@@ -2637,6 +2637,7 @@ Object {
     "status": "",
     "statusText": "",
   },
+  "loading": true,
 }
 `;
 

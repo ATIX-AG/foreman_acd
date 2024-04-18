@@ -5,7 +5,9 @@ export const transformForemanData = fdata => {
     return '';
   }
   const result = {};
-  fdata.map(item => (result[item.id] = item.name));
+  fdata.forEach(item => {
+    result[item.id] = item.name;
+  });
   return result;
 };
 
@@ -15,7 +17,7 @@ export const filterParameterTypes = (options, parameters) => {
   // hostparam can be used multiple times
   const alreadyUsed = parameters
     .map(item => item.type)
-    .filter(item => item != 'hostparam');
+    .filter(item => item !== 'hostparam');
 
   // remove already used items
   alreadyUsed.forEach(item => delete newOptions[item]);
