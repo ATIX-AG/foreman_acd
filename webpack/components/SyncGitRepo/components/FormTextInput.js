@@ -14,6 +14,7 @@ const FormTextInput = ({
   <div>
     <div>
       <ExtTextInput
+        hidden={false}
         label={label}
         editable={editable}
         viewText={viewText}

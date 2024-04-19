@@ -1,5 +1,4 @@
-import React from 'react';
-import { API, actionTypeGenerator } from 'foremanReact/redux/API';
+import { API } from 'foremanReact/redux/API';
 import { sprintf, translate as __ } from 'foremanReact/common/I18n';
 import { addToast } from 'foremanReact/components/ToastsList';
 
@@ -33,14 +32,6 @@ export const initSyncGitRepo = (
   });
 };
 
-const errorHandler = (msg, err) => {
-  const error = {
-    errorMsg: __('Failed to fetch data from server.'),
-    statusText: err,
-  };
-  return { type: msg, payload: { error } };
-};
-
 export const handleGitRepoSync = (
   gitUrl,
   gitCommit,
@@ -48,7 +39,6 @@ export const handleGitRepoSync = (
   e
 ) => async dispatch => {
   e.preventDefault();
-  // const { REQUEST, SUCCESS, FAILURE } = actionTypeGenerator(SYNC_GIT_REPOSITORY);
   dispatch({
     type: SYNC_GIT_REPO_REQUEST,
     payload: {

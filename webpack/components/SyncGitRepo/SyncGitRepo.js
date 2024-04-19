@@ -1,24 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  Icon,
-  Button,
-  FormControl,
-  inlineEditFormatterFactory,
-} from 'patternfly-react';
-import { sprintf, translate as __ } from 'foremanReact/common/I18n';
-import { Select, TextInput } from 'foremanReact/components/common/forms/Select';
+import { Button } from 'patternfly-react';
+import $ from 'jquery';
+import CommonForm from 'foremanReact/components/common/forms/CommonForm';
+import { translate as __ } from 'foremanReact/common/I18n';
 import ScmTypeSelector from './components/ScmTypeSelector';
 import FormTextInput from './components/FormTextInput';
-import { arrayToObject } from '../../helper';
-import CommonForm from 'foremanReact/components/common/forms/CommonForm';
-import $ from 'jquery';
 
 class SyncGitRepo extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   validateParameters() {
     let result = true;
     let msg = '';
@@ -26,7 +15,7 @@ class SyncGitRepo extends React.Component {
     if (this.props.path === '' && this.props.scmType === 'directory') {
       result = false;
 
-      if (msg == '') {
+      if (msg === '') {
         msg += __('Directory path cannot be blank');
       }
     }
@@ -35,7 +24,7 @@ class SyncGitRepo extends React.Component {
       if (this.props.gitUrl === '') {
         result = false;
 
-        if (msg == '') {
+        if (msg === '') {
           msg += __('Git URL cannot be blank');
         }
       }
@@ -44,7 +33,7 @@ class SyncGitRepo extends React.Component {
     if (this.props.scmType !== 'git' && this.props.scmType !== 'directory') {
       result = false;
 
-      if (msg == '') {
+      if (msg === '') {
         msg += __('SCM Type cannot be blank');
       }
     }
@@ -57,7 +46,7 @@ class SyncGitRepo extends React.Component {
 
   componentDidMount() {
     const {
-      data: { mode, scmType, path, gitCommit, gitUrl, appDefinitions },
+      data: { mode, scmType, path, gitCommit, gitUrl },
       initSyncGitRepo,
       loadScmType,
       loadPath,
@@ -83,7 +72,7 @@ class SyncGitRepo extends React.Component {
 
   render() {
     const {
-      data: { mode, scmTypes, organization, location, appDefinitions },
+      data: { scmTypes, appDefinitions },
       scmType,
       path,
       gitCommit,
@@ -95,15 +84,17 @@ class SyncGitRepo extends React.Component {
       handleGitRepoSync,
     } = this.props;
 
-    const url_validator = /^(ftp|http|https):\/\/[^ "]+$/;
+    const urlValidator = /^(ftp|http|https):\/\/[^ "]+$/;
 
     const { validateResult, validateMsg } = this.validateParameters();
 
+    /* eslint-disable jquery/no-attr */
     if (validateResult === false) {
       $('input[type="submit"][name="commit"]').attr('disabled', true);
     } else {
       $('input[type="submit"][name="commit"]').attr('disabled', false);
     }
+    /* eslint-enable jquery/no-attr */
 
     return (
       <span>
@@ -111,7 +102,7 @@ class SyncGitRepo extends React.Component {
           <ScmTypeSelector
             label="SCM Type *"
             hidden={false}
-            editable={appDefinitions.length == 0}
+            editable={appDefinitions.length === 0}
             viewText={scmTypes[scmType]}
             options={scmTypes}
             onChange={loadScmType}
@@ -120,7 +111,7 @@ class SyncGitRepo extends React.Component {
           {scmType === 'directory' ? (
             <FormTextInput
               label="Directory Path *"
-              editable={appDefinitions.length == 0}
+              editable={appDefinitions.length === 0}
               viewText={path}
               onChange={loadPath}
               parameter="path"
@@ -129,13 +120,13 @@ class SyncGitRepo extends React.Component {
           {scmType === 'git' ? (
             <FormTextInput
               label="Git Url *"
-              editable={appDefinitions.length == 0}
+              editable={appDefinitions.length === 0}
               viewText={gitUrl}
               onChange={loadGitUrl}
               parameter="git_url"
             />
           ) : null}
-          {!url_validator.test(gitUrl) && gitUrl ? (
+          {!urlValidator.test(gitUrl) && gitUrl ? (
             <div className="form-group">
               <div className="col-md-2" />
               <div className="col-md-4">
@@ -145,7 +136,7 @@ class SyncGitRepo extends React.Component {
           ) : (
             <div />
           )}
-          {validateResult == false ? (
+          {validateResult === false ? (
             <div className="form-group">
               <div className="col-md-2" />
               <div className="col-md-4">
@@ -158,7 +149,7 @@ class SyncGitRepo extends React.Component {
           {scmType === 'git' ? (
             <FormTextInput
               label="Git Branch/Commit/Tag"
-              editable={appDefinitions.length == 0}
+              editable={appDefinitions.length === 0}
               viewText={gitCommit}
               onChange={loadGitCommit}
               parameter="git_commit"
@@ -185,7 +176,6 @@ class SyncGitRepo extends React.Component {
 }
 
 SyncGitRepo.defaultProps = {
-  error: {},
   scmType: '',
   path: '',
   gitCommit: '',
@@ -194,7 +184,7 @@ SyncGitRepo.defaultProps = {
 
 SyncGitRepo.propTypes = {
   data: PropTypes.shape({
-    appDefinitions: PropTypes.string.isRequired,
+    appDefinitions: PropTypes.array.isRequired,
     gitCommit: PropTypes.string.isRequired,
     gitUrl: PropTypes.string.isRequired,
     location: PropTypes.string,
@@ -204,7 +194,6 @@ SyncGitRepo.propTypes = {
     scmType: PropTypes.string.isRequired,
     scmTypes: PropTypes.object.isRequired,
   }).isRequired,
-  error: PropTypes.object,
   gitCommit: PropTypes.string,
   gitUrl: PropTypes.string,
   handleGitRepoSync: PropTypes.func.isRequired,
