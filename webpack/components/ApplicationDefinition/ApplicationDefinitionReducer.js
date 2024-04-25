@@ -1,7 +1,7 @@
 import Immutable from 'seamless-immutable';
 import { translate as __ } from 'foremanReact/common/I18n';
 
-import { cloneDeep, findIndex, findLastIndex } from 'lodash';
+import { cloneDeep, findIndex } from 'lodash';
 
 import {
   APPLICATION_DEFINITION_INIT,
@@ -49,7 +49,9 @@ const applicationDefinitionConf = (state = initialState, action) => {
       });
     }
     case APPLICATION_DEFINITION_LOAD_ANSIBLE_DATA_FAILURE: {
-      console.log(`Error while loading ansible data: ${payload.error}`);
+      console.log(
+        `Error while loading ansible data: ${payload.error.errorMsg}`
+      );
       return state.merge({ error: payload.error, loading: false });
     }
     case APPLICATION_DEFINITION_LOAD_ANSIBLE_DATA_REQUEST: {
@@ -128,7 +130,7 @@ const applicationDefinitionConf = (state = initialState, action) => {
 
       const thisService = services[index];
 
-      if (thisService.name == '') {
+      if (thisService.name === '') {
         return state.merge({
           showAlertModal: true,
           alertModalTitle: __('Error'),
@@ -136,7 +138,7 @@ const applicationDefinitionConf = (state = initialState, action) => {
         });
       }
 
-      if (thisService.hostgroup == '') {
+      if (thisService.hostgroup === '') {
         return state.merge({
           showAlertModal: true,
           alertModalTitle: __('Error'),
@@ -146,7 +148,7 @@ const applicationDefinitionConf = (state = initialState, action) => {
         });
       }
 
-      if (thisService.ansibleGroup == '') {
+      if (thisService.ansibleGroup === '') {
         return state.merge({
           showAlertModal: true,
           alertModalTitle: __('Error'),
@@ -158,7 +160,7 @@ const applicationDefinitionConf = (state = initialState, action) => {
 
       if (
         state.services.filter(
-          v => v.name === thisService.name && v.id != thisService.id
+          v => v.name === thisService.name && v.id !== thisService.id
         ).length > 0
       ) {
         return state.merge({
@@ -173,7 +175,6 @@ const applicationDefinitionConf = (state = initialState, action) => {
       delete services[index].backup;
       delete services[index].newEntry;
 
-      const ansibleParameters = [];
       const selectedGroup = services[index].ansibleGroup;
 
       if (selectedGroup) {
@@ -231,7 +232,7 @@ const applicationDefinitionConf = (state = initialState, action) => {
       });
     }
     case APPLICATION_DEFINITION_FOREMAN_PARAMETER_SELECTION_MODAL_CLOSE: {
-      if (payload.mode == 'save') {
+      if (payload.mode === 'save') {
         const services = cloneDeep(state.services);
         const index = findIndex(services, {
           id: state.parametersData.paramDefinition.id,
@@ -252,7 +253,7 @@ const applicationDefinitionConf = (state = initialState, action) => {
     case APPLICATION_DEFINITION_ANSIBLE_PARAMETER_SELECTION_MODAL_OPEN: {
       const parametersData = {};
 
-      if (payload.hasOwnProperty('isAllGroup') && payload.isAllGroup == true) {
+      if (payload.hasOwnProperty('isAllGroup') && payload.isAllGroup === true) {
         parametersData.parameters = state.ansibleVarsAll;
         parametersData.paramDefinition = {
           isAllGroup: true,
@@ -277,10 +278,10 @@ const applicationDefinitionConf = (state = initialState, action) => {
     }
     case APPLICATION_DEFINITION_ANSIBLE_PARAMETER_SELECTION_MODAL_CLOSE: {
       let newState = {};
-      if (payload.mode == 'save') {
+      if (payload.mode === 'save') {
         if (
           state.parametersData.paramDefinition.hasOwnProperty('isAllGroup') &&
-          state.parametersData.paramDefinition.isAllGroup == true
+          state.parametersData.paramDefinition.isAllGroup === true
         ) {
           newState = {
             parametersData: null,

@@ -40,6 +40,7 @@ AnsiblePlaybookSelector.propTypes = {
   editable: PropTypes.bool.isRequired,
   viewText: PropTypes.string,
   selectValue: PropTypes.string,
+  hidden: PropTypes.bool.isRequired,
   onChange: PropTypes.func.isRequired,
   options: PropTypes.object,
   additionalData: PropTypes.object,

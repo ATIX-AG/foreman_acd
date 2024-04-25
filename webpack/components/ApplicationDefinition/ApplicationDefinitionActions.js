@@ -1,4 +1,3 @@
-import React from 'react';
 import api from 'foremanReact/API';
 
 import {
@@ -7,11 +6,6 @@ import {
 } from 'foremanReact/components/ForemanModal/ForemanModalActions';
 
 import { actionHeaderCellFormatter } from 'patternfly-react';
-
-import {
-  propsToSnakeCase,
-  propsToCamelCase,
-} from 'foremanReact/common/helpers';
 
 import {
   APPLICATION_DEFINITION_INIT,
@@ -193,25 +187,24 @@ export const closeAlertModal = () => ({
 export const loadAnsibleData = (
   ansiblePlaybookId,
   additionalData
-) => dispatch => {
+) => async dispatch => {
   dispatch({ type: APPLICATION_DEFINITION_LOAD_ANSIBLE_DATA_REQUEST });
 
-  const baseUrl = additionalData.url;
-  const realUrl = baseUrl.replace('__id__', ansiblePlaybookId);
+  try {
+    const baseUrl = additionalData.url;
+    const realUrl = baseUrl.replace('__id__', ansiblePlaybookId);
 
-  return api
-    .get(realUrl, {}, {})
-    .then(({ data }) =>
-      dispatch({
-        type: APPLICATION_DEFINITION_LOAD_ANSIBLE_DATA_SUCCESS,
-        payload: { ...data },
-      })
-    )
-    .catch(error =>
-      dispatch(
-        errorHandler(APPLICATION_DEFINITION_LOAD_ANSIBLE_DATA_FAILURE, error)
-      )
+    const { data } = await api.get(realUrl, {}, {});
+
+    dispatch({
+      type: APPLICATION_DEFINITION_LOAD_ANSIBLE_DATA_SUCCESS,
+      payload: { ...data },
+    });
+  } catch (error) {
+    dispatch(
+      errorHandler(APPLICATION_DEFINITION_LOAD_ANSIBLE_DATA_FAILURE, error)
     );
+  }
 };
 
 export const addApplicationDefinitionService = additionalData => ({

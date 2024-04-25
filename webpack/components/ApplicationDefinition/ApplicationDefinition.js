@@ -1,5 +1,4 @@
-import $ from 'jquery';
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {
   Icon,
@@ -12,12 +11,12 @@ import {
 import * as resolve from 'table-resolver';
 import ForemanModal from 'foremanReact/components/ForemanModal';
 import Select from 'foremanReact/components/common/forms/Select';
+import { translate as __ } from 'foremanReact/common/I18n';
 import ParameterSelection from '../ParameterSelection';
 import AddTableEntry from '../common/AddTableEntry';
 import DeleteTableEntry from '../common/DeleteTableEntry';
 import RailsData from '../common/RailsData';
 import AnsiblePlaybookSelector from './components/AnsiblePlaybookSelector';
-import { translate as __ } from 'foremanReact/common/I18n';
 import { EasyHeaderFormatter } from '../../helper';
 
 import {
@@ -26,19 +25,17 @@ import {
 } from '../ParameterSelection/ParameterSelectionConstants';
 
 class ApplicationDefinition extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  isEditing({ rowData }) {
+  static isEditing({ rowData }) {
     return rowData.backup !== undefined;
   }
 
-  createAnsibleGroupObject(ansibleGroups, withAll = false) {
+  static createAnsibleGroupObject(ansibleGroups, withAll = false) {
     const ansibleGroupObj = {};
 
     const ansibleGroupArray = Object.keys(ansibleGroups);
-    ansibleGroupArray.forEach(e => (ansibleGroupObj[e] = e));
+    ansibleGroupArray.forEach(e => {
+      ansibleGroupObj[e] = e;
+    });
 
     if (withAll === false && ansibleGroupObj.hasOwnProperty('all')) {
       delete ansibleGroupObj.all;
@@ -48,28 +45,24 @@ class ApplicationDefinition extends React.Component {
   }
 
   addTableEntryAllowed() {
-    return this.props.editMode || this.props.ansiblePlaybook.id == '';
+    return this.props.editMode || this.props.ansiblePlaybook.id === '';
   }
 
   componentDidMount() {
     const {
       data: {
-        mode,
         ansiblePlaybook,
-        ansibleDataUrl,
         services,
         ansibleVarsAll,
         hostgroups,
         supportedPlugins,
       },
       initApplicationDefinition,
-      addApplicationDefinitionService,
       deleteApplicationDefinitionService,
       activateEditApplicationDefinitionService,
       changeEditApplicationDefinitionService,
       openForemanParameterSelectionModal,
       openAnsibleParameterSelectionModal,
-      loadAnsibleData,
     } = this.props;
 
     const inlineEditButtonsFormatter = inlineEditFormatterFactory({
@@ -173,13 +166,13 @@ class ApplicationDefinition extends React.Component {
     };
 
     const inlineEditFormatter = inlineEditFormatterFactory({
-      isEditing: additionalData => this.isEditing(additionalData),
+      isEditing: additionalData => this.constructor.isEditing(additionalData),
       renderValue: (value, additionalData) => {
         let prettyValue = value;
-        if (additionalData.property == 'hostgroup') {
+        if (additionalData.property === 'hostgroup') {
           prettyValue = hostgroups[value];
-        } else if (additionalData.property == 'ansibleGroup') {
-          const ag = this.createAnsibleGroupObject(
+        } else if (additionalData.property === 'ansibleGroup') {
+          const ag = this.constructor.createAnsibleGroupObject(
             this.props.ansiblePlaybook.groups
           );
           prettyValue = ag[value];
@@ -187,7 +180,7 @@ class ApplicationDefinition extends React.Component {
         return inlineEditFormatterImpl.renderValue(prettyValue, additionalData);
       },
       renderEdit: (value, additionalData) => {
-        if (additionalData.property == 'hostgroup') {
+        if (additionalData.property === 'hostgroup') {
           if (additionalData.rowData.newEntry === true) {
             return inlineEditFormatterImpl.renderEditSelect(
               value,
@@ -199,8 +192,8 @@ class ApplicationDefinition extends React.Component {
             hostgroups[value],
             additionalData
           );
-        } else if (additionalData.property == 'ansibleGroup') {
-          const ag = this.createAnsibleGroupObject(
+        } else if (additionalData.property === 'ansibleGroup') {
+          const ag = this.constructor.createAnsibleGroupObject(
             this.props.ansiblePlaybook.groups
           );
 
@@ -273,16 +266,16 @@ class ApplicationDefinition extends React.Component {
           <AnsiblePlaybookSelector
             label="Ansible Playbook"
             hidden={false}
-            editable={mode == 'newDefinition'}
+            editable={mode === 'newDefinition'}
             viewText={ansiblePlaybook.name}
             options={ansiblePlaybooks}
             onChange={loadAnsibleData}
             selectValue={ansiblePlaybook.id.toString()}
             additionalData={{ url: ansibleDataUrl }}
           />
-          {ansiblePlaybook.id == '' ? (
+          {ansiblePlaybook.id === '' ? (
             <div style={{ paddingTop: 25 }}>
-              <pre>Ansible Playbook can't be blank</pre>
+              <pre>Ansible Playbook can&apos;t be blank</pre>
             </div>
           ) : (
             <div />
@@ -309,7 +302,7 @@ class ApplicationDefinition extends React.Component {
               rowKey="id"
               onRow={(rowData, { rowIndex }) => ({
                 role: 'row',
-                isEditing: () => this.isEditing({ rowData }),
+                isEditing: () => this.constructor.isEditing({ rowData }),
                 onCancel: () =>
                   cancelEditApplicationDefinitionService({ rowData, rowIndex }),
                 onConfirm: () =>
@@ -327,7 +320,7 @@ class ApplicationDefinition extends React.Component {
             onAddTableEntry={addApplicationDefinitionService}
           />
           <span style={{ marginLeft: 30 }}>
-            Ansible group vars 'all':
+            Ansible group vars &apos;all&apos;:
             <Button
               style={{ marginLeft: 10 }}
               bsStyle="default"
@@ -456,7 +449,7 @@ class ApplicationDefinition extends React.Component {
 }
 
 ApplicationDefinition.defaultProps = {
-  error: {},
+  // error: {},
   showAlertModal: false,
   alertModalText: '',
   alertModalTitle: '',
@@ -481,7 +474,7 @@ ApplicationDefinition.defaultProps = {
 };
 
 ApplicationDefinition.propTypes = {
-  error: PropTypes.object,
+  // error: PropTypes.object,
   data: PropTypes.object.isRequired,
   loadAnsibleData: PropTypes.func.isRequired,
   initApplicationDefinition: PropTypes.func.isRequired,
