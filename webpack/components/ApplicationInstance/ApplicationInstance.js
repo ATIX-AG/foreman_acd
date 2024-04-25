@@ -9,6 +9,7 @@ import {
   inlineEditFormatterFactory,
 } from 'patternfly-react';
 import * as resolve from 'table-resolver';
+import $ from 'jquery';
 import ForemanModal from 'foremanReact/components/ForemanModal';
 import { sprintf, translate as __ } from 'foremanReact/common/I18n';
 import Select from 'foremanReact/components/common/forms/Select';
