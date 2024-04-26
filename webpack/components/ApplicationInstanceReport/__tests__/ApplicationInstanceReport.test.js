@@ -38,8 +38,14 @@ const fixtures = {
       deployTaskUrl: 'deploy/task/url',
       configureJobUrl: 'configure/job/url',
       hosts: hostData,
+      deploymentState: 'finished',
+      appInstanceId: 1,
+      reportDataUrl: '/acd/ui_acd_report_data/__id__',
+      initialConfigureState: 'unconfigured',
     },
     initApplicationInstanceReport: noop,
+    loadReportData: noop,
+    setActiveHost: noop,
   },
 };
 

@@ -712,7 +712,6 @@ Object {
       ],
     },
   ],
-  "loading": true,
   "name": false,
 }
 `;

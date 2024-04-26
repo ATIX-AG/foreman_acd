@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import { Icon, Spinner } from 'patternfly-react';
@@ -11,10 +11,6 @@ import PowerStatus from 'foremanReact/components/hosts/powerStatus';
 import ReportViewer from './components/ReportViewer';
 
 class ApplicationInstanceReport extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   componentDidMount() {
     const {
       data: {
@@ -24,7 +20,6 @@ class ApplicationInstanceReport extends React.Component {
         initialConfigureJobUrl,
       },
       initApplicationInstanceReport,
-      setActiveHost,
     } = this.props;
 
     initApplicationInstanceReport(
@@ -45,7 +40,7 @@ class ApplicationInstanceReport extends React.Component {
     } = this.props;
 
     // if both states are unknown, it means, that the component was just loaded. try again after a short timeout.
-    if (deploymentState == 'unknown' && initialConfigureState == 'unknown') {
+    if (deploymentState === 'unknown' && initialConfigureState === 'unknown') {
       setTimeout(() => {
         this.reloadReportData();
       }, 1000);
@@ -54,12 +49,12 @@ class ApplicationInstanceReport extends React.Component {
     }
 
     if (
-      (deploymentState != 'new' &&
-        deploymentState != 'finished' &&
-        deploymentState != 'failed') ||
-      initialConfigureState == 'unconfigured' ||
-      initialConfigureState == 'scheduled' ||
-      initialConfigureState == 'pending'
+      (deploymentState !== 'new' &&
+        deploymentState !== 'finished' &&
+        deploymentState !== 'failed') ||
+      initialConfigureState === 'unconfigured' ||
+      initialConfigureState === 'scheduled' ||
+      initialConfigureState === 'pending'
     ) {
       loadReportData(reportDataUrl, appInstanceId);
 
@@ -77,7 +72,8 @@ class ApplicationInstanceReport extends React.Component {
     const { setActiveHost } = this.props;
 
     const tabs = [];
-    for (const [index, value] of hosts.entries()) {
+    // for (const [index, value] of hosts.entries()) {
+    hosts.forEach((value, index) => {
       tabs.push(
         <VerticalTabs.Tab
           id={index}
@@ -88,11 +84,12 @@ class ApplicationInstanceReport extends React.Component {
           active={this.isActive(index)}
         />
       );
-    }
+    });
 
     return tabs;
   }
 
+  // eslint-disable-next-line class-methods-use-this
   lastReportStatus(host) {
     if (!host.id) {
       return (
@@ -105,7 +102,7 @@ class ApplicationInstanceReport extends React.Component {
         </div>
       );
     }
-    const already_deployed_msg = __(
+    const alreadyDeployedMsg = __(
       'Already existing host which was added to the application instance'
     );
     return (
@@ -114,7 +111,7 @@ class ApplicationInstanceReport extends React.Component {
           Host: <a href={host.hostUrl}>{host.name}</a>
         </span>
         <span>&nbsp;|&nbsp;</span>
-        <span>State: {host.build == true ? 'in Build' : 'Deployed'}</span>
+        <span>State: {host.build === true ? 'in Build' : 'Deployed'}</span>
         <span>&nbsp;|&nbsp;</span>
         <span>
           Power Status:{' '}
@@ -132,7 +129,7 @@ class ApplicationInstanceReport extends React.Component {
               style={{ marginRight: 8, marginLeft: 2 }}
               type="pf"
               name="info"
-              title={already_deployed_msg}
+              title={alreadyDeployedMsg}
             />
           </span>
         ) : (
@@ -144,33 +141,25 @@ class ApplicationInstanceReport extends React.Component {
 
   render() {
     const {
-      data: {
-        appInstanceId,
-        appInstanceName,
-        deployTaskUrl,
-        configureJobUrl,
-        reportDataUrl,
-      },
+      data: { deployTaskUrl, configureJobUrl },
       activeHostId,
-      hosts,
       deploymentState,
-      initialConfigureState,
+      hosts,
       initialConfigureJobUrl,
+      initialConfigureState,
+      loading,
       showInitialConfigureJob,
-      loadReportData,
     } = this.props;
 
-    let tabs = [];
-    let reportStatus;
     let report;
 
     // This handles the first call to render() in which the state hosts is always empty
-    if (hosts.length == 0) {
+    if (hosts.length === 0) {
       return <span>No host</span>;
     }
 
-    tabs = this.collectLastReportData(hosts);
-    reportStatus = this.lastReportStatus(hosts[activeHostId]);
+    const tabs = this.collectLastReportData(hosts);
+    const reportStatus = this.lastReportStatus(hosts[activeHostId]);
 
     if (hosts[activeHostId].progress_report) {
       report = hosts[activeHostId].progress_report;
@@ -182,9 +171,10 @@ class ApplicationInstanceReport extends React.Component {
           <div>
             <div className="deploy_status_head">Host deployment state</div>
             <div className="deploy_status_content">
-              {deploymentState != 'new' &&
-              deploymentState != 'finished' &&
-              deploymentState != 'failed' ? (
+              {loading ||
+              (deploymentState !== 'new' &&
+                deploymentState !== 'finished' &&
+                deploymentState !== 'failed') ? (
                 <span>
                   <Spinner loading size="sm" /> &nbsp;
                 </span>
@@ -200,25 +190,25 @@ class ApplicationInstanceReport extends React.Component {
               <a href={deployTaskUrl}>Last deployment task</a>
             </div>
           </div>
-          {showInitialConfigureJob == true ? (
+          {showInitialConfigureJob === true ? (
             <div>
               <div className="deploy_status_head">Configuration job</div>
               <div className="deploy_status_content">
-                {initialConfigureState == 'scheduled' ||
-                initialConfigureState == 'pending' ? (
+                {initialConfigureState === 'scheduled' ||
+                initialConfigureState === 'pending' ? (
                   <span>
                     <Spinner loading size="sm" /> &nbsp;
                   </span>
                 ) : (
                   <span />
                 )}
-                {initialConfigureState != 'unconfigured' &&
-                initialConfigureState != 'scheduled' ? (
+                {initialConfigureState !== 'unconfigured' &&
+                initialConfigureState !== 'scheduled' ? (
                   <a href={initialConfigureJobUrl}>Configuration job</a>
                 ) : (
                   <span />
                 )}
-                {initialConfigureState != 'unconfigured' ? (
+                {initialConfigureState !== 'unconfigured' ? (
                   <span>&nbsp; State: {initialConfigureState}</span>
                 ) : (
                   <span />
@@ -248,34 +238,43 @@ class ApplicationInstanceReport extends React.Component {
 }
 
 ApplicationInstanceReport.defaultProps = {
-  error: {},
-  appInstanceName: '',
-  deployTaskUrl: '',
-  configureJobUrl: '',
-  hosts: [],
-  report: [],
+  data: {
+    initialConfigureJobUrl: undefined,
+  },
   activeHostId: 0,
+  configureJobUrl: '',
   deploymentState: 'unknown',
-  initialConfigureState: 'unknown',
+  deployTaskUrl: '',
+  hosts: [],
   initialConfigureJobUrl: '',
+  initialConfigureState: 'unknown',
+  loading: false,
   showInitialConfigureJob: false,
 };
 
 ApplicationInstanceReport.propTypes = {
-  initApplicationInstanceReport: PropTypes.func,
-  appInstanceName: PropTypes.string,
-  deployTaskUrl: PropTypes.string,
+  data: PropTypes.shape({
+    hosts: PropTypes.array.isRequired,
+    deploymentState: PropTypes.string.isRequired,
+    appInstanceId: PropTypes.number.isRequired,
+    reportDataUrl: PropTypes.string.isRequired,
+    deployTaskUrl: PropTypes.string.isRequired,
+    configureJobUrl: PropTypes.string.isRequired,
+    initialConfigureState: PropTypes.string.isRequired,
+    initialConfigureJobUrl: PropTypes.string,
+  }),
+  activeHostId: PropTypes.number,
   configureJobUrl: PropTypes.string,
   deploymentState: PropTypes.string,
-  initialConfigureState: PropTypes.string,
-  initialConfigureJobUrl: PropTypes.string,
-  showInitialConfigureJob: PropTypes.bool,
+  deployTaskUrl: PropTypes.string,
   hosts: PropTypes.array,
-  deploymentState: PropTypes.string,
-  report: PropTypes.array,
-  setActiveHost: PropTypes.func,
-  loadReportData: PropTypes.func,
-  activeHostId: PropTypes.number,
+  initialConfigureJobUrl: PropTypes.string,
+  initialConfigureState: PropTypes.string,
+  loading: PropTypes.bool,
+  showInitialConfigureJob: PropTypes.bool,
+  initApplicationInstanceReport: PropTypes.func.isRequired,
+  loadReportData: PropTypes.func.isRequired,
+  setActiveHost: PropTypes.func.isRequired,
 };
 
 export default ApplicationInstanceReport;

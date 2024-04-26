@@ -22,4 +22,9 @@ ReportViewer.propTypes = {
   report: PropTypes.array,
 };
 
+ReportViewer.defaultProps = {
+  hidden: false,
+  report: undefined,
+};
+
 export default ReportViewer;
