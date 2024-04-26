@@ -49,10 +49,13 @@ const applicationDefinitionConf = (state = initialState, action) => {
       });
     }
     case APPLICATION_DEFINITION_LOAD_ANSIBLE_DATA_FAILURE: {
-      console.log(
-        `Error while loading ansible data: ${payload.error.errorMsg}`
-      );
-      return state.merge({ error: payload.error, loading: false });
+      return state.merge({
+        showAlertModal: true,
+        alertModalTitle: __('Error'),
+        alertModalText:
+          __('Failed to load Playbooks: ') + payload.error.errorMsg,
+        loading: false,
+      });
     }
     case APPLICATION_DEFINITION_LOAD_ANSIBLE_DATA_REQUEST: {
       return state.set('loading', true);
@@ -70,6 +73,7 @@ const applicationDefinitionConf = (state = initialState, action) => {
       newState = {
         ansiblePlaybook,
         ansibleVarsAll: allVars,
+        loading: false,
       };
 
       return state.merge(newState);

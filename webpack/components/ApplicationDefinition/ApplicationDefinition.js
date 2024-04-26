@@ -449,7 +449,6 @@ class ApplicationDefinition extends React.Component {
 }
 
 ApplicationDefinition.defaultProps = {
-  // error: {},
   showAlertModal: false,
   alertModalText: '',
   alertModalTitle: '',
@@ -474,7 +473,6 @@ ApplicationDefinition.defaultProps = {
 };
 
 ApplicationDefinition.propTypes = {
-  // error: PropTypes.object,
   data: PropTypes.object.isRequired,
   loadAnsibleData: PropTypes.func.isRequired,
   initApplicationDefinition: PropTypes.func.isRequired,

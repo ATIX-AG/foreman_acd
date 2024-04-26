@@ -69,5 +69,31 @@ export const loadAnsibleDataSuccessPayload = {
 };
 
 export const loadAnsibleDataFailurePayload = {
-  error: 'Something really bad happend',
+  error: {
+    errorMsg: 'Something really bad happend',
+    statusText: {
+      message: 'Request failed with status code 500',
+      name: 'Error',
+      stack:
+        'Error: Request failed with status code 500\n    at createError (https://alma8-katello-devel.example.com/webpack/foreman-vendor.bundle-v13.0.1-development-5d3e5360b2af8f65b096.js:406679:15)\n    at settle (https://alma8-katello-devel.example.com/webpack/foreman-vendor.bundle-v13.0.1-development-5d3e5360b2af8f65b096.js:406954:12)\n    at XMLHttpRequest.handleLoad (https://alma8-katello-devel.example.com/webpack/foreman-vendor.bundle-v13.0.1-development-5d3e5360b2af8f65b096.js:406146:7)',
+      config: {
+        url: '/acd/ui_acd_ansible_data/1',
+        method: 'get',
+        headers: {
+          Accept: 'application/json, text/plain, */*',
+          'X-Requested-With': 'XMLHttpRequest',
+          'X-CSRF-Token':
+            'gDtRPi6lnKE-V65O-datPQ2mGRQwbw3i-y_hAjjKAYQ5WC_oqTwluCJZfsGkpihmJAi3IvAi1ZAc9N47KcjCbQ',
+        },
+        params: {},
+        transformRequest: [null],
+        transformResponse: [null],
+        timeout: 0,
+        xsrfCookieName: 'XSRF-TOKEN',
+        xsrfHeaderName: 'X-XSRF-TOKEN',
+        maxContentLength: -1,
+        maxBodyLength: -1,
+      },
+    },
+  },
 };

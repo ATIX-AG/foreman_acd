@@ -2152,6 +2152,8 @@ Object {
 
 exports[`ApplicationDefintionReducer should load param data be erroneous 1`] = `
 Object {
+  "alertModalText": "Failed to load Playbooks: Something really bad happend",
+  "alertModalTitle": "Error",
   "ansiblePlaybook": Object {
     "groups": Object {
       "all": Array [
@@ -2353,7 +2355,11 @@ Object {
       "property": "actions",
     },
   ],
-  "error": "Something really bad happend",
+  "error": Object {
+    "errorMsg": "",
+    "status": "",
+    "statusText": "",
+  },
   "loading": false,
   "name": false,
   "services": Array [
@@ -2435,6 +2441,7 @@ Object {
       "name": "db",
     },
   ],
+  "showAlertModal": true,
 }
 `;
 
@@ -2646,6 +2653,7 @@ Object {
     "status": "",
     "statusText": "",
   },
+  "loading": false,
   "name": false,
   "services": Array [
     Object {
