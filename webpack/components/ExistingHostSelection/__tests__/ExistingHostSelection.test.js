@@ -12,6 +12,7 @@ const fixtures = {
     allHosts: [],
     initExistingHostSelection: noop,
     loadHostsOfHostgroup: noop,
+    hostSelectionChanged: noop,
   },
 };
 

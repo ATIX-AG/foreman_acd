@@ -35,12 +35,20 @@ const ServiceSelector = ({
 );
 
 ServiceSelector.propTypes = {
+  hidden: PropTypes.bool.isRequired,
   label: PropTypes.string.isRequired,
   viewText: PropTypes.string,
   selectValue: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   options: PropTypes.object,
   additionalData: PropTypes.object,
+};
+
+ServiceSelector.defaultProps = {
+  additionalData: {},
+  options: {},
+  selectValue: '',
+  viewText: undefined,
 };
 
 export default ServiceSelector;

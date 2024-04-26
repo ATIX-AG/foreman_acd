@@ -1,32 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { orderBy, cloneDeep } from 'lodash';
+import { cloneDeep } from 'lodash';
+import { DualListControlled } from 'patternfly-react';
+import { translate as __ } from 'foremanReact/common/I18n';
 import ServiceSelector from './components/ServiceSelector';
 import { arrayToObject } from '../../helper';
 
-import { Icon, Button, DualListControlled } from 'patternfly-react';
-
 class ExistingHostSelection extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   componentDidMount() {
-    const {
-      location,
-      organization,
-      services,
-      initExistingHostSelection,
-      allHosts,
-    } = this.props;
+    const { allHosts, initExistingHostSelection } = this.props;
 
     initExistingHostSelection(allHosts);
   }
 
   render() {
     const {
-      location,
-      organization,
       services,
       serviceId,
       availableHosts,
@@ -36,7 +24,7 @@ class ExistingHostSelection extends React.Component {
     } = this.props;
 
     const serviceList = arrayToObject(services, 'id', 'name');
-    const load_hostgroup_url = '/api/v2/hostgroups/__hostgroup_id__/hosts';
+    const loadHostgroupUrl = '/api/v2/hostgroups/__hostgroup_id__/hosts';
 
     return (
       <div>
@@ -49,12 +37,12 @@ class ExistingHostSelection extends React.Component {
             }
             options={serviceList}
             onChange={loadHostsOfHostgroup}
-            additionalData={{ url: load_hostgroup_url, services }}
+            additionalData={{ url: loadHostgroupUrl, services }}
           />
         </div>
         <div className="row">
           <label className="col-md-2 control-label">{__('Hosts')}</label>
-          {this.props.serviceId != undefined ? (
+          {this.props.serviceId !== undefined ? (
             <div className="col-md-6">
               <DualListControlled
                 onChange={hostSelectionChanged}
@@ -77,25 +65,21 @@ class ExistingHostSelection extends React.Component {
 }
 
 ExistingHostSelection.defaultProps = {
+  allHosts: [],
   serviceId: undefined,
-  hostsInHostgroup: {},
   availableHosts: [],
   alreadyUsedHosts: [],
-  selectedHosts: [],
 };
 
 ExistingHostSelection.propTypes = {
-  location: PropTypes.string.isRequired,
-  organization: PropTypes.string.isRequired,
+  allHosts: PropTypes.array,
   services: PropTypes.array.isRequired,
-  initExistingHostSelection: PropTypes.func,
+  initExistingHostSelection: PropTypes.func.isRequired,
   serviceId: PropTypes.number,
-  hostsInHostgroup: PropTypes.object,
   availableHosts: PropTypes.array,
   alreadyUsedHosts: PropTypes.array,
-  selectedHosts: PropTypes.array,
-  loadHostsOfHostgroup: PropTypes.func,
-  hostSelectionChanged: PropTypes.func,
+  loadHostsOfHostgroup: PropTypes.func.isRequired,
+  hostSelectionChanged: PropTypes.func.isRequired,
 };
 
 export default ExistingHostSelection;

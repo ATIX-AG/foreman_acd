@@ -1,9 +1,7 @@
 import Immutable from 'seamless-immutable';
-
-import { cloneDeep, findIndex, findLastIndex } from 'lodash';
+import { translate as __ } from 'foremanReact/common/I18n';
 
 import { shortHostname } from '../../helper';
-import * as sort from 'sortabular';
 
 import {
   EXISTING_HOST_SELECTION_INIT,
@@ -28,7 +26,10 @@ const existingHostSelectionConf = (state = initialState, action) => {
       const alreadyUsedHosts = [];
 
       state.allHosts.forEach(host => {
-        if (host.service == payload.serviceId && host.isExistingHost == true) {
+        if (
+          host.service === payload.serviceId &&
+          host.isExistingHost === true
+        ) {
           alreadyUsedHosts.push({
             value: host.hostname,
             label: host.hostname,
@@ -42,7 +43,7 @@ const existingHostSelectionConf = (state = initialState, action) => {
       const hostsInHostgroup = {};
       payload.hosts.forEach(host => {
         const shortName = shortHostname(host.name);
-        if (state.allHosts.find(h => h.hostname == shortName) == undefined) {
+        if (state.allHosts.find(h => h.hostname === shortName) === undefined) {
           availableHosts.push({
             value: shortName,
             label: shortName,

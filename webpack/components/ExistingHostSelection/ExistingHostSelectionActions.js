@@ -1,13 +1,6 @@
-import React from 'react';
-import * as sort from 'sortabular';
 import { translate as __ } from 'foremanReact/common/I18n';
 
 import api from 'foremanReact/API';
-
-import {
-  propsToSnakeCase,
-  propsToCamelCase,
-} from 'foremanReact/common/helpers';
 
 import {
   EXISTING_HOST_SELECTION_INIT,
@@ -31,27 +24,28 @@ export const initExistingHostSelection = allHosts => dispatch => {
   });
 };
 
-export const loadHostsOfHostgroup = (serviceId, additionalData) => dispatch => {
-  const selService = additionalData.services.filter(s => s.id == serviceId)[0];
+export const loadHostsOfHostgroup = (
+  serviceId,
+  additionalData
+) => async dispatch => {
+  const selService = additionalData.services.filter(s => s.id === serviceId)[0];
   const realUrl = additionalData.url.replace(
     '__hostgroup_id__',
     selService.hostgroup
   );
 
-  return api
-    .get(realUrl, {}, {})
-    .then(({ data }) =>
-      dispatch({
-        type: EXISTING_HOST_SELECTION_LOAD_HOSTS_SUCCESS,
-        payload: {
-          hosts: data.results,
-          serviceId: parseInt(serviceId),
-        },
-      })
-    )
-    .catch(error =>
-      dispatch(errorHandler(EXISTING_HOST_SELECTION_LOAD_HOSTS_FAILURE, error))
-    );
+  try {
+    const { data } = await api.get(realUrl, {}, {});
+    dispatch({
+      type: EXISTING_HOST_SELECTION_LOAD_HOSTS_SUCCESS,
+      payload: {
+        hosts: data.results,
+        serviceId: parseInt(serviceId, 10),
+      },
+    });
+  } catch (error) {
+    dispatch(errorHandler(EXISTING_HOST_SELECTION_LOAD_HOSTS_FAILURE, error));
+  }
 };
 
 export const hostSelectionChanged = ({ left, right }) => ({
