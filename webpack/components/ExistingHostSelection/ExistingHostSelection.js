@@ -32,9 +32,7 @@ class ExistingHostSelection extends React.Component {
           <ServiceSelector
             label="Service"
             hidden={false}
-            selectValue={
-              this.props.serviceId ? this.props.serviceId.toString() : '0'
-            }
+            selectValue={serviceId ? serviceId.toString() : '0'}
             options={serviceList}
             onChange={loadHostsOfHostgroup}
             additionalData={{ url: loadHostgroupUrl, services }}
@@ -42,7 +40,7 @@ class ExistingHostSelection extends React.Component {
         </div>
         <div className="row">
           <label className="col-md-2 control-label">{__('Hosts')}</label>
-          {this.props.serviceId !== undefined ? (
+          {serviceId !== undefined ? (
             <div className="col-md-6">
               <DualListControlled
                 onChange={hostSelectionChanged}
