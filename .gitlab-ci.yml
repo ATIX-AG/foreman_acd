@@ -5,8 +5,6 @@ stages:
 
 lint:
   stage: lint
-  tags:
-    - docker
   image: ${CI_REGISTRY}/hub/lint/ruby:2-6
   needs: []
   script:
@@ -15,11 +13,8 @@ lint:
 
 webpack:
   stage: webpack
-  tags:
-    - docker
   image: ${CI_REGISTRY}/hub/test/foreman_plugins:main
   needs: []
   script:
     - npm install
     - npm test
-
