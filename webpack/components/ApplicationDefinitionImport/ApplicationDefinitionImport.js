@@ -24,12 +24,6 @@ class ApplicationDefinitionImport extends React.Component {
     return rowData.backup !== undefined;
   }
 
-  setAnsiblePlaybookServices() {
-    this.setState({
-      ansiblePlaybookServices: this.props.ansiblePlaybookServices,
-    });
-  }
-
   componentDidMount() {
     const { ansiblePlaybookServices, hostgroups } = this.props;
 
@@ -109,12 +103,9 @@ class ApplicationDefinitionImport extends React.Component {
       columns,
       handleImportAnsiblePlaybook,
     } = this.props;
-    let ansibleServices;
 
     return (
       <span>
-        {(ansibleServices = this.setAnsiblePlaybookServices)}
-        {ansibleServices}
         <MessageDialog
           show={showAlertModal}
           onHide={closeAlertModal}

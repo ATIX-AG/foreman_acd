@@ -2,8 +2,6 @@
 
 exports[`ApplicationDefinitionImport should render application definition import 1`] = `
 <span>
-  <Component />
-  <Component />
   <MessageDialog
     accessibleDescription=""
     accessibleName=""
@@ -63,8 +61,6 @@ exports[`ApplicationDefinitionImport should render application definition import
 
 exports[`ApplicationDefinitionImport should render application definition import with loaded archive 1`] = `
 <span>
-  <Component />
-  <Component />
   <MessageDialog
     accessibleDescription=""
     accessibleName=""
