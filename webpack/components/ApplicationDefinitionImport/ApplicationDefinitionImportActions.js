@@ -1,19 +1,6 @@
-import React from 'react';
-import { API, actionTypeGenerator } from 'foremanReact/redux/API';
+import { API } from 'foremanReact/redux/API';
 import { addToast } from 'foremanReact/components/ToastsList';
 import { sprintf, translate as __ } from 'foremanReact/common/I18n';
-
-import {
-  setModalOpen,
-  setModalClosed,
-} from 'foremanReact/components/ForemanModal/ForemanModalActions';
-
-import { actionHeaderCellFormatter } from 'patternfly-react';
-
-import {
-  propsToSnakeCase,
-  propsToCamelCase,
-} from 'foremanReact/common/helpers';
 
 import {
   APPLICATION_DEFINITION_IMPORT_INIT,
@@ -78,14 +65,6 @@ export const initApplicationDefinitionImport = (
     type: APPLICATION_DEFINITION_IMPORT_INIT,
     payload: initialState,
   });
-};
-
-const errorHandler = (msg, err) => {
-  const error = {
-    errorMsg: __('Failed to fetch data from server.'),
-    statusText: err,
-  };
-  return { type: msg, payload: { error } };
 };
 
 export const closeAlertModal = () => ({

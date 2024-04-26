@@ -1,34 +1,26 @@
-import React, { useState } from 'react';
-import { cloneDeep } from 'lodash';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {
   Icon,
   Button,
   MessageDialog,
   Table,
-  FormControl,
   inlineEditFormatterFactory,
 } from 'patternfly-react';
 import * as resolve from 'table-resolver';
+import { translate as __ } from 'foremanReact/common/I18n';
 import Select from 'foremanReact/components/common/forms/Select';
 import CommonForm from 'foremanReact/components/common/forms/CommonForm';
-import AddTableEntry from '../common/AddTableEntry';
-import DeleteTableEntry from '../common/DeleteTableEntry';
 import RailsData from '../common/RailsData';
 import { EasyHeaderFormatter } from '../../helper';
-import { translate as __ } from 'foremanReact/common/I18n';
 
 class ApplicationDefinitionImport extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   onFileChange = event => {
     // Update the state
     this.setState({ selectedFile: event.target.files[0] });
   };
 
-  isEditing({ rowData }) {
+  static isEditing({ rowData }) {
     return rowData.backup !== undefined;
   }
 
@@ -39,12 +31,11 @@ class ApplicationDefinitionImport extends React.Component {
   }
 
   componentDidMount() {
-    const { mode, ansiblePlaybookServices, hostgroups } = this.props;
+    const { ansiblePlaybookServices, hostgroups } = this.props;
 
     const {
       initApplicationDefinitionImport,
       changeEditApplicationDefinitionImportService,
-      handleImportAnsiblePlaybook,
     } = this.props;
 
     this.headerFormatter = EasyHeaderFormatter;
@@ -74,16 +65,16 @@ class ApplicationDefinitionImport extends React.Component {
     };
 
     const inlineEditFormatter = inlineEditFormatterFactory({
-      isEditing: additionalData => this.isEditing(additionalData),
+      isEditing: additionalData => this.constructor.isEditing(additionalData),
       renderValue: (value, additionalData) => {
         let prettyValue = value;
-        if (additionalData.property == 'hostgroup') {
+        if (additionalData.property === 'hostgroup') {
           prettyValue = hostgroups[value];
         }
         return inlineEditFormatterImpl.renderValue(prettyValue, additionalData);
       },
       renderEdit: (value, additionalData) => {
-        if (additionalData.property == 'hostgroup') {
+        if (additionalData.property === 'hostgroup') {
           if (additionalData.rowData) {
             return inlineEditFormatterImpl.renderEditSelect(
               value,
@@ -109,8 +100,6 @@ class ApplicationDefinitionImport extends React.Component {
   }
 
   render() {
-    const { organization, location, foremanDataUrl, mode } = this.props;
-
     const {
       showAlertModal,
       alertModalText,
@@ -155,7 +144,7 @@ class ApplicationDefinitionImport extends React.Component {
           </CommonForm>
         </div>
 
-        {Object.keys(this.props.ansiblePlaybookServices).length > 0 ? (
+        {ansiblePlaybookServices.length > 0 ? (
           <div className="form-group">
             <Table.PfProvider
               striped
@@ -171,13 +160,12 @@ class ApplicationDefinitionImport extends React.Component {
             >
               <Table.Header headerRows={resolve.headerRows({ columns })} />
               <Table.Body
-                rows={this.props.ansiblePlaybookServices}
+                rows={ansiblePlaybookServices}
                 rowKey="id"
                 onRow={(rowData, { rowIndex }) => ({
                   role: 'row',
-                  isEditing: () => this.isEditing({ rowData }),
-                  last:
-                    rowIndex === this.props.ansiblePlaybookServices.length - 1,
+                  isEditable: () => this.isEditing({ rowData }),
+                  last: ansiblePlaybookServices.length - 1,
                 })}
               />
             </Table.PfProvider>
@@ -187,7 +175,7 @@ class ApplicationDefinitionImport extends React.Component {
           key="applications_definition_import"
           view="app_definition_import"
           parameter="services"
-          value={JSON.stringify(this.props.ansiblePlaybookServices)}
+          value={JSON.stringify(ansiblePlaybookServices)}
         />
       </span>
     );
@@ -195,28 +183,27 @@ class ApplicationDefinitionImport extends React.Component {
 }
 
 ApplicationDefinitionImport.defaultProps = {
-  error: {},
+  // error: {},
   showAlertModal: false,
   alertModalText: '',
   alertModalTitle: '',
-  editMode: false,
   columns: [],
   ansiblePlaybookServices: [],
-  editParamsOfRowId: null,
 };
 
 ApplicationDefinitionImport.propTypes = {
-  error: PropTypes.object,
+  hostgroups: PropTypes.object.isRequired,
+  // error: PropTypes.object,
   ansiblePlaybookServices: PropTypes.array,
-  initApplicationDefinitionImport: PropTypes.func,
-  editMode: PropTypes.bool.isRequired,
+  // editMode: PropTypes.bool.isRequired,
   columns: PropTypes.array,
   showAlertModal: PropTypes.bool,
   alertModalText: PropTypes.string,
   alertModalTitle: PropTypes.string,
-  closeAlertModal: PropTypes.func,
-  handleImportAnsiblePlaybook: PropTypes.func,
-  changeEditApplicationDefinitionImportService: PropTypes.func,
+  changeEditApplicationDefinitionImportService: PropTypes.func.isRequired,
+  closeAlertModal: PropTypes.func.isRequired,
+  handleImportAnsiblePlaybook: PropTypes.func.isRequired,
+  initApplicationDefinitionImport: PropTypes.func.isRequired,
 };
 
 export default ApplicationDefinitionImport;
