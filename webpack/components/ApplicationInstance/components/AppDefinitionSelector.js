@@ -37,12 +37,21 @@ const AppDefinitionSelector = ({
 
 AppDefinitionSelector.propTypes = {
   label: PropTypes.string.isRequired,
+  hidden: PropTypes.bool,
   editable: PropTypes.bool.isRequired,
   viewText: PropTypes.string,
   selectValue: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   options: PropTypes.object,
   additionalData: PropTypes.object,
+};
+
+AppDefinitionSelector.defaultProps = {
+  hidden: false,
+  viewText: undefined,
+  selectValue: undefined,
+  options: undefined,
+  additionalData: undefined,
 };
 
 export default AppDefinitionSelector;

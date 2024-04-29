@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {
   Icon,
@@ -28,16 +28,12 @@ import {
 } from '../ParameterSelection/ParameterSelectionConstants';
 
 class ApplicationInstance extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  isEditing({ rowData }) {
+  static isEditing({ rowData }) {
     return rowData.backup !== undefined;
   }
 
   changeDataAllowed() {
-    return this.props.editMode || this.props.appDefinition.id == '';
+    return this.props.editMode || this.props.appDefinition.id === '';
   }
 
   validateParameters() {
@@ -46,11 +42,11 @@ class ApplicationInstance extends React.Component {
 
     this.props.hosts.forEach(h => {
       if (
-        h.foremanParameters.map(e => e.value).filter(i => i == '').length > 0
+        h.foremanParameters.map(e => e.value).filter(i => i === '').length > 0
       ) {
         result = false;
 
-        if (msg == '') {
+        if (msg === '') {
           msg += __(
             'For some hosts the values for some parameters are missing. Check the values for these hosts:\n'
           );
@@ -60,23 +56,23 @@ class ApplicationInstance extends React.Component {
     });
 
     const invalidMinServices = this.props.services.filter(
-      s => Number(s.minCount) != 0 && s.currentCount < s.minCount
+      s => Number(s.minCount) !== 0 && s.currentCount < s.minCount
     );
     const invalidMaxServices = this.props.services.filter(
-      s => Number(s.maxCount) != 0 && s.currentCount > s.maxCount
+      s => Number(s.maxCount) !== 0 && s.currentCount > s.maxCount
     );
 
     if (invalidMinServices.length > 0 || invalidMaxServices.length > 0) {
       result = false;
 
-      if (msg != '') {
+      if (msg !== '') {
         msg += '\n';
       }
 
       msg += __('Unachieved service counts:');
       msg += '\n';
 
-      invalidMinServices.map(s => {
+      invalidMinServices.forEach(s => {
         msg += sprintf(
           __(
             `- service ${s.name} expects at ${s.minCount} least configured hosts\n`
@@ -84,7 +80,7 @@ class ApplicationInstance extends React.Component {
         );
       });
 
-      invalidMaxServices.map(s => {
+      invalidMaxServices.forEach(s => {
         msg += sprintf(
           __(
             `- service ${s.name} expects no more than ${s.axCount} configured hosts\n`
@@ -110,7 +106,6 @@ class ApplicationInstance extends React.Component {
         supportedPlugins,
       },
       initApplicationInstance,
-      addApplicationInstanceHost,
       deleteApplicationInstanceHost,
       activateEditApplicationInstanceHost,
       changeEditApplicationInstanceHost,
@@ -123,7 +118,7 @@ class ApplicationInstance extends React.Component {
       loadApplicationDefinition(appDefinition.id, { url: appDefinitionUrl });
     }
 
-    const already_deployed_msg = __(
+    const alreadyDeployedMsg = __(
       'This is an already deployed host. Changing the parameters is not possible!'
     );
 
@@ -131,12 +126,12 @@ class ApplicationInstance extends React.Component {
       isEditing: additionalData => this.props.editMode,
       renderValue: (value, additionalData) => (
         <td style={{ padding: '2px' }}>
-          {additionalData.rowData.isExistingHost == true ? (
+          {additionalData.rowData.isExistingHost === true ? (
             <Icon
               style={{ marginRight: 8, marginLeft: 2 }}
               type="pf"
               name="info"
-              title={already_deployed_msg}
+              title={alreadyDeployedMsg}
             />
           ) : (
             <span />
@@ -148,7 +143,7 @@ class ApplicationInstance extends React.Component {
             <Icon type="pf" name="edit" title={__('Edit entry')} />
           </Button>
           &nbsp;
-          {additionalData.rowData.isExistingHost == false ? (
+          {additionalData.rowData.isExistingHost === false ? (
             <Button
               bsStyle="default"
               onClick={() => openForemanParameterSelectionModal(additionalData)}
@@ -176,12 +171,12 @@ class ApplicationInstance extends React.Component {
       ),
       renderEdit: (value, additionalData) => (
         <td style={{ padding: '2px' }}>
-          {additionalData.rowData.isExistingHost == true ? (
+          {additionalData.rowData.isExistingHost === true ? (
             <Icon
               style={{ marginRight: 8, marginLeft: 2 }}
               type="pf"
               name="info"
-              title={already_deployed_msg}
+              title={alreadyDeployedMsg}
             />
           ) : (
             <span />
@@ -190,7 +185,7 @@ class ApplicationInstance extends React.Component {
             <Icon type="pf" name={__('edit')} />
           </Button>
           &nbsp;
-          {additionalData.rowData.isExistingHost == false ? (
+          {additionalData.rowData.isExistingHost === false ? (
             <Button bsStyle="default" disabled>
               <Icon type="pf" name={__('settings')} />
             </Button>
@@ -248,10 +243,10 @@ class ApplicationInstance extends React.Component {
     };
 
     const inlineEditFormatter = inlineEditFormatterFactory({
-      isEditing: additionalData => this.isEditing(additionalData),
+      isEditing: additionalData => this.constructor.isEditing(additionalData),
       renderValue: (value, additionalData) => {
         let prettyValue = value;
-        if (additionalData.property == 'service') {
+        if (additionalData.property === 'service') {
           const serviceList = arrayToObject(this.props.services, 'id', 'name');
           prettyValue = serviceList[value];
         }
@@ -259,10 +254,10 @@ class ApplicationInstance extends React.Component {
       },
       renderEdit: (value, additionalData) => {
         let prettyValue = value;
-        if (additionalData.property == 'service') {
+        if (additionalData.property === 'service') {
           const availableServices = this.props.services.filter(
             service =>
-              Number(service.maxCount) == 0 ||
+              Number(service.maxCount) === 0 ||
               service.currentCount < service.maxCount
           );
           const serviceList = arrayToObject(availableServices, 'id', 'name');
@@ -280,7 +275,7 @@ class ApplicationInstance extends React.Component {
             additionalData
           );
         }
-        if (additionalData.property == 'hostname') {
+        if (additionalData.property === 'hostname') {
           if (additionalData.rowData.newEntry === true) {
             return inlineEditFormatterImpl.renderEditText(
               value,
@@ -344,11 +339,13 @@ class ApplicationInstance extends React.Component {
 
     const { validateResult, validateMsg } = this.validateParameters();
 
-    if (validateResult == false) {
+    /* eslint-disable jquery/no-attr */
+    if (validateResult === false) {
       $('input[type="submit"][name="commit"]').attr('disabled', true);
     } else {
       $('input[type="submit"][name="commit"]').attr('disabled', false);
     }
+    /* eslint-enable jquery/no-attr */
 
     return (
       <span>
@@ -373,16 +370,16 @@ class ApplicationInstance extends React.Component {
           <AppDefinitionSelector
             label="Application Definition"
             hidden={false}
-            editable={mode == 'newInstance'}
+            editable={mode === 'newInstance'}
             viewText={appDefinition.name}
             options={applications}
             onChange={loadApplicationDefinition}
             selectValue={appDefinition.id.toString()}
             additionalData={{ url: appDefinitionUrl }}
           />
-          {appDefinition.id == '' ? (
+          {appDefinition.id === '' ? (
             <div style={{ paddingTop: 25 }}>
-              <pre>App Definition can't be blank</pre>
+              <pre>App Definition can&apos;t be blank</pre>
             </div>
           ) : (
             <div />
@@ -409,7 +406,7 @@ class ApplicationInstance extends React.Component {
               rowKey="id"
               onRow={(rowData, { rowIndex }) => ({
                 role: 'row',
-                isEditing: () => this.isEditing({ rowData }),
+                isEditing: () => this.constructor.isEditing({ rowData }),
                 onCancel: () =>
                   cancelEditApplicationInstanceHost({ rowData, rowIndex }),
                 onConfirm: () =>
@@ -441,7 +438,7 @@ class ApplicationInstance extends React.Component {
             </Button>
           </span>
           <span style={{ marginLeft: 30 }}>
-            Ansible group vars 'all':
+            Ansible group vars &lsquo;all&rsquo;:
             <Button
               style={{ marginLeft: 10 }}
               bsStyle="default"
@@ -587,7 +584,7 @@ class ApplicationInstance extends React.Component {
             </ForemanModal.Footer>
           </ForemanModal>
         </div>
-        {validateResult == false ? (
+        {validateResult === false ? (
           <div style={{ paddingTop: 25 }}>
             <pre>{validateMsg}</pre>
           </div>
@@ -612,51 +609,68 @@ class ApplicationInstance extends React.Component {
 }
 
 ApplicationInstance.defaultProps = {
-  error: {},
-  showAlertModal: false,
   alertModalText: '',
   alertModalTitle: '',
-  appDefinition: { id: '', name: '' },
-  editMode: false,
-  services: [],
-  hosts: [],
   ansibleVarsAll: [],
-  parametersData: {},
+  appDefinition: { id: '', name: '' },
   columns: [],
+  data: {
+    appDefinitionUrl: '',
+    appDefinition: undefined,
+    applications: undefined,
+    foremanDataUrl: '',
+    supportedPlugins: {},
+  },
+  editMode: false,
   hiddenForemanParameterTypes: [],
-  editParamsOfRowId: null,
+  hosts: [],
+  parametersData: {},
   paramEditMode: false,
+  services: [],
+  showAlertModal: false,
 };
 
 ApplicationInstance.propTypes = {
-  initApplicationInstance: PropTypes.func,
-  showAlertModal: PropTypes.bool,
   alertModalText: PropTypes.string,
   alertModalTitle: PropTypes.string,
-  editMode: PropTypes.bool.isRequired,
-  services: PropTypes.array,
+  ansibleVarsAll: PropTypes.array,
   appDefinition: PropTypes.object,
   columns: PropTypes.array,
+  data: PropTypes.shape({
+    appDefinitionUrl: PropTypes.string,
+    ansibleVarsAll: PropTypes.array.isRequired,
+    appDefinition: PropTypes.object,
+    applications: PropTypes.object,
+    foremanDataUrl: PropTypes.string,
+    hosts: PropTypes.array.isRequired,
+    location: PropTypes.string.isRequired,
+    mode: PropTypes.string.isRequired,
+    organization: PropTypes.string.isRequired,
+    supportedPlugins: PropTypes.object,
+  }),
+  editMode: PropTypes.bool,
   hiddenForemanParameterTypes: PropTypes.array,
   hosts: PropTypes.array,
-  ansibleVarsAll: PropTypes.array,
-  closeAlertModal: PropTypes.func,
-  loadApplicationDefinition: PropTypes.func,
-  addApplicationInstanceHost: PropTypes.func,
-  deleteApplicationInstanceHost: PropTypes.func,
-  activateEditApplicationInstanceHost: PropTypes.func,
-  confirmEditApplicationInstanceHost: PropTypes.func,
-  cancelEditApplicationInstanceHost: PropTypes.func,
-  changeEditApplicationInstanceHost: PropTypes.func,
-  openForemanParameterSelectionModal: PropTypes.func,
-  closeForemanParameterSelectionModal: PropTypes.func,
-  openAnsibleParameterSelectionModal: PropTypes.func,
-  closeAnsibleParameterSelectionModal: PropTypes.func,
-  openAddExistingHostsModal: PropTypes.func,
-  closeAddExistingHostsModal: PropTypes.func,
-  changeParameterSelectionMode: PropTypes.func,
   parametersData: PropTypes.object,
   paramEditMode: PropTypes.bool,
+  services: PropTypes.array,
+  showAlertModal: PropTypes.bool,
+  activateEditApplicationInstanceHost: PropTypes.func.isRequired,
+  addApplicationInstanceHost: PropTypes.func.isRequired,
+  cancelEditApplicationInstanceHost: PropTypes.func.isRequired,
+  changeEditApplicationInstanceHost: PropTypes.func.isRequired,
+  changeParameterSelectionMode: PropTypes.func.isRequired,
+  closeAddExistingHostsModal: PropTypes.func.isRequired,
+  closeAlertModal: PropTypes.func.isRequired,
+  closeAnsibleParameterSelectionModal: PropTypes.func.isRequired,
+  closeForemanParameterSelectionModal: PropTypes.func.isRequired,
+  confirmEditApplicationInstanceHost: PropTypes.func.isRequired,
+  deleteApplicationInstanceHost: PropTypes.func.isRequired,
+  initApplicationInstance: PropTypes.func.isRequired,
+  loadApplicationDefinition: PropTypes.func.isRequired,
+  openForemanParameterSelectionModal: PropTypes.func.isRequired,
+  openAnsibleParameterSelectionModal: PropTypes.func.isRequired,
+  openAddExistingHostsModal: PropTypes.func.isRequired,
 };
 
 export default ApplicationInstance;

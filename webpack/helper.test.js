@@ -1,6 +1,5 @@
 import {
   arrayToObject,
-  arrayToObjectObj,
   EasyHeaderFormatter,
   supportedPluginsToHiddenParameterTypes,
 } from './helper';
@@ -16,14 +15,6 @@ describe('helper', () => {
       i1: 'v1',
       i2: 'v2',
       i3: 'v3',
-    });
-  });
-
-  it('creates an object from an array', () => {
-    expect(arrayToObjectObj(testArray, 'id')).toEqual({
-      i1: { id: 'i1', value: 'v1' },
-      i2: { id: 'i2', value: 'v2' },
-      i3: { id: 'i3', value: 'v3' },
     });
   });
 

@@ -1,16 +1,10 @@
-import React from 'react';
+import { actionHeaderCellFormatter } from 'patternfly-react';
 import api from 'foremanReact/API';
+import { translate as __ } from 'foremanReact/common/I18n';
 import {
   setModalOpen,
   setModalClosed,
 } from 'foremanReact/components/ForemanModal/ForemanModalActions';
-
-import { actionHeaderCellFormatter } from 'patternfly-react';
-
-import {
-  propsToSnakeCase,
-  propsToCamelCase,
-} from 'foremanReact/common/helpers';
 
 import {
   APPLICATION_INSTANCE_INIT,
@@ -143,27 +137,26 @@ export const closeAlertModal = () => ({
 export const loadApplicationDefinition = (
   applicationDefinitionId,
   additionalData
-) => dispatch => {
+) => async dispatch => {
   dispatch({ type: APPLICATION_INSTANCE_LOAD_APPLICATION_DEFINITION_REQUEST });
 
   const realUrl = additionalData.url.replace('__id__', applicationDefinitionId);
 
-  return api
-    .get(realUrl, {}, {})
-    .then(({ data }) =>
-      dispatch({
-        type: APPLICATION_INSTANCE_LOAD_APPLICATION_DEFINITION_SUCCESS,
-        payload: data,
-      })
-    )
-    .catch(error =>
-      dispatch(
-        errorHandler(
-          APPLICATION_INSTANCE_LOAD_APPLICATION_DEFINITION_FAILURE,
-          error
-        )
+  try {
+    const { data } = await api.get(realUrl, {}, {});
+
+    dispatch({
+      type: APPLICATION_INSTANCE_LOAD_APPLICATION_DEFINITION_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch(
+      errorHandler(
+        APPLICATION_INSTANCE_LOAD_APPLICATION_DEFINITION_FAILURE,
+        error
       )
     );
+  }
 };
 
 export const addApplicationInstanceHost = additionalData => ({
@@ -190,7 +183,7 @@ export const activateEditApplicationInstanceHost = additionalData => ({
 export const confirmEditApplicationInstanceHost = allData => async dispatch => {
   // Host name can not be empty
 
-  if (allData.rowData.hostname == '') {
+  if (allData.rowData.hostname === '') {
     dispatch({
       type: APPLICATION_INSTANCE_HOST_EDIT_ERROR,
       payload: __('Every host needs to have a valid name'),
@@ -201,9 +194,9 @@ export const confirmEditApplicationInstanceHost = allData => async dispatch => {
   // Host name can only have specific characters
 
   const hostname = allData.rowData.hostname.toLowerCase();
-  const hostnameRegex = /^[0-9a-z]([0-9a-z\-]{0,61}[0-9a-z])$/;
+  const hostnameRegex = /^[0-9a-z]([0-9a-z-]{0,61}[0-9a-z])$/;
 
-  if (hostname.match(hostnameRegex) == undefined) {
+  if (hostname.match(hostnameRegex) === undefined) {
     dispatch({
       type: APPLICATION_INSTANCE_HOST_EDIT_ERROR,
       payload: __(
@@ -215,7 +208,7 @@ export const confirmEditApplicationInstanceHost = allData => async dispatch => {
 
   // Service can not be empty
 
-  if (allData.rowData.service == '') {
+  if (allData.rowData.service === '') {
     dispatch({
       type: APPLICATION_INSTANCE_HOST_EDIT_ERROR,
       payload: __('Every host needs to be assigned to a service.'),

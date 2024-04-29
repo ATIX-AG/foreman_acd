@@ -1,8 +1,8 @@
 import Immutable from 'seamless-immutable';
+import { cloneDeep, findIndex } from 'lodash';
+
 import { translate as __ } from 'foremanReact/common/I18n';
 import { calculateServiceUsage } from './ApplicationInstanceHelper';
-
-import { cloneDeep, findIndex, findLastIndex } from 'lodash';
 
 import {
   APPLICATION_INSTANCE_INIT,
@@ -51,33 +51,32 @@ const applicationInstanceConf = (state = initialState, action) => {
       });
     }
     case APPLICATION_INSTANCE_LOAD_APPLICATION_DEFINITION_FAILURE: {
-      console.log(
-        `Error while loading application definition data: ${payload.error}`
-      );
-      return state.merge({ error: payload.error, loading: false });
+      return state.merge({
+        error: payload.error,
+        loading: false,
+      });
     }
     case APPLICATION_INSTANCE_LOAD_APPLICATION_DEFINITION_REQUEST: {
       return state.set('loading', true);
     }
     case APPLICATION_INSTANCE_LOAD_APPLICATION_DEFINITION_SUCCESS: {
-      let newState = {};
       const services = JSON.parse(payload.app_definition.services);
 
       // initialize all services count with 0
-      services.map(serv => {
+      services.forEach(serv => {
         serv.currentCount = 0;
       });
 
       // Update count
       if (state.hosts !== undefined) {
-        state.hosts.map((host, index) => {
+        state.hosts.forEach(host => {
           const hostServiceId = Number(host.service);
-          const service = services.find(serv => serv.id == hostServiceId);
+          const service = services.find(serv => serv.id === hostServiceId);
           service.currentCount += 1;
         });
       }
 
-      newState = {
+      const newState = {
         appDefinition: payload.app_definition,
         services,
         loading: false,
@@ -125,12 +124,12 @@ const applicationInstanceConf = (state = initialState, action) => {
     }
     case APPLICATION_INSTANCE_HOST_DELETE: {
       const services = cloneDeep(state.services);
-      const host = state.hosts.find(v => v.id == payload.rowData.id);
+      const host = state.hosts.find(v => v.id === payload.rowData.id);
       const hostServiceId = Number(host.service);
       const hosts = state.hosts.filter(v => v.id !== host.id);
 
       // Update count
-      const service = services.find(serv => serv.id == hostServiceId);
+      const service = services.find(serv => serv.id === hostServiceId);
       service.currentCount -= 1;
 
       return state.merge({
@@ -161,7 +160,7 @@ const applicationInstanceConf = (state = initialState, action) => {
 
       if (
         state.hosts.filter(
-          v => v.hostname === thisHost.hostname && v.id != thisHost.id
+          v => v.hostname === thisHost.hostname && v.id !== thisHost.id
         ).length > 0
       ) {
         return state.merge({
@@ -177,7 +176,7 @@ const applicationInstanceConf = (state = initialState, action) => {
       if (thisHost.newEntry === true) {
         const hostServiceId = Number(thisHost.service);
         const selectedService = services.filter(
-          entry => entry.id == hostServiceId
+          entry => entry.id === hostServiceId
         )[0];
         hosts[index].foremanParameters = selectedService.foremanParameters;
         hosts[index].ansibleParameters = selectedService.ansibleParameters;
@@ -228,7 +227,7 @@ const applicationInstanceConf = (state = initialState, action) => {
       const parametersData = {};
 
       const selectedService = state.services.filter(
-        entry => entry.id == payload.rowData.service
+        entry => entry.id === payload.rowData.service
       )[0];
 
       parametersData.paramDefinition = {
@@ -251,7 +250,7 @@ const applicationInstanceConf = (state = initialState, action) => {
       });
     }
     case APPLICATION_INSTANCE_FOREMAN_PARAMETER_SELECTION_MODAL_CLOSE: {
-      if (payload.mode == 'save') {
+      if (payload.mode === 'save') {
         const hosts = cloneDeep(state.hosts);
         const index = findIndex(hosts, {
           id: state.parametersData.paramDefinition.hostId,
@@ -270,14 +269,14 @@ const applicationInstanceConf = (state = initialState, action) => {
     case APPLICATION_INSTANCE_ANSIBLE_PARAMETER_SELECTION_MODAL_OPEN: {
       const parametersData = {};
 
-      if (payload.hasOwnProperty('isAllGroup') && payload.isAllGroup == true) {
+      if (payload.hasOwnProperty('isAllGroup') && payload.isAllGroup === true) {
         parametersData.parameters = state.ansibleVarsAll;
         parametersData.paramDefinition = {
           isAllGroup: true,
         };
       } else {
         const selectedService = state.services.filter(
-          entry => entry.id == payload.rowData.service
+          entry => entry.id === payload.rowData.service
         )[0];
 
         parametersData.paramDefinition = {
@@ -302,10 +301,10 @@ const applicationInstanceConf = (state = initialState, action) => {
     }
     case APPLICATION_INSTANCE_ANSIBLE_PARAMETER_SELECTION_MODAL_CLOSE: {
       let newState = {};
-      if (payload.mode == 'save') {
+      if (payload.mode === 'save') {
         if (
           state.parametersData.paramDefinition.hasOwnProperty('isAllGroup') &&
-          state.parametersData.paramDefinition.isAllGroup == true
+          state.parametersData.paramDefinition.isAllGroup === true
         ) {
           newState = {
             parametersData: null,
@@ -333,10 +332,10 @@ const applicationInstanceConf = (state = initialState, action) => {
       return state.merge(newState);
     }
     case APPLICATION_INSTANCE_ADD_EXISTING_HOSTS_MODAL_OPEN: {
+      return state;
     }
     case APPLICATION_INSTANCE_ADD_EXISTING_HOSTS_MODAL_CLOSE: {
-      if (payload.mode == 'save') {
-        let newState;
+      if (payload.mode === 'save') {
         let hosts = [];
         let index = 1;
         let services = cloneDeep(state.services);
@@ -352,12 +351,12 @@ const applicationInstanceConf = (state = initialState, action) => {
 
         payload.selectedHosts.forEach(host => {
           if (
-            state.hosts == undefined ||
-            state.hosts.find(h => h.hostname == host.hostname) == undefined
+            state.hosts === undefined ||
+            state.hosts.find(h => h.hostname === host.hostname) === undefined
           ) {
             index += 1;
             const selectedService = services.filter(
-              entry => entry.id == host.serviceId
+              entry => entry.id === host.serviceId
             )[0];
             const newRow = {
               id: index,
@@ -375,7 +374,6 @@ const applicationInstanceConf = (state = initialState, action) => {
 
         return state.merge({
           hosts,
-          services,
           services,
         });
       }

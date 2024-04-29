@@ -1,5 +1,5 @@
 function calculateServiceUsage(hostServiceId, services) {
-  const service = services.find(serv => serv.id == hostServiceId);
+  const service = services.find(serv => serv.id === hostServiceId);
   if ('currentCount' in service) {
     service.currentCount += 1;
   } else {

@@ -9,12 +9,6 @@ function arrayToObject(arr, id, value) {
   return rv;
 }
 
-function arrayToObjectObj(arr, id) {
-  const rv = {};
-  for (let i = 0; i < arr.length; ++i) rv[arr[i][id]] = arr[i];
-  return rv;
-}
-
 function shortHostname(fqdn) {
   return fqdn.split('.')[0];
 }
@@ -43,7 +37,6 @@ function supportedPluginsToHiddenParameterTypes(supportedPlugins) {
 
 export {
   arrayToObject,
-  arrayToObjectObj,
   shortHostname,
   EasyHeaderFormatter,
   supportedPluginsToHiddenParameterTypes,
