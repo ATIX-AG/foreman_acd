@@ -9,12 +9,12 @@ const DeleteTableEntry = ({
   onDeleteTableEntry,
   additionalData,
 }) => {
+  const [showModal, setShowModal] = useState(false);
+  const toggleModal = () => setShowModal(!showModal);
+
   if (hidden) {
     return null;
   }
-
-  const [showModal, setShowModal] = useState(false);
-  const toggleModal = () => setShowModal(!showModal);
 
   return (
     <span>
