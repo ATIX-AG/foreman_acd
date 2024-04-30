@@ -1,27 +1,23 @@
-import $ from 'jquery';
-import React, { useState } from 'react'
+import React from 'react';
 import PropTypes from 'prop-types';
 import {
   Icon,
   Button,
   MessageDialog,
+  Table,
+  FormControl,
+  inlineEditFormatterFactory,
 } from 'patternfly-react';
 import * as resolve from 'table-resolver';
 import ForemanModal from 'foremanReact/components/ForemanModal';
 import Select from 'foremanReact/components/common/forms/Select';
+import { translate as __ } from 'foremanReact/common/I18n';
 import ParameterSelection from '../ParameterSelection';
 import AddTableEntry from '../common/AddTableEntry';
 import DeleteTableEntry from '../common/DeleteTableEntry';
 import RailsData from '../common/RailsData';
 import AnsiblePlaybookSelector from './components/AnsiblePlaybookSelector';
-import { translate as __ } from 'foremanReact/common/I18n';
 import { EasyHeaderFormatter } from '../../helper';
-
-import {
-  Table,
-  FormControl,
-  inlineEditFormatterFactory,
-} from 'patternfly-react';
 
 import {
   PARAMETER_SELECTION_PARAM_TYPE_FOREMAN,
@@ -29,22 +25,19 @@ import {
 } from '../ParameterSelection/ParameterSelectionConstants';
 
 class ApplicationDefinition extends React.Component {
-
-  constructor(props) {
-    super(props);
+  static isEditing({ rowData }) {
+    return rowData.backup !== undefined;
   }
 
-  isEditing({rowData}) {
-    return (rowData.backup !== undefined);
-  }
-
-  createAnsibleGroupObject(ansibleGroups, withAll=false) {
+  static createAnsibleGroupObject(ansibleGroups, withAll = false) {
     const ansibleGroupObj = {};
 
     const ansibleGroupArray = Object.keys(ansibleGroups);
-    ansibleGroupArray.forEach(e => (ansibleGroupObj[e] = e));
+    ansibleGroupArray.forEach(e => {
+      ansibleGroupObj[e] = e;
+    });
 
-    if ((withAll === false) && (ansibleGroupObj.hasOwnProperty('all'))) {
+    if (withAll === false && ansibleGroupObj.hasOwnProperty('all')) {
       delete ansibleGroupObj.all;
     }
 
@@ -52,20 +45,24 @@ class ApplicationDefinition extends React.Component {
   }
 
   addTableEntryAllowed() {
-    return this.props.editMode || this.props.ansiblePlaybook.id == ''
+    return this.props.editMode || this.props.ansiblePlaybook.id === '';
   }
 
   componentDidMount() {
     const {
-      data: { mode, ansiblePlaybook, ansibleDataUrl, services, ansibleVarsAll, hostgroups, supportedPlugins },
+      data: {
+        ansiblePlaybook,
+        services,
+        ansibleVarsAll,
+        hostgroups,
+        supportedPlugins,
+      },
       initApplicationDefinition,
-      addApplicationDefinitionService,
       deleteApplicationDefinitionService,
       activateEditApplicationDefinitionService,
       changeEditApplicationDefinitionService,
       openForemanParameterSelectionModal,
       openAnsibleParameterSelectionModal,
-      loadAnsibleData,
     } = this.props;
 
     const inlineEditButtonsFormatter = inlineEditFormatterFactory({
@@ -74,23 +71,25 @@ class ApplicationDefinition extends React.Component {
         <td style={{ padding: '2px' }}>
           <Button
             bsStyle="default"
-            onClick={() => activateEditApplicationDefinitionService(additionalData)}
+            onClick={() =>
+              activateEditApplicationDefinitionService(additionalData)
+            }
           >
-            <Icon type="pf" name="edit" title={__("Edit entry")} />
+            <Icon type="pf" name="edit" title={__('Edit entry')} />
           </Button>
           &nbsp;
           <Button
             bsStyle="default"
             onClick={() => openForemanParameterSelectionModal(additionalData)}
           >
-            <Icon type="pf" name="settings" title={__("Change parameters")} />
+            <Icon type="pf" name="settings" title={__('Change parameters')} />
           </Button>
           &nbsp;
           <Button
             bsStyle="default"
             onClick={() => openAnsibleParameterSelectionModal(additionalData)}
           >
-            <span title={__("Change ansible variables")}>A</span>
+            <span title={__('Change ansible variables')}>A</span>
           </Button>
           &nbsp;
           <DeleteTableEntry
@@ -104,26 +103,25 @@ class ApplicationDefinition extends React.Component {
       renderEdit: (value, additionalData) => (
         <td style={{ padding: '2px' }}>
           <Button bsStyle="default" disabled>
-            <Icon type="pf" name={__("edit")} />
+            <Icon type="pf" name={__('edit')} />
           </Button>
           &nbsp;
           <Button bsStyle="default" disabled>
-            <Icon type="pf" name={__("settings")} />
+            <Icon type="pf" name={__('settings')} />
           </Button>
           &nbsp;
-          <Button
-            bsStyle="default" disabled>
+          <Button bsStyle="default" disabled>
             <span>A</span>
           </Button>
           &nbsp;
           <DeleteTableEntry
             hidden={false}
-            disabled={true}
+            disabled
             onDeleteTableEntry={deleteApplicationDefinitionService}
             additionalData={additionalData}
           />
         </td>
-      )
+      ),
     });
     this.inlineEditButtonsFormatter = inlineEditButtonsFormatter;
 
@@ -135,12 +133,17 @@ class ApplicationDefinition extends React.Component {
           <span className="static">{value}</span>
         </td>
       ),
-      renderEditText: (value, additionalData, subtype='text') => (
+      renderEditText: (value, additionalData, subtype = 'text') => (
         <td className="editing">
           <FormControl
             type={subtype}
             defaultValue={value}
-            onBlur={e => changeEditApplicationDefinitionService(e.target.value, additionalData) }
+            onBlur={e =>
+              changeEditApplicationDefinitionService(
+                e.target.value,
+                additionalData
+              )
+            }
           />
         </td>
       ),
@@ -148,45 +151,63 @@ class ApplicationDefinition extends React.Component {
         <td className="editing">
           <Select
             value={value.toString()}
-            onChange={e => changeEditApplicationDefinitionService(e.target.value, additionalData) }
+            onChange={e =>
+              changeEditApplicationDefinitionService(
+                e.target.value,
+                additionalData
+              )
+            }
             options={options}
             allowClear
             key="key"
           />
         </td>
-      )
+      ),
     };
 
     const inlineEditFormatter = inlineEditFormatterFactory({
-      isEditing: additionalData => this.isEditing(additionalData),
+      isEditing: additionalData => this.constructor.isEditing(additionalData),
       renderValue: (value, additionalData) => {
         let prettyValue = value;
-        if (additionalData.property == 'hostgroup') {
+        if (additionalData.property === 'hostgroup') {
           prettyValue = hostgroups[value];
-        }
-        else if (additionalData.property == 'ansibleGroup') {
-          const ag = this.createAnsibleGroupObject(this.props.ansiblePlaybook.groups);
+        } else if (additionalData.property === 'ansibleGroup') {
+          const ag = this.constructor.createAnsibleGroupObject(
+            this.props.ansiblePlaybook.groups
+          );
           prettyValue = ag[value];
         }
-        return inlineEditFormatterImpl.renderValue(prettyValue, additionalData)
+        return inlineEditFormatterImpl.renderValue(prettyValue, additionalData);
       },
       renderEdit: (value, additionalData) => {
-        if (additionalData.property == 'hostgroup') {
+        if (additionalData.property === 'hostgroup') {
           if (additionalData.rowData.newEntry === true) {
-            return inlineEditFormatterImpl.renderEditSelect(value, additionalData, hostgroups);
+            return inlineEditFormatterImpl.renderEditSelect(
+              value,
+              additionalData,
+              hostgroups
+            );
           }
-          return inlineEditFormatterImpl.renderValue(hostgroups[value], additionalData)
-        }
-        else if (additionalData.property == 'ansibleGroup') {
-          const ag = this.createAnsibleGroupObject(this.props.ansiblePlaybook.groups);
+          return inlineEditFormatterImpl.renderValue(
+            hostgroups[value],
+            additionalData
+          );
+        } else if (additionalData.property === 'ansibleGroup') {
+          const ag = this.constructor.createAnsibleGroupObject(
+            this.props.ansiblePlaybook.groups
+          );
 
           if (additionalData.rowData.newEntry === true) {
-            return inlineEditFormatterImpl.renderEditSelect(value, additionalData, ag);
+            return inlineEditFormatterImpl.renderEditSelect(
+              value,
+              additionalData,
+              ag
+            );
           }
           return inlineEditFormatterImpl.renderValue(ag[value], additionalData);
         }
         return inlineEditFormatterImpl.renderEditText(value, additionalData);
-      }
+      },
     });
     this.inlineEditFormatter = inlineEditFormatter;
 
@@ -197,14 +218,24 @@ class ApplicationDefinition extends React.Component {
       supportedPlugins,
       this.headerFormatter,
       this.inlineEditFormatter,
-      this.inlineEditButtonsFormatter,
+      this.inlineEditButtonsFormatter
     );
-  };
+  }
 
   render() {
     const {
-      data: { organization, location, mode, ansiblePlaybooks, foremanDataUrl, ansibleDataUrl },
-      showAlertModal, alertModalText, alertModalTitle, closeAlertModal,
+      data: {
+        organization,
+        location,
+        mode,
+        ansiblePlaybooks,
+        foremanDataUrl,
+        ansibleDataUrl,
+      },
+      showAlertModal,
+      alertModalText,
+      alertModalTitle,
+      closeAlertModal,
       ansiblePlaybook,
       services,
       columns,
@@ -216,7 +247,6 @@ class ApplicationDefinition extends React.Component {
       openAnsibleParameterSelectionModal,
       closeAnsibleParameterSelectionModal,
       changeParameterSelectionMode,
-      ParameterSelectionModal,
       loadAnsibleData,
     } = this.props;
 
@@ -227,7 +257,7 @@ class ApplicationDefinition extends React.Component {
           onHide={closeAlertModal}
           primaryAction={closeAlertModal}
           primaryActionButtonContent={__('OK')}
-          primaryActionButtonBsStyle={"danger"}
+          primaryActionButtonBsStyle="danger"
           icon={<Icon type="pf" name="error-circle-o" />}
           title={alertModalTitle}
           primaryContent={alertModalText}
@@ -235,20 +265,21 @@ class ApplicationDefinition extends React.Component {
         <div>
           <AnsiblePlaybookSelector
             label="Ansible Playbook"
-            hidden={ false }
-            editable={ mode == 'newDefinition' }
-            viewText={ ansiblePlaybook.name }
-            options={ ansiblePlaybooks }
-            onChange={ loadAnsibleData }
-            selectValue={ ansiblePlaybook.id.toString() }
-            additionalData={{url: ansibleDataUrl }}
+            hidden={false}
+            editable={mode === 'newDefinition'}
+            viewText={ansiblePlaybook.name}
+            options={ansiblePlaybooks}
+            onChange={loadAnsibleData}
+            selectValue={ansiblePlaybook.id.toString()}
+            additionalData={{ url: ansibleDataUrl }}
           />
-          {ansiblePlaybook.id == '' ? (
-          <div style={{ paddingTop: 25 }}>
-            <pre>{ "Ansible Playbook can't be blank" }</pre>
-          </div>
-        ) : (<div></div>)}
-
+          {ansiblePlaybook.id === '' ? (
+            <div style={{ paddingTop: 25 }}>
+              <pre>Ansible Playbook can&apos;t be blank</pre>
+            </div>
+          ) : (
+            <div />
+          )}
         </div>
         <div className="form-group">
           <Table.PfProvider
@@ -261,8 +292,8 @@ class ApplicationDefinition extends React.Component {
             components={{
               body: {
                 row: Table.InlineEditRow,
-                cell: cellProps => cellProps.children
-              }
+                cell: cellProps => cellProps.children,
+              },
             }}
           >
             <Table.Header headerRows={resolve.headerRows({ columns })} />
@@ -271,27 +302,34 @@ class ApplicationDefinition extends React.Component {
               rowKey="id"
               onRow={(rowData, { rowIndex }) => ({
                 role: 'row',
-                isEditing: () => this.isEditing({ rowData }),
-                onCancel: () => cancelEditApplicationDefinitionService({ rowData, rowIndex }),
-                onConfirm: () => confirmEditApplicationDefinitionService({ rowData, rowIndex }),
-                last: rowIndex === services.length - 1
+                isEditing: () => this.constructor.isEditing({ rowData }),
+                onCancel: () =>
+                  cancelEditApplicationDefinitionService({ rowData, rowIndex }),
+                onConfirm: () =>
+                  confirmEditApplicationDefinitionService({
+                    rowData,
+                    rowIndex,
+                  }),
+                last: rowIndex === services.length - 1,
               })}
             />
           </Table.PfProvider>
           <AddTableEntry
-            hidden={ false }
-            disabled={ this.addTableEntryAllowed() }
-            onAddTableEntry={ addApplicationDefinitionService }
+            hidden={false}
+            disabled={this.addTableEntryAllowed()}
+            onAddTableEntry={addApplicationDefinitionService}
           />
           <span style={{ marginLeft: 30 }}>
-            Ansible group vars 'all':
+            Ansible group vars &apos;all&apos;:
             <Button
               style={{ marginLeft: 10 }}
               bsStyle="default"
-              disabled={ this.props.editMode }
-              onClick={() => openAnsibleParameterSelectionModal({
-                isAllGroup: true
-              })}
+              disabled={this.props.editMode}
+              onClick={() =>
+                openAnsibleParameterSelectionModal({
+                  isAllGroup: true,
+                })
+              }
             >
               <span title={__("Change ansible variables for 'all'")}>A</span>
             </Button>
@@ -301,27 +339,48 @@ class ApplicationDefinition extends React.Component {
           <ForemanModal
             id="AppDefinitionForemanParamSelection"
             dialogClassName="param_selection_modal"
-            title={__("Foreman Parameter definition for Application Definition")}
+            title={__(
+              'Foreman Parameter definition for Application Definition'
+            )}
           >
             <ForemanModal.Header closeButton={false}>
               Parameter definition
             </ForemanModal.Header>
             {this.props.parametersData ? (
               <ParameterSelection
-                editModeCallback={ (hide) => changeParameterSelectionMode({ mode: hide })}
-                paramType={ PARAMETER_SELECTION_PARAM_TYPE_FOREMAN }
-                hiddenParameterTypes={ hiddenForemanParameterTypes }
-                location={ location }
-                organization={ organization }
-                paramDataUrl= { foremanDataUrl }
-                data={ this.props.parametersData }
+                editModeCallback={hide =>
+                  changeParameterSelectionMode({ mode: hide })
+                }
+                paramType={PARAMETER_SELECTION_PARAM_TYPE_FOREMAN}
+                hiddenParameterTypes={hiddenForemanParameterTypes}
+                location={location}
+                organization={organization}
+                paramDataUrl={foremanDataUrl}
+                data={this.props.parametersData}
               />
-            ) : (<span>Empty</span>)
-            }
+            ) : (
+              <span>Empty</span>
+            )}
             <ForemanModal.Footer>
               <div>
-                <Button bsStyle="primary" disabled={this.props.paramEditMode} onClick={() => closeForemanParameterSelectionModal({ mode: 'save' })}>{__("Save")}</Button>
-                <Button bsStyle="default" disabled={this.props.paramEditMode} onClick={() => closeForemanParameterSelectionModal({ mode: 'cancel' })}>{__("Cancel")}</Button>
+                <Button
+                  bsStyle="primary"
+                  disabled={this.props.paramEditMode}
+                  onClick={() =>
+                    closeForemanParameterSelectionModal({ mode: 'save' })
+                  }
+                >
+                  {__('Save')}
+                </Button>
+                <Button
+                  bsStyle="default"
+                  disabled={this.props.paramEditMode}
+                  onClick={() =>
+                    closeForemanParameterSelectionModal({ mode: 'cancel' })
+                  }
+                >
+                  {__('Cancel')}
+                </Button>
               </div>
             </ForemanModal.Footer>
           </ForemanModal>
@@ -330,74 +389,104 @@ class ApplicationDefinition extends React.Component {
           <ForemanModal
             id="AppDefinitionAnsibleParamSelection"
             dialogClassName="param_selection_modal"
-            title={__("Ansible variables for Application Definition")}
+            title={__('Ansible variables for Application Definition')}
           >
             <ForemanModal.Header closeButton={false}>
               Parameter definition
             </ForemanModal.Header>
             {this.props.parametersData ? (
               <ParameterSelection
-                editModeCallback={ (hide) => changeParameterSelectionMode({ mode: hide })}
-                paramType={ PARAMETER_SELECTION_PARAM_TYPE_ANSIBLE }
-                location={ location }
-                organization={ organization }
-                data={ this.props.parametersData }
+                editModeCallback={hide =>
+                  changeParameterSelectionMode({ mode: hide })
+                }
+                paramType={PARAMETER_SELECTION_PARAM_TYPE_ANSIBLE}
+                location={location}
+                organization={organization}
+                data={this.props.parametersData}
               />
-            ) : (<span>Empty</span>)
-            }
+            ) : (
+              <span>Empty</span>
+            )}
             <ForemanModal.Footer>
               <div>
-                <Button bsStyle="primary" disabled={this.props.paramEditMode} onClick={() => closeAnsibleParameterSelectionModal({ mode: 'save' })}>{__("Save")}</Button>
-                <Button bsStyle="default" disabled={this.props.paramEditMode} onClick={() => closeAnsibleParameterSelectionModal({ mode: 'cancel' })}>{__("Cancel")}</Button>
+                <Button
+                  bsStyle="primary"
+                  disabled={this.props.paramEditMode}
+                  onClick={() =>
+                    closeAnsibleParameterSelectionModal({ mode: 'save' })
+                  }
+                >
+                  {__('Save')}
+                </Button>
+                <Button
+                  bsStyle="default"
+                  disabled={this.props.paramEditMode}
+                  onClick={() =>
+                    closeAnsibleParameterSelectionModal({ mode: 'cancel' })
+                  }
+                >
+                  {__('Cancel')}
+                </Button>
               </div>
             </ForemanModal.Footer>
           </ForemanModal>
         </div>
         <RailsData
-          key='application_definition_services_data'
-          view='app_definition'
-          parameter='services'
+          key="application_definition_services_data"
+          view="app_definition"
+          parameter="services"
           value={JSON.stringify(this.props.services)}
         />
         <RailsData
-          key='application_definition_ansible_data'
-          view='app_definition'
-          parameter='ansible_vars_all'
+          key="application_definition_ansible_data"
+          view="app_definition"
+          parameter="ansible_vars_all"
           value={JSON.stringify(this.props.ansibleVarsAll)}
         />
       </span>
-    )};
+    );
+  }
 }
 
 ApplicationDefinition.defaultProps = {
-  error: {},
   showAlertModal: false,
   alertModalText: '',
   alertModalTitle: '',
   editMode: false,
-  ansiblePlaybook: { "id": '', "name": '' },
+  ansiblePlaybook: { id: '', name: '' },
   services: [],
   ansibleVarsAll: [],
   parametersData: {},
   columns: [],
   hiddenForemanParameterTypes: [],
-  editParamsOfRowId: null,
   paramEditMode: false,
-}
+  deleteApplicationDefinitionService: undefined,
+  activateEditApplicationDefinitionService: undefined,
+  confirmEditApplicationDefinitionService: undefined,
+  cancelEditApplicationDefinitionService: undefined,
+  changeEditApplicationDefinitionService: undefined,
+  openForemanParameterSelectionModal: undefined,
+  closeForemanParameterSelectionModal: undefined,
+  openAnsibleParameterSelectionModal: undefined,
+  closeAnsibleParameterSelectionModal: undefined,
+  changeParameterSelectionMode: undefined,
+};
 
 ApplicationDefinition.propTypes = {
-  initApplicationDefinition: PropTypes.func,
+  data: PropTypes.object.isRequired,
+  loadAnsibleData: PropTypes.func.isRequired,
+  initApplicationDefinition: PropTypes.func.isRequired,
   showAlertModal: PropTypes.bool,
   alertModalText: PropTypes.string,
   alertModalTitle: PropTypes.string,
-  editMode: PropTypes.bool.isRequired,
+  editMode: PropTypes.bool,
   ansiblePlaybook: PropTypes.object,
   services: PropTypes.array,
   ansibleVarsAll: PropTypes.array,
   columns: PropTypes.array,
   hiddenForemanParameterTypes: PropTypes.array,
-  closeAlertModal: PropTypes.func,
-  addApplicationDefinitionService: PropTypes.func,
+  closeAlertModal: PropTypes.func.isRequired,
+  addApplicationDefinitionService: PropTypes.func.isRequired,
   deleteApplicationDefinitionService: PropTypes.func,
   activateEditApplicationDefinitionService: PropTypes.func,
   confirmEditApplicationDefinitionService: PropTypes.func,

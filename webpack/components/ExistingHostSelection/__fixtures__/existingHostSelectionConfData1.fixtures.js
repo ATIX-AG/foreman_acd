@@ -1,37 +1,31 @@
-import Immutable from 'seamless-immutable';
-
-import { existingHostSelectionConfData1 } from '../__fixtures__/existingHostSelectionConfData1.fixtures';
-
-export const successState = Immutable(existingHostSelectionConfData1);
-
-export const initExistingHostSelectionPayload = {
-  payload: {
-    serviceId: 2,
-    alreadyUsedHosts: [
-      {
-        value: 5,
-        label: 'isaac-anselm',
-        disabled: true,
-        tooltipText: 'Host already used for this application instance',
-      },
-    ],
-    selectedHosts: [],
-    hostsInHostgroup: {},
+export const existingHostSelectionConfData1 = {
+  serviceId: 2,
+  error: {
+    errorMsg: '',
+    status: '',
+    statusText: '',
   },
-};
-
-export const existingHostSelectionSelectionChangedPayload = {
-  selection: [
+  allHosts: [
     {
-      label: 'isaar-anselm',
-      value: 3,
+      id: 5,
+      hostname: 'isaac-anselm',
+      service: '1',
+      description: '',
+      foremanParameters: [],
+      ansibleParameters: [],
     },
   ],
-};
-
-export const loadExistingHostSelectionSuccessPayload = {
-  hosts: [
+  alreadyUsedHosts: [
     {
+      value: 'isaac-anselm',
+      label: 'isaac-anselm',
+      disabled: true,
+      tooltipText: 'Host already used for this application instance',
+    },
+  ],
+  selectedHosts: [],
+  hostsInHostgroup: {
+    '3': {
       ip: null,
       ip6: '',
       environment_id: null,
@@ -107,7 +101,7 @@ export const loadExistingHostSelectionSuccessPayload = {
       hostgroup_name: 'base',
       hostgroup_title: 'base',
     },
-    {
+    '7': {
       ip: null,
       ip6: null,
       environment_id: null,
@@ -183,10 +177,11 @@ export const loadExistingHostSelectionSuccessPayload = {
       hostgroup_name: 'base',
       hostgroup_title: 'base',
     },
+  },
+  availableHosts: [
+    {
+      value: 'lllllll',
+      label: 'lllllll',
+    },
   ],
-  serviceId: 1,
-};
-
-export const loadExistingHostSelectionFailurePayload = {
-  error: 'Something really bad happend',
 };

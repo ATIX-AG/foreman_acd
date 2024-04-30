@@ -7,9 +7,7 @@ import {
   selectGitUrl,
 } from '../SyncGitRepoSelectors';
 
-import {
-  syncGitRepoConfData_1,
-} from '../__fixtures__/syncGitRepoConfData_1.fixtures';
+import { syncGitRepoConfData1 } from '../__fixtures__/syncGitRepoConfData1.fixtures';
 
 const stateFactory = obj => ({
   foremanAcd: {
@@ -18,14 +16,14 @@ const stateFactory = obj => ({
 });
 
 const fixtures = {
-  'should return scmType from syncGitRepoConfData_1 fixtures': () =>
-    selectScmType(stateFactory(syncGitRepoConfData_1)),
-  'should return path from syncGitRepoConfData_1 fixtures': () =>
-    selectPath(stateFactory(syncGitRepoConfData_1)),
-  'should return gitCommit from syncGitRepoConfData_1 fixtures': () =>
-    selectGitCommit(stateFactory(syncGitRepoConfData_1)),
-  'should return gitUrl from syncGitRepoConfData_1 fixtures': () =>
-    selectGitUrl(stateFactory(syncGitRepoConfData_1)),
+  'should return scmType from syncGitRepoConfData1 fixtures': () =>
+    selectScmType(stateFactory(syncGitRepoConfData1)),
+  'should return path from syncGitRepoConfData1 fixtures': () =>
+    selectPath(stateFactory(syncGitRepoConfData1)),
+  'should return gitCommit from syncGitRepoConfData1 fixtures': () =>
+    selectGitCommit(stateFactory(syncGitRepoConfData1)),
+  'should return gitUrl from syncGitRepoConfData1 fixtures': () =>
+    selectGitUrl(stateFactory(syncGitRepoConfData1)),
 };
 
 describe('SyncGitRepoSelectors', () =>

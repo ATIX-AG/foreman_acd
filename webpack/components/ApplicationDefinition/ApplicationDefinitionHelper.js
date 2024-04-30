@@ -1,22 +1,22 @@
 export function transformAnsiblePlaybook(playbook) {
-
-  const ansiblePlaybook = new Object;
-  ansiblePlaybook.id = playbook.id;
-  ansiblePlaybook.name = playbook.name;
-  ansiblePlaybook.groups = {};
+  const ansiblePlaybook = {
+    id: playbook.id,
+    name: playbook.name,
+    groups: {},
+  };
 
   if (playbook.hasOwnProperty('groups')) {
-    Object.entries(playbook.groups).forEach(([group_name,group_vars]) => {
-      ansiblePlaybook.groups[group_name] = [];
+    Object.entries(playbook.groups).forEach(([groupName, groupVars]) => {
+      ansiblePlaybook.groups[groupName] = [];
 
-      let id=0;
-      Object.entries(group_vars).forEach(([var_name,var_value]) => {
-        let entry = {
-          id: id,
-          name: var_name,
-          value: var_value
-        }
-        ansiblePlaybook.groups[group_name].push(entry);
+      let id = 0;
+      Object.entries(groupVars).forEach(([varName, varValue]) => {
+        const entry = {
+          id,
+          name: varName,
+          value: varValue,
+        };
+        ansiblePlaybook.groups[groupName].push(entry);
         id += 1;
       });
     });

@@ -8,9 +8,7 @@ import {
   selectHostsInHostgroup,
 } from '../ExistingHostSelectionSelectors';
 
-import {
-  existingHostSelectionConfData_1,
-} from '../__fixtures__/existingHostSelectionConfData_1.fixtures';
+import { existingHostSelectionConfData1 } from '../__fixtures__/existingHostSelectionConfData1.fixtures';
 
 const stateFactory = obj => ({
   foremanAcd: {
@@ -19,18 +17,17 @@ const stateFactory = obj => ({
 });
 
 const fixtures = {
-  'should return serviceId from existingHostSelectionConfData_1 fixtures': () =>
-    selectServiceId(stateFactory(existingHostSelectionConfData_1)),
-  'should return availableHosts from existingHostSelectionConfData_1 fixtures': () =>
-    selectAvailableHosts(stateFactory(existingHostSelectionConfData_1)),
-  'should return alreadyUsedHosts from existingHostSelectionConfData_1 fixtures': () =>
-    selectAlreadyUsedHosts(stateFactory(existingHostSelectionConfData_1)),
-  'should return selectedHosts from existingHostSelectionConfData_1 fixtures': () =>
-    selectSelectedHosts(stateFactory(existingHostSelectionConfData_1)),
-  'should return hostsInHostgroup from existingHostSelectionConfData_1 fixtures': () =>
-    selectHostsInHostgroup(stateFactory(existingHostSelectionConfData_1)),
+  'should return serviceId from existingHostSelectionConfData1 fixtures': () =>
+    selectServiceId(stateFactory(existingHostSelectionConfData1)),
+  'should return availableHosts from existingHostSelectionConfData1 fixtures': () =>
+    selectAvailableHosts(stateFactory(existingHostSelectionConfData1)),
+  'should return alreadyUsedHosts from existingHostSelectionConfData1 fixtures': () =>
+    selectAlreadyUsedHosts(stateFactory(existingHostSelectionConfData1)),
+  'should return selectedHosts from existingHostSelectionConfData1 fixtures': () =>
+    selectSelectedHosts(stateFactory(existingHostSelectionConfData1)),
+  'should return hostsInHostgroup from existingHostSelectionConfData1 fixtures': () =>
+    selectHostsInHostgroup(stateFactory(existingHostSelectionConfData1)),
 };
 
 describe('ExistingHostSelectionSelectors', () =>
   testSelectorsSnapshotWithFixtures(fixtures));
-

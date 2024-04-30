@@ -1,68 +1,68 @@
-export const parameterSelectionData_1 = {
+export const parameterSelectionData1 = {
   editMode: false,
   error: {
     errorMsg: '',
     status: '',
-    statusText: ''
+    statusText: '',
   },
   paramData: {
     hostgroup_id: 1,
     environments: [
       {
         id: 1,
-        name: 'production'
-      }
+        name: 'production',
+      },
     ],
     lifecycle_environments: [
       {
         id: 1,
-        name: 'Library'
-      }
+        name: 'Library',
+      },
     ],
     domains: [
       {
         id: 1,
-        name: 'deploy3.dev.atix'
-      }
+        name: 'deploy3.dev.atix',
+      },
     ],
     computeprofiles: [
       {
         id: 1,
-        name: '1-Small'
+        name: '1-Small',
       },
       {
         id: 2,
-        name: '2-Medium'
+        name: '2-Medium',
       },
       {
         id: 3,
-        name: '3-Large'
+        name: '3-Large',
       },
       {
         id: 4,
-        name: 'Orchahosts-VM'
-      }
+        name: 'Orchahosts-VM',
+      },
     ],
     ptables: [
       {
         id: 125,
-        name: 'Kickstart default'
-      }
+        name: 'Kickstart default',
+      },
     ],
-    dataType: 'PARAMETER_SELECTION_PARAM_TYPE_FOREMAN'
+    dataType: 'PARAMETER_SELECTION_PARAM_TYPE_FOREMAN',
   },
   hostgroupId: 1,
   loading: false,
   sortingColumns: {
     name: {
       direction: 'asc',
-      position: 0
-    }
+      position: 0,
+    },
   },
   paramDefinition: {
     id: 1,
     name: 'web',
-    dataId: '1'
+    dataId: '1',
   },
   columns: [
     {
@@ -72,25 +72,17 @@ export const parameterSelectionData_1 = {
         props: {
           sort: true,
           style: {
-            width: '25%'
+            width: '25%',
           },
-          index: 0
+          index: 0,
         },
-        transforms: [
-          null
-        ],
-        formatters: [
-          null
-        ],
-        customFormatters: [
-          null
-        ]
+        transforms: [null],
+        formatters: [null],
+        customFormatters: [null],
       },
       cell: {
-        formatters: [
-          null
-        ]
-      }
+        formatters: [null],
+      },
     },
     {
       property: 'description',
@@ -99,28 +91,20 @@ export const parameterSelectionData_1 = {
         props: {
           sort: true,
           style: {
-            width: '25%'
+            width: '25%',
           },
-          index: 1
+          index: 1,
         },
-        transforms: [
-          null
-        ],
-        formatters: [
-          null
-        ],
-        customFormatters: [
-          null
-        ]
+        transforms: [null],
+        formatters: [null],
+        customFormatters: [null],
       },
       cell: {
         props: {
-          index: 1
+          index: 1,
         },
-        formatters: [
-          null
-        ]
-      }
+        formatters: [null],
+      },
     },
     {
       property: 'type',
@@ -129,25 +113,17 @@ export const parameterSelectionData_1 = {
         props: {
           sort: true,
           style: {
-            width: '20%'
+            width: '20%',
           },
-          index: 2
+          index: 2,
         },
-        transforms: [
-          null
-        ],
-        formatters: [
-          null
-        ],
-        customFormatters: [
-          null
-        ]
+        transforms: [null],
+        formatters: [null],
+        customFormatters: [null],
       },
       cell: {
-        formatters: [
-          null
-        ]
-      }
+        formatters: [null],
+      },
     },
     {
       property: 'value',
@@ -156,25 +132,17 @@ export const parameterSelectionData_1 = {
         props: {
           sort: true,
           style: {
-            width: '20%'
+            width: '20%',
           },
-          index: 3
+          index: 3,
         },
-        transforms: [
-          null
-        ],
-        formatters: [
-          null
-        ],
-        customFormatters: [
-          null
-        ]
+        transforms: [null],
+        formatters: [null],
+        customFormatters: [null],
       },
       cell: {
-        formatters: [
-          null
-        ]
-      }
+        formatters: [null],
+      },
     },
     {
       property: 'actions',
@@ -182,20 +150,16 @@ export const parameterSelectionData_1 = {
         label: 'Actions',
         props: {
           style: {
-            width: '10%'
+            width: '10%',
           },
-          index: 4
+          index: 4,
         },
-        formatters: [
-          null
-        ]
+        formatters: [null],
       },
       cell: {
-        formatters: [
-          null
-        ]
-      }
-    }
+        formatters: [null],
+      },
+    },
   ],
   parameters: [
     {
@@ -204,7 +168,7 @@ export const parameterSelectionData_1 = {
       name: 'CP',
       description: '',
       type: 'computeprofile',
-      value: '1'
+      value: '1',
     },
     {
       id: 2,
@@ -212,23 +176,22 @@ export const parameterSelectionData_1 = {
       name: 'LE',
       description: '',
       type: 'lifecycleenv',
-      value: '1'
-    }
+      value: '1',
+    },
   ],
-  allowedParameterTypes: [
-    'domain',
-    'hostparam',
-    'ip',
-    'ptable',
-    'puppetenv',
-    'password',
-  ],
+  allowedParameterTypes: {
+    domain: 'Domain',
+    hostparam: 'Host parameter',
+    ip: 'IP',
+    ptable: 'Partition table',
+    puppetenv: 'Puppet environment',
+  },
   parameterTypes: {
     domain: 'Domain',
     hostparam: 'Host parameter',
     ip: 'IP',
     ptable: 'Partition table',
     puppetenv: 'Puppet environment',
-    password: 'Root password'
-  }
-}
+    password: 'Root password',
+  },
+};

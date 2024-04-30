@@ -2,8 +2,6 @@
 
 exports[`ApplicationDefinitionImport should render application definition import 1`] = `
 <span>
-  <Component />
-  <Component />
   <MessageDialog
     accessibleDescription=""
     accessibleName=""
@@ -56,6 +54,122 @@ exports[`ApplicationDefinitionImport should render application definition import
     key="applications_definition_import"
     parameter="services"
     value="[]"
+    view="app_definition_import"
+  />
+</span>
+`;
+
+exports[`ApplicationDefinitionImport should render application definition import with loaded archive 1`] = `
+<span>
+  <MessageDialog
+    accessibleDescription=""
+    accessibleName=""
+    className=""
+    enforceFocus={true}
+    footer={null}
+    icon={
+      <Icon
+        name="error-circle-o"
+        type="pf"
+      />
+    }
+    onHide={[Function]}
+    primaryAction={[Function]}
+    primaryActionButtonBsStyle="danger"
+    primaryActionButtonContent="OK"
+    primaryContent=""
+    secondaryAction={[Function]}
+    secondaryActionButtonBsStyle="default"
+    secondaryActionButtonContent={null}
+    secondaryContent={null}
+    show={false}
+    title=""
+  />
+  <div>
+    <CommonForm
+      className="custom-file-upload"
+      label="Application Definition file"
+    >
+      <input
+        onChange={[Function]}
+        type="file"
+      />
+    </CommonForm>
+    <CommonForm>
+      <Button
+        active={false}
+        block={false}
+        bsClass="btn"
+        bsStyle="default"
+        disabled={false}
+        onClick={[Function]}
+      >
+        Import
+         
+      </Button>
+    </CommonForm>
+  </div>
+  <div
+    className="form-group"
+  >
+    <TablePfProvider
+      bordered={true}
+      className=""
+      columns={Array []}
+      components={
+        Object {
+          "body": Object {
+            "cell": [Function],
+          },
+        }
+      }
+      condensed={false}
+      dataTable={true}
+      hover={true}
+      inlineEdit={false}
+      striped={true}
+    >
+      <Header
+        headerRows={
+          Array [
+            Array [],
+          ]
+        }
+      />
+      <Body
+        onRow={[Function]}
+        rowKey="id"
+        rows={
+          Array [
+            Object {
+              "backup": Object {
+                "hostgroup": "",
+                "id": 1,
+                "name": "Service1",
+              },
+              "hostgroup": "",
+              "id": 1,
+              "name": "Service1",
+            },
+            Object {
+              "backup": Object {
+                "hostgroup": "",
+                "id": 2,
+                "name": "Service2",
+              },
+              "hostgroup": "",
+              "id": 2,
+              "name": "Service2",
+            },
+          ]
+        }
+      />
+    </TablePfProvider>
+  </div>
+  <RailsData
+    key="applications_definition_import"
+    parameter="services"
+    value="[{\\"id\\":1,\\"name\\":\\"Service1\\",\\"hostgroup\\":\\"\\",\\"backup\\":{\\"id\\":1,\\"name\\":\\"Service1\\",\\"hostgroup\\":\\"\\"}},{\\"id\\":2,\\"name\\":\\"Service2\\",\\"hostgroup\\":\\"\\",\\"backup\\":{\\"id\\":2,\\"name\\":\\"Service2\\",\\"hostgroup\\":\\"\\"}}]"
     view="app_definition_import"
   />
 </span>

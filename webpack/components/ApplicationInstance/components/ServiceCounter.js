@@ -1,37 +1,44 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Service from './Service';
-import { arrayToObjectObj } from '../../../helper';
-import { cloneDeep } from 'lodash';
 
-const ServiceCounter= ({
-  title,
-  serviceList,
-}) =>{
-  if (serviceList == undefined || serviceList.length == 0) {
+const ServiceCounter = ({ title, serviceList }) => {
+  if (serviceList === undefined || serviceList.length === 0) {
     return null;
   }
-  const services = cloneDeep(arrayToObjectObj(serviceList, "id"));
+  const services = serviceList.map(service => (
+    <Service
+      key={service.id}
+      name={service.name}
+      currentCount={service.currentCount}
+      minCount={Number(service.minCount)}
+      maxCount={Number(service.maxCount)}
+    />
+  ));
 
   return (
     <div>
       <label className="service-counter-title">{title}</label>
-    {Object.keys(services).map(key => (
-      <Service
-        key={services[key].id}
-        name={services[key].name}
-        currentCount={services[key].currentCount}
-        minCount={Number(services[key].minCount)}
-        maxCount={Number(services[key].maxCount)}
-      />)
-    )}
+      {services}
     </div>
   );
 };
 
 ServiceCounter.propTypes = {
   title: PropTypes.string.isRequired,
-  serviceList: PropTypes.array,
+  serviceList: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+      currentCount: PropTypes.number.isRequired,
+      minCount: PropTypes.string.isRequired,
+      maxCount: PropTypes.string.isRequired,
+    })
+  ),
+};
+
+ServiceCounter.defaultProps = {
+  serviceList: undefined,
 };
 
 export default ServiceCounter;

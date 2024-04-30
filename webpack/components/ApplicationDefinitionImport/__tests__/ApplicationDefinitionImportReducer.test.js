@@ -2,7 +2,6 @@ import { testReducerSnapshotWithFixtures } from 'react-redux-test-utils';
 import reducer, { initialState } from '../ApplicationDefinitionImportReducer';
 
 import {
-  successState,
   editState,
   initApplicationDefinitionImportPayload,
   changeEditServicePayload,
@@ -11,7 +10,6 @@ import {
 import {
   APPLICATION_DEFINITION_IMPORT_INIT,
   APPLICATION_DEFINITION_IMPORT_SERVICE_EDIT_CHANGE,
-  APPLICATION_DEFINITION_IMPORT_SERVICE_EDIT_CANCEL,
 } from '../ApplicationDefinitionImportConstants';
 
 const fixtures = {

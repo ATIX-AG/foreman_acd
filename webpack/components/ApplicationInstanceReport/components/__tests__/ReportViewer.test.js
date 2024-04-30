@@ -2,11 +2,9 @@ import { testComponentSnapshotsWithFixtures } from 'react-redux-test-utils';
 
 import ReportViewer from '../ReportViewer';
 
-const noop = () => {};
-
 const data = [
   { name: 'report 1', status: 'done' },
-  { name: 'report 2', status: 'pending' }
+  { name: 'report 2', status: 'pending' },
 ];
 
 const fixtures = {

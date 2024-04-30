@@ -1,12 +1,6 @@
 import Immutable from 'seamless-immutable';
 
-import {
-  cloneDeep,
-  findIndex,
-  findLastIndex,
-} from 'lodash';
-
-import { translate as __ } from 'foremanReact/common/I18n';
+import { cloneDeep, findIndex } from 'lodash';
 
 import {
   APPLICATION_DEFINITION_IMPORT_INIT,
@@ -48,29 +42,29 @@ const applicationDefinitionImportConf = (state = initialState, action) => {
     }
 
     case APPLICATION_DEFINITION_IMPORT_FILE_FAILURE: {
-       return state.merge({ error: payload.error, loading: false });
-     }
-     case APPLICATION_DEFINITION_IMPORT_FILE_REQUEST: {
-       return state.set('loading', true);
-     }
-     case APPLICATION_DEFINITION_IMPORT_FILE_SUCCESS: {
-       let newState = {};
-       let ansibleServices = [];
-       const ansiblePlaybookServices = payload.ansiblePlaybookServices['ansible_services'];
+      return state.merge({ error: payload.error, loading: false });
+    }
+    case APPLICATION_DEFINITION_IMPORT_FILE_REQUEST: {
+      return state.set('loading', true);
+    }
+    case APPLICATION_DEFINITION_IMPORT_FILE_SUCCESS: {
+      let newState = {};
+      const ansibleServices = [];
+      const ansiblePlaybookServices =
+        payload.ansiblePlaybookServices.ansible_services;
 
-       for (var ind in ansiblePlaybookServices) {
-         const value = ansiblePlaybookServices[ind];
-         const newRow = { id: value['id'], name: value['value'], hostgroup: '' };
-         newRow.backup = cloneDeep(newRow);
-         ansibleServices.push(newRow);
-       }
+      ansiblePlaybookServices.forEach(value => {
+        const newRow = { id: value.id, name: value.value, hostgroup: '' };
+        newRow.backup = cloneDeep(newRow);
+        ansibleServices.push(newRow);
+      });
 
-       newState = {
-         ansiblePlaybookServices: ansibleServices,
-       };
+      newState = {
+        ansiblePlaybookServices: ansibleServices,
+      };
 
-       return state.merge(newState);
-     }
+      return state.merge(newState);
+    }
     default:
       return state;
   }

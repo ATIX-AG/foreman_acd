@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ParameterSelectionSelectors should return ParamDefinition from parameterSelectionData_1 fixtures 1`] = `
+exports[`ParameterSelectionSelectors should return ParamDefinition from parameterSelectionData1 fixtures 1`] = `
 Object {
   "dataId": "1",
   "id": 1,
@@ -8,18 +8,17 @@ Object {
 }
 `;
 
-exports[`ParameterSelectionSelectors should return allowedParameterTypes from parameterSelectionData_1 fixtures 1`] = `
-Array [
-  "domain",
-  "hostparam",
-  "ip",
-  "ptable",
-  "puppetenv",
-  "password",
-]
+exports[`ParameterSelectionSelectors should return allowedParameterTypes from parameterSelectionData1 fixtures 1`] = `
+Object {
+  "domain": "Domain",
+  "hostparam": "Host parameter",
+  "ip": "IP",
+  "ptable": "Partition table",
+  "puppetenv": "Puppet environment",
+}
 `;
 
-exports[`ParameterSelectionSelectors should return columns from parameterSelectionData_1 fixtures 1`] = `
+exports[`ParameterSelectionSelectors should return columns from parameterSelectionData1 fixtures 1`] = `
 Array [
   Object {
     "cell": Object {
@@ -155,15 +154,15 @@ Array [
 ]
 `;
 
-exports[`ParameterSelectionSelectors should return editMode from parameterSelectionData_1 fixtures 1`] = `false`;
+exports[`ParameterSelectionSelectors should return editMode from parameterSelectionData1 fixtures 1`] = `false`;
 
-exports[`ParameterSelectionSelectors should return editParamsRowIndex from parameterSelectionData_1 fixtures 1`] = `undefined`;
+exports[`ParameterSelectionSelectors should return editParamsRowIndex from parameterSelectionData1 fixtures 1`] = `undefined`;
 
-exports[`ParameterSelectionSelectors should return hostgroupId from parameterSelectionData_1 fixtures 1`] = `1`;
+exports[`ParameterSelectionSelectors should return hostgroupId from parameterSelectionData1 fixtures 1`] = `1`;
 
-exports[`ParameterSelectionSelectors should return loading from parameterSelectionData_1 fixtures 1`] = `false`;
+exports[`ParameterSelectionSelectors should return loading from parameterSelectionData1 fixtures 1`] = `false`;
 
-exports[`ParameterSelectionSelectors should return paramData from parameterSelectionData_1 fixtures 1`] = `
+exports[`ParameterSelectionSelectors should return paramData from parameterSelectionData1 fixtures 1`] = `
 Object {
   "computeprofiles": Array [
     Object {
@@ -212,7 +211,7 @@ Object {
 }
 `;
 
-exports[`ParameterSelectionSelectors should return parameterTypes from parameterSelectionData_1 fixtures 1`] = `
+exports[`ParameterSelectionSelectors should return parameterTypes from parameterSelectionData1 fixtures 1`] = `
 Object {
   "domain": "Domain",
   "hostparam": "Host parameter",
@@ -223,7 +222,7 @@ Object {
 }
 `;
 
-exports[`ParameterSelectionSelectors should return parameters from parameterSelectionData_1 fixtures 1`] = `
+exports[`ParameterSelectionSelectors should return parameters from parameterSelectionData1 fixtures 1`] = `
 Array [
   Object {
     "description": "",
@@ -244,7 +243,7 @@ Array [
 ]
 `;
 
-exports[`ParameterSelectionSelectors should return sortingColumns from parameterSelectionData_1 fixtures 1`] = `
+exports[`ParameterSelectionSelectors should return sortingColumns from parameterSelectionData1 fixtures 1`] = `
 Object {
   "name": Object {
     "direction": "asc",

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ApplicationInstance should render application instance 1`] = `
+exports[`ApplicationInstance should render editInstance 1`] = `
 <span>
   <MessageDialog
     accessibleDescription=""
@@ -129,7 +129,611 @@ exports[`ApplicationInstance should render application instance 1`] = `
         }
       }
     >
-      Ansible group vars 'all':
+      Ansible group vars ‘all’:
+      <Button
+        active={false}
+        block={false}
+        bsClass="btn"
+        bsStyle="default"
+        disabled={true}
+        onClick={[Function]}
+        style={
+          Object {
+            "marginLeft": 10,
+          }
+        }
+      >
+        <span
+          title="Change ansible variables for 'all'"
+        >
+          A
+        </span>
+      </Button>
+    </span>
+  </div>
+  <div>
+    <ForemanModal
+      dialogClassName="param_selection_modal"
+      id="AppInstanceForemanParamSelection"
+      title="Foreman Parameter specification for Application Instance"
+    >
+      <Header
+        closeButton={false}
+      >
+        Parameter specification
+      </Header>
+      <Connect(ParameterSelection)
+        data={Object {}}
+        editModeCallback={[Function]}
+        hiddenParameterTypes={Array []}
+        location="Default Location"
+        organization="Default Organization"
+        paramType="PARAMETER_SELECTION_PARAM_TYPE_FOREMAN"
+      />
+      <Footer>
+        <div>
+          <Button
+            active={false}
+            block={false}
+            bsClass="btn"
+            bsStyle="primary"
+            disabled={false}
+            onClick={[Function]}
+          >
+            Save
+          </Button>
+          <Button
+            active={false}
+            block={false}
+            bsClass="btn"
+            bsStyle="default"
+            disabled={false}
+            onClick={[Function]}
+          >
+            Cancel
+          </Button>
+        </div>
+      </Footer>
+    </ForemanModal>
+  </div>
+  <div>
+    <ForemanModal
+      dialogClassName="param_selection_modal"
+      id="AppInstanceAnsibleParamSelection"
+      title="Ansible group variables for Application Instance"
+    >
+      <Header
+        closeButton={false}
+      >
+        Parameter specification
+      </Header>
+      <Connect(ParameterSelection)
+        data={Object {}}
+        editModeCallback={[Function]}
+        location="Default Location"
+        organization="Default Organization"
+        paramType="PARAMETER_SELECTION_PARAM_TYPE_ANSIBLE"
+      />
+      <Footer>
+        <div>
+          <Button
+            active={false}
+            block={false}
+            bsClass="btn"
+            bsStyle="primary"
+            disabled={false}
+            onClick={[Function]}
+          >
+            Save
+          </Button>
+          <Button
+            active={false}
+            block={false}
+            bsClass="btn"
+            bsStyle="default"
+            disabled={false}
+            onClick={[Function]}
+          >
+            Cancel
+          </Button>
+        </div>
+      </Footer>
+    </ForemanModal>
+  </div>
+  <div>
+    <ForemanModal
+      dialogClassName="add_existing_hosts_modal"
+      id="AppInstanceAddExistingHosts"
+      title="Add existing hosts to an Application Instance"
+    >
+      <Header
+        closeButton={false}
+      >
+        Existing hosts selection
+      </Header>
+      <Connect(ExistingHostSelection)
+        allHosts={Array []}
+        location="Default Location"
+        organization="Default Organization"
+        services={Array []}
+      />
+      <Footer>
+        <div>
+          <Button
+            active={false}
+            block={false}
+            bsClass="btn"
+            bsStyle="primary"
+            disabled={false}
+            onClick={[Function]}
+          >
+            Save
+          </Button>
+          <Button
+            active={false}
+            block={false}
+            bsClass="btn"
+            bsStyle="default"
+            disabled={false}
+            onClick={[Function]}
+          >
+            Cancel
+          </Button>
+        </div>
+      </Footer>
+    </ForemanModal>
+  </div>
+  <div />
+  <RailsData
+    key="application_instance_hosts_data"
+    parameter="hosts"
+    value="[]"
+    view="app_instance"
+  />
+  <RailsData
+    key="application_instance_ansible_data"
+    parameter="ansible_vars_all"
+    value="[]"
+    view="app_instance"
+  />
+</span>
+`;
+
+exports[`ApplicationInstance should render newInstance 1`] = `
+<span>
+  <MessageDialog
+    accessibleDescription=""
+    accessibleName=""
+    className=""
+    enforceFocus={true}
+    footer={null}
+    icon={
+      <Icon
+        name="error-circle-o"
+        type="pf"
+      />
+    }
+    onHide={[Function]}
+    primaryAction={[Function]}
+    primaryActionButtonBsStyle="danger"
+    primaryActionButtonContent="OK"
+    primaryContent=""
+    secondaryAction={[Function]}
+    secondaryActionButtonBsStyle="default"
+    secondaryActionButtonContent={null}
+    secondaryContent={null}
+    show={false}
+    title=""
+  />
+  <div
+    className="service-counter"
+  >
+    <ServiceCounter
+      hostList={Array []}
+      serviceList={Array []}
+      title="Service counts"
+    />
+  </div>
+  <div>
+    <AppDefinitionSelector
+      additionalData={
+        Object {
+          "url": undefined,
+        }
+      }
+      editable={true}
+      hidden={false}
+      label="Application Definition"
+      onChange={[Function]}
+      options={
+        Object {
+          "1": "dummy-definition",
+          "2": "test-definition",
+        }
+      }
+      selectValue=""
+      viewText=""
+    />
+    <div
+      style={
+        Object {
+          "paddingTop": 25,
+        }
+      }
+    >
+      <pre>
+        App Definition can't be blank
+      </pre>
+    </div>
+  </div>
+  <div
+    className="form-group"
+  >
+    <TablePfProvider
+      bordered={true}
+      className=""
+      columns={Array []}
+      components={
+        Object {
+          "body": Object {
+            "cell": [Function],
+            "row": [Function],
+          },
+        }
+      }
+      condensed={false}
+      dataTable={true}
+      hover={true}
+      inlineEdit={true}
+      striped={true}
+    >
+      <Header
+        headerRows={
+          Array [
+            Array [],
+          ]
+        }
+      />
+      <Body
+        onRow={[Function]}
+        rowKey="id"
+        rows={Array []}
+      />
+    </TablePfProvider>
+    <AddTableEntry
+      disabled={true}
+      hidden={false}
+      onAddTableEntry={[Function]}
+    />
+    <span
+      style={
+        Object {
+          "marginLeft": 10,
+        }
+      }
+    >
+      <Button
+        active={false}
+        block={false}
+        bsClass="btn"
+        bsStyle="default"
+        disabled={true}
+        onClick={[Function]}
+      >
+        <Icon
+          name="server"
+          title="Add existing hosts"
+          type="pf"
+        />
+      </Button>
+    </span>
+    <span
+      style={
+        Object {
+          "marginLeft": 30,
+        }
+      }
+    >
+      Ansible group vars ‘all’:
+      <Button
+        active={false}
+        block={false}
+        bsClass="btn"
+        bsStyle="default"
+        disabled={true}
+        onClick={[Function]}
+        style={
+          Object {
+            "marginLeft": 10,
+          }
+        }
+      >
+        <span
+          title="Change ansible variables for 'all'"
+        >
+          A
+        </span>
+      </Button>
+    </span>
+  </div>
+  <div>
+    <ForemanModal
+      dialogClassName="param_selection_modal"
+      id="AppInstanceForemanParamSelection"
+      title="Foreman Parameter specification for Application Instance"
+    >
+      <Header
+        closeButton={false}
+      >
+        Parameter specification
+      </Header>
+      <Connect(ParameterSelection)
+        data={Object {}}
+        editModeCallback={[Function]}
+        hiddenParameterTypes={Array []}
+        location="Default Location"
+        organization="Default Organization"
+        paramType="PARAMETER_SELECTION_PARAM_TYPE_FOREMAN"
+      />
+      <Footer>
+        <div>
+          <Button
+            active={false}
+            block={false}
+            bsClass="btn"
+            bsStyle="primary"
+            disabled={false}
+            onClick={[Function]}
+          >
+            Save
+          </Button>
+          <Button
+            active={false}
+            block={false}
+            bsClass="btn"
+            bsStyle="default"
+            disabled={false}
+            onClick={[Function]}
+          >
+            Cancel
+          </Button>
+        </div>
+      </Footer>
+    </ForemanModal>
+  </div>
+  <div>
+    <ForemanModal
+      dialogClassName="param_selection_modal"
+      id="AppInstanceAnsibleParamSelection"
+      title="Ansible group variables for Application Instance"
+    >
+      <Header
+        closeButton={false}
+      >
+        Parameter specification
+      </Header>
+      <Connect(ParameterSelection)
+        data={Object {}}
+        editModeCallback={[Function]}
+        location="Default Location"
+        organization="Default Organization"
+        paramType="PARAMETER_SELECTION_PARAM_TYPE_ANSIBLE"
+      />
+      <Footer>
+        <div>
+          <Button
+            active={false}
+            block={false}
+            bsClass="btn"
+            bsStyle="primary"
+            disabled={false}
+            onClick={[Function]}
+          >
+            Save
+          </Button>
+          <Button
+            active={false}
+            block={false}
+            bsClass="btn"
+            bsStyle="default"
+            disabled={false}
+            onClick={[Function]}
+          >
+            Cancel
+          </Button>
+        </div>
+      </Footer>
+    </ForemanModal>
+  </div>
+  <div>
+    <ForemanModal
+      dialogClassName="add_existing_hosts_modal"
+      id="AppInstanceAddExistingHosts"
+      title="Add existing hosts to an Application Instance"
+    >
+      <Header
+        closeButton={false}
+      >
+        Existing hosts selection
+      </Header>
+      <Connect(ExistingHostSelection)
+        allHosts={Array []}
+        location="Default Location"
+        organization="Default Organization"
+        services={Array []}
+      />
+      <Footer>
+        <div>
+          <Button
+            active={false}
+            block={false}
+            bsClass="btn"
+            bsStyle="primary"
+            disabled={false}
+            onClick={[Function]}
+          >
+            Save
+          </Button>
+          <Button
+            active={false}
+            block={false}
+            bsClass="btn"
+            bsStyle="default"
+            disabled={false}
+            onClick={[Function]}
+          >
+            Cancel
+          </Button>
+        </div>
+      </Footer>
+    </ForemanModal>
+  </div>
+  <div />
+  <RailsData
+    key="application_instance_hosts_data"
+    parameter="hosts"
+    value="[]"
+    view="app_instance"
+  />
+  <RailsData
+    key="application_instance_ansible_data"
+    parameter="ansible_vars_all"
+    value="[]"
+    view="app_instance"
+  />
+</span>
+`;
+
+exports[`ApplicationInstance should render without optional-values 1`] = `
+<span>
+  <MessageDialog
+    accessibleDescription=""
+    accessibleName=""
+    className=""
+    enforceFocus={true}
+    footer={null}
+    icon={
+      <Icon
+        name="error-circle-o"
+        type="pf"
+      />
+    }
+    onHide={[Function]}
+    primaryAction={[Function]}
+    primaryActionButtonBsStyle="danger"
+    primaryActionButtonContent="OK"
+    primaryContent=""
+    secondaryAction={[Function]}
+    secondaryActionButtonBsStyle="default"
+    secondaryActionButtonContent={null}
+    secondaryContent={null}
+    show={false}
+    title=""
+  />
+  <div
+    className="service-counter"
+  >
+    <ServiceCounter
+      hostList={Array []}
+      serviceList={Array []}
+      title="Service counts"
+    />
+  </div>
+  <div>
+    <AppDefinitionSelector
+      additionalData={
+        Object {
+          "url": undefined,
+        }
+      }
+      editable={false}
+      hidden={false}
+      label="Application Definition"
+      onChange={[Function]}
+      selectValue=""
+      viewText=""
+    />
+    <div
+      style={
+        Object {
+          "paddingTop": 25,
+        }
+      }
+    >
+      <pre>
+        App Definition can't be blank
+      </pre>
+    </div>
+  </div>
+  <div
+    className="form-group"
+  >
+    <TablePfProvider
+      bordered={true}
+      className=""
+      columns={Array []}
+      components={
+        Object {
+          "body": Object {
+            "cell": [Function],
+            "row": [Function],
+          },
+        }
+      }
+      condensed={false}
+      dataTable={true}
+      hover={true}
+      inlineEdit={true}
+      striped={true}
+    >
+      <Header
+        headerRows={
+          Array [
+            Array [],
+          ]
+        }
+      />
+      <Body
+        onRow={[Function]}
+        rowKey="id"
+        rows={Array []}
+      />
+    </TablePfProvider>
+    <AddTableEntry
+      disabled={true}
+      hidden={false}
+      onAddTableEntry={[Function]}
+    />
+    <span
+      style={
+        Object {
+          "marginLeft": 10,
+        }
+      }
+    >
+      <Button
+        active={false}
+        block={false}
+        bsClass="btn"
+        bsStyle="default"
+        disabled={true}
+        onClick={[Function]}
+      >
+        <Icon
+          name="server"
+          title="Add existing hosts"
+          type="pf"
+        />
+      </Button>
+    </span>
+    <span
+      style={
+        Object {
+          "marginLeft": 30,
+        }
+      }
+    >
+      Ansible group vars ‘all’:
       <Button
         active={false}
         block={false}

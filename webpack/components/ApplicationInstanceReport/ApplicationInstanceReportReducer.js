@@ -1,12 +1,6 @@
 import Immutable from 'seamless-immutable';
 
 import {
-  cloneDeep,
-  findIndex,
-  findLastIndex,
-} from 'lodash';
-
-import {
   APPLICATION_INSTANCE_REPORT_INIT,
   APPLICATION_INSTANCE_REPORT_SET_ACTIVE_HOST,
   APPLICATION_INSTANCE_REPORT_LOAD_REPORT_REQUEST,
@@ -28,13 +22,13 @@ const applicationInstanceReport = (state = initialState, action) => {
     }
     case APPLICATION_INSTANCE_REPORT_SET_ACTIVE_HOST: {
       return state.merge({
-        loading: true,
         activeHostId: payload.activeHostId,
-      })
+      });
     }
     case APPLICATION_INSTANCE_REPORT_LOAD_REPORT_REQUEST: {
-      // Nothing to do
-      return state;
+      return state.merge({
+        loading: true,
+      });
     }
     case APPLICATION_INSTANCE_REPORT_LOAD_REPORT_SUCCESS: {
       return state.merge({
@@ -42,11 +36,14 @@ const applicationInstanceReport = (state = initialState, action) => {
         initialConfigureState: payload.initialConfigureState,
         initialConfigureJobUrl: payload.initialConfigureJobUrl,
         hosts: payload.hosts,
+        loading: false,
       });
     }
     case APPLICATION_INSTANCE_REPORT_LOAD_REPORT_FAILURE: {
-      console.log("Error while loading report data: "+ payload.error);
-      return state.merge({ error: payload.error});
+      return state.merge({
+        error: payload.error,
+        loading: false,
+      });
     }
     default: {
       return state;

@@ -12,6 +12,7 @@ module.exports = {
   collectCoverage: true,
   collectCoverageFrom: [
     'webpack/**/*.js',
+    '!webpack/js-yaml.js',
     '!webpack/index.js',
     '!webpack/test_setup.js',
     '!webpack/**/bundle*',

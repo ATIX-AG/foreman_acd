@@ -4,11 +4,6 @@ import ServiceSelector from '../ServiceSelector';
 
 const noop = () => {};
 
-const data = [
-  { name: 'report 1', status: 'done' },
-  { name: 'report 2', status: 'pending' }
-];
-
 const fixtures = {
   'should render the service selector': {
     hidden: false,
@@ -16,7 +11,7 @@ const fixtures = {
     viewText: 'view service',
     selectValue: '1',
     onChange: noop,
-    options: { first: 'first', second: 'second'},
+    options: { first: 'first', second: 'second' },
     additionalData: { moreData: 'moooore' },
   },
   'should render the hidden service selector': {
@@ -25,11 +20,10 @@ const fixtures = {
     viewText: 'view service',
     selectValue: '1',
     onChange: noop,
-    options: { first: 'first', second: 'second'},
-    additionalData: { },
+    options: { first: 'first', second: 'second' },
+    additionalData: {},
   },
 };
 
 describe('ServiceSelector', () =>
   testComponentSnapshotsWithFixtures(ServiceSelector, fixtures));
-

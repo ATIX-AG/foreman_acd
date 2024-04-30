@@ -1,24 +1,26 @@
-import {
-  cloneDeep,
-} from 'lodash';
+import { cloneDeep } from 'lodash';
 
-export const transformForemanData = (fdata) => {
+export const transformForemanData = fdata => {
   if (fdata === undefined) {
-    return "";
+    return '';
   }
   const result = {};
-  fdata.map(item => result[item.id] = item.name)
-  return (result);
-}
+  fdata.forEach(item => {
+    result[item.id] = item.name;
+  });
+  return result;
+};
 
 export const filterParameterTypes = (options, parameters) => {
   const newOptions = cloneDeep(options);
 
   // hostparam can be used multiple times
-  const alreadyUsed = parameters.map(item => item["type"]).filter(item => item != 'hostparam');
+  const alreadyUsed = parameters
+    .map(item => item.type)
+    .filter(item => item !== 'hostparam');
 
   // remove already used items
-  alreadyUsed.forEach(item => delete newOptions[item])
+  alreadyUsed.forEach(item => delete newOptions[item]);
 
   return newOptions;
-}
+};

@@ -1,9 +1,9 @@
-export const applicationInstanceConfData_1 = {
+export const applicationInstanceConfData1 = {
   name: false,
   error: {
     errorMsg: '',
     status: '',
-    statusText: ''
+    statusText: '',
   },
   loading: false,
   columns: [
@@ -11,97 +11,79 @@ export const applicationInstanceConfData_1 = {
       property: 'hostname',
       header: {
         label: 'Hostname',
-        formatters: [
-          null
-        ],
+        formatters: [null],
         props: {
           index: 0,
           style: {
-            width: '30%'
-          }
-        }
+            width: '30%',
+          },
+        },
       },
       cell: {
-        formatters: [
-          null
-        ]
-      }
+        formatters: [null],
+      },
     },
     {
       property: 'description',
       header: {
         label: 'Description',
-        formatters: [
-          null
-        ],
+        formatters: [null],
         props: {
           index: 1,
           style: {
-            width: '30%'
-          }
-        }
+            width: '30%',
+          },
+        },
       },
       cell: {
-        formatters: [
-          null
-        ]
-      }
+        formatters: [null],
+      },
     },
     {
       property: 'service',
       header: {
         label: 'Service',
-        formatters: [
-          null
-        ],
+        formatters: [null],
         props: {
           index: 2,
           style: {
-            width: '20%'
-          }
-        }
+            width: '20%',
+          },
+        },
       },
       cell: {
-        formatters: [
-          null
-        ]
-      }
+        formatters: [null],
+      },
     },
     {
       property: 'actions',
       header: {
         label: 'Actions',
-        formatters: [
-          null
-        ],
+        formatters: [null],
         props: {
           index: 4,
           style: {
-            width: '20%'
-          }
-        }
+            width: '20%',
+          },
+        },
       },
       cell: {
-        formatters: [
-          null
-        ]
-      }
-    }
+        formatters: [null],
+      },
+    },
   ],
   appDefinition: {
     id: 1,
     name: 'LAMP',
     description: '',
-    services: '[{"id":1,"name":"web","description":"","hostgroup":"1","ansibleGroup":"webservers","minCount":"2","maxCount":"","foremanParameters":[{"id":1,"locked":false,"name":"CP","description":"","type":"computeprofile","value":"1"},{"id":2,"locked":true,"name":"LE","description":"","type":"lifecycleenv","value":"1"}],"ansibleParameters":[{"id":0,"name":"dummy_var","value":"0"}]},{"id":2,"name":"db","description":"","hostgroup":"1","ansibleGroup":"dbservers","minCount":"1","maxCount":"","foremanParameters":[],"ansibleParameters":[{"id":0,"name":"mysqlservice","value":"mysqld"},{"id":1,"name":"mysql_port","value":"3306","locked":true},{"id":2,"name":"dbuser","value":"webapp"},{"id":3,"name":"dbname","value":"ANSAP01"},{"id":4,"name":"upassword","value":"Bond@007"},{"id":5,"name":"masterpassword","value":"MySQL@007"}]}]',
-    ansible_vars_all: '[{"id":0,"name":"repository","value":"https://github.com/bennojoy/mywebapp.git"}]',
-    location_ids: [
-      2
-    ],
-    organization_ids: [
-      1
-    ],
+    services:
+      '[{"id":1,"name":"web","description":"","hostgroup":"1","ansibleGroup":"webservers","minCount":"2","maxCount":"","foremanParameters":[{"id":1,"locked":false,"name":"CP","description":"","type":"computeprofile","value":"1"},{"id":2,"locked":true,"name":"LE","description":"","type":"lifecycleenv","value":"1"}],"ansibleParameters":[{"id":0,"name":"dummy_var","value":"0"}]},{"id":2,"name":"db","description":"","hostgroup":"1","ansibleGroup":"dbservers","minCount":"1","maxCount":"","foremanParameters":[],"ansibleParameters":[{"id":0,"name":"mysqlservice","value":"mysqld"},{"id":1,"name":"mysql_port","value":"3306","locked":true},{"id":2,"name":"dbuser","value":"webapp"},{"id":3,"name":"dbname","value":"ANSAP01"},{"id":4,"name":"upassword","value":"Bond@007"},{"id":5,"name":"masterpassword","value":"MySQL@007"}]}]',
+    ansible_vars_all:
+      '[{"id":0,"name":"repository","value":"https://github.com/bennojoy/mywebapp.git"}]',
+    location_ids: [2],
+    organization_ids: [1],
     created_at: '2021-03-11 12:51:34 +0100',
-    updated_at: '2021-03-13 00:06:12 +0100'
+    updated_at: '2021-03-13 00:06:12 +0100',
   },
   hosts: [
     {
@@ -114,34 +96,34 @@ export const applicationInstanceConfData_1 = {
         {
           id: 0,
           name: 'mysqlservice',
-          value: 'mysqld'
+          value: 'mysqld',
         },
         {
           id: 1,
           name: 'mysql_port',
-          value: '3306'
+          value: '3306',
         },
         {
           id: 2,
           name: 'dbuser',
-          value: 'webapp'
+          value: 'webapp',
         },
         {
           id: 3,
           name: 'dbname',
-          value: 'ANSAP01'
+          value: 'ANSAP01',
         },
         {
           id: 4,
           name: 'upassword',
-          value: 'Bond@007'
+          value: 'Bond@007',
         },
         {
           id: 5,
           name: 'masterpassword',
-          value: 'MySQL@007'
-        }
-      ]
+          value: 'MySQL@007',
+        },
+      ],
     },
     {
       id: 1,
@@ -153,9 +135,9 @@ export const applicationInstanceConfData_1 = {
         {
           id: 0,
           name: 'dummy_var',
-          value: '0'
-        }
-      ]
+          value: '0',
+        },
+      ],
     },
     {
       id: 2,
@@ -167,17 +149,17 @@ export const applicationInstanceConfData_1 = {
         {
           id: 0,
           name: 'dummy_var',
-          value: '0'
-        }
-      ]
-    }
+          value: '0',
+        },
+      ],
+    },
   ],
   ansibleVarsAll: [
     {
       id: 0,
       name: 'repository',
-      value: 'https://github.com/bennojoy/mywebapp.git'
-    }
+      value: 'https://github.com/bennojoy/mywebapp.git',
+    },
   ],
   services: [
     {
@@ -195,7 +177,7 @@ export const applicationInstanceConfData_1 = {
           name: 'CP',
           description: '',
           type: 'computeprofile',
-          value: '1'
+          value: '1',
         },
         {
           id: 2,
@@ -203,17 +185,17 @@ export const applicationInstanceConfData_1 = {
           name: 'LE',
           description: '',
           type: 'lifecycleenv',
-          value: '1'
-        }
+          value: '1',
+        },
       ],
       ansibleParameters: [
         {
           id: 0,
           name: 'dummy_var',
-          value: '0'
-        }
+          value: '0',
+        },
       ],
-      currentCount: 2
+      currentCount: 2,
     },
     {
       id: 2,
@@ -228,36 +210,36 @@ export const applicationInstanceConfData_1 = {
         {
           id: 0,
           name: 'mysqlservice',
-          value: 'mysqld'
+          value: 'mysqld',
         },
         {
           id: 1,
           name: 'mysql_port',
           value: '3306',
-          locked: true
+          locked: true,
         },
         {
           id: 2,
           name: 'dbuser',
-          value: 'webapp'
+          value: 'webapp',
         },
         {
           id: 3,
           name: 'dbname',
-          value: 'ANSAP01'
+          value: 'ANSAP01',
         },
         {
           id: 4,
           name: 'upassword',
-          value: 'Bond@007'
+          value: 'Bond@007',
         },
         {
           id: 5,
           name: 'masterpassword',
-          value: 'MySQL@007'
-        }
+          value: 'MySQL@007',
+        },
       ],
-      currentCount: 1
-    }
-  ]
-}
+      currentCount: 1,
+    },
+  ],
+};
