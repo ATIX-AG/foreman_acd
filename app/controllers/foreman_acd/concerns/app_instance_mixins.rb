@@ -22,7 +22,7 @@ module ForemanAcd
             a_host.update({
               :id => foreman_host.host.id,
               :build => foreman_host.host.build,
-              :hostUrl => host_path(foreman_host.host),
+              :hostUrl => helpers.current_host_details_path(foreman_host.host),
               :isExistingHost => foreman_host.is_existing_host,
               :powerStatusUrl => power_api_host_path(foreman_host.host),
             })
