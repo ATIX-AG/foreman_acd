@@ -1,37 +1,30 @@
-module.exports = {
-  verbose: true,
-  testMatch: ['**/*.test.js'],
-  testPathIgnorePatterns: [
-    '.local',
-    '.bundle',
-    '/node_modules/',
-    '<rootDir>/foreman/',
-  ],
-  moduleDirectories: ['node_modules', 'webpack'],
-  testURL: 'http://localhost/',
-  collectCoverage: true,
-  collectCoverageFrom: [
-    'webpack/**/*.js',
-    '!webpack/js-yaml.js',
-    '!webpack/index.js',
-    '!webpack/test_setup.js',
-    '!webpack/**/bundle*',
-    '!webpack/stories/**',
-    '!webpack/**/*stories.js',
-  ],
-  coverageReporters: ['text', 'lcov'],
-  moduleNameMapper: {
-    '^.+\\.(png|gif|css|scss)$': 'identity-obj-proxy',
-  },
-  globals: {
-    __testing__: true,
-  },
-  transform: {
-    '^.+\\.js$': 'babel-jest',
-  },
-  setupFiles: [
-    'raf/polyfill',
-    'jest-prop-type-error',
-    './webpack/test_setup.js',
-  ],
-};
+const tfmConfig = require('@theforeman/test/src/pluginConfig');
+const {
+  foremanRelativePath,
+  foremanLocation,
+} = require('@theforeman/find-foreman');
+
+const foremanReactRelative = 'webpack/assets/javascripts/react_app';
+const foremanFull = foremanLocation();
+const foremanReactFull = foremanRelativePath(foremanReactRelative);
+
+// Find correct path to foremanReact so we do not have to mock it in tests
+tfmConfig.moduleNameMapper['^foremanReact(.*)$'] = `${foremanReactFull}/$1`;
+
+tfmConfig.setupFiles = ['./webpack/test_setup.js'];
+tfmConfig.setupFilesAfterEnv = [
+  './webpack/global_test_setup.js',
+  '@testing-library/jest-dom',
+];
+
+// Do not use default resolver
+tfmConfig.resolver = null;
+// Specify module dirs instead
+tfmConfig.moduleDirectories = [
+  `${foremanFull}/node_modules`,
+  `${foremanFull}/node_modules/@theforeman/vendor-core/node_modules`,
+  'node_modules',
+  'webpack/test-utils',
+];
+
+module.exports = tfmConfig;
