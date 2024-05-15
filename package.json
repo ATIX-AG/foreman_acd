@@ -9,6 +9,7 @@
   "devDependencies": {
     "@theforeman/builder": ">= 12.0.1",
     "@theforeman/eslint-plugin-foreman": ">= 12.0.1",
+    "@theforeman/find-foreman": "^13.0.0",
     "@theforeman/test": ">= 12.0.1",
     "@theforeman/vendor-dev": ">= 12.0.1",
     "babel-plugin-transform-class-properties": "^6.24.1",
@@ -31,7 +32,7 @@
     "lint-fix": "eslint --fix *.js webpack",
     "stylelint": "stylelint webpack/**/*.scss",
     "stylelint-fix": "stylelint webpack/**/*.scss --fix",
-    "test": "jest --no-cache webpack"
+    "test": "tfm-test --plugin --config jest.config.js"
   },
   "repository": {
     "type": "git",
