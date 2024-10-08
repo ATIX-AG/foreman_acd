@@ -59,26 +59,12 @@ See [Deploying Hosts using Application Centric Deployment](https://docs.theforem
 
 ## Installation
 
-See the [installation](https://theforeman.org/plugins/#2.Installation) chapter of the Foreman plugins documentation on how to install Foreman plugins.
-
-### TL;DR: 
-
-    yum install tfm-rubygem-foreman_acd
-    foreman-maintain service restart
-
-In some cases, you need to manually run
-
-    foreman-rake db:migrate
-    foreman-rake db:seed
+Check out the [Foreman documentation](https://docs.theforeman.org/nightly/Deploying_Hosts_AppCentric/index-katello.html#Installing_ACD_on_Server_application_centric_deployment) on how to install the foreman_acd plugin.
 
 ### Smart Proxy Installation
 
-You will need to install [Smart Proxy ACD](https://github.com/ATIX-AG/smart_proxy_acd), too. 
-
-    yum install tfm-rubygem-smart_proxy_acd tfm-rubygem-smart_proxy_acd_core
-    foreman-maintain service restart
-
-You need to refresh the smart proxy features in *Infrastructure > Smart Proxies > Your Smart-Proxy > Actions > Refresh* after the installation of the Smart Proxy ACD components.
+You need to install [Smart Proxy ACD](https://github.com/ATIX-AG/smart_proxy_acd), too.
+Check out the [Foreman documentation](https://docs.theforeman.org/nightly/Deploying_Hosts_AppCentric/index-katello.html#Installing_ACD_on_Smart_Proxy_application_centric_deployment) on how to install the smart_proxy_acd plugin.
 
 ### Tips
 
@@ -98,7 +84,7 @@ Store it in `/var/lib/foreman/foreman_acd/ansible-playbooks/` so that SELinux is
 ### Application Definition (for Admins)
 
 * Create an Application Definition via *Applications > Application Definitions*.
-* Select the Ansible Playbook you want to use. 
+* Select the Ansible Playbook you want to use.
 * Add new services and specify the host group you want to use.
 * Specify any values a user will be allowed to overwrite.
 You may also set a default value.
@@ -128,7 +114,7 @@ Fork and send a Pull Request. Thank you.
 
 ## Copyright
 
-Copyright (c) 2021 ATIX AG 
+Copyright (c) 2024 ATIX AG
 
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 
