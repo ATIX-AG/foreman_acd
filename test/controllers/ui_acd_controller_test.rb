@@ -13,7 +13,7 @@ module Katello
 end
 
 # UI Controller tests
-class UiAcdControllerTest < ActionController::TestCase
+class UIAcdControllerTest < ActionController::TestCase
   test 'get app json' do
     app_def = FactoryBot.create(:app_definition)
     get :app, :params => { :id => app_def.id }, :session => set_session_user

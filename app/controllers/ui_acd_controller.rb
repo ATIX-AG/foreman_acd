@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Controller to create JSON data to be used in react app
-class UiAcdController < ::Api::V2::BaseController
+class UIAcdController < ::Api::V2::BaseController
   include ::ForemanAcd::Concerns::AppInstanceMixins
 
   def app
