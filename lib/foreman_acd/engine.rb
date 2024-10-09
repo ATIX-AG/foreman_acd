@@ -9,14 +9,6 @@ module ForemanAcd
   class Engine < ::Rails::Engine
     engine_name 'foreman_acd'
 
-    config.autoload_paths += Dir["#{config.root}/app/controllers/foreman_acd/concerns"]
-    config.autoload_paths += Dir["#{config.root}/app/models"]
-    config.autoload_paths += Dir["#{config.root}/app/services"]
-    config.autoload_paths += Dir["#{config.root}/app/helpers"]
-    config.autoload_paths += Dir["#{config.root}/app/overrides"]
-    config.autoload_paths += Dir["#{config.root}/app/lib"]
-    config.autoload_paths += Dir["#{config.root}/lib"]
-
     # Add any db migrations
     initializer 'foreman_acd.load_app_instance_data' do |app|
       ForemanAcd::Engine.paths['db/migrate'].existent.each do |path|
@@ -40,8 +32,10 @@ module ForemanAcd
       Foreman::Gettext::Support.add_text_domain locale_domain, locale_dir
     end
 
-    initializer 'foreman_acd.register_plugin', :before => :finisher_hook do
-      require 'foreman_acd/plugin'
+    initializer 'foreman_acd.register_plugin', :before => :finisher_hook do |app|
+      app.reloader.to_prepare do
+        require 'foreman_acd/plugin'
+      end
     end
 
     initializer 'foreman_acd.register_actions', :before => :finisher_hook do |_app|
