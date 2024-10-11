@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Foreman::Plugin.register :foreman_acd do
-  requires_foreman '>= 2.1'
+  requires_foreman '>= 3.13'
 
   apipie_documented_controllers ["#{ForemanAcd::Engine.root}/app/controllers/foreman_acd/api/v2/*.rb"]
 
