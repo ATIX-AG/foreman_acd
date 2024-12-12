@@ -61,14 +61,13 @@ module ForemanAcd
       return :new if last_deploy_task.nil?
       return :initiated if !last_deploy_task.nil? && last_deploy_task.ended_at.nil?
 
-      state = if all_hosts_deployed?
-                :finished
-              elsif last_deploy_task.ended_at? && last_deploy_task.result != 'success'
-                :failed
-              else
-                :pending
-              end
-      state
+      if all_hosts_deployed?
+        :finished
+      elsif last_deploy_task.ended_at? && last_deploy_task.result != 'success'
+        :failed
+      else
+        :pending
+      end
     end
 
     def initial_configure_job

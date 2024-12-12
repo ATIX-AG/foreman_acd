@@ -14,7 +14,8 @@ module ForemanAcd
 
         api :GET, '/ansible_playbooks/:id', N_('Show ansible playbook')
         param :id, :identifier, :required => true
-        def show; end
+        def show
+        end
 
         api :GET, '/ansible_playbooks', N_('List ansible playbooks')
         param_group :search_and_pagination, ::Api::V2::BaseController

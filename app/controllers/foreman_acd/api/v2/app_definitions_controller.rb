@@ -11,7 +11,8 @@ module ForemanAcd
 
         api :GET, '/app_definitions/:id', N_('Show application definition')
         param :id, :identifier, :required => true
-        def show; end
+        def show
+        end
 
         api :GET, '/app_definitions', N_('List application definitions')
         param_group :search_and_pagination, ::Api::V2::BaseController

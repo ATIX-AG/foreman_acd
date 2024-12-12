@@ -32,7 +32,8 @@ module ForemanAcd
       end
     end
 
-    def edit; end
+    def edit
+    end
 
     def update
       # Move synced repo to new path if ansible_playbook name is changed
@@ -80,7 +81,7 @@ module ForemanAcd
         if sync_params[:git_commit].empty?
           if ForemanAcd.proxy_setting.present?
             err_msg = _('Please set the Git Branch/Tag/Commit. This setting is necessary if a HTTP proxy is used!')
-            raise StandardError.new err_msg
+            raise StandardError, err_msg
           else
             commit = Git.ls_remote(sync_params[:git_url])['head'][:sha]
           end

@@ -21,7 +21,7 @@ module ForemanAcd
                       end
 
       foreman_hosts.each do |foreman_host|
-        service_data = services.select { |k| k['id'] == foreman_host.service.to_i }.first
+        service_data = services.find { |k| k['id'] == foreman_host.service.to_i }
 
         # Handle already deployed hosts
         if foreman_host.existing_host?

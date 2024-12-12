@@ -31,7 +31,8 @@ module Actions
         end
       end
 
-      def finalize; end
+      def finalize
+      end
 
       def rescue_strategy
         Dynflow::Action::Rescue::Fail

@@ -14,10 +14,10 @@ module ForemanAcd
       app = FactoryBot.create :app_instance
 
       foreman_host = app.foreman_hosts.create(:hostname => host.name,
-                                              :service => 'DB',
-                                              :description => 'Description',
-                                              :foremanParameters => nil,
-                                              :ansibleParameters => nil)
+        :service => 'DB',
+        :description => 'Description',
+        :foremanParameters => nil,
+        :ansibleParameters => nil)
       foreman_host.host = host
       foreman_host.save
       assert host.deployed_via_acd?

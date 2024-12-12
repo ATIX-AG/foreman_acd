@@ -62,7 +62,7 @@ class UIAcdController < ::Api::V2::BaseController
     report_data = {
       :hosts => collect_host_report_data(app_instance),
       :deploymentState => app_instance.deployment_state.to_s,
-      :initialConfigureState => app_instance.initial_configure_state.to_s
+      :initialConfigureState => app_instance.initial_configure_state.to_s,
     }
     report_data['initialConfigureJobUrl'] = job_invocation_path(app_instance.initial_configure_job) unless app_instance.initial_configure_job.nil?
 
@@ -71,15 +71,14 @@ class UIAcdController < ::Api::V2::BaseController
 
   def hostname_duplicate?(app_def_id, service_id, hostname)
     app_definition = ForemanAcd::AppDefinition.find(app_def_id)
-    service_data = JSON.parse(app_definition.services).select { |k| k['id'] == service_id }.first
+    service_data = JSON.parse(app_definition.services).find { |k| k['id'] == service_id }
     domain_name = Hostgroup.find(service_data['hostgroup']).domain.name
     validation_hostname = "#{hostname}.#{domain_name}"
 
-    vdata = OpenStruct.new(
+    OpenStruct.new(
       :hostname => hostname,
       :fqdn => validation_hostname,
       :result => Host.find_by(:name => validation_hostname).nil?
     )
-    vdata
   end
 end

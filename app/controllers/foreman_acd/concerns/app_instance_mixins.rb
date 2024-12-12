@@ -15,17 +15,17 @@ module ForemanAcd
             :name => foreman_host.hostname,
             :build => nil,
             :hostUrl => nil,
-            :progress_report => foreman_host.last_progress_report.empty? ? [] : JSON.parse(foreman_host.last_progress_report)
+            :progress_report => foreman_host.last_progress_report.empty? ? [] : JSON.parse(foreman_host.last_progress_report),
           }
 
           if foreman_host.host.present?
             a_host.update({
-                            :id => foreman_host.host.id,
-                            :build => foreman_host.host.build,
-                            :hostUrl => host_path(foreman_host.host),
-                            :isExistingHost => foreman_host.is_existing_host,
-                            :powerStatusUrl => power_api_host_path(foreman_host.host)
-                          })
+              :id => foreman_host.host.id,
+              :build => foreman_host.host.build,
+              :hostUrl => host_path(foreman_host.host),
+              :isExistingHost => foreman_host.is_existing_host,
+              :powerStatusUrl => power_api_host_path(foreman_host.host),
+            })
           end
           report_data << OpenStruct.new(a_host)
         end

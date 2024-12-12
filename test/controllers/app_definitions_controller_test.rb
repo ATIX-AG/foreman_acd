@@ -18,8 +18,8 @@ module ForemanAcd
     test 'should destroy app definition' do
       assert_difference('AppDefinition.count', -1) do
         delete :destroy,
-               :params => { :id => @model.id },
-               :session => set_session_user
+          :params => { :id => @model.id },
+          :session => set_session_user
       end
       assert_redirected_to app_definitions_url
     end

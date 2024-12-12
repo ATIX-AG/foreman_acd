@@ -29,8 +29,8 @@ module ForemanAcd
 
     def start_acd_app_configurator(app_instance)
       task = ForemanTasks.delay(::Actions::ForemanAcd::RunConfigurator,
-                                { :start_at => Time.zone.now + RUN_CONFIGURATOR_DELAY },
-                                app_instance)
+        { :start_at => Time.zone.now + RUN_CONFIGURATOR_DELAY },
+        app_instance)
       app_instance.update(:initial_configure_task_id => task.id)
     end
   end
