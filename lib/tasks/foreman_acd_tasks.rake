@@ -13,20 +13,13 @@ namespace :test do
 end
 
 namespace :foreman_acd do
-  task :rubocop do
-    begin
-      require 'rubocop/rake_task'
-      RuboCop::RakeTask.new(:rubocop_foreman_acd) do |task|
-        task.patterns = ["#{ForemanAcd::Engine.root}/app/**/*.rb",
-                         "#{ForemanAcd::Engine.root}/lib/**/*.rb",
-                         "#{ForemanAcd::Engine.root}/test/**/*.rb"]
-      end
-    rescue StandardError
-      puts 'Rubocop not loaded.'
-    end
-
-    Rake::Task['rubocop_foreman_acd'].invoke
+  require 'rubocop/rake_task'
+  RuboCop::RakeTask.new(:rubocop) do |task|
+    task.options = ['--force-exclusion']
+    task.patterns = [ForemanAcd::Engine.root.to_s]
   end
+rescue LoadError
+  puts 'Rubocop not loaded.'
 end
 
 Rake::Task[:test].enhance ['test:foreman_acd']

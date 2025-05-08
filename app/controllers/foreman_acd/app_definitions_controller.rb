@@ -37,14 +37,13 @@ module ForemanAcd
           process_error
         end
       rescue StandardError, ValidationError => e
-        if params[:foreman_acd_app_definition_import].present?
-          AnsiblePlaybook.find(params[:foreman_acd_app_definition][:acd_ansible_playbook_id]).delete if params[:foreman_acd_app_definition][:acd_ansible_playbook_id].present?
-        end
+        AnsiblePlaybook.find(params[:foreman_acd_app_definition][:acd_ansible_playbook_id]).delete if params[:foreman_acd_app_definition_import].present? && params[:foreman_acd_app_definition][:acd_ansible_playbook_id].present?
         redirect_to new_app_definition_path, :flash => { :error => _(e.message) }
       end
     end
 
-    def edit; end
+    def edit
+    end
 
     def update
       if @app_definition.update(app_definition_params)
@@ -132,8 +131,7 @@ module ForemanAcd
       FileUtils.cp_r "#{dir}/#{ansible_playbook['path']}/.", dir_path
       ansible_playbook['path'] = dir_path
       ansible_playbook['name'] = File.basename(dir_path)
-      new_playbook = AnsiblePlaybook.create(ansible_playbook)
-      new_playbook
+      AnsiblePlaybook.create(ansible_playbook)
     rescue StandardError => e
       logger.info("Error while creating AnsiblePlaybook: #{e}")
     end

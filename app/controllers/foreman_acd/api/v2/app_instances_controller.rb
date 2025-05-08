@@ -13,7 +13,8 @@ module ForemanAcd
         param :id, :identifier, :required => true
         param :organization_id, :identifier, :required => true
         param :location_id, :identifier, :required => true
-        def show; end
+        def show
+        end
 
         api :GET, '/app_instances', N_('List application instances')
         param :organization_id, :identifier, :required => true

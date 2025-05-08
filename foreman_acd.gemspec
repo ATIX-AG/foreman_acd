@@ -18,9 +18,9 @@ Gem::Specification.new do |s|
   s.files = Dir['{app,config,db,lib,locale,webpack}/**/*'] + ['LICENSE', 'Rakefile', 'README.md', 'package.json']
   s.test_files = Dir['test/**/*']
 
-  s.add_development_dependency 'rubocop', '~> 0.89.0'
-  s.add_development_dependency 'rubocop-rails', '~> 2.8.1'
   s.add_dependency 'foreman_remote_execution', '>= 8.0'
   s.add_dependency 'foreman-tasks', '>= 7.0'
   s.add_dependency 'git'
+
+  s.add_development_dependency 'theforeman-rubocop', '~> 0.1.0'
 end

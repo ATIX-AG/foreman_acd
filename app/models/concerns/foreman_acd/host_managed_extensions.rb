@@ -13,12 +13,12 @@ module ForemanAcd
         has_many :app_instances, :through => :foreman_hosts, :class_name => 'ForemanAcd::AppInstance'
 
         scoped_search :relation => :app_instances,
-                      :on => :name,
-                      :rename => :acd_app_instance,
-                      :only_explicit => true,
-                      :complete_value => true,
-                      :operators => ['= '],
-                      :ext_method => :find_by_acd_app_instance_name
+          :on => :name,
+          :rename => :acd_app_instance,
+          :only_explicit => true,
+          :complete_value => true,
+          :operators => ['= '],
+          :ext_method => :find_by_acd_app_instance_name
       end
 
       base.singleton_class.prepend ClassMethods

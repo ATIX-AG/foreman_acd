@@ -38,7 +38,8 @@ module ForemanAcd
       end
     end
 
-    def edit; end
+    def edit
+    end
 
     def update
       if @app_instance.update(app_instance_params)
@@ -110,7 +111,7 @@ module ForemanAcd
 
           @app_instance.foreman_hosts.where(:hostname => h['hostname']).
             update(:service => h['service'], :description => h['description'],
-                   :foremanParameters => JSON.dump(h['foremanParameters']), :ansibleParameters => JSON.dump(h['ansibleParameters']))
+              :foremanParameters => JSON.dump(h['foremanParameters']), :ansibleParameters => JSON.dump(h['ansibleParameters']))
 
           updated_host = @app_instance.foreman_hosts.find_by(:hostname => h['hostname'])
 
@@ -118,11 +119,11 @@ module ForemanAcd
           session[:remember_hosts] << updated_host.id if updated_host.updated_at != old_host.updated_at
         else
           @app_instance.foreman_hosts.create(:hostname => h['hostname'],
-                                             :service => h['service'],
-                                             :description => h['description'],
-                                             :is_existing_host => h['isExistingHost'],
-                                             :foremanParameters => JSON.dump(h['foremanParameters']),
-                                             :ansibleParameters => JSON.dump(h['ansibleParameters']))
+            :service => h['service'],
+            :description => h['description'],
+            :is_existing_host => h['isExistingHost'],
+            :foremanParameters => JSON.dump(h['foremanParameters']),
+            :ansibleParameters => JSON.dump(h['ansibleParameters']))
           # Store new hosts for safe deploy
           session[:remember_hosts] << @app_instance.foreman_hosts.find_by(:hostname => h['hostname']).id
         end
@@ -143,7 +144,7 @@ module ForemanAcd
           :description => h.description,
           :isExistingHost => h.is_existing_host,
           :foremanParameters => JSON.parse(h.foremanParameters),
-          :ansibleParameters => JSON.parse(h.ansibleParameters)
+          :ansibleParameters => JSON.parse(h.ansibleParameters),
         }
       end
       hosts_data

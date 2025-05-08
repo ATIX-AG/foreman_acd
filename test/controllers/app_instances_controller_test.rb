@@ -24,8 +24,8 @@ module ForemanAcd
     test 'should destroy app instance' do
       assert_difference('AppInstance.count', -1) do
         delete :destroy_with_hosts,
-               :params => { :id => @model.id },
-               :session => set_session_user
+          :params => { :id => @model.id },
+          :session => set_session_user
       end
     end
   end

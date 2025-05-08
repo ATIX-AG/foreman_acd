@@ -10,13 +10,13 @@ module ForemanAcd
 
       it 'returns only strings' do
         provider_names.each do |name|
-          _(name).must_be_kind_of String
+          expect(name).must_be_kind_of String
         end
       end
 
       context 'provider is registetered under :custom symbol' do
         before { AcdProvider.register(:ACD, String) }
-        it { _(provider_names).must_include 'ACD' }
+        it { expect(provider_names).must_include 'ACD' }
       end
     end
 

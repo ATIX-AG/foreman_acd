@@ -5,6 +5,8 @@ module ForemanAcd
   class AppConfigurator
     delegate :logger, :to => :Rails
 
+    PROXY_NOT_SUPPORTED_LABELS = [:not_available, :not_defined].freeze
+
     def initialize(app_instance)
       @app_instance = app_instance
     end
@@ -42,7 +44,7 @@ module ForemanAcd
             return [result, job]
           end
           proxy = proxy_selector.determine_proxy(h.host, 'ACD')
-          raise StandardError.new('Proxy without ACD feature') if proxy.nil? || [:not_available, :not_defined].include?(proxy)
+          raise StandardError, 'Proxy without ACD feature' if proxy.nil? || PROXY_NOT_SUPPORTED_LABELS.include?(proxy)
           proxy_hosts[proxy.name] = [] unless proxy_hosts.key?(proxy.name)
           proxy_hosts[proxy.name] << h
           result.success = true

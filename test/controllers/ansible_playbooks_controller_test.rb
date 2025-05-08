@@ -18,8 +18,8 @@ module ForemanAcd
     test 'should destroy ansible playbook' do
       assert_difference('AnsiblePlaybook.count', -1) do
         delete :destroy,
-               :params => { :id => @model.id },
-               :session => set_session_user
+          :params => { :id => @model.id },
+          :session => set_session_user
       end
       assert_redirected_to ansible_playbooks_url
     end

@@ -27,7 +27,7 @@ module ForemanAcd
         end
 
         service_id = foreman_host.service.to_i
-        host_service = services.select { |s| s['id'] == service_id }.first
+        host_service = services.find { |s| s['id'] == service_id }
         ansible_group = host_service['ansibleGroup']
 
         children[ansible_group] = { 'hosts' => {} } unless children.key?(host_service['ansibleGroup'])

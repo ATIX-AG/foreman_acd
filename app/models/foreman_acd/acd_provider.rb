@@ -20,11 +20,14 @@ module ForemanAcd
         super(template_invocation, host).merge(:name => host.name)
       end
 
-      def ssh_password(_host); end
+      def ssh_password(_host)
+      end
 
-      def ssh_key_passphrase(_host); end
+      def ssh_key_passphrase(_host)
+      end
 
-      def sudo_password(_host); end
+      def sudo_password(_host)
+      end
 
       # Workaround till infrastructure jobs on proxies are possible. See
       # configure in services/foreman_acd/app_configurator.rb for more details.

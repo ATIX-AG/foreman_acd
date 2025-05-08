@@ -48,7 +48,7 @@ module ForemanAcd
       when 'directory' || 'git'
         File.read(File.join(path, playfile))
       else
-        raise NotImplementedError.new "scm_type #{scm_type.inspect} not supported!"
+        raise NotImplementedError, "scm_type #{scm_type.inspect} not supported!"
       end
     end
 
