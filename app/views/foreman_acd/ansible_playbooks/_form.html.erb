@@ -1,9 +1,6 @@
 <% content_for(:javascripts) do %>
   <%= webpacked_plugins_js_for :foreman_acd %>
 <% end %>
-<% content_for(:stylesheets) do %>
-  <%= webpacked_plugins_css_for :foreman_acd %>
-<% end %>
 
 <%
     if @ansible_playbook.new_record?
@@ -49,7 +46,7 @@
 
   <div class="tab-content">
     <div class="tab-pane active" id="primary">
-    
+
       <%= text_f f, :name %>
       <%= text_f f, :description %>
       <div id='ansible_playbook'>
@@ -57,7 +54,7 @@
       </div>
       <%= text_f f, :playfile, :required => true %>
     </div>
-    
+
     <%= render 'taxonomies/loc_org_tabs', :f => f, :obj => @ansible_playbook %>
   </div>
   <%= submit_or_cancel f %>
