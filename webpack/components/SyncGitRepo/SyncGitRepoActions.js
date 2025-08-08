@@ -58,7 +58,7 @@ export const handleGitRepoSync = (
     dispatch(
       addToast({
         type: 'success',
-        message: sprintf(__('Sucessfully synced git repository ')),
+        message: sprintf(__('Successfully synced git repository ')),
         key: SYNC_GIT_REPO_SUCCESS,
       })
     );

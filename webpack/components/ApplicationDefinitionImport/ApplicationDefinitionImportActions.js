@@ -103,7 +103,7 @@ export const handleImportAnsiblePlaybook = (file, e) => async dispatch => {
     dispatch(
       addToast({
         type: 'success',
-        message: sprintf(__('Sucessfully synced imported app template')),
+        message: sprintf(__('Successfully synced imported app template')),
         key: APPLICATION_DEFINITION_IMPORT_FILE_SUCCESS,
       })
     );
