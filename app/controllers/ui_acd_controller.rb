@@ -46,7 +46,7 @@ class UIAcdController < ::Api::V2::BaseController
       :ptables => hg&.operatingsystem&.ptables
     )
 
-    fdata[:environments] = Environment.all if defined?(ForemanPuppet)
+    fdata[:environments] = ForemanPuppet::Environment.all if defined?(ForemanPuppet)
     fdata[:lifecycle_environments] = Katello::KTEnvironment.all if defined?(Katello)
 
     fdata
