@@ -22,13 +22,20 @@
                          :method => :get, :title => _("Show last deployment report for application #{app_instance}")) %></td>
       <td>
         <%= action_buttons(
-          display_link_if_authorized(_("Deploy"), { :use_route=>"#",
+          display_link_if_authorized(_("Deploy"), { :use_route => :app_instances,
                                                     :id => app_instance.id,
                                                     :action => :deploy,
                                                     :auth_object => app_instance,
                                                     :controller => :app_instances },
-                                                  :remote => true, 'data-toggle': "modal", 'data-target': "#deploy#{app_instance.id}",
-                                                  :title => _("Deploy application #{app_instance}")),
+                                                    {
+                                                      :remote => false,
+                                                      :href => "#", # don't navigate
+                                                      :data => {
+                                                        :toggle => "modal",
+                                                        :target => "#deploy#{app_instance.id}"
+                                                      },
+                                                      :title => _("Deploy application #{app_instance}")
+                                                    }),
           display_link_if_authorized(_("Run Playbook"),
                                      hash_for_remote_execution_path(:id => app_instance.id),
                                      :method => :post,
@@ -37,13 +44,20 @@
                                      hash_for_remote_execution_path(:id => app_instance.id, :customize => true),
                                      :method => :post,
                                      :title => _("Prepare job to run ansible playbook for application #{app_instance}")),
-          display_link_if_authorized(_("Delete"), { :use_route=>"#",
+          display_link_if_authorized(_("Delete"), { :use_route => :app_instances,
                                                     :id => app_instance.id,
                                                     :action => :destroy,
                                                     :auth_object => app_instance,
                                                     :controller => :app_instances },
-                                                  :remote => true, 'data-toggle': "modal", 'data-target': "#delete#{app_instance.id}",
-                                                  :title => _("Delete application #{app_instance}"))
+                                                    {
+                                                      :remote => false,
+                                                      :href => "#", # don't navigate
+                                                      :data => {
+                                                        :toggle => "modal",
+                                                        :target => "#delete#{app_instance.id}"
+                                                      },
+                                                      :title => _("Delete application #{app_instance}")
+                                                    })
           ) %>
     </td>
     </tr>
