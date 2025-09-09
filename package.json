@@ -7,14 +7,12 @@
     "@theforeman/vendor": ">= 10.1.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.28.0",
     "@theforeman/builder": ">= 12.0.1",
     "@theforeman/eslint-plugin-foreman": ">= 12.0.1",
     "@theforeman/find-foreman": "^13.0.0",
     "@theforeman/test": ">= 12.0.1",
     "@theforeman/vendor-dev": ">= 12.0.1",
-    "babel-plugin-transform-class-properties": "^6.24.1",
-    "babel-preset-env": "^1.6.0",
-    "babel-preset-react": "^6.24.1",
     "eslint": "^6.7.2",
     "eslint-plugin-react": "^7.34.1",
     "jest": "^23.6.0",
