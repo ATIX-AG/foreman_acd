@@ -9,8 +9,8 @@ class RenameAcdTables < ActiveRecord::Migration[6.0]
   end
 
   def down
-    rename_table :acd_app_definitions
-    rename_table :acd_app_instances
-    rename_table :acd_foreman_hosts
+    rename_table :acd_app_definitions, :app_definitions
+    rename_table :acd_app_instances, :app_instances
+    rename_table :acd_foreman_hosts, :foreman_hosts
   end
 end
