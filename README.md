@@ -71,6 +71,16 @@ Check out the [Foreman documentation](https://docs.theforeman.org/nightly/Deploy
 * Make sure you have the [Katello](https://theforeman.org/plugins/katello/) plugin installed.
 * Make sure the Job Template `Run ACD Ansible Playbook - ACD Default` is part of your organization/location context.
 
+### Deinstallation
+
+To remove the plugin from foreman you must do the following:
+
+1. stop foreman all services except PostgreSQL
+1. revert database migrations `foreman-rake foreman-rake db:migrate VERSION=0 "SCOPE=foreman_acd"` (this command only works with the latest version from git).
+1. remove RPM packages, if plugin had been installed via RPM
+1. remove relics from foreman database, e.g. permissions
+1. disable plugin in foreman-installer (either directly in the `answers.yml` or via foreman-installer parameters)
+
 ## Usage
 
 ### Ansible Playbook
